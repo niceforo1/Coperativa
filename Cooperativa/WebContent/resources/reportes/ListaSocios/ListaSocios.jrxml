@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-11-11T12:50:21 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ListaSocios" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prueba"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="idEstado" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[select  S.SOC_ID,P.per_apellido,P.per_nombre,P.per_dni,TD.TPO_DOC_DESC,TD.TPO_DOC_CODIGO, N.NAC_DESC, SEX.SXO_CODIGO,PL.PLN_DESC,ESTS.EST_SOC_DESC,TPS.TPO_SOC_DESC,S.SOC_TITULAR_ID as Socio_Titular,to_char(S.SOC_FECHA_ALTA,'dd/mm/yyyy') as FECHA_ALTA
+from socio S
+inner join persona P
+on P.PER_ID = S.PER_ID
+inner join tipo_documento TD
+on P.TPO_DOC_ID = TD.TPO_DOC_ID
+inner join nacionalidad n
+on N.NAC_ID = P.NAC_ID
+inner join sexo sex
+on SEX.SXO_ID = P.SXO_ID
+inner join plan PL
+on PL.PLN_ID = S.PLN_ID
+inner join estado_socio ESTS
+on ESTS.EST_SOC_ID = S.EST_SOC_ID
+inner join tipo_socio TPS
+on TPS.TPO_SOC_ID = S.TPO_SOC_ID
+where ESTS.EST_SOC_ID = $P{idEstado}
+ORDER BY S.SOC_ID]]>
+	</queryString>
+	<field name="SOC_ID" class="java.math.BigDecimal"/>
+	<field name="PER_APELLIDO" class="java.lang.String"/>
+	<field name="PER_NOMBRE" class="java.lang.String"/>
+	<field name="PER_DNI" class="java.lang.String"/>
+	<field name="TPO_DOC_DESC" class="java.lang.String"/>
+	<field name="TPO_DOC_CODIGO" class="java.lang.String"/>
+	<field name="NAC_DESC" class="java.lang.String"/>
+	<field name="SXO_CODIGO" class="java.lang.String"/>
+	<field name="PLN_DESC" class="java.lang.String"/>
+	<field name="EST_SOC_DESC" class="java.lang.String"/>
+	<field name="TPO_SOC_DESC" class="java.lang.String"/>
+	<field name="SOCIO_TITULAR" class="java.math.BigDecimal"/>
+	<field name="FECHA_ALTA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="132" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="95" backcolor="#000000" uuid="6c6ca4e1-17cd-4913-93d6-5e670ea9ae8a"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="555" height="66" uuid="a2a2cac8-5a7d-4487-8c54-dab235ce4e21"/>
+					<textElement textAlignment="Center">
+						<font size="50" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Reporte Completo Socios]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="100" width="555" height="32" forecolor="#000000" backcolor="#CC0000" uuid="e3c14156-5b51-4201-918b-97fdc012e5d4"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="406" y="10" width="144" height="20" forecolor="#FFFFFF" uuid="5c3301e7-a737-4c59-8a2f-a6c79fd1adb8"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="127" splitType="Immediate">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="170" y="80" width="108" height="18" uuid="83efe025-860e-4fc0-a9ed-742a50ac1669"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EST_SOC_DESC}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="376" y="26" width="131" height="18" uuid="fa20e54f-e3cc-4d3e-9535-70720f8d3514"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NAC_DESC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="170" y="0" width="106" height="18" forecolor="#000000" uuid="de90e395-3a80-4b38-bc3e-b24b193a8845"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="55" width="60" height="18" forecolor="#000000" uuid="b6ec44d7-cd74-4726-b287-fdebab1c65e6"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEXO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="60" y="0" width="110" height="18" forecolor="#000000" uuid="db1307a2-904e-492c-869c-752872de52ba"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="170" y="26" width="106" height="18" uuid="8861a603-abf5-4fed-977f-2d1bd77da166"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PER_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="281" y="0" width="94" height="18" uuid="992fb13e-c477-42c3-8313-3d8ad3602582"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TPO_DOC_CODIGO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="60" height="18" forecolor="#000000" uuid="8d38b163-67e3-4815-9a0f-19012742e682"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUM]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="0" y="79" width="60" height="18" uuid="4be425db-c46b-45f5-924d-491343276b19"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SXO_CODIGO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="376" y="55" width="131" height="18" forecolor="#000000" uuid="190bee8e-0c6d-4b63-a340-7e691b715fb2"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA ALTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="170" y="55" width="108" height="18" forecolor="#000000" uuid="496160cd-3c1e-41dd-8ecf-e86a7adf57ca"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO SOCIO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="60" y="79" width="110" height="18" uuid="34f1c9eb-ef0e-4950-8e22-45d337a5dd4a"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PLN_DESC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="281" y="55" width="94" height="18" forecolor="#000000" uuid="f75b37b6-aacf-42be-8d3f-637b29616725"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO SOCIO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="281" y="80" width="94" height="18" uuid="91b25e2c-7d9b-4405-89f0-a32a073f857c"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TPO_SOC_DESC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="60" y="55" width="110" height="18" forecolor="#000000" uuid="fffefa3b-f498-4bea-a658-2d33a9a73400"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="376" y="0" width="131" height="18" forecolor="#000000" uuid="856187f7-f089-462a-ac68-1f85e85edaa1"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NACIONALIDAD]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="281" y="26" width="94" height="18" uuid="c4d1e35c-c340-4155-bd2a-86ab38142aad"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PER_DNI}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="0" y="26" width="60" height="18" uuid="b9de3d50-91dc-459b-a9f4-31a283499779"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOC_ID}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="60" y="26" width="110" height="18" uuid="f40a5b7e-86a3-4f63-b434-069003ab1ae3"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PER_APELLIDO}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="376" y="81" width="131" height="18" uuid="cb72d0eb-d3ed-4413-8349-b7136a373877"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA_ALTA}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="100" width="551" height="20" uuid="1133a906-5b71-476e-9f3e-bc97c97058c1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000" uuid="729c3539-f946-4d0e-a0a7-bda2815ea1b0"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="4834e99c-7f6c-485a-b098-50e5187f2ab4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="9825b46e-76f1-469a-abb8-a1cc27aad685"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

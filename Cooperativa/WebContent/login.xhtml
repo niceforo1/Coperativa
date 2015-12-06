@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"htth://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Ingreso</title>
+		<style type="text/css">        	
+        	.ui-panelgrid tr, .ui-panelgrid td {
+				border:0 !important;				
+			}
+			.ui-layout-unit, .ui-layout-doc, .ui-layout-unit, .ui-layout-center, .ui-layout-unit-header, .ui-layout-unit-content{
+				border: 0 !important;
+				background-color: #D3D3D3;
+			}			
+	    </style>	    
+    </h:head>
+	<h:body style="background-color: #D3D3D3;">
+	<center>    	
+    	<h:form id="login-form">        
+    	<p:layout fullPage="true" >
+    	<p:layoutUnit position="west" size="28%">    		    	
+    	</p:layoutUnit>
+    	<p:layoutUnit position="east" size="28%">
+    	</p:layoutUnit>
+    	<p:layoutUnit position="north" size="28%">
+    	</p:layoutUnit>
+    	<p:layoutUnit position="south" size="28%">
+    	</p:layoutUnit>
+    	<p:layoutUnit position="center">    		   	
+    		<p:panel header="Ingreso a la Aplicación" >   		
+	    		<p:panelGrid columns="2">
+					<p:outputLabel value="Usuario:" for="username"/>
+					<p:inputText value="#{loginBean.username}" id="username"/>
+					
+					<p:outputLabel value="Contraseña:" for="password"/>
+					<p:password value="#{loginBean.password}" id="password"/>
+				</p:panelGrid>
+				<p:commandButton  id="button" value="Ingresar" action="#{loginBean.doLogin}"/>				    	
+	    	<f:facet name="footer">
+	    		<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />
+	    	</f:facet>
+	    	</p:panel>
+	    </p:layoutUnit>
+    	</p:layout>    
+    </h:form>
+    </center>	
+    </h:body>
+</html>

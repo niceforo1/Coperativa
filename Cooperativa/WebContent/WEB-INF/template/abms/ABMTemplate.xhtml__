@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title><ui:insert name="tituloPantalla"/></title>
+	<!-- VER PARA IMPORTAR LOS ESTILOS PARA ARMAR CABECERA FOOTER LEFTSIDEBAR CONTENT -->
+    <h:outputStylesheet library="css" name="styles.css"/>
+    <h:outputScript library="js" name="FuncionesJS.js" />
+    <h:outputScript library="js" name="calendar_es.js" /> <!-- se agrega el js para calendario primefaces en español -->
+</h:head>
+<h:body>
+<div class="wrapper">
+	<header class="header">
+		<ui:insert name="header">
+			<ui:include src="/WEB-INF/template/secciones/cabecera.xhtml"/>
+		</ui:insert>
+	</header><!-- .header-->
+
+	<div class="middle">
+		<div class="container">
+			<main class="content">
+				<ui:insert name="content"/>							
+			</main><!-- .content -->
+		</div><!-- .container-->
+
+		<aside class="left-sidebar">
+			<ui:include src="/WEB-INF/template/secciones/sidebar.xhtml"/>
+		</aside><!-- .left-sidebar -->
+	</div><!-- .middle-->
+</div><!-- .wrapper -->
+
+<footer class="footer">
+	<strong>Footer:</strong>
+</footer><!-- .footer -->
+</h:body>
+</html>

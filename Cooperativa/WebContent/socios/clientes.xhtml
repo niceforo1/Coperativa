@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+	    <h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleClientes}" />
+		</h:outputFormat>
+	</ui:define>
+	
+	<ui:define name="content">
+	    <center>
+			<h:form id="alta">
+				<p:panel header="#{msg.paramClienteHeader}">
+					<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />
+					<p:panelGrid columns="2">
+					
+						<p:outputLabel value="#{msg.paramClienteSocioEmp}" for="seleccion"/>
+						<p:selectOneRadio id="seleccion" value="#{clienteBean.socioOEmp}" required="true">
+				            <f:selectItem itemLabel="Socio" itemValue="socio"/>
+				            <f:selectItem itemLabel="Empresa" itemValue="emp"/>
+				            <p:ajax process="seleccion" update=":alta" />
+				        </p:selectOneRadio>
+
+						<p:outputLabel value="#{msg.paramClienteLstSocio}" for="socios" 
+									   rendered="#{clienteBean.socioOEmp eq 'socio'}"/>
+						<p:selectOneMenu id="socios" value="#{clienteBean.socioId}" 
+										 panelStyle="width:180px" effect="fold" 
+										 rendered="#{clienteBean.socioOEmp eq 'socio'}" 
+										 filter="true" filterMatchMode="contains" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{socioBean.lstSociosTitularesNoClientes}" var="socioCli" 
+										   itemLabel="#{socioCli.persona.apellido} #{socioCli.persona.nombre}" itemValue="#{socioCli.numero}"/>
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="#{msg.paramClienteLstEmp}" for="empresas" 
+									   rendered="#{clienteBean.socioOEmp eq 'emp'}"/>
+						<p:selectOneMenu id="empresas" value="#{clienteBean.empresaId}" 
+										 panelStyle="width:180px" effect="fold" 
+										 rendered="#{clienteBean.socioOEmp eq 'emp'}"
+										 filter="true" filterMatchMode="contains" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{empresaBean.lstEmpresasNoClientes}" var="empCli" 
+										   itemLabel="#{empCli.razonSocial}" itemValue="#{empCli.id}"/>														
+						</p:selectOneMenu>	
+						
+						<p:outputLabel value="#{msg.paramClienteEstado}" for="estado" />
+						<p:selectOneMenu id="estado" value="#{clienteBean.estadoId}" 
+										 panelStyle="width:180px" effect="fold" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{estadoClienteBean.lstEstadoCliente}" var="estado" 
+										   itemLabel="#{estado.descripcion}" itemValue="#{estado.id}"/>							
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="#{msg.paramClienteTpoCli}" for="tpoCli" />
+						<p:selectOneMenu id="tpoCli" value="#{clienteBean.tpoCliId}" 
+										 panelStyle="width:180px" effect="fold">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{tipoClienteBean.lstTipoCliente}" var="tpoCli" 
+										   itemLabel="#{tpoCli.descripcion}" itemValue="#{tpoCli.id}"/>							
+						</p:selectOneMenu>						
+						
+						<p:outputLabel value="#{msg.paramClienteTpoIva}" for="tpoIva" />
+						<p:selectOneMenu id="tpoIva" value="#{clienteBean.tpoIvaId}" 
+										 panelStyle="width:180px" effect="fold" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{tipoIvaBean.listaTipoIva}" var="tpoIva" 
+										   itemLabel="#{tpoIva.descripcion}" itemValue="#{tpoIva.id}"/>							
+						</p:selectOneMenu>	
+
+						<p:outputLabel value="#{msg.paramClienteTpoComp}" for="tpoComp"/>
+						<p:selectOneMenu id="tpoComp" value="#{clienteBean.tpoCompId}" 
+										 panelStyle="width:180px" effect="fold" >
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{tipoComprobanteBean.lstTipoComprobante}" var="tpoComp" 
+										   itemLabel="#{tpoComp.descripcion}" itemValue="#{tpoComp.id}"/>							
+						</p:selectOneMenu>	
+						
+						<p:outputLabel value="#{msg.paramClienteTipoConVta}" for="tpoCondVta"/>
+						<p:selectOneMenu id="tpoCondVta" value="#{clienteBean.tpoCondVtaId}" 
+										 panelStyle="width:180px" effect="fold" >
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{tipoCondicionVentaBean.lstTipoCondicionVenta}" var="tpoCond" 
+										   itemLabel="#{tpoCond.descripcion}" itemValue="#{tpoCond.id}"/>							
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="#{msg.paramClienteGrpCli}" for="grupoCli"/>
+						<p:selectOneMenu id="grupoCli" value="#{clienteBean.grupoCliId}" 
+										 panelStyle="width:180px" effect="fold" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{grupoClienteBean.listaGrupoCliente}" var="grpCli" 
+										   itemLabel="#{grpCli.descripcion}" itemValue="#{grpCli.id}"/>							
+						</p:selectOneMenu>
+						<f:facet name="footer">
+							<center>
+								<p:commandButton actionListener="#{clienteBean.insertarCliente}"
+									update=":mostrar, alta" value="#{msg.paramCargar}" />
+							</center>
+						</f:facet>
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</center>
+
+		<br />
+
+		<h:form id="mostrar">
+			<p:dataTable id="clientesDT" var="cliente"
+				value="#{clienteBean.lstClientes}" scrollable="true"
+				scrollHeight="150" rowKey="#{cliente.id}"
+				emptyMessage="#{msg.paramNoDatos}">
+				<f:facet name="header">
+					<center>
+						<h:outputText value="#{msg.paramClienteTable}" />
+					</center>
+				</f:facet>
+				<p:column id="estado" headerText="#{msg.paramClienteEstado}">
+					<h:outputText value="#{cliente.estado.codigo}" />
+				</p:column>
+				<p:column headerText="#{msg.paramClienteTpoCli}">
+					<h:outputText value="#{cliente.tipoCliente.codigo}" />
+				</p:column>
+				<p:column headerText="#{msg.paramClienteTpoIva}">
+					<h:outputText value="#{cliente.tipoIva.codigo}" />
+				</p:column>
+				<p:column headerText="#{msg.paramClienteTpoComp}">
+					<h:outputText value="#{cliente.tipoComprobante.codigo}" />
+				</p:column>
+				<p:column headerText="#{msg.paramClienteTipoConVta}">
+					<h:outputText value="#{cliente.tipoCondicionVenta.codigo}" />
+				</p:column>
+				<p:column headerText="#{msg.paramClienteGrpCli}">
+					<h:outputText value="#{cliente.grupoCliente.codigo}" />
+				</p:column>				
+<!-- 				<p:column headerText="#{msg.paramClienteDefCont}"> -->
+<!-- 					<h:outputText value="#{cliente.definicionContable}" /> -->
+<!-- 				</p:column> -->
+				<p:column style="width:32px;text-align: center">					
+						<p:commandButton icon="ui-icon-close"
+							actionListener="#{clienteBean.eliminarCliente(cliente)}"
+							update=":mostrar" />					
+				</p:column>
+				<f:facet name="footer">
+					<h:outputLabel value=" " />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

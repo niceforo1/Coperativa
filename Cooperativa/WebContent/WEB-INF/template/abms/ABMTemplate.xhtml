@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+<h:head>
+	<title><ui:insert name="tituloPantalla"/></title>
+	<!-- VER PARA IMPORTAR LOS ESTILOS PARA ARMAR CABECERA FOOTER LEFTSIDEBAR CONTENT -->
+    <h:outputStylesheet library="css" name="styles.css"/>
+	<h:outputStylesheet library="awesome" name="css/font-awesome.css" />
+    <h:outputScript library="js" name="FuncionesJS.js" />
+    <h:outputScript library="js" name="calendar_es.js" /> <!-- se agrega el js para calendario primefaces en español -->
+</h:head>
+<h:body>
+
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="90" resizable="false" closable="false" collapsible="false" >
+			<ui:insert name="header">
+				<ui:include src="/WEB-INF/template/secciones/cabecera.xhtml"/>
+			</ui:insert>
+		</p:layoutUnit>
+		<p:layoutUnit position="south" size="40" closable="true" collapsible="true" >
+			<strong>Footer:</strong>
+        </p:layoutUnit>
+        <p:layoutUnit position="west" size="250" header="Menu" collapsible="true">
+        	<ui:include src="/WEB-INF/template/secciones/sidebar.xhtml"/>
+        </p:layoutUnit>
+        <p:layoutUnit position="center">
+        	<ui:insert name="content"/>	
+        </p:layoutUnit>
+        
+	</p:layout>
+</h:body>
+</f:view>
+</html>

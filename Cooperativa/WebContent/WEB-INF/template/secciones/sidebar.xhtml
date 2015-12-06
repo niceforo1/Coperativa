@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+
+	<p:panelMenu >
+        <p:submenu label="Personas" >
+            <p:submenu label="Parametrizaciones" icon="ui-icon-extlink" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+                   <p:menuitem value="Nacionalidad" url="/personas/parametrizacion/nacionalidad.xhtml" icon="ui-icon-document"/>
+                   <p:menuitem value="Sexo" url="/personas/parametrizacion/sexo.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Tipo Documento" url="/personas/parametrizacion/tipoDocumento.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Estado Civil" url="/personas/parametrizacion/estadoCivil.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Tipo Familiar" url="/personas/parametrizacion/tipoFamiliar.xhtml" icon="ui-icon-document" />
+            </p:submenu>
+            <p:submenu label="Carga de Persona" icon="ui-icon-extlink">
+                   <p:menuitem value="Carga/Consulta" url="/personas/altaPersona.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Domicilios" url="/personas/altaDomicilioPersona.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Familiares" url="/personas/altaFamiliarPersona.xhtml" icon="ui-icon-document" />
+            </p:submenu>
+        </p:submenu>
+        <p:submenu label="Socios" >
+            <p:submenu label="Parametrizaciones" icon="ui-icon-extlink" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+                   <p:menuitem value="Estado Socio" url="/socios/parametrizacion/estadoSocio.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Tipo Socio" url="/socios/parametrizacion/tipoSocio.xhtml" icon="ui-icon-document" />
+            </p:submenu>
+            <p:submenu label="Carga de Socio" icon="ui-icon-extlink">
+                   <p:menuitem value="Carga/Consulta" url="/socios/socio.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Servicios" url="/socios/servicio.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Planes" url="/socios/plan.xhtml" icon="ui-icon-document" />
+            </p:submenu>
+        </p:submenu>
+        <p:submenu label="Empresas" >
+            <p:submenu label="Carga de Empresa" icon="ui-icon-extlink">
+                   <p:menuitem value="Empresa" url="/facturacion/empresa.xhtml" icon="ui-icon-document" />
+            </p:submenu>
+        </p:submenu>
+        <p:submenu label="Domicilio" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+            <p:submenu label="Parametrizaciones" icon="ui-icon-extlink" >
+                   <p:menuitem value="Pais" url="/personas/parametrizacion/pais.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Provincia" url="/personas/parametrizacion/provincia.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Ciudad" url="/personas/parametrizacion/ciudad.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Barrio" url="/personas/parametrizacion/barrio.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Tipo Domicilio" url="/personas/parametrizacion/tipoDomicilio.xhtml" icon="ui-icon-document" />
+            </p:submenu>
+        </p:submenu>
+        <p:submenu label="Facturación" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+        	<p:submenu label="Parametrizaciones" icon="ui-icon-extlink" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+        		<p:menuitem value="Concepto" url="/facturacion/concepto.xhtml" icon="ui-icon-document" />
+	            <p:menuitem value="Valorizacion Plan/Servicio" url="/facturacion/valorizacion.xhtml" icon="ui-icon-document" />
+    	        <p:menuitem value="Editar Valorizaciones" url="/facturacion/valorizacionEdicion.xhtml" icon="ui-icon-document" />
+    	        <p:menuitem value="Rel Iva Grupo Concepto" url="/facturacion/RelIvaGrupoConcepto.xhtml" icon="ui-icon-document" />    
+           		<p:menuitem value="Codigo Descuento" url="/facturacion/codigoDescuento.xhtml" icon="ui-icon-document" />
+        	</p:submenu>        	
+        	<p:menuitem value="Facturar" url="/facturacion/facturacion.xhtml" icon="ui-icon-document" />
+            <p:menuitem value="Cliente" url="/facturacion/clientes.xhtml" icon="ui-icon-document" /> 
+            <p:menuitem value="Comprobantes" url="/facturacion/comprobante.xhtml" icon="ui-icon-document" />  
+            <p:menuitem value="Adm Cajas" url="/facturacion/administrarCajas.xhtml" icon="ui-icon-document" />            
+            <p:menuitem value="Item a Facturar" url="/facturacion/itemFacturar.xhtml" icon="ui-icon-document" />            
+            
+            <p:submenu label="Parametrizacion" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">   
+            	<p:submenu label="Cliente" >          
+		        	<p:menuitem value="Tipo Cliente" url="/facturacion/parametrizacion/tipoCliente.xhtml" icon="ui-icon-document" />    
+					<p:menuitem value="Estado Cliente" url="/facturacion/parametrizacion/estadoCliente.xhtml" icon="ui-icon-document" />
+					<p:menuitem value="Grupo Cliente" url="/facturacion/parametrizacion/grupoCliente.xhtml" icon="ui-icon-document" />
+				</p:submenu>
+				<p:submenu label="Iva" > 	
+					<p:menuitem value="Tipo Iva" url="/facturacion/parametrizacion/tipoIva.xhtml" icon="ui-icon-document" />
+				</p:submenu>
+				<p:submenu label="Concepto" > 
+					<p:menuitem value="Concepto Iva" url="/facturacion/parametrizacion/conceptoIva.xhtml" icon="ui-icon-document" />
+					<p:menuitem value="Concepto Clasificacion" url="/facturacion/parametrizacion/conceptoClasificacion.xhtml" icon="ui-icon-document" />
+					<p:menuitem value="Concepto Grupo" url="/facturacion/parametrizacion/conceptoGrupo.xhtml" icon="ui-icon-document" />
+					<p:menuitem value="Concepto Tipo" url="/facturacion/parametrizacion/conceptoTipo.xhtml" icon="ui-icon-document" />
+					<p:menuitem value="Organismo" url="/facturacion/parametrizacion/organismo.xhtml" icon="ui-icon-document" />
+				</p:submenu>
+				<p:submenu label="Comprobantes/Retenciones" > 
+					<p:menuitem value="Tipo Comprobante" url="/facturacion/parametrizacion/tipoComprobante.xhtml" icon="ui-icon-document" />
+					<p:menuitem value="Tipo Condicion Venta" url="/facturacion/parametrizacion/tipoCondicionVenta.xhtml" icon="ui-icon-document" />
+					<p:menuitem value="Tipo Retencion Ganancias" url="/facturacion/parametrizacion/tipoRetencionGanancias.xhtml" icon="ui-icon-document" />
+					<p:menuitem value="Tipo Retencion Ing Brutos" url="/facturacion/parametrizacion/tipoRetIngBrutos.xhtml" icon="ui-icon-document" />
+				</p:submenu>
+       		</p:submenu>         
+        </p:submenu>
+        <p:submenu label="Reportes" > 
+			<p:menuitem value="Lista Completa Socios" url="/pruebaReporte.xhtml" icon="ui-icon-document" />
+		</p:submenu>
+		<p:submenu label="Usuarios" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}"> 
+			<p:menuitem value="Alta Usuario" url="/usuarios/altaUsuarios.xhtml" icon="ui-icon-document" />
+		</p:submenu>
+	</p:panelMenu>
+</h:body>
+</html>

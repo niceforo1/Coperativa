@@ -1,0 +1,491 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+
+		<style>
+.VIG {
+	color: green;
+	font-weight: bold;
+}
+
+.SUS {
+	color: orange;
+	font-weight: bold;
+}
+
+.BAJ {
+	color: red;
+	font-weight: bold;
+}
+
+.label {
+	font-weight: bold;
+}
+
+.numeroper {
+	color: red;
+	font-weight: bold;
+}
+</style>
+		<center>
+			<h:form id="alta">
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<p:tabView dynamic="true" cache="true">
+					<p:tab id="carga" title="#{msg.paramSocioCarga}">
+
+						<p:panelGrid columns="4" >
+
+							<f:facet name="header">
+								<center>
+									<p:outputLabel value="#{msg.paramClienteSocioEmp}"
+										for="seleccion" colspan="2" />
+								
+									<p:selectOneRadio id="seleccion"
+										value="#{socioBean.personaOEmp}" required="true" colspan="2">
+										<f:selectItem itemLabel="Persona" itemValue="persona" />
+										<f:selectItem itemLabel="Empresa" itemValue="emp" />
+										<p:ajax process="seleccion" update=":alta" />
+									</p:selectOneRadio>
+								</center>
+							</f:facet>
+
+							
+							
+							<p:outputLabel value="#{msg.paramSocioApellido}" for="apellido"
+								rendered="#{socioBean.personaOEmp eq 'persona'}" />
+							<p:inputText id="apellido"
+								value="#{socioBean.socio.apellidoRazonSocial}" required="true"
+								onkeyup="strToUpper(this)"
+								rendered="#{socioBean.personaOEmp eq 'persona'}" />
+								
+							<p:outputLabel value="#{msg.paramSocioNombre}" for="nombre"
+								rendered="#{socioBean.personaOEmp eq 'persona'}" />
+							<p:inputText id="nombre"
+								value="#{socioBean.socio.nombreDenominacion}" required="true"
+								onkeyup="strToUpper(this)"
+								rendered="#{socioBean.personaOEmp eq 'persona'}" />	
+								
+								
+							<p:outputLabel value="#{msg.paramSocioRazonSocial}" for="razonSocial"
+								rendered="#{socioBean.personaOEmp eq 'emp'}" />
+							<p:inputText id="razonSocial"
+								value="#{socioBean.socio.apellidoRazonSocial}" required="true"
+								onkeyup="strToUpper(this)"
+								rendered="#{socioBean.personaOEmp eq 'emp'}" />
+								
+							<p:outputLabel value="#{msg.paramSocioDenominacion}" for="denominacion"
+								rendered="#{socioBean.personaOEmp eq 'emp'}" />
+							<p:inputText id="denominacion"
+								value="#{socioBean.socio.nombreDenominacion}" required="true"
+								onkeyup="strToUpper(this)"
+								rendered="#{socioBean.personaOEmp eq 'emp'}" />		
+
+							
+							<p:outputLabel value="#{msg.paramSocioTpoDoc}" for="tpoDocSocioEmp" rendered="#{socioBean.personaOEmp eq 'emp'}" />						
+							<p:selectOneMenu id="tpoDocSocioEmp" value="#{socioBean.tipoDocId}" 
+											 required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.personaOEmp eq 'emp'}">
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{tipoDocumentoBean.listaTipoDocumentoCUIT}" var="tpoDocEmp" itemLabel="#{tpoDocEmp.descripcion}" itemValue="#{tpoDocEmp.id}"/>
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="#{msg.paramSocioTpoDoc}" for="tpoDocSocioPersona" rendered="#{socioBean.personaOEmp eq 'persona'}" />						
+							<p:selectOneMenu id="tpoDocSocioPersona" value="#{socioBean.tipoDocId}" 
+											 required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.personaOEmp eq 'persona'}">
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{tipoDocumentoBean.listaTipoDocumento}" var="tpoDocSoc" itemLabel="#{tpoDocSoc.descripcion}" itemValue="#{tpoDocSoc.id}"/>
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="#{msg.paramSocioTipoSocio}" for="tpoSocio" rendered="#{socioBean.personaOEmp ne null}"/>						
+							<p:selectOneMenu id="tpoSocio" value="#{socioBean.tipoSocioId}" 
+											 required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.personaOEmp ne null}" >
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{tipoSocioBean.listaTipoSocios}" var="tpoSoc" itemLabel="#{tpoSoc.descripcion}" itemValue="#{tpoSoc.id}"/>
+							</p:selectOneMenu>
+
+							<p:outputLabel value="#{msg.paramSocioDocum}" for="documento" rendered="#{socioBean.personaOEmp eq 'persona'}"/>
+							<p:inputMask id="documento" value="#{socioBean.socio.numeroDocumento}"
+								required="true" mask="99.999.99*" rendered="#{socioBean.personaOEmp eq 'persona'}"/>
+
+							<p:outputLabel value="#{msg.paramEmpresaCuit}" for="cuit" rendered="#{socioBean.personaOEmp eq 'emp'}"/>
+							<p:inputMask id="cuit" value="#{socioBean.socio.numeroDocumento}"
+								required="true" mask="99-99999999-9"  rendered="#{socioBean.personaOEmp eq 'emp'}"/>
+
+
+							<p:outputLabel value="#{msg.paramSocioEstCivil}" for="estCivil" rendered="#{socioBean.personaOEmp eq 'persona'}"/>
+							<p:selectOneMenu id="estCivil" value="#{socioBean.estCivilId}"
+								required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.personaOEmp eq 'persona'}">
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{estadoCivilBean.listaEstadoCivil}"
+									var="estCiv" itemLabel="#{estCiv.descripcion}"
+									itemValue="#{estCiv.id}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="#{msg.paramSocioConyuge}" for="conyuge"
+								rendered="#{socioBean.personaOEmp eq 'persona'}" />
+							<p:inputText id="conyuge"
+								value="#{socioBean.socio.nombreConyuge}"
+								onkeyup="strToUpper(this)"
+								rendered="#{socioBean.personaOEmp eq 'persona'}" />
+								
+							<p:outputLabel value="#{msg.paramSocioTelefono}" for="tel" rendered="#{socioBean.personaOEmp ne null}"/>
+							<p:inputMask id="tel" value="#{socioBean.socio.numCelular}"
+								mask="9999999999"  rendered="#{socioBean.personaOEmp ne null}"/>	
+								
+							<p:outputLabel value="#{msg.paramSocioEmail}" for="email" rendered="#{socioBean.personaOEmp ne null}"/>
+							<p:inputText id="email"
+								value="#{socioBean.socio.email}"
+								onkeyup="strToUpper(this)"
+								rendered="#{socioBean.personaOEmp ne null}" />
+
+							<p:outputLabel value="#{msg.paramSocioNacionalidad}" for="pais" rendered="#{socioBean.personaOEmp ne null}" />
+							<p:selectOneMenu id="pais" value="#{socioBean.paisId}"
+								required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.personaOEmp ne null}">
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{paisBean.lstPaises}"
+									var="pais" itemLabel="#{pais.descripcion}"
+									itemValue="#{pais.id}" />
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="#{msg.paramSocioProfesion}" for="profesion" rendered="#{socioBean.personaOEmp eq 'persona'}"/>
+							<p:inputText id="profesion"
+								value="#{socioBean.socio.profesionRubro}"
+								onkeyup="strToUpper(this)"
+								rendered="#{socioBean.personaOEmp eq 'persona'}"/>
+								
+							<p:outputLabel value="#{msg.paramSocioRubro}" for="rubro" rendered="#{socioBean.personaOEmp eq 'emp'}"/>
+							<p:inputText id="rubro"
+								value="#{socioBean.socio.profesionRubro}"
+								onkeyup="strToUpper(this)"
+								rendered="#{socioBean.personaOEmp eq 'emp'}"/>
+							
+							<p:outputLabel value="#{msg.paramSocioIngBrutos}" for="ingBrutos" rendered="#{socioBean.personaOEmp ne null}"/>
+							<p:inputText id="ingBrutos"
+								value="#{socioBean.socio.ingBrutos}"
+								rendered="#{socioBean.personaOEmp ne null}"/>	
+								
+							<p:outputLabel value="#{msg.paramSocioCondIva}" for="condIva" rendered="#{socioBean.personaOEmp ne null}" />
+							<p:selectOneMenu id="condIva" value="#{socioBean.condicionIvaId}"
+								required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.personaOEmp ne null}">
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{condicionIvaBean.lstCondicionIva}"
+									var="condIva" itemLabel="#{condIva.descripcion}"
+									itemValue="#{condIva.id}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="#{msg.paramSocioInscripGanancias}"
+								for="inscGan" rendered="#{socioBean.personaOEmp ne null}"/>
+							<p:selectBooleanCheckbox id="inscGan" 
+								value="#{socioBean.socio.inscriptoGanancias}" rendered="#{socioBean.personaOEmp ne null}"/>
+
+							<p:outputLabel value="#{msg.paramSocioObservaciones}"
+								for="observaciones" rendered="#{socioBean.personaOEmp ne null}" />
+							<p:inputTextarea id="observaciones"
+								value="#{socioBean.socio.observaciones}" rows="10" cols="40"
+								onkeyup="strToUpper(this)"  rendered="#{socioBean.personaOEmp ne null}"/>
+								
+								
+
+							<ui:remove>
+									<p:outputLabel value="#{msg.paramSocioFechaAlta}"
+										for="fechaAlta" />
+									<p:calendar id="fechaAlta" value="#{socioBean.socio.fechaAlta}"
+										effect="explode" required="true" locale="es" navigator="true" />
+
+									<p:outputLabel value="#{msg.paramSocioFechaGeneracion}"
+										for="fechaGeneracion" />
+									<p:calendar id="fechaGeneracion"
+										value="#{socioBean.socio.fechaGeneracion}" effect="explode"
+										locale="es" navigator="true" />
+
+									<p:outputLabel value="#{msg.paramSocioTipoSocio}" for="tpoSoc" />
+									<p:selectOneMenu id="tpoSoc" value="#{socioBean.tipoSocioID}"
+										panelStyle="width:180px" effect="fold" required="true">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{tipoSocioBean.listaTipoSocios}"
+											var="tpoSoc" itemLabel="#{tpoSoc.descripcion}"
+											itemValue="#{tpoSoc.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="#{msg.paramSocioPlan}" for="planes" />
+									<p:selectOneMenu id="planes" value="#{socioBean.planID}"
+										panelStyle="width:180px" effect="fold" required="true">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{planBean.lstPlanes}" var="pln"
+											itemLabel="#{pln.descripcion}" itemValue="#{pln.id}" />
+									</p:selectOneMenu>
+
+									<f:facet name="footer">
+										<center>
+											<p:commandButton actionListener="#{socioBean.insertarSocio}"
+												update=":alta" value="#{msg.paramCargar}" />
+										</center>
+									</f:facet>
+								</ui:remove>
+						</p:panelGrid>
+					</p:tab>
+					<ui:remove>
+					<p:tab id="consulta" title="#{msg.paramSocioConsulta}">
+						<p:dataTable id="socioDT" var="soc" value="#{socioBean.lstSocio}"
+							scrollable="true" scrollHeight="150" rowKey="#{soc.id}"
+							emptyMessage="#{msg.paramNoDatos}" >
+
+							<f:facet name="header">
+								<center>
+									<h:outputText value="#{msg.paramSocioTable}" />
+								</center>
+							</f:facet>
+							<p:column id="numero" headerText="#{msg.paramSocioNumero}"
+								filterBy="#{soc.numero}" filterMatchMode="contains">
+								<h:outputText value="#{soc.numero}" />
+							</p:column>
+							<p:column headerText="#{msg.paramSocioNombre}"
+								filterBy="#{soc.persona.apellido}"  filterMatchMode="contains">
+								<h:outputText
+									value="#{soc.persona.apellido} #{soc.persona.nombre}" />
+							</p:column>
+							<p:column style="width:32px;text-align: center"
+								exportable="false">
+								<p:commandButton icon="fa fa-fw fa-search"
+									actionListener="#{socioBean.mostrarSocio(soc)}" update=":alta :socioDet"
+									immediate="true" oncomplete="PF('socDetDialog').show()" />
+							</p:column>
+							<p:column style="width:32px;text-align: center"
+								exportable="false" 
+								rendered="#{!(soc.estadoSocio.codigo == 'SUS')}">
+								<p:commandButton icon="fa fa-fw fa-warning"
+									actionListener="#{socioBean.cambiarEstadoSocio('SUS', soc)}"
+									update=":alta :socioDet" immediate="true" />
+							</p:column>
+							<p:column style="width:32px;text-align: center"
+								exportable="false" 
+								rendered="#{!(soc.estadoSocio.codigo == 'BAJ')}">
+								<p:commandButton icon="fa fa-fw fa-exclamation-circle"
+									actionListener="#{socioBean.cambiarEstadoSocio('BAJ', soc)}"
+									update=":alta :socioDet" immediate="true" />
+							</p:column>
+							<p:column style="width:32px;text-align: center"
+								exportable="false" 
+								rendered="#{!(soc.estadoSocio.codigo == 'VIG')}">
+								<p:commandButton icon="fa fa-fw fa-arrow-circle-up"
+									actionListener="#{socioBean.cambiarEstadoSocio('VIG', soc)}"
+									update=":alta :socioDet" immediate="true" />
+							</p:column>
+							<p:column style="width:32px;text-align: center"
+								exportable="false">
+								<p:commandButton icon="fa fa-fw fa-edit"
+									actionListener="#{socioBean.editarSocio(soc)}" update=":alta :socEdit"
+									immediate="true" oncomplete="PF('socEditDialog').show()" />
+							</p:column>
+							<f:facet name="footer">
+						       <p:column >
+									<h:outputText value="Total Socios: #{socioBean.totalSocios()}" />
+								</p:column>
+						    </f:facet>
+						</p:dataTable>
+					</p:tab>
+					</ui:remove>
+				</p:tabView>
+			</h:form>
+			<ui:remove>
+			<p:dialog header="Socio Detalle" widgetVar="socDetDialog" modal="true" minWidth="100"
+				showEffect="fade" hideEffect="fade" resizable="false" dynamic="true"
+				maximizable="false" appendTo="@(body)">
+				<h:form id="socioDet">
+					<p:outputPanel id="socDetail" style="text-align:center;" >
+						<p:scrollPanel style="width:850px;height:600px"
+							rendered="#{not empty socioBean.socioSeleccionado}" mode="native">
+							<p:panelGrid columns="2"
+								rendered="#{not empty socioBean.socioSeleccionado}"
+								columnClasses="label,value">
+								<f:facet name="header">
+									<h:outputText value="" />
+								</f:facet>
+								<h:outputText value="Nombre:" styleClass="#{label}" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.persona.nombre}" />
+								<h:outputText value="Apellido:" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.persona.apellido}" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.persona.tipoDocumento.descripcion}:" />
+								<h:outputText value="#{socioBean.socioSeleccionado.persona.dni}" />
+								<h:outputText value="CUIL:" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.persona.cuil}" />
+								<h:outputText value="ESTADO:" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.estadoSocio.codigo}"
+									styleClass="#{socioBean.socioSeleccionado.estadoSocio.codigo}" />
+								<h:outputText value="NUMERO DE PERSONA:" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.persona.numero}"
+									styleClass="#{numeroper}" />
+								<h:outputText value="Sexo:" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.persona.sexo.descripcion}" />
+								<h:outputText value="Nacionalidad:" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.persona.nacionalidad.descripcion}" />
+								<h:outputText value="Fecha de Nacimiento:" />
+								<h:outputText value="#{loginBean.formatearFechaMes(socioBean.socioSeleccionado.persona.fechaNacimiento, 'dd/MM/yyyy')}"/>
+									
+								<h:outputText value="Est Civil:" />
+								<h:outputText
+									value="#{socioBean.socioSeleccionado.persona.estadoCivil.descripcion}" />
+								<h:outputText value="Domicilios:" />
+								<p:dataTable
+									value="#{socioBean.socioSeleccionado.persona.domicilios}"
+									var="domici" emptyMessage="#{msg.paramNoDatos}">
+									<p:column headerText="Direccion">
+										<h:outputText value="#{domici.direccion}" />
+									</p:column>
+									<p:column headerText="Numero">
+										<h:outputText value="#{domici.numero}" />
+									</p:column>
+									<p:column headerText="Barrio">
+										<h:outputText value="#{domici.barrio.descripcion}" />
+									</p:column>
+									<p:column headerText="Ciudad">
+										<h:outputText value="#{domici.barrio.ciudad.descripcion}" />
+									</p:column>
+									<p:column headerText="Provincia">
+										<h:outputText
+											value="#{domici.barrio.ciudad.provincia.descripcion}" />
+									</p:column>
+									<p:column headerText="Tipo Domicilio">
+										<h:outputText value="#{domici.tipoDomicilio.descripcion}" />
+									</p:column>
+									<p:column style="width:32px;text-align: center">
+										<p:commandButton icon="ui-icon-close"
+											actionListener="#{personaBean.eliminarDomicilio(socioBean.socioSeleccionado.persona, domici)}"
+											update=":alta :socioDet" />
+									</p:column>
+								</p:dataTable>
+								<h:outputText value="Familiares:"
+									rendered="#{not empty socioBean.socioSeleccionado.persona.familiares}" />
+								<p:dataTable value="#{socioBean.lstSociosPorTitular}" var="fami"
+									emptyMessage="#{msg.paramNoDatos}"
+									rendered="#{not empty socioBean.socioSeleccionado.persona.familiares}">
+									<p:column headerText="Nombre">
+										<h:outputText value="#{fami.persona.nombre}" />
+									</p:column>
+									<p:column headerText="Apellido">
+										<h:outputText value="#{fami.persona.apellido}" />
+									</p:column>
+									<p:column headerText="Tipo Familiar">
+										<h:outputText value="#{fami.persona.tipoFamiliar.descripcion}" />
+									</p:column>
+									<p:column headerText="Estado">
+										<h:outputText value="#{fami.estadoSocio.codigo}"
+											styleClass="#{fami.estadoSocio.codigo}" />
+									</p:column>
+									<p:column style="width:32px;text-align: center">
+										<p:commandButton icon="ui-icon-close"
+											actionListener="#{socioBean.cambiarEstadoSocio('BAJ', fami)}"
+											update=":alta :socioDet" />
+									</p:column>
+								</p:dataTable>
+							</p:panelGrid>
+						</p:scrollPanel>
+					</p:outputPanel>
+				</h:form>
+			</p:dialog>
+			</ui:remove>
+			<ui:remove>
+			<p:dialog header="Edición de Socio" widgetVar="socEditDialog"
+				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
+				resizable="false" dynamic="true" maximizable="false"
+				appendTo="@(body)" rendered="#{not empty socioBean.socioEditar}">
+				<h:form id="socEdit">
+					<p:outputPanel id="socEditDetail" style="text-align:center;">
+						<p:scrollPanel style="width:auto;height:auto"
+							rendered="#{not empty socioBean.socioEditar}" mode="native">
+							<p:panelGrid columns="2"
+								rendered="#{not empty socioBean.socioEditar}"
+								columnClasses="label,value">
+								<h:outputText value="#{msg.paramPersonaNombre}" for="nombre" styleClass="#{label}" />
+								<p:inputText id="nombre"
+									value="#{socioBean.socioEditar.persona.nombre}"
+									required="true" onkeyup="strToUpper(this)" />
+								<h:outputText value="#{msg.paramPersonaApellido}" for="apellido" styleClass="#{label}" />
+								<p:inputText id="apellido"
+									value="#{socioBean.socioEditar.persona.apellido}"
+									required="true" onkeyup="strToUpper(this)" />	
+								
+								<h:outputText value="#{socioBean.socioEditar.persona.tipoDocumento.descripcion}" />
+								<p:inputMask value="#{socioBean.socioEditar.persona.dni}" mask="99.999.999" />
+								
+								<p:outputLabel value="#{msg.paramPersonaCuil}" for="cuil" />							
+								<p:inputMask id="cuil"
+									value="#{socioBean.socioEditar.persona.cuil}"
+									required="true" mask="99-99999999-9"/>
+								
+								<p:outputLabel value="#{msg.paramPersonaFechaNac}" for="fechaNac" />
+								<p:calendar id="fechaNac" value="#{socioBean.socioEditar.persona.fechaNacimiento}" 
+									required="true" effect="explode" locale="es" navigator="true"/>
+								
+								<ui:remove>
+								<p:outputLabel value="Direcciones" for="direcciones">
+									<p:commandButton value="Agregar"
+										actionListener="#{empresaBean.agregarDomiEdi()}"
+										update=":empEdit" />
+								</p:outputLabel>
+
+								<p:dataTable id="direcciones"
+									value="#{empresaBean.empresaEditar.domicilios}" var="domici"
+									emptyMessage="#{msg.paramNoDatos}">
+									<p:column id="dire" headerText="Direccion">
+										<h:outputText value="#{domici.direccion}" />
+									</p:column>
+									<p:column headerText="Numero">
+										<h:outputText value="#{domici.numero}" />
+									</p:column>
+									<p:column headerText="Barrio">
+										<h:outputText value="#{domici.barrio.descripcion}" />
+									</p:column>
+									<p:column headerText="Ciudad">
+										<h:outputText value="#{domici.barrio.ciudad.descripcion}" />
+									</p:column>
+									<p:column headerText="Provincia">
+										<h:outputText
+											value="#{domici.barrio.ciudad.provincia.descripcion}" />
+									</p:column>
+									<p:column headerText="Tipo Domicilio">
+										<h:outputText value="#{domici.tipoDomicilio.descripcion}" />
+									</p:column>
+									<p:column style="width:32px;text-align: center">
+										<p:commandButton icon="ui-icon-close"
+											actionListener="#{empresaBean.eliminarDomicilio(empresaBean.empresaEditar , domici)}"
+											update=":general :empDet :empEdit" />
+									</p:column>
+								</p:dataTable>
+								</ui:remove>
+								<f:facet name="footer">
+									<center>
+										<p:commandButton id="Editar" value="Modificar"
+											actionListener="#{socioBean.editarSocio()}"
+											update=":alta :socEdit" />
+									</center>
+								</f:facet>
+							</p:panelGrid>
+						</p:scrollPanel>
+					</p:outputPanel>
+				</h:form>
+			</p:dialog>
+			</ui:remove>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>
