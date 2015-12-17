@@ -10,22 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="DOMICILIO")
+@Table(name = "DOMICILIOS")
 public class Domicilio implements Serializable{
-	
+
 	@Id
     @Column(name = "ID_DOMICILIO")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DOMICILIO")
-    @SequenceGenerator(name = "SEQ_DOMICILIO", sequenceName = "SEQ_DOMICILIO")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
-	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_SOCIO", nullable = false)
-	private Socio socio;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_DOMICILIO", nullable = false)
@@ -37,13 +31,13 @@ public class Domicilio implements Serializable{
 	@Column(name = "NUMERO", nullable = false)
 	private long numero;
 	
-    @Column(name = "DPTO/OF")
+    @Column(name = "DPTO_OF")
     private String departamento;
     
-    @Column(name = "BARRIO", nullable = false)
+    @Column(name = "BARRIO")
     private String barrio;
     
-    @Column(name = "LOCALIDAD", nullable = false)
+    @Column(name = "LOCALIDAD")
     private String localidad;
     
     @OneToOne(cascade = CascadeType.PERSIST)
@@ -57,10 +51,10 @@ public class Domicilio implements Serializable{
    	@JoinColumn(name = "ID_PAIS", nullable = false)
    	private Pais pais;
 
-    @Column(name = "TE_FIJO", nullable = false)
+    @Column(name = "TE_FIJO")
     private long telFijo;
-    
-	public Domicilio(){
+
+    public Domicilio(){
 
 	}
 
@@ -70,14 +64,6 @@ public class Domicilio implements Serializable{
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public Socio getSocio() {
-		return socio;
-	}
-
-	public void setSocio(Socio socio) {
-		this.socio = socio;
 	}
 
 	public TipoDomicilio getTipoDomicilio() {
@@ -158,6 +144,15 @@ public class Domicilio implements Serializable{
 
 	public void setTelFijo(long telFijo) {
 		this.telFijo = telFijo;
+	}
+
+	@Override
+	public String toString() {
+		return "Domicilio [id=" + id + ", tipoDomicilio=" + tipoDomicilio
+				+ ", calle=" + calle + ", numero=" + numero + ", departamento="
+				+ departamento + ", barrio=" + barrio + ", localidad="
+				+ localidad + ", provincia=" + provincia + ", codPostal="
+				+ codPostal + ", pais=" + pais + ", telFijo=" + telFijo + "]";
 	}
 
 }//end Domicilio

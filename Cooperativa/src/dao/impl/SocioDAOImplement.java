@@ -42,7 +42,7 @@ public class SocioDAOImplement implements SocioDAO{
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(socio);
+			session.saveOrUpdate(socio);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();

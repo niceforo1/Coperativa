@@ -10,4 +10,5 @@ public interface ProvinciaDAO {
 	public void modificarProvincia(Provincia provincia) throws Exception;
 	public void eliminarProvincia(Provincia provincia) throws Exception;
 	public Provincia buscarProvinciaId(Long id) throws Exception;
+	public Provincia buscarProvinciaDescripcion(String desc) throws Exception;
 }

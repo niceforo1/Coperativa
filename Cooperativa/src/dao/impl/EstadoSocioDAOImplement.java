@@ -109,14 +109,14 @@ public class EstadoSocioDAOImplement implements EstadoSocioDAO {
 	}
 
 	@Override
-	public EstadoSocio buscarEstadoSocio(String codigo) throws Exception {
+	public EstadoSocio buscarEstadoSocio(String descripcion) throws Exception {
 		Session session = null;
 		EstadoSocio estado = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("from EstadoSocio es"
-											+ " where es.codigo = ?");
-			query.setString(0, codigo);
+											+ " where es.descripcion = ?");
+			query.setString(0, descripcion);
 			estado = (EstadoSocio) query.list().get(0);			
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();

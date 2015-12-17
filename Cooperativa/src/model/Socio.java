@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -25,8 +24,9 @@ import org.hibernate.annotations.FetchMode;
 public class Socio implements Serializable {
 	@Id
 	@Column(name = "ID_SOCIO")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SOCIO")
-	@SequenceGenerator(name = "SEQ_SOCIO", sequenceName = "SEQ_SOCIO")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	//@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SOCIO")
+	//@SequenceGenerator(name = "SEQ_SOCIO", sequenceName = "SEQ_SOCIO")
 	private long numero;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
@@ -54,7 +54,7 @@ public class Socio implements Serializable {
 	private long numeroDocumento;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_ESTADO_CIVIL", nullable = false)
+	@JoinColumn(name = "ID_ESTADO_CIVIL")
 	private EstadoCivil estadoCivil;
 	
 	@Column(name = "NOMBRE_CONYUGE")
@@ -90,6 +90,14 @@ public class Socio implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Domicilio> domicilios;
 
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "USR_ID", nullable = false)
+	private Usuario usuario;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Socios_Transacciones> transacciones;
+	
 	public Socio() {
 
 	}
@@ -244,6 +252,23 @@ public class Socio implements Serializable {
 
 	public void setDomicilios(List<Domicilio> domicilios) {
 		this.domicilios = domicilios;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	
+	public List<Socios_Transacciones> getTransacciones() {
+		return transacciones;
+	}
+
+	public void setTransacciones(List<Socios_Transacciones> transacciones) {
+		this.transacciones = transacciones;
 	}
 	
 }// end Socio

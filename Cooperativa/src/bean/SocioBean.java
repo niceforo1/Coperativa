@@ -2,6 +2,7 @@ package bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -10,15 +11,30 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import dao.CondicionIvaDAO;
+import dao.DomicilioDAO;
+import dao.EstadoCivilDAO;
 import dao.EstadoSocioDAO;
+import dao.PaisDAO;
+import dao.ProvinciaDAO;
 import dao.SocioDAO;
 import dao.TipoDocumentoDAO;
+import dao.TipoDomicilioDAO;
 import dao.TipoSocioDAO;
+import dao.impl.CondicionIvaDAOImplement;
+import dao.impl.DomicilioDAOImplement;
+import dao.impl.EstadoCivilDAOImplement;
 import dao.impl.EstadoSocioDAOImplement;
+import dao.impl.PaisDAOImplement;
+import dao.impl.ProvinciaDAOImplement;
 import dao.impl.SocioDAOImplement;
 import dao.impl.TipoDocumentoDAOImplement;
+import dao.impl.TipoDomicilioDAOImplement;
 import dao.impl.TipoSocioDAOImplement;
+import model.Domicilio;
+import model.Pais;
 import model.Socio;
+import model.Socios_Transacciones;
 import model.TipoDocumento;
 import model.TipoSocio;
 
@@ -41,9 +57,14 @@ public class SocioBean implements Serializable {
 	private Long paisId;
 	private Long condicionIvaId;
 	
+	private Domicilio domicilio;
+	
+	//private Long paisDomId;
+	//private Long provinciaDomId;
+	
+	
 	private String personaOEmp;
 	
-
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
 
@@ -166,6 +187,14 @@ public class SocioBean implements Serializable {
 		this.condicionIvaId = condicionIvaId;
 	}
 
+	public Domicilio getDomicilio() {
+		return domicilio;
+	}
+
+	public void setDomicilio(Domicilio domicilio) {
+		this.domicilio = domicilio;
+	}
+
 	public String getPersonaOEmp() {
 		return personaOEmp;
 	}
@@ -173,20 +202,59 @@ public class SocioBean implements Serializable {
 	public void setPersonaOEmp(String personaOEmp) {
 		this.personaOEmp = personaOEmp;
 	}
-
+	
 	public void insertarSocio() {
 		
 		
 		try {
-			SocioDAO socioDAO = new SocioDAOImplement();
-			EstadoSocioDAO estadoSocioDAO = new EstadoSocioDAOImplement();
-//			socio.setEstadoSocio(estadoSocioDAO
-//					.buscarEstadoSocio(estadoSocioID));
-			socio.setEstadoSocio(estadoSocioDAO.buscarEstadoSocio("VIG"));
+			// se setean datos del Socio //
+			
+			TipoDocumentoDAO tipoDocDAO = new TipoDocumentoDAOImplement();
+			socio.setTipoDocumento(tipoDocDAO.buscarTipoDocumentoID(tipoDocId));
+			
 			TipoSocioDAO tipoSocioDAO = new TipoSocioDAOImplement();
 			socio.setTipoSocio(tipoSocioDAO.buscarTipoSocioId(tipoSocioId));
-			// System.out.println(socio.toString());
+			
+			EstadoSocioDAO estadoSocioDAO = new EstadoSocioDAOImplement();
+			socio.setEstadoSocio(estadoSocioDAO.buscarEstadoSocio("ACTIVO"));
+			
+			if(personaOEmp.equals("persona")){
+				EstadoCivilDAO estCivilDAO = new EstadoCivilDAOImplement();
+				socio.setEstadoCivil(estCivilDAO.buscarEstadoCivilID(estCivilId));
+			}
+			
+			if(personaOEmp.equals("emp")){
+				socio.setNombreConyuge("NO CORRESPONDE");
+			}
+			
+			PaisDAO paisDAO = new PaisDAOImplement();
+			socio.setPais(paisDAO.buscarPaisId(paisId));
+			
+			CondicionIvaDAO condicionIvaDAO = new CondicionIvaDAOImplement();
+			socio.setCondicionIva(condicionIvaDAO.buscarCondicionIvaId(condicionIvaId));
+			
+			socio.setUsuario(login.getUsuario());	
+			
+			// se setean datos del domicilio //
+			
+			domicilio.setLocalidad("BIALET MASSE");
+			
+			domicilio.setPais(paisDAO.buscarPaisDescripcion("ARGENTINA"));
+			
+			ProvinciaDAO provinciaDAO = new ProvinciaDAOImplement();
+			domicilio.setProvincia(provinciaDAO.buscarProvinciaDescripcion("CORDOBA"));
+			
+			TipoDomicilioDAO tipoDomDAO = new TipoDomicilioDAOImplement();
+			domicilio.setTipoDomicilio(tipoDomDAO.buscarTipoDomicilio("LEGAL"));
+			
+			
+			List<Domicilio> listaDom = new ArrayList<Domicilio>();
+			listaDom.add(domicilio);
+			socio.setDomicilios(listaDom);
+			
+			SocioDAO socioDAO = new SocioDAOImplement();
 			socioDAO.insertarSocio(socio);
+			
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -223,11 +291,26 @@ public class SocioBean implements Serializable {
 			SocioDAO socioDAO = new SocioDAOImplement();
 			EstadoSocioDAO estadoSocioDAO = new EstadoSocioDAOImplement();						
 			socio.setEstadoSocio(estadoSocioDAO.buscarEstadoSocio(estado));						
+						
+			//se guarda registro de la transaccion
+			Socios_Transacciones transaccion = new Socios_Transacciones();
+			
+			if(estado.equals("BAJA")){
+				transaccion.setTipoTransaccion("BAJA");
+			}
+			if(estado.equals("ACTIVO")){
+				transaccion.setTipoTransaccion("ALTA");
+			}
+			transaccion.setFecha(Calendar.getInstance().getTime());
+			transaccion.setUsuario(login.getUsuario());
+			
+			socio.getTransacciones().add(transaccion);
+			
 			socioDAO.modificarSocio(socio);
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "El usuario se modifico correctamente."));
+							"Correctamente", "El socio se modifico correctamente."));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -278,6 +361,9 @@ public class SocioBean implements Serializable {
 		estCivilId = null;
 		paisId = null;
 		condicionIvaId = null;
+		domicilio = new Domicilio();
+		//paisDomId = null;
+		//provinciaDomId = null;
 	}
 
 }

@@ -10,4 +10,5 @@ public interface PaisDAO {
 	public void modificarPais(Pais pais) throws Exception;
 	public void eliminarPais(Pais pais) throws Exception;
 	public Pais buscarPaisId(Long id) throws Exception;
+	public Pais buscarPaisDescripcion(String desc) throws Exception;
 }

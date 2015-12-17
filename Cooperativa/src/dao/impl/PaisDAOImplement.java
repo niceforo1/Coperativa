@@ -9,6 +9,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import persistencia.HibernateUtil;
 import model.Pais;
+import model.TipoDomicilio;
 import dao.PaisDAO;
 
 public class PaisDAOImplement implements PaisDAO{
@@ -93,6 +94,31 @@ public class PaisDAOImplement implements PaisDAO{
 			session.beginTransaction();
 			pais = (Pais)session.get(Pais.class, id.longValue());			
 			session.getTransaction().commit();						
+		}catch(ConstraintViolationException e){
+			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){						
+			throw new Exception(e);		
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}		
+		return pais;
+	}
+	
+	@Override
+	public Pais buscarPaisDescripcion(String desc) throws Exception {
+		Session session = null;
+		Pais pais= null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from Pais p"
+											+ " where p.descripcion = ?");
+			query.setString(0, desc);
+			pais = (Pais) query.list().get(0);	
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
 			session.getTransaction().rollback();

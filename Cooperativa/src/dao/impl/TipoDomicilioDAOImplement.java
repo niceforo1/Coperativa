@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import persistencia.HibernateUtil;
+import model.EstadoSocio;
 import model.TipoDomicilio;
 import dao.TipoDomicilioDAO;
 
@@ -101,6 +102,32 @@ public class TipoDomicilioDAOImplement implements TipoDomicilioDAO{
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());
 		}catch(HibernateException e){
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
+		return tipoDomicilio;
+	}
+
+	@Override
+	public TipoDomicilio buscarTipoDomicilio(String descripcion)
+			throws Exception {
+		Session session = null;
+		TipoDomicilio tipoDomicilio = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from TipoDomicilio td"
+											+ " where td.descripcion = ?");
+			query.setString(0, descripcion);
+			tipoDomicilio = (TipoDomicilio) query.list().get(0);			
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			System.out.println("error: " +e.getMessage());
 			throw new Exception(e);
 		}finally{
 			if(session != null){

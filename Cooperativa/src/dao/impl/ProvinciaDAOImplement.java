@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import persistencia.HibernateUtil;
+import model.Pais;
 import model.Provincia;
 import dao.ProvinciaDAO;
 
@@ -108,4 +109,28 @@ public class ProvinciaDAOImplement implements ProvinciaDAO {
 		return provincia;
 	}
 
+	@Override
+	public Provincia buscarProvinciaDescripcion(String desc) throws Exception {
+		Session session = null;
+		Provincia provincia	= null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from Provincia p"
+											+ " where p.descripcion = ?");
+			query.setString(0, desc);
+			provincia = (Provincia) query.list().get(0);	
+		}catch(ConstraintViolationException e){
+			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){						
+			throw new Exception(e);		
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}		
+		return provincia;
+	}
 }

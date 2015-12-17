@@ -10,4 +10,5 @@ public interface TipoDomicilioDAO {
 	public void modificarTipoDomicilio(TipoDomicilio tipoDomicilio)throws Exception;
 	public void eliminarTipoDomicilio(TipoDomicilio tipoDomicilio) throws Exception;
 	public TipoDomicilio buscarTipoDomicilioId(Long id) throws Exception;
+	public TipoDomicilio buscarTipoDomicilio(String descripcion) throws Exception;
 }
