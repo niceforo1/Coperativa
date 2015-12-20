@@ -34,7 +34,7 @@ import dao.impl.TipoSocioDAOImplement;
 import model.Domicilio;
 import model.Pais;
 import model.Socio;
-import model.Socios_Transacciones;
+import model.SociosTransacciones;
 import model.TipoDocumento;
 import model.TipoSocio;
 
@@ -293,7 +293,7 @@ public class SocioBean implements Serializable {
 			socio.setEstadoSocio(estadoSocioDAO.buscarEstadoSocio(estado));						
 						
 			//se guarda registro de la transaccion
-			Socios_Transacciones transaccion = new Socios_Transacciones();
+			SociosTransacciones transaccion = new SociosTransacciones();
 			
 			if(estado.equals("BAJA")){
 				transaccion.setTipoTransaccion("BAJA");

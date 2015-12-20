@@ -25,6 +25,6 @@
 		<mapping class="model.Socio" />
 		<mapping class="model.TipoDomicilio" />
 		<mapping class="model.Domicilio" />
-		<mapping class="model.Socios_Transacciones" />
+		<mapping class="model.SociosTransacciones" />
 	</session-factory>
 </hibernate-configuration>

@@ -96,7 +96,7 @@ public class Socio implements Serializable {
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	private List<Socios_Transacciones> transacciones;
+	private List<SociosTransacciones> transacciones;
 	
 	public Socio() {
 
@@ -263,11 +263,11 @@ public class Socio implements Serializable {
 	}
 
 	
-	public List<Socios_Transacciones> getTransacciones() {
+	public List<SociosTransacciones> getTransacciones() {
 		return transacciones;
 	}
 
-	public void setTransacciones(List<Socios_Transacciones> transacciones) {
+	public void setTransacciones(List<SociosTransacciones> transacciones) {
 		this.transacciones = transacciones;
 	}
 	

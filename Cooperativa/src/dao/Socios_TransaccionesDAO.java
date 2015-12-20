@@ -1,8 +1,8 @@
 package dao;
-import model.Socios_Transacciones;
+import model.SociosTransacciones;
 
 public interface Socios_TransaccionesDAO {
-	public void insertarTransaccion(Socios_Transacciones transaccion) throws Exception;
-	public void modificarTransaccion(Socios_Transacciones transaccion) throws Exception;
-	public void eliminarTransaccion(Socios_Transacciones transaccion) throws Exception;
+	public void insertarTransaccion(SociosTransacciones transaccion) throws Exception;
+	public void modificarTransaccion(SociosTransacciones transaccion) throws Exception;
+	public void eliminarTransaccion(SociosTransacciones transaccion) throws Exception;
 }

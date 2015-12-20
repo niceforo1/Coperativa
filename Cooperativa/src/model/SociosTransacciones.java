@@ -15,13 +15,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SOCIOS_TRANSACCIONES")
-public class Socios_Transacciones implements Serializable  {
+public class SociosTransacciones implements Serializable  {
 	
 	@Id
 	@Column(name = "ID_TRANSACCION")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	//@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SOCIO")
-	//@SequenceGenerator(name = "SEQ_SOCIO", sequenceName = "SEQ_SOCIO")
 	private long transaccion;
 	
 	@Column(name = "FECHA", nullable = false)
@@ -37,7 +35,7 @@ public class Socios_Transacciones implements Serializable  {
 	@JoinColumn(name = "USR_ID", nullable = false)
 	private Usuario usuario;
 	
-	public Socios_Transacciones() {
+	public SociosTransacciones() {
 	}
 
 	public long getTransaccion() {

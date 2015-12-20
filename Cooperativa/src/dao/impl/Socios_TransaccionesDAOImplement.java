@@ -5,13 +5,13 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import persistencia.HibernateUtil;
-import model.Socios_Transacciones;
+import model.SociosTransacciones;
 import dao.Socios_TransaccionesDAO;
 
 public class Socios_TransaccionesDAOImplement implements Socios_TransaccionesDAO {
 
 	@Override
-	public void insertarTransaccion(Socios_Transacciones transaccion)
+	public void insertarTransaccion(SociosTransacciones transaccion)
 			throws Exception {
 		
 		Session session = null;
@@ -35,14 +35,14 @@ public class Socios_TransaccionesDAOImplement implements Socios_TransaccionesDAO
 	}
 
 	@Override
-	public void modificarTransaccion(Socios_Transacciones transaccion)
+	public void modificarTransaccion(SociosTransacciones transaccion)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void eliminarTransaccion(Socios_Transacciones transaccion)
+	public void eliminarTransaccion(SociosTransacciones transaccion)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
