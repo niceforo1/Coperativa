@@ -16,8 +16,7 @@ public class EstadoSocio implements Serializable {
 
 	@Id
     @Column(name = "ID_ESTADO_SOCIO")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_EST_SOC")
-    @SequenceGenerator (name = "SEQ_EST_SOC", sequenceName = "SEQ_EST_SOC")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     
     @Column(name = "DESCRIPCION", nullable = false)

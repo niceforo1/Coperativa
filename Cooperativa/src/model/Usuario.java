@@ -20,8 +20,7 @@ import utils.UtilidadesVarias;
 public class Usuario implements Serializable {
 	@Id
 	@Column(name = "USR_ID")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_USUARIO")
-	@SequenceGenerator(name = "SEQ_USUARIO", sequenceName = "SEQ_USUARIO")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@Column(name = "USR_USUARIO", nullable = false, unique = true)

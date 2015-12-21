@@ -16,8 +16,7 @@ public class Pais implements Serializable{
 
 	@Id
     @Column(name="ID_PAIS")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PAIS")
-    @SequenceGenerator(name = "SEQ_PAIS", sequenceName = "SEQ_PAIS")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     
     @Column(name = "DESCRIPCION", nullable = false)

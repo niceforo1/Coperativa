@@ -17,8 +17,7 @@ public class TipoDomicilio implements Serializable {
 
 	@Id
 	@Column(name = "ID_TIPO_DOMICILIO")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TPO_DOM")
-	@SequenceGenerator(name="SEQ_TPO_DOM", sequenceName="SEQ_TPO_DOM")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@Column(name = "DESCRIPCION")

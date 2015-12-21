@@ -15,8 +15,7 @@ import javax.persistence.Table;
 public class UsuarioTipo implements Serializable {
 	@Id
 	@Column(name = "TPO_USR_ID")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TIPO_USR")
-	@SequenceGenerator(name = "SEQ_TIPO_USR", sequenceName = "SEQ_TIPO_USR")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@Column(name = "TPO_USR_CODIGO", unique = true, nullable = false)

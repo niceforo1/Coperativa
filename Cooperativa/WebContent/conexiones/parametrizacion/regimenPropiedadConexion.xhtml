@@ -21,7 +21,7 @@
 					<p:panelGrid columns="1">						
 						<p:outputLabel value="#{msg.paramDescripcion}" for="descripcion" />
 						<p:inputText id="descripcion" value="#{regimenPropiedadBean.regimenPropiedad.descripcion}" 
-									 required="true" onkeyup="strToUpper(this)"/>						
+									 required="true" converter="upperConverter"/>						
 						<f:facet name="footer">
 							<center>								
 								<p:commandButton action="#{regimenPropiedadBean.insertarRegimenPropiedad}" 

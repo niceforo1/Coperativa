@@ -18,8 +18,7 @@ import javax.persistence.Table;
 public class Provincia implements Serializable{
 	@Id
     @Column(name="ID_PROVINCIA")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PROV")
-    @SequenceGenerator(name = "SEQ_PROV", sequenceName = "SEQ_PROV")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     
     @Column(name = "DESCRIPCION", nullable = false)

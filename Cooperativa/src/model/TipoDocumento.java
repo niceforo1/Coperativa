@@ -16,13 +16,12 @@ public class TipoDocumento implements Serializable {
 
 	@Id
 	@Column(name = "ID_TIPO_DOC")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TPO_DOC")
-	@SequenceGenerator(name = "SEQ_TPO_DOC", sequenceName = "SEQ_TPO_DOC")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@Column(name = "DESCRIPCION", nullable = false)
 	private String descripcion;
-
+	
 	public TipoDocumento() {
 
 	}

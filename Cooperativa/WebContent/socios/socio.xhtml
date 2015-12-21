@@ -67,30 +67,25 @@
 								rendered="#{socioBean.personaOEmp eq 'persona'}" />
 							<p:inputText id="apellido"
 								value="#{socioBean.socio.apellidoRazonSocial}" required="true"
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp eq 'persona'}" />
-
+								converter="upperConverter" rendered="#{socioBean.personaOEmp eq 'persona'}" />
+							
 							<p:outputLabel value="#{msg.paramSocioNombre}" for="nombre"
 								rendered="#{socioBean.personaOEmp eq 'persona'}" />
 							<p:inputText id="nombre"
 								value="#{socioBean.socio.nombreDenominacion}" required="true"
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp eq 'persona'}" />
-
+								converter="upperConverter" rendered="#{socioBean.personaOEmp eq 'persona'}" />
 
 							<p:outputLabel value="#{msg.paramSocioRazonSocial}"
 								for="razonSocial" rendered="#{socioBean.personaOEmp eq 'emp'}" />
 							<p:inputText id="razonSocial"
 								value="#{socioBean.socio.apellidoRazonSocial}" required="true"
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp eq 'emp'}" />
+								converter="upperConverter" rendered="#{socioBean.personaOEmp eq 'emp'}" />
 
 							<p:outputLabel value="#{msg.paramSocioDenominacion}"
 								for="denominacion" rendered="#{socioBean.personaOEmp eq 'emp'}" />
 							<p:inputText id="denominacion"
 								value="#{socioBean.socio.nombreDenominacion}" required="true"
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp eq 'emp'}" />
+								converter="upperConverter" rendered="#{socioBean.personaOEmp eq 'emp'}" />
 
 							<p:outputLabel value="#{msg.paramSocioFechaAlta}" for="fechaAlta" rendered="#{socioBean.personaOEmp ne null}" />
 							<p:calendar id="fechaAlta" value="#{socioBean.socio.fechaAlta}" rendered="#{socioBean.personaOEmp ne null}"
@@ -163,8 +158,7 @@
 								rendered="#{socioBean.personaOEmp eq 'persona'}" />
 							<p:inputText id="conyuge"
 								value="#{socioBean.socio.nombreConyuge}"
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp eq 'persona'}" />
+								converter="upperConverter" rendered="#{socioBean.personaOEmp eq 'persona'}" />
 
 							<p:outputLabel value="#{msg.paramSocioTelefono}" for="tel"
 								rendered="#{socioBean.personaOEmp ne null}" />
@@ -174,8 +168,7 @@
 							<p:outputLabel value="#{msg.paramSocioEmail}" for="email"
 								rendered="#{socioBean.personaOEmp ne null}" />
 							<p:inputText id="email" value="#{socioBean.socio.email}"
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp ne null}" />
+								converter="upperConverter" rendered="#{socioBean.personaOEmp ne null}" />
 
 							<p:outputLabel value="#{msg.paramSocioNacionalidad}" for="pais"
 								rendered="#{socioBean.personaOEmp ne null}" />
@@ -191,14 +184,12 @@
 								rendered="#{socioBean.personaOEmp eq 'persona'}" />
 							<p:inputText id="profesion"
 								value="#{socioBean.socio.profesionRubro}"
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp eq 'persona'}" />
+								converter="upperConverter" rendered="#{socioBean.personaOEmp eq 'persona'}" />
 
 							<p:outputLabel value="#{msg.paramSocioRubro}" for="rubro"
 								rendered="#{socioBean.personaOEmp eq 'emp'}" />
 							<p:inputText id="rubro" value="#{socioBean.socio.profesionRubro}"
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp eq 'emp'}" />
+								converter="upperConverter" rendered="#{socioBean.personaOEmp eq 'emp'}" />
 
 							<p:outputLabel value="#{msg.paramSocioIngBrutos}" for="ingBrutos"
 								rendered="#{socioBean.personaOEmp ne null}" />
@@ -226,8 +217,7 @@
 								for="observaciones" rendered="#{socioBean.personaOEmp ne null}" />
 							<p:inputTextarea id="observaciones" autoResize="true"
 								value="#{socioBean.socio.observaciones}" rows="3" 
-								onkeyup="strToUpper(this)"
-								rendered="#{socioBean.personaOEmp ne null}" />
+								converter="upperConverter" rendered="#{socioBean.personaOEmp ne null}" />
 							
 						</p:panelGrid>
 						
@@ -244,7 +234,7 @@
 								for="direccion" />
 							<p:inputText id="direccion"
 								value="#{socioBean.domicilio.calle}" required="true"
-								onkeyup="strToUpper(this)" />
+								converter="upperConverter" />
 							
 							<p:outputLabel value="#{msg.paramDomicilioNumero}" for="numero" />
 								<p:inputText id="numero"
@@ -253,11 +243,11 @@
 							<p:outputLabel value="#{msg.paramDomicilioDepartamento}" for="departamento" />						
 								<p:inputText id="departamento"
 									value="#{socioBean.domicilio.departamento}"
-									onkeyup="strToUpper(this)"/>
+									converter="upperConverter"/>
 							<p:outputLabel value="#{msg.paramDomicilioCodPostal}" for="codPostal" />						
 								<p:inputText id="codPostal" required="true"
 									value="#{socioBean.domicilio.codPostal}"
-									onkeyup="strToUpper(this)"/>
+									converter="upperConverter"/>
 							<p:outputLabel value="#{msg.paramDomicilioTelefono}" for="telFijo" />
 								<p:inputText id="telFijo"
 									value="#{socioBean.domicilio.telFijo}"
@@ -265,10 +255,10 @@
 							<p:outputLabel value="#{msg.paramDomicilioBarrio}" for="barrio" />						
 								<p:inputText id="barrio" 
 									value="#{socioBean.domicilio.barrio}"
-									onkeyup="strToUpper(this)"/>
+									converter="upperConverter"/>
 							
 							<p:outputLabel value="#{msg.paramDomicilioLocalidad}" for="localidad" />						
-								<p:inputText id="localidad" value="#{socioBean.localidad}" onkeyup="strToUpper(this)"/>
+								<p:inputText id="localidad" value="#{socioBean.localidad}" converter="upperConverter"/>
 							<p:outputLabel value="#{msg.paramDomicilioPais}"
 								for="paisDom" />
 							<p:selectOneMenu id="paisDom" value="#{socioBean.paisDomId}"

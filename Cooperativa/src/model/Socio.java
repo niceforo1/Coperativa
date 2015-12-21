@@ -25,8 +25,6 @@ public class Socio implements Serializable {
 	@Id
 	@Column(name = "ID_SOCIO")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	//@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SOCIO")
-	//@SequenceGenerator(name = "SEQ_SOCIO", sequenceName = "SEQ_SOCIO")
 	private long numero;
 
 	@OneToOne(cascade = CascadeType.PERSIST)

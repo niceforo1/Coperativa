@@ -16,8 +16,7 @@ public class CondicionIva implements Serializable{
 	
 	@Id
     @Column(name = "ID_CONDICION_IVA")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CON_IVA")
-    @SequenceGenerator(name = "SEQ_CON_IVA", sequenceName = "SEQ_CON_IVA")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "ABREVIATURA", unique = true, nullable = false)

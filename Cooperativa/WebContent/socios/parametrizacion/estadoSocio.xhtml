@@ -10,21 +10,21 @@
 <ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
 	<ui:define name="tituloPantalla">
 	   <h:outputFormat value="#{msg.title}">
-			<f:param value="#{msg.titleZonaConexion}"/>
+			<f:param value="#{msg.titleEstadoSocio}"/>
 		</h:outputFormat>
 	</ui:define>
 	<ui:define name="content">
 	   <center>
 			<h:form id="alta">			
-				<p:panel header="#{msg.paramZonaConexionHeader}">
+				<p:panel header="#{msg.paramEstadoSocioHeader}">
 					<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />			
-					<p:panelGrid columns="1">						
+					<p:panelGrid columns="1">									 							
 						<p:outputLabel value="#{msg.paramDescripcion}" for="descripcion" />
-						<p:inputText id="descripcion" value="#{zonaConexionBean.zonaConexion.descripcion}" 
-									 required="true" converter="upperConverter"/>						
+						<p:inputText id="descripcion" value="#{estadoSocioBean.estadoSocio.descripcion}"  
+									 converter="upperConverter" required="true"/>						
 						<f:facet name="footer">
 							<center>								
-								<p:commandButton action="#{zonaConexionBean.insertarZonaConexion}" 
+								<p:commandButton action="#{estadoSocioBean.insertarEstadoSocio}" 
 												 update=":mostrar, alta" 
 												 value="#{msg.paramCargar}" />								
 							</center>
@@ -37,20 +37,23 @@
 		<br />		
 		
 		<h:form id="mostrar">
-			<p:dataTable id="zonasConexionDT" var="zonaCon"
-				value="#{zonaConexionBean.listaZonasConexion}" scrollable="true"
-				scrollHeight="150" rowKey="#{zonaCon.id}"
+			<p:dataTable id="estadoSocioDT" var="estSoc"
+				value="#{estadoSocioBean.listaEstadoSocio}" scrollable="true"
+				scrollHeight="150" rowKey="#{estSoc.id}"
 				emptyMessage="#{msg.paramNoDatos}">
 				<f:facet name="header">
 					<center>
-						<h:outputText value="#{msg.paramZonaConexionTable}" />
+						<h:outputText value="#{msg.paramEstadoSocioTable}" />
 					</center>
 				</f:facet>
-				<p:column headerText="#{msg.paramDescripcion}" filterBy="#{zonaCon.descripcion}" filterMatchMode="contains">
-					<h:outputText value="#{zonaCon.descripcion}" />
-				</p:column>
+				<p:column headerText="ID">
+					<h:outputText value="#{estSoc.id}" />
+				</p:column>				
+				<p:column headerText="#{msg.paramDescripcion}" filterBy="#{estSoc.descripcion}" filterMatchMode="contains">
+					<h:outputText value="#{estSoc.descripcion}" />
+				</p:column>				
 				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-close" actionListener="#{zonaConexionBean.eliminarZonaConexion(zonaCon)}" 
+					<p:commandButton icon="ui-icon-close" actionListener="#{estadoSocioBean.eliminarEstadoSocio(estSoc)}" 
 						update=":mostrar"/>
 				</p:column>
 				<f:facet name="footer">
@@ -60,6 +63,7 @@
 		</h:form>		
 	</ui:define>
 	<ui:define name="footer">
+	    Add your footer here or delete to use the default
 	</ui:define>
 </ui:composition>
 </html>
