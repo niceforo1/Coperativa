@@ -26,5 +26,11 @@
 		<mapping class="model.TipoDomicilio" />
 		<mapping class="model.Domicilio" />
 		<mapping class="model.SociosTransacciones" />
+		
+		<mapping class="model.EstadoConexion" />
+		<mapping class="model.ZonaConexion" />
+		<mapping class="model.TipoTerreno" />
+		<mapping class="model.RegimenPropiedad" />
+		
 	</session-factory>
 </hibernate-configuration>

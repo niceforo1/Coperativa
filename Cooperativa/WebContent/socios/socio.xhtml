@@ -268,26 +268,24 @@
 									onkeyup="strToUpper(this)"/>
 							
 							<p:outputLabel value="#{msg.paramDomicilioLocalidad}" for="localidad" />						
-								<p:inputText id="localidad" disabled="true"
-									value="BIALET MASSE"
-									onkeyup="strToUpper(this)"/>
+								<p:inputText id="localidad" value="#{socioBean.localidad}" onkeyup="strToUpper(this)"/>
 							<p:outputLabel value="#{msg.paramDomicilioPais}"
 								for="paisDom" />
-							<p:selectOneMenu id="paisDom" value=""
-								panelStyle="width:180px" effect="fold" disabled="true"	>
-								<f:selectItem itemLabel="ARGENTINA" itemValue="" />
-								<ui:remove><f:selectItems value="#{paisBean.lstPaises}"
+							<p:selectOneMenu id="paisDom" value="#{socioBean.paisDomId}"
+								panelStyle="width:180px" effect="fold" >
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{paisBean.lstPaises}"
 									var="paisDom" itemLabel="#{paisDom.descripcion}"
-									itemValue="#{paisDom.id}" /> </ui:remove>
+									itemValue="#{paisDom.id}" />
 							</p:selectOneMenu>
 							<p:outputLabel value="#{msg.paramDomicilioProvincia}"
 								for="provincia" />
-							<p:selectOneMenu id="provincia" value=""
-								panelStyle="width:180px" effect="fold" filter="true" disabled="true">
-								<f:selectItem itemLabel="CORDOBA" itemValue="" />
-								<ui:remove><f:selectItems value="#{provinciaBean.lstProvincia}"
+							<p:selectOneMenu id="provincia" value="#{socioBean.provinciaDomId}"
+								panelStyle="width:180px" effect="fold" filter="true" >
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{provinciaBean.lstProvincia}"
 									var="provDom" itemLabel="#{provDom.descripcion}"
-									itemValue="#{provDom.id}" /> </ui:remove>
+									itemValue="#{provDom.id}" />
 							</p:selectOneMenu>
 							
 							<f:facet name="footer">

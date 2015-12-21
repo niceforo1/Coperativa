@@ -59,8 +59,9 @@ public class SocioBean implements Serializable {
 	
 	private Domicilio domicilio;
 	
-	//private Long paisDomId;
-	//private Long provinciaDomId;
+	private Long paisDomId;
+	private Long provinciaDomId;
+	private String localidad;
 	
 	
 	private String personaOEmp;
@@ -203,6 +204,30 @@ public class SocioBean implements Serializable {
 		this.personaOEmp = personaOEmp;
 	}
 	
+	public Long getPaisDomId() {
+		return paisDomId;
+	}
+
+	public void setPaisDomId(Long paisDomId) {
+		this.paisDomId = paisDomId;
+	}
+
+	public Long getProvinciaDomId() {
+		return provinciaDomId;
+	}
+
+	public void setProvinciaDomId(Long provinciaDomId) {
+		this.provinciaDomId = provinciaDomId;
+	}
+
+	public String getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
 	public void insertarSocio() {
 		
 		
@@ -237,12 +262,12 @@ public class SocioBean implements Serializable {
 			
 			// se setean datos del domicilio //
 			
-			domicilio.setLocalidad("BIALET MASSE");
+			domicilio.setLocalidad(localidad);
 			
-			domicilio.setPais(paisDAO.buscarPaisDescripcion("ARGENTINA"));
+			domicilio.setPais(paisDAO.buscarPaisId(paisDomId));
 			
 			ProvinciaDAO provinciaDAO = new ProvinciaDAOImplement();
-			domicilio.setProvincia(provinciaDAO.buscarProvinciaDescripcion("CORDOBA"));
+			domicilio.setProvincia(provinciaDAO.buscarProvinciaId(provinciaDomId));
 			
 			TipoDomicilioDAO tipoDomDAO = new TipoDomicilioDAOImplement();
 			domicilio.setTipoDomicilio(tipoDomDAO.buscarTipoDomicilio("LEGAL"));
@@ -261,7 +286,6 @@ public class SocioBean implements Serializable {
 							"Correctamente", "Se agrego correctamente"));
 			inicializar();
 		} catch (Exception e) {
-			System.out.println("Asociar persona: SOCIOBEAN " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
@@ -362,8 +386,9 @@ public class SocioBean implements Serializable {
 		paisId = null;
 		condicionIvaId = null;
 		domicilio = new Domicilio();
-		//paisDomId = null;
-		//provinciaDomId = null;
+		paisDomId = null;
+		provinciaDomId = null;
+		localidad = "";
 	}
 
 }
