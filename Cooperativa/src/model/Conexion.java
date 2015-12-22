@@ -52,6 +52,10 @@ public class Conexion implements Serializable {
 	@JoinColumn(name = "ID_REGIMEN_PROPIEDAD", nullable = false)
 	private RegimenPropiedad regimenPropiedad;
 	
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_FORMA_PAGO", nullable = false)
+	private FormaPago formaPago;
+	
 	public Conexion() {
 	}
 
