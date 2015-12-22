@@ -36,5 +36,8 @@
 		<mapping class="model.TipoSuministro" />
 		<mapping class="model.CategoriaConexion" />
 		<mapping class="model.TipoConexion" />
+		<mapping class="model.TipoUbicacionCatastral" />
+		<mapping class="model.UbicacionCatastral" />
+		<mapping class="model.Conexion" />
 	</session-factory>
 </hibernate-configuration>

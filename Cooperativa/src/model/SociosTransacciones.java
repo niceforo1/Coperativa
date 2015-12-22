@@ -20,7 +20,7 @@ public class SociosTransacciones implements Serializable  {
 	@Id
 	@Column(name = "ID_TRANSACCION")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long transaccion;
+	private Long transaccion;
 	
 	@Column(name = "FECHA", nullable = false)
 	private Date fecha;
@@ -38,11 +38,11 @@ public class SociosTransacciones implements Serializable  {
 	public SociosTransacciones() {
 	}
 
-	public long getTransaccion() {
+	public Long getTransaccion() {
 		return transaccion;
 	}
 
-	public void setTransaccion(long transaccion) {
+	public void setTransaccion(Long transaccion) {
 		this.transaccion = transaccion;
 	}
 

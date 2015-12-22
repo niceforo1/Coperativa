@@ -25,7 +25,7 @@ public class Socio implements Serializable {
 	@Id
 	@Column(name = "ID_SOCIO")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long numero;
+	private Long numero;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_SOCIO", nullable = false)
@@ -94,17 +94,21 @@ public class Socio implements Serializable {
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Conexion> conexiones;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<SociosTransacciones> transacciones;
 	
 	public Socio() {
 
 	}
 
-	public long getNumero() {
+	public Long getNumero() {
 		return numero;
 	}
 
-	public void setNumero(long numero) {
+	public void setNumero(Long numero) {
 		this.numero = numero;
 	}
 
@@ -259,8 +263,15 @@ public class Socio implements Serializable {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
 	
+	public List<Conexion> getConexiones() {
+		return conexiones;
+	}
+
+	public void setConexiones(List<Conexion> conexiones) {
+		this.conexiones = conexiones;
+	}
+
 	public List<SociosTransacciones> getTransacciones() {
 		return transacciones;
 	}
@@ -268,5 +279,6 @@ public class Socio implements Serializable {
 	public void setTransacciones(List<SociosTransacciones> transacciones) {
 		this.transacciones = transacciones;
 	}
+	
 	
 }// end Socio

@@ -2,14 +2,22 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "CONEXIONES")
@@ -17,51 +25,52 @@ public class Conexion implements Serializable {
 
 	@Id
 	@Column(name = "ID_CONEXION")
-	private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_ESTADO_CONEXION", nullable = false)
+	@JoinColumn(name = "ID_ESTADO_CONEXION")
 	private EstadoConexion estadoConexion;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_SOCIO")
-	private Socio socio;
+//	@OneToOne(cascade = CascadeType.PERSIST)
+//	@JoinColumn(name = "ID_SOCIO")
+//	private Socio socio;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_NRO_ZONA", nullable = false)
+	@JoinColumn(name = "ID_NRO_ZONA")
 	private ZonaConexion zonaConexion;
 
-	@Column(name = "FECHA_ALTA", nullable = false)
+	@Column(name = "FECHA_ALTA")
 	private Date fechaAlta;
 
 	@Column(name = "TERRENO")
 	private long terreno;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_TIPO_TERRENO", nullable = false)
+	@JoinColumn(name = "ID_TIPO_TERRENO")
 	private TipoTerreno tipoTerreno;
 
 	@Column(name = "PILETA")
 	private long pileta;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_REGIMEN_PROPIEDAD", nullable = false)
+	@JoinColumn(name = "ID_REGIMEN_PROPIEDAD")
 	private RegimenPropiedad regimenPropiedad;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_FORMA_PAGO", nullable = false)
+	@JoinColumn(name = "ID_FORMA_PAGO")
 	private FormaPago formaPago;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_TIPO_SUMINISTRO", nullable = false)
+	@JoinColumn(name = "ID_TIPO_SUMINISTRO")
 	private TipoSuministro tipoSuministro;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_CATEGORIA_CONEXION", nullable = false)
+	@JoinColumn(name = "ID_CATEGORIA_CONEXION")
 	private CategoriaConexion categoriaConexion;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_TIPO_CONEXION", nullable = false)
+	@JoinColumn(name = "ID_TIPO_CONEXION")
 	private TipoConexion tipoConexion;
 
 	@Column(name = "NRO_MEDIDOR")
@@ -80,6 +89,10 @@ public class Conexion implements Serializable {
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_DOMICILIO_FACT")
 	private Domicilio domicilioFacturacion;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<UbicacionCatastral> ubicacionesCatastrales;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USR_ID")
@@ -89,11 +102,11 @@ public class Conexion implements Serializable {
 
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -105,13 +118,13 @@ public class Conexion implements Serializable {
 		this.estadoConexion = estadoConexion;
 	}
 
-	public Socio getSocio() {
-		return socio;
-	}
-
-	public void setSocio(Socio socio) {
-		this.socio = socio;
-	}
+//	public Socio getSocio() {
+//		return socio;
+//	}
+//
+//	public void setSocio(Socio socio) {
+//		this.socio = socio;
+//	}
 
 	public ZonaConexion getZonaConexion() {
 		return zonaConexion;
@@ -239,6 +252,15 @@ public class Conexion implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public List<UbicacionCatastral> getUbicacionesCatastrales() {
+		return ubicacionesCatastrales;
+	}
+
+	public void setUbicacionesCatastrales(
+			List<UbicacionCatastral> ubicacionesCatastrales) {
+		this.ubicacionesCatastrales = ubicacionesCatastrales;
 	}
 
 }

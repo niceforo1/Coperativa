@@ -19,7 +19,7 @@ public class Domicilio implements Serializable{
 	@Id
     @Column(name = "ID_DOMICILIO")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_DOMICILIO", nullable = false)
@@ -58,11 +58,11 @@ public class Domicilio implements Serializable{
 
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

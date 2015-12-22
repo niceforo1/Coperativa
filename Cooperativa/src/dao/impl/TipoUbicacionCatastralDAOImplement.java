@@ -8,19 +8,22 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import persistencia.HibernateUtil;
-import model.Socio;
-import dao.SocioDAO;
+import model.Provincia;
+import model.TipoConexion;
+import model.TipoUbicacionCatastral;
+import dao.TipoUbicacionCatastralDAO;
 
-public class SocioDAOImplement implements SocioDAO{
+public class TipoUbicacionCatastralDAOImplement implements TipoUbicacionCatastralDAO {
 
 	@Override
-	public List<Socio> listaSocio() throws Exception {
+	public List<TipoUbicacionCatastral> listaTipoUbicacionCatastral()
+			throws Exception {
 		Session session = null;
-		List<Socio> lista = null;
+		List<TipoUbicacionCatastral> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from Socio");
-			lista = (List<Socio>) query.list();
+			Query query = session.createQuery("from TipoUbicacionCatastral");
+			lista = (List<TipoUbicacionCatastral>) query.list();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());
@@ -37,54 +40,13 @@ public class SocioDAOImplement implements SocioDAO{
 	}
 
 	@Override
-	public void insertarSocio(Socio socio) throws Exception {
+	public void insertarTipoUbicacionCatastral(TipoUbicacionCatastral tipo)
+			throws Exception {
 		Session session = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(socio);
-			session.getTransaction().commit();
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			session.getTransaction().rollback();
-			throw new Exception(e);
-		}finally{
-			if(session != null){
-				session.close();
-			}
-		}				
-	}
-
-	@Override
-	public void modificarSocio(Socio socio) throws Exception {
-		Session session = null;
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			session.update(socio);
-			session.getTransaction().commit();
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			session.getTransaction().rollback();
-			throw new Exception(e);
-		}finally{
-			if(session != null){
-				session.close();
-			}
-		}			
-	}
-
-	@Override
-	public void eliminarSocio(Socio socio) throws Exception {
-		Session session = null;
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			session.delete(socio);
+			session.save(tipo);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -97,16 +59,64 @@ public class SocioDAOImplement implements SocioDAO{
 				session.close();
 			}
 		}
+		
 	}
 
 	@Override
-	public Socio buscarSocioID(Long id) throws Exception {
+	public void modificarTipoUbicacionCatastral(TipoUbicacionCatastral tipo)
+			throws Exception {
 		Session session = null;
-		Socio socio = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			socio = (Socio)session.get(Socio.class, id.longValue());
+			session.update(tipo);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}		
+		
+	}
+
+	@Override
+	public void eliminarTipoUbicacionCatastral(TipoUbicacionCatastral tipo)
+			throws Exception {
+		Session session = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.delete(tipo);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}
+		
+	}
+
+	@Override
+	public TipoUbicacionCatastral buscarTipoUbicacionCatastralId(Long id)
+			throws Exception {
+		Session session = null;
+		TipoUbicacionCatastral tipo = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			tipo = (TipoUbicacionCatastral)session.get(TipoUbicacionCatastral.class, id.longValue());			
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
@@ -119,35 +129,34 @@ public class SocioDAOImplement implements SocioDAO{
 				System.out.println("CIERRA LA SESION");
 				session.close();
 			}
-		}
-		return socio;
+		}		
+		return tipo;
 	}
 
 	@Override
-	public List<Socio> listaSociosActivos(String estado) throws Exception {
+	public TipoUbicacionCatastral buscarTipoUbicacionCatastralDescripcion(
+			String desc) throws Exception {
 		Session session = null;
-		List<Socio> lista = null;
+		TipoUbicacionCatastral tipo	= null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from Socio as s" 
-											// + " inner join EstadoSocio as es"
-											// + " on es.id = s.estadoSocio"
-											 + " where s.estadoSocio.descripcion = ?");
-			query.setString(0, estado);
-			lista = (List<Socio>) query.list();
+			Query query = session.createQuery("from TipoUbicacionCatastral tUC"
+											+ " where tUC.descripcion = ?");
+			query.setString(0, desc);
+			tipo = (TipoUbicacionCatastral) query.list().get(0);	
 		}catch(ConstraintViolationException e){
+			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
 			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			System.out.println("error: " + e.getMessage());
-			throw new Exception(e);
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){						
+			throw new Exception(e);		
 		}finally{
 			if(session != null){
 				System.out.println("CIERRA LA SESION");
 				session.close();
 			}
-		}
-		return lista;
+		}		
+		return tipo;
 	}
-	
+
 }

@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+
+		<style>
+.ACTIVO {
+	color: green;
+	font-weight: bold;
+}
+
+.PENDIENTE {
+	color: orange;
+	font-weight: bold;
+}
+
+.BAJA {
+	color: red;
+	font-weight: bold;
+}
+
+.label {
+	font-weight: bold;
+}
+
+.numeroper {
+	color: red;
+	font-weight: bold;
+}
+</style>
+		<center>
+			<h:form id="alta">
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<p:dataTable id="sociosDT" var="soc"
+					value="#{conexionBean.lstSociosActivos}" scrollable="true"
+					scrollHeight="150" rowKey="#{soc.numero}"
+					emptyMessage="#{msg.paramNoDatos}" selection="#{conexionBean.socio}"
+					selectionMode="single">
+					<p:ajax event="rowSelect" update=":alta" />
+					<p:ajax event="rowUnselect" update=":alta" />
+					<p:column selectionMode="single" width="32px;">
+					</p:column>
+					<p:column id="numero" headerText="Numero" filterBy="#{soc.numero}"
+						filterMatchMode="contains">
+						<h:outputText value="#{soc.numero}" />
+					</p:column>
+					<p:column headerText="Dni" filterBy="#{soc.numeroDocumento}"
+						filterMatchMode="contains">
+						<h:outputText value="#{soc.numeroDocumento}" />
+					</p:column>
+					<p:column headerText="Nombre"
+						filterBy="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}"
+						filterMatchMode="contains">
+						<h:outputText value="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" />
+					</p:column>
+					<f:facet name="footer">
+						<p:column>
+							<h:outputText
+								value="Total Socios: #{conexionBean.totalSocios()}" />
+						</p:column>
+					</f:facet>
+				</p:dataTable>
+				
+				<p:panelGrid columns="4" style="width:750px;"
+					rendered="#{ !(conexionBean.socio.numero == 0) }">
+
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="#{msg.paramAltaConexion}" colspan="2" />
+						</center>
+					</f:facet>
+				</p:panelGrid>	
+
+				<p:panelGrid columns="4" id="panelDomServ" style="width:750px;"
+					rendered="#{ !(conexionBean.socio.numero == 0) }">
+
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="#{msg.paramDomServ}" colspan="2" />
+						</center>
+					</f:facet>
+					
+					<p:outputLabel value="#{msg.paramDomServFact}" for="checkDom" />
+					<p:selectBooleanCheckbox id="checkDom"
+						value="#{conexionBean.domServFactIguales}">
+						<p:ajax update="alta" />
+					</p:selectBooleanCheckbox>	
+										
+					<p:outputLabel value="#{msg.paramDomicilioDireccion}"
+						 for="direccion" />
+					<p:inputText id="direccion" value="#{conexionBean.domServ.calle}"
+						 required="true" converter="upperConverter" />
+
+					<p:outputLabel value="#{msg.paramDomicilioNumero}" for="numero" />
+					<p:inputText id="numero" value="#{conexionBean.domServ.numero}"
+						required="true" />
+					<p:outputLabel value="#{msg.paramDomicilioDepartamento}"
+						for="departamento" />
+					<p:inputText id="departamento"
+						value="#{conexionBean.domServ.departamento}"
+						converter="upperConverter" />
+					<p:outputLabel value="#{msg.paramDomicilioCodPostal}"
+						for="codPostal" />
+					<p:inputText id="codPostal" required="true"
+						value="#{conexionBean.domServ.codPostal}"
+						converter="upperConverter" />
+					<p:outputLabel value="#{msg.paramDomicilioTelefono}" for="telFijo" />
+					<p:inputText id="telFijo" value="#{conexionBean.domServ.telFijo}"
+						required="true" />
+					<p:outputLabel value="#{msg.paramDomicilioBarrio}" for="barrio" />
+					<p:inputText id="barrio" value="#{conexionBean.domServ.barrio}"
+						converter="upperConverter" />
+				</p:panelGrid>
+				
+				<p:panelGrid columns="4" id="panelDomFact" style="width:750px;"
+					rendered="#{!(conexionBean.socio.numero == 0) and ! (conexionBean.domServFactIguales)}">
+
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="#{msg.paramDomFact}" colspan="2" />
+						</center>
+					</f:facet>
+
+					<p:outputLabel value="#{msg.paramDomicilioDireccion}"
+						for="direccionF" />
+					<p:inputText id="direccionF" value="#{conexionBean.domFact.calle}"
+						required="true" converter="upperConverter" />
+					<p:outputLabel value="#{msg.paramDomicilioNumero}" for="numeroF" />
+					<p:inputText id="numeroF" value="#{conexionBean.domFact.numero}"
+						required="true" />
+					<p:outputLabel value="#{msg.paramDomicilioDepartamento}"
+						for="departamentoF" />
+					<p:inputText id="departamentoF"
+						value="#{conexionBean.domFact.departamento}"
+						converter="upperConverter" />
+					<p:outputLabel value="#{msg.paramDomicilioCodPostal}"
+						for="codPostalF" />
+					<p:inputText id="codPostalF" required="true"
+						value="#{conexionBean.domFact.codPostal}"
+						converter="upperConverter" />
+					<p:outputLabel value="#{msg.paramDomicilioTelefono}" for="telFijoF" />
+					<p:inputText id="telFijoF" value="#{conexionBean.domFact.telFijo}"
+						required="true" />
+					<p:outputLabel value="#{msg.paramDomicilioBarrio}" for="barrioF" />
+					<p:inputText id="barrioF" value="#{conexionBean.domFact.barrio}"
+						converter="upperConverter" />
+					<p:outputLabel value="#{msg.paramDomicilioLocalidad}"
+						for="localidad" />
+					<p:inputText id="localidad" value="#{conexionBean.domFact.localidad}"
+						converter="upperConverter" />
+					<p:outputLabel value="#{msg.paramDomicilioProvincia}"
+						for="provincia" />
+					<p:selectOneMenu id="provincia" value="#{conexionBean.provinciaDomFactId}"
+						panelStyle="width:180px" effect="fold" filter="true" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{provinciaBean.lstProvincia}" var="provDom"
+							itemLabel="#{provDom.descripcion}" itemValue="#{provDom.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="#{msg.paramDomicilioPais}" for="paisDom" />
+					<p:selectOneMenu id="paisDom" value="#{conexionBean.paisDomFactId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{paisBean.lstPaises}" var="paisDom"
+							itemLabel="#{paisDom.descripcion}" itemValue="#{paisDom.id}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+				
+				<p:panelGrid columns="4" id="panelUbicOficial"  style="width:750px;"
+					rendered="#{ !(conexionBean.socio.numero == 0) }">
+
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="#{msg.paramUbicacionOficial}" colspan="2" />
+						</center>
+					</f:facet>
+
+					<p:outputLabel value="#{msg.paramUbicacionCatCircuito}"
+						for="circuitoOf" />
+					<p:inputText id="circuitoOf"
+						value="#{conexionBean.ubicOficial.circuito}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatRegion}"
+						for="regionOf" />
+					<p:inputText id="regionOf"
+						value="#{conexionBean.ubicOficial.region}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatSeccional}"
+						for="seccionalOf" />
+					<p:inputText id="seccionalOf"
+						value="#{conexionBean.ubicOficial.seccional}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatManzana}"
+						for="manzanaOf" />
+					<p:inputText id="manzanaOf"
+						value="#{conexionBean.ubicOficial.manzana}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatLote}"
+						for="loteOf" />
+					<p:inputText id="loteOf"
+						value="#{conexionBean.ubicOficial.lote}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatPh}"
+						for="phOf" />
+					<p:inputText id="phOf"
+						value="#{conexionBean.ubicOficial.ph}" />	
+				</p:panelGrid>
+				
+				<p:panelGrid columns="4" id="panelUbicCatastral"  style="width:750px;"
+					rendered="#{ !(conexionBean.socio.numero == 0) }">
+
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="#{msg.paramUbicacionCatastral}" colspan="2" />
+						</center>
+					</f:facet>
+
+					<p:outputLabel value="#{msg.paramUbicacionCatCircuito}"
+						for="circuitoCat" />
+					<p:inputText id="circuitoCat"
+						value="#{conexionBean.ubicCatastral.circuito}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatRegion}"
+						for="regionCat" />
+					<p:inputText id="regionCat"
+						value="#{conexionBean.ubicCatastral.region}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatSeccional}"
+						for="seccionalCat" />
+					<p:inputText id="seccionalCat"
+						value="#{conexionBean.ubicCatastral.seccional}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatManzana}"
+						for="manzanaCat" />
+					<p:inputText id="manzanaCat"
+						value="#{conexionBean.ubicCatastral.manzana}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatLote}"
+						for="loteCat" />
+					<p:inputText id="loteCat"
+						value="#{conexionBean.ubicCatastral.lote}" />
+					<p:outputLabel value="#{msg.paramUbicacionCatPh}"
+						for="phCat" />
+					<p:inputText id="phCat"
+						value="#{conexionBean.ubicCatastral.ph}" />	
+				</p:panelGrid>
+				
+				<p:panelGrid columns="4" id="panelDetConexion"  style="width:750px;"
+					rendered="#{ !(conexionBean.socio.numero == 0) }">
+
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="#{msg.paramDetalleConexion}" colspan="2" />
+						</center>
+					</f:facet>
+					
+					<p:outputLabel value="#{msg.paramEstadoConexion}"
+						for="estConex" />
+					<p:selectOneMenu id="estConex" value="#{conexionBean.estadoConexionId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{estadoConexionBean.listaEstadoConexion}" var="estCon"
+							itemLabel="#{estCon.descripcion}" itemValue="#{estCon.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="#{msg.paramZonaConexion}"
+						for="zonaConex" />
+					<p:selectOneMenu id="zonaConex" value="#{conexionBean.zonaConexionId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{zonaConexionBean.listaZonasConexion}" var="zonaConex"
+							itemLabel="#{zonaConex.descripcion}" itemValue="#{zonaConex.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="#{msg.paramConexionFechaAlta}" for="fechaAlta" />
+					<p:calendar id="fechaAlta" value="#{conexionBean.conexion.fechaAlta}"
+						effect="explode" required="true" locale="es" navigator="true" />
+					<p:outputLabel value="#{msg.paramTipoTerrenoConexion}"
+						for="tipoTerrConex" />
+					<p:selectOneMenu id="tipoTerrConex" value="#{conexionBean.tipoTerrenoConexionId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{tipoTerrenoBean.listaTiposTerreno}" var="tipoTerrConex"
+							itemLabel="#{tipoTerrConex.descripcion}" itemValue="#{tipoTerrConex.id}" />
+					</p:selectOneMenu>	
+					<p:outputLabel value="#{msg.paramTerrenoConexion}"
+						for="terrConex" />
+					<p:inputText id="terrConex"
+						value="#{conexionBean.conexion.terreno}" />
+					<p:outputLabel value="#{msg.paramPiletaConexion}"
+						for="pileConex" />
+					<p:inputText id="pileConex"
+						value="#{conexionBean.conexion.pileta}" />
+					<p:outputLabel value="#{msg.paramRegimenConexion}"
+						for="regimenConex" />
+					<p:selectOneMenu id="regimenConex" value="#{conexionBean.regimenConexionId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{regimenPropiedadBean.listaRegimenPropiedad}" var="regimenConex"
+							itemLabel="#{regimenConex.descripcion}" itemValue="#{regimenConex.id}" />
+					</p:selectOneMenu>	
+					<p:outputLabel value="#{msg.paramTipoSuministroConexion}"
+						for="tSuministroConex" />
+					<p:selectOneMenu id="tSuministroConex" value="#{conexionBean.tipoSuministroConexionId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{tipoSuministroBean.listaTipoSuministro}" var="tSuministroConex"
+							itemLabel="#{tSuministroConex.descripcion}" itemValue="#{tSuministroConex.id}" />
+					</p:selectOneMenu>	
+					<p:outputLabel value="#{msg.paramCategoriaConexion}"
+						for="categoriaConex" />
+					<p:selectOneMenu id="categoriaConex" value="#{conexionBean.categoriaConexionId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{categoriaConexionBean.listaCategoriaConexion}" var="categoriaConex"
+							itemLabel="#{categoriaConex.descripcion}" itemValue="#{categoriaConex.id}" />
+					</p:selectOneMenu>	
+					<p:outputLabel value="#{msg.paramTipoConexion}"
+						for="tipoConex" />
+					<p:selectOneMenu id="tipoConex" value="#{conexionBean.tipoConexionId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{tipoConexionBean.listaTipoConexion}" var="tipoConex"
+							itemLabel="#{tipoConex.descripcion}" itemValue="#{tipoConex.id}" />
+					</p:selectOneMenu>	
+					<p:outputLabel value="#{msg.paramNroMedidorConexion}"
+						for="nroMedidorConex" />
+					<p:inputText id="nroMedidorConex"
+						value="#{conexionBean.conexion.nroMedidor}" />
+					<p:outputLabel value="#{msg.paramEmiteFacturaConexion}" for="emFactConex" />
+					<p:selectBooleanCheckbox id="emFactConex"
+						value="#{conexionBean.conexion.emiteFactura}">
+					</p:selectBooleanCheckbox>	
+					<p:outputLabel value="#{msg.paramFPagoConexion}"
+						for="fPagoConex" />
+					<p:selectOneMenu id="fPagoConex" value="#{conexionBean.fPagoConexionId}"
+						panelStyle="width:180px" effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{formaPagoBean.listaFormaPago}" var="fPagoConex"
+							itemLabel="#{fPagoConex.descripcion}" itemValue="#{fPagoConex.id}" />
+					</p:selectOneMenu>		
+					<f:facet name="footer">
+									<center>		
+										<p:commandButton actionListener="#{conexionBean.insertarConexion}"
+												update=":alta" value="#{msg.paramCargar}" />
+									</center>
+							</f:facet>	
+						
+				</p:panelGrid>
+			</h:form>
+
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

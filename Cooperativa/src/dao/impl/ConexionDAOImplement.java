@@ -8,19 +8,20 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import persistencia.HibernateUtil;
+import model.Conexion;
 import model.Socio;
-import dao.SocioDAO;
+import dao.ConexionDAO;
 
-public class SocioDAOImplement implements SocioDAO{
+public class ConexionDAOImplement implements ConexionDAO{
 
 	@Override
-	public List<Socio> listaSocio() throws Exception {
+	public List<Conexion> listaConexion() throws Exception {
 		Session session = null;
-		List<Socio> lista = null;
+		List<Conexion> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from Socio");
-			lista = (List<Socio>) query.list();
+			Query query = session.createQuery("from Conexion");
+			lista = (List<Conexion>) query.list();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());
@@ -37,12 +38,12 @@ public class SocioDAOImplement implements SocioDAO{
 	}
 
 	@Override
-	public void insertarSocio(Socio socio) throws Exception {
+	public void insertarConexion(Conexion conexion) throws Exception {
 		Session session = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(socio);
+			session.save(conexion);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -55,15 +56,16 @@ public class SocioDAOImplement implements SocioDAO{
 				session.close();
 			}
 		}				
+		
 	}
 
 	@Override
-	public void modificarSocio(Socio socio) throws Exception {
+	public void modificarConexion(Conexion conexion) throws Exception {
 		Session session = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.update(socio);
+			session.update(conexion);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -76,15 +78,16 @@ public class SocioDAOImplement implements SocioDAO{
 				session.close();
 			}
 		}			
+		
 	}
 
 	@Override
-	public void eliminarSocio(Socio socio) throws Exception {
+	public void eliminarConexion(Conexion conexion) throws Exception {
 		Session session = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.delete(socio);
+			session.delete(conexion);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -100,13 +103,13 @@ public class SocioDAOImplement implements SocioDAO{
 	}
 
 	@Override
-	public Socio buscarSocioID(Long id) throws Exception {
+	public Conexion buscarConexionID(Long id) throws Exception {
 		Session session = null;
-		Socio socio = null;
+		Conexion conexion = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			socio = (Socio)session.get(Socio.class, id.longValue());
+			conexion = (Conexion)session.get(Conexion.class, id.longValue());
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
@@ -120,34 +123,7 @@ public class SocioDAOImplement implements SocioDAO{
 				session.close();
 			}
 		}
-		return socio;
+		return conexion;
 	}
 
-	@Override
-	public List<Socio> listaSociosActivos(String estado) throws Exception {
-		Session session = null;
-		List<Socio> lista = null;
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from Socio as s" 
-											// + " inner join EstadoSocio as es"
-											// + " on es.id = s.estadoSocio"
-											 + " where s.estadoSocio.descripcion = ?");
-			query.setString(0, estado);
-			lista = (List<Socio>) query.list();
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			System.out.println("error: " + e.getMessage());
-			throw new Exception(e);
-		}finally{
-			if(session != null){
-				System.out.println("CIERRA LA SESION");
-				session.close();
-			}
-		}
-		return lista;
-	}
-	
 }
