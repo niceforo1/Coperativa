@@ -16,12 +16,14 @@
         </p:submenu>
         <p:submenu label="Conexiones" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
         	<p:submenu label="Parametrizaciones" icon="ui-icon-extlink" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
-                   <p:menuitem value="Estado Conexion" url="/conexiones/parametrizacion/estadoConexion.xhtml" icon="ui-icon-document" />
-                   <p:menuitem value="Zona Conexion" url="/conexiones/parametrizacion/zonaConexion.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Estado Conexión" url="/conexiones/parametrizacion/estadoConexion.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Zona Conexión" url="/conexiones/parametrizacion/zonaConexion.xhtml" icon="ui-icon-document" />
                    <p:menuitem value="Tipo Terreno" url="/conexiones/parametrizacion/tipoTerrenoConexion.xhtml" icon="ui-icon-document" />
                    <p:menuitem value="Regimen Propiedad" url="/conexiones/parametrizacion/regimenPropiedadConexion.xhtml" icon="ui-icon-document" />
                    <p:menuitem value="Forma de Pago" url="/conexiones/parametrizacion/formaPagoConexion.xhtml" icon="ui-icon-document" />
-                    <p:menuitem value="Tipo Suministro" url="/conexiones/parametrizacion/tipoSuministroConexion.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Tipo Suministro" url="/conexiones/parametrizacion/tipoSuministroConexion.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Categoría Conexión" url="/conexiones/parametrizacion/categoriaConexion.xhtml" icon="ui-icon-document" />
+                   <p:menuitem value="Tipo Conexión" url="/conexiones/parametrizacion/tipoConexion.xhtml" icon="ui-icon-document" />
             </p:submenu>
         </p:submenu>
         <p:submenu label="Facturación" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">

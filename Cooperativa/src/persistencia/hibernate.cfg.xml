@@ -35,6 +35,6 @@
 		<mapping class="model.FormaPago" />
 		<mapping class="model.TipoSuministro" />
 		<mapping class="model.CategoriaConexion" />
-		
+		<mapping class="model.TipoConexion" />
 	</session-factory>
 </hibernate-configuration>

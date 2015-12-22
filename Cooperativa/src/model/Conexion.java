@@ -56,6 +56,14 @@ public class Conexion implements Serializable {
 	@JoinColumn(name = "ID_FORMA_PAGO", nullable = false)
 	private FormaPago formaPago;
 	
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_TIPO_SUMINISTRO", nullable = false)
+	private TipoSuministro tipoSuministro;
+	
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_CATEGORIA_CONEXION", nullable = false)
+	private CategoriaConexion categoriaConexion;
+	
 	public Conexion() {
 	}
 

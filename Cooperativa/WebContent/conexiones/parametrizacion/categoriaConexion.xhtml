@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+	   <h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleCategoriaConexion}"/>
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+	   <center>
+			<h:form id="alta">			
+				<p:panel header="#{msg.paramCategoriaConexionHeader}">
+					<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />			
+					<p:panelGrid columns="1">						
+						<p:outputLabel value="#{msg.paramDescripcion}" for="descripcion" />
+						<p:inputText id="descripcion" value="#{categoriaConexionBean.categoriaConexion.descripcion}" 
+									 required="true" converter="upperConverter"/>						
+						<f:facet name="footer">
+							<center>								
+								<p:commandButton action="#{categoriaConexionBean.insertarCategoriaConexion}" 
+												 update=":mostrar, alta" 
+												 value="#{msg.paramCargar}" />								
+							</center>
+						</f:facet>
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</center>
+		
+		<br />		
+		
+		<h:form id="mostrar">
+			<p:dataTable id="categoriaConexionDT" var="catCon"
+				value="#{categoriaConexionBean.listaCategoriaConexion}" scrollable="true"
+				scrollHeight="150" rowKey="#{catCon.id}"
+				emptyMessage="#{msg.paramNoDatos}">
+				<f:facet name="header">
+					<center>
+						<h:outputText value="#{msg.paramCategoriaConexionTable}" />
+					</center>
+				</f:facet>
+				<p:column headerText="#{msg.paramDescripcion}" filterBy="#{catCon.descripcion}" filterMatchMode="contains">
+					<h:outputText value="#{catCon.descripcion}" />
+				</p:column>
+				<p:column style="width:32px;text-align: center">
+					<p:commandButton icon="ui-icon-close" actionListener="#{categoriaConexionBean.eliminarCategoriaConexion(catCon)}" 
+						update=":mostrar"/>
+				</p:column>
+				<f:facet name="footer">
+					<h:outputLabel value=" " />
+				</f:facet>
+			</p:dataTable>
+		</h:form>		
+	</ui:define>
+	<ui:define name="footer">
+	</ui:define>
+</ui:composition>
+</html>
