@@ -22,7 +22,6 @@ import dao.TipoDocumentoDAO;
 import dao.TipoDomicilioDAO;
 import dao.TipoSocioDAO;
 import dao.impl.CondicionIvaDAOImplement;
-import dao.impl.DomicilioDAOImplement;
 import dao.impl.EstadoCivilDAOImplement;
 import dao.impl.EstadoSocioDAOImplement;
 import dao.impl.PaisDAOImplement;
@@ -32,11 +31,9 @@ import dao.impl.TipoDocumentoDAOImplement;
 import dao.impl.TipoDomicilioDAOImplement;
 import dao.impl.TipoSocioDAOImplement;
 import model.Domicilio;
-import model.Pais;
 import model.Socio;
 import model.SociosTransacciones;
 import model.TipoDocumento;
-import model.TipoSocio;
 
 @ManagedBean(name = "socioBean")
 @ViewScoped
@@ -63,6 +60,12 @@ public class SocioBean implements Serializable {
 	private Long provinciaDomId;
 	private String localidad;
 	
+	private boolean checkDatosP;
+	private boolean checkParametrizables;
+	private boolean checkTipoSocio;
+	private boolean checkEstCivil;
+	private boolean checkNacionalidad;
+	private boolean checkTipoIva;
 	
 	private String personaOEmp;
 	
@@ -228,6 +231,54 @@ public class SocioBean implements Serializable {
 		this.localidad = localidad;
 	}
 
+	public boolean isCheckDatosP() {
+		return checkDatosP;
+	}
+
+	public void setCheckDatosP(boolean checkDatosP) {
+		this.checkDatosP = checkDatosP;
+	}
+
+	public boolean isCheckParametrizables() {
+		return checkParametrizables;
+	}
+
+	public void setCheckParametrizables(boolean checkParametrizables) {
+		this.checkParametrizables = checkParametrizables;
+	}
+
+	public boolean isCheckTipoSocio() {
+		return checkTipoSocio;
+	}
+
+	public void setCheckTipoSocio(boolean checkTipoSocio) {
+		this.checkTipoSocio = checkTipoSocio;
+	}
+	
+	public boolean isCheckEstCivil() {
+		return checkEstCivil;
+	}
+
+	public void setCheckEstCivil(boolean checkEstCivil) {
+		this.checkEstCivil = checkEstCivil;
+	}
+
+	public boolean isCheckNacionalidad() {
+		return checkNacionalidad;
+	}
+
+	public void setCheckNacionalidad(boolean checkNacionalidad) {
+		this.checkNacionalidad = checkNacionalidad;
+	}
+
+	public boolean isCheckTipoIva() {
+		return checkTipoIva;
+	}
+
+	public void setCheckTipoIva(boolean checkTipoIva) {
+		this.checkTipoIva = checkTipoIva;
+	}
+
 	public void insertarSocio() {
 		
 		
@@ -346,8 +397,36 @@ public class SocioBean implements Serializable {
 	public void editarSocio(){
 		SocioDAO daoSocio = new SocioDAOImplement();
 		
-		
 		try {
+			//se guarda registro de la transaccion
+			SociosTransacciones transaccion = new SociosTransacciones();
+			transaccion.setTipoTransaccion("MODIFICACION");
+			
+			transaccion.setFecha(Calendar.getInstance().getTime());
+			transaccion.setUsuario(login.getUsuario());
+			
+			socioEditar.getTransacciones().add(transaccion);
+			
+			if(checkTipoSocio == true){
+				TipoSocioDAO tipoSocioDAO = new TipoSocioDAOImplement();
+				socioEditar.setTipoSocio(tipoSocioDAO.buscarTipoSocioId(tipoSocioId));
+			}
+			
+			if(checkEstCivil == true){
+				EstadoCivilDAO estCivilDAO = new EstadoCivilDAOImplement();
+				socioEditar.setEstadoCivil(estCivilDAO.buscarEstadoCivilID(estCivilId));
+			}
+			
+			if(checkNacionalidad == true){
+				PaisDAO paisDAO = new PaisDAOImplement();
+				socioEditar.setPais(paisDAO.buscarPaisId(paisId));
+			}
+			
+			if(checkTipoIva == true){
+				CondicionIvaDAO condicionIvaDAO = new CondicionIvaDAOImplement();
+				socioEditar.setCondicionIva(condicionIvaDAO.buscarCondicionIvaId(condicionIvaId));
+			}
+			
 			daoSocio.modificarSocio(socioEditar);
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -376,7 +455,7 @@ public class SocioBean implements Serializable {
 	}
 
 	
-	private void inicializar() {
+	public void inicializar() {
 		socio = new Socio();
 		socioSeleccionado = new Socio();
 		socioEditar = new Socio();
@@ -389,6 +468,12 @@ public class SocioBean implements Serializable {
 		paisDomId = null;
 		provinciaDomId = null;
 		localidad = "";
+		checkDatosP = false;
+		checkParametrizables = false;
+		checkTipoSocio = false;
+		checkEstCivil = false;
+		checkNacionalidad = false;
+		checkTipoIva = false;
 	}
 
 }

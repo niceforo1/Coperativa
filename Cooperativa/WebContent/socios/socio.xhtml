@@ -334,7 +334,7 @@
 									actionListener="#{socioBean.cambiarEstadoSocio('ACTIVO', soc)}"
 									update=":alta :socioDet" immediate="true" />
 							</p:column>
-							<ui:remove>
+							
 							<p:column style="width:32px;text-align: center"
 								exportable="false">
 								<p:commandButton icon="fa fa-fw fa-edit"
@@ -342,7 +342,7 @@
 									update=":alta :socEdit" immediate="true"
 									oncomplete="PF('socEditDialog').show()" />
 							</p:column>
-							</ui:remove>
+							
 							<f:facet name="footer">
 								<p:column>
 									<h:outputText value="Total Socios: #{socioBean.totalSocios()}" />
@@ -453,80 +453,179 @@
 										<h:outputText value="#{domici.tipoDomicilio.descripcion}" />
 									</p:column>
 								</p:dataTable>
-								<ui:remove>
-								<h:outputText value="Sexo:" />
-								<h:outputText
-									value="#{socioBean.socioSeleccionado.persona.sexo.descripcion}" />
-								<h:outputText value="Nacionalidad:" />
-								<h:outputText
-									value="#{socioBean.socioSeleccionado.persona.nacionalidad.descripcion}" />
-								<h:outputText value="Fecha de Nacimiento:" />
-								<h:outputText
-									value="#{loginBean.formatearFechaMes(socioBean.socioSeleccionado.persona.fechaNacimiento, 'dd/MM/yyyy')}" />
-
-								<h:outputText value="Est Civil:" />
-								<h:outputText
-									value="#{socioBean.socioSeleccionado.persona.estadoCivil.descripcion}" />
-								<h:outputText value="Domicilios:" />
-								<p:dataTable
-									value="#{socioBean.socioSeleccionado.persona.domicilios}"
-									var="domici" emptyMessage="#{msg.paramNoDatos}">
-									<p:column headerText="Direccion">
-										<h:outputText value="#{domici.direccion}" />
-									</p:column>
-									<p:column headerText="Numero">
-										<h:outputText value="#{domici.numero}" />
-									</p:column>
-									<p:column headerText="Barrio">
-										<h:outputText value="#{domici.barrio.descripcion}" />
-									</p:column>
-									<p:column headerText="Ciudad">
-										<h:outputText value="#{domici.barrio.ciudad.descripcion}" />
-									</p:column>
-									<p:column headerText="Provincia">
-										<h:outputText
-											value="#{domici.barrio.ciudad.provincia.descripcion}" />
-									</p:column>
-									<p:column headerText="Tipo Domicilio">
-										<h:outputText value="#{domici.tipoDomicilio.descripcion}" />
-									</p:column>
-									<p:column style="width:32px;text-align: center">
-										<p:commandButton icon="ui-icon-close"
-											actionListener="#{personaBean.eliminarDomicilio(socioBean.socioSeleccionado.persona, domici)}"
-											update=":alta :socioDet" />
-									</p:column>
-								</p:dataTable>
-								<h:outputText value="Familiares:"
-									rendered="#{not empty socioBean.socioSeleccionado.persona.familiares}" />
-								<p:dataTable value="#{socioBean.lstSociosPorTitular}" var="fami"
-									emptyMessage="#{msg.paramNoDatos}"
-									rendered="#{not empty socioBean.socioSeleccionado.persona.familiares}">
-									<p:column headerText="Nombre">
-										<h:outputText value="#{fami.persona.nombre}" />
-									</p:column>
-									<p:column headerText="Apellido">
-										<h:outputText value="#{fami.persona.apellido}" />
-									</p:column>
-									<p:column headerText="Tipo Familiar">
-										<h:outputText value="#{fami.persona.tipoFamiliar.descripcion}" />
-									</p:column>
-									<p:column headerText="Estado">
-										<h:outputText value="#{fami.estadoSocio.codigo}"
-											styleClass="#{fami.estadoSocio.codigo}" />
-									</p:column>
-									<p:column style="width:32px;text-align: center">
-										<p:commandButton icon="ui-icon-close"
-											actionListener="#{socioBean.cambiarEstadoSocio('BAJ', fami)}"
-											update=":alta :socioDet" />
-									</p:column>
-								</p:dataTable>
-								</ui:remove>
 							</p:panelGrid>
 						</p:scrollPanel>
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
+			<p:dialog header="Edición de Socio" widgetVar="socEditDialog" 
+				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
+				resizable="false" dynamic="true" maximizable="false" 
+				appendTo="@(body)" rendered="#{not empty socioBean.socioEditar}" >
+				<p:ajax event="close" update=":alta :socEdit" listener="#{socioBean.inicializar()}" />
+				<h:form id="socEdit">
+					<p:outputPanel id="socEditDetail" style="text-align:center;">
+						<p:scrollPanel style="width:auto;height:auto"
+							rendered="#{not empty socioBean.socioEditar}" mode="native">
+							<p:panelGrid columns="2"
+								rendered="#{not empty socioBean.socioEditar}"
+								columnClasses="label,value">
 
+								<p:outputLabel value="#{msg.paramSocioEditDatosNoParametrizables}" for="checkDatosPersonales" />
+								<p:selectBooleanCheckbox id="checkDatosPersonales"
+									value="#{socioBean.checkDatosP}">
+									<p:ajax update="socEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramSocioEditDatosParametrizables}" for="checkParametrizables" />
+								<p:selectBooleanCheckbox id="checkParametrizables"
+									value="#{socioBean.checkParametrizables}">
+									<p:ajax update="socEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramSocioEditTipoSocio}" for="checkTipoSocio" rendered="#{socioBean.checkParametrizables}" />
+								<p:selectBooleanCheckbox id="checkTipoSocio"
+									value="#{socioBean.checkTipoSocio}" rendered="#{socioBean.checkParametrizables}">
+									<p:ajax update="socEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramSocioEditEstCivil}" for="checkEstCivil"  rendered="#{socioBean.checkParametrizables}"/>
+								<p:selectBooleanCheckbox id="checkEstCivil"
+									value="#{socioBean.checkEstCivil}" rendered="#{socioBean.checkParametrizables}">
+									<p:ajax update="socEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramSocioEditNacionalidad}" for="checkNacionalidad"  rendered="#{socioBean.checkParametrizables}"/>
+								<p:selectBooleanCheckbox id="checkNacionalidad"
+									value="#{socioBean.checkNacionalidad}" rendered="#{socioBean.checkParametrizables}">
+									<p:ajax update="socEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramSocioEditTipoIva}" for="checkTipoIva"  rendered="#{socioBean.checkParametrizables}"/>
+								<p:selectBooleanCheckbox id="checkTipoIva"
+									value="#{socioBean.checkTipoIva}" rendered="#{socioBean.checkParametrizables}">
+									<p:ajax update="socEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:panelGrid columns="2"
+								columnClasses="label,value" rendered="#{socioBean.checkDatosP}">
+
+									<p:outputLabel value="#{msg.paramSocioNombre}" for="nombre"
+										styleClass="#{label}" />
+									<p:inputText id="nombre"
+										value="#{socioBean.socioEditar.nombreDenominacion}"
+										required="true" converter="upperConverter" />
+
+									<p:outputLabel value="#{msg.paramSocioApellido}" for="apellido"
+										styleClass="#{label}" />
+									<p:inputText id="apellido"
+										value="#{socioBean.socioEditar.apellidoRazonSocial}"
+										required="true" converter="upperConverter" />
+
+									<p:outputLabel
+										value="#{socioBean.socioEditar.tipoDocumento.descripcion}"
+										for="doc" styleClass="#{label}" />
+									<p:inputText id="doc"
+										value="#{socioBean.socioEditar.numeroDocumento}"
+										required="true" />
+
+									<p:outputLabel value="#{msg.paramSocioTelefono}" for="tel" />
+									<p:inputMask id="tel"
+										value="#{socioBean.socioEditar.numCelular}" mask="9999999999"/>	
+									
+									<p:outputLabel
+										value="#{msg.paramSocioEmail}"
+										for="email" styleClass="#{label}" />
+									<p:inputText id="email"
+										value="#{socioBean.socioEditar.email}" converter="upperConverter" />
+									
+									<p:outputLabel
+										value="#{msg.paramSocioProfesion}"
+										for="prof" styleClass="#{label}" />
+									<p:inputText id="prof"
+										value="#{socioBean.socioEditar.profesionRubro}"  converter="upperConverter"/>
+										
+									<p:outputLabel
+										value="#{msg.paramSocioObservaciones}"
+										for="obs" styleClass="#{label}" />
+									<ui:remove><p:inputText id="obs"
+										value="#{socioBean.socioEditar.observaciones}"/> </ui:remove>	
+									<p:inputTextarea id="obs" autoResize="true"
+									value="#{socioBean.socioEditar.observaciones}" rows="3" 
+									converter="upperConverter" />
+									
+									<p:outputLabel
+										value="#{msg.paramSocioIngBrutos}"
+										for="ingB" styleClass="#{label}" />
+									<p:inputText id="ingB"
+										value="#{socioBean.socioEditar.ingBrutos}" />
+
+									<p:outputLabel value="#{msg.paramSocioInscripGanancias}"
+										for="inscGan" />
+									<p:selectBooleanCheckbox id="inscGan"
+										value="#{socioBean.socioEditar.inscriptoGanancias}"/>
+									
+								</p:panelGrid>
+								
+								<p:panelGrid columns="2" columnClasses="label,value"
+									rendered="#{socioBean.checkParametrizables}">
+									
+									<p:outputLabel value="#{msg.paramSocioTipoSocio}" for="tpoSocio" rendered="#{socioBean.checkTipoSocio}"/>
+									<p:selectOneMenu id="tpoSocio" value="#{socioBean.tipoSocioId}"
+										required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.checkTipoSocio}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{tipoSocioBean.listaTipoSocios}"
+											var="tpoSoc" itemLabel="#{tpoSoc.descripcion}"
+											itemValue="#{tpoSoc.id}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel value="#{msg.paramSocioEstCivil}" for="estCivil" rendered="#{socioBean.checkEstCivil}" />
+									<p:selectOneMenu id="estCivil" value="#{socioBean.estCivilId}"
+										required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.checkEstCivil}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{estadoCivilBean.listaEstadoCivil}"
+											var="estCiv" itemLabel="#{estCiv.descripcion}"
+											itemValue="#{estCiv.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="#{msg.paramSocioConyuge}" for="conyuge" rendered="#{socioBean.checkEstCivil}" />
+									<p:inputText id="conyuge" 
+										value="#{socioBean.socioEditar.nombreConyuge}"
+										converter="upperConverter" rendered="#{socioBean.checkEstCivil}"/>
+
+									<p:outputLabel value="#{msg.paramSocioNacionalidad}" for="pais" rendered="#{socioBean.checkNacionalidad}" />
+									<p:selectOneMenu id="pais" value="#{socioBean.paisId}"
+										required="true" panelStyle="width:180px" effect="fold" rendered="#{socioBean.checkNacionalidad}" >
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{paisBean.lstPaises}" var="pais"
+											itemLabel="#{pais.descripcion}" itemValue="#{pais.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="#{msg.paramSocioCondIva}" for="condIva"
+										rendered="#{socioBean.checkTipoIva}" />
+									<p:selectOneMenu id="condIva"
+										value="#{socioBean.condicionIvaId}" required="true"
+										panelStyle="width:180px" effect="fold"
+										rendered="#{socioBean.checkTipoIva}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{condicionIvaBean.lstCondicionIva}"
+											var="condIva" itemLabel="#{condIva.descripcion}"
+											itemValue="#{condIva.id}" />
+									</p:selectOneMenu>
+
+								</p:panelGrid>
+								<f:facet name="footer">
+									<center>
+										<p:commandButton id="Editar" value="Modificar"
+											actionListener="#{socioBean.editarSocio()}"
+											update=" :socEdit" onclick="socEdit.hide()" />
+									</center>
+								</f:facet>
+							</p:panelGrid>
+						</p:scrollPanel>
+					</p:outputPanel>
+				</h:form>
+			</p:dialog>
 		</center>
 	</ui:define>
 </ui:composition>
