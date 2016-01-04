@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import dao.CategoriaConexionDAO;
+import dao.ConexionDAO;
 import dao.DomicilioDAO;
 import dao.EstadoConexionDAO;
 import dao.FormaPagoDAO;
@@ -25,6 +26,7 @@ import dao.TipoTerrenoDAO;
 import dao.TipoUbicacionCatastralDAO;
 import dao.ZonaConexionDAO;
 import dao.impl.CategoriaConexionDAOImplement;
+import dao.impl.ConexionDAOImplement;
 import dao.impl.DomicilioDAOImplement;
 import dao.impl.EstadoConexionDAOImplement;
 import dao.impl.FormaPagoDAOImplement;
@@ -49,6 +51,7 @@ public class ConexionBean implements Serializable {
 
 	private List<Socio> lstSociosActivos;
 	private Socio socio;
+	private Socio socioSeleccionado;
 	
 	private boolean domServFactIguales;
 	
@@ -62,6 +65,8 @@ public class ConexionBean implements Serializable {
 	private UbicacionCatastral ubicCatastral;
 	
 	private Conexion conexion;
+	private Conexion conexionSeleccionada;
+	private List<Conexion> lstConexiones;
 	private long estadoConexionId;
 	private long zonaConexionId;
 	private long tipoTerrenoConexionId;
@@ -102,7 +107,15 @@ public class ConexionBean implements Serializable {
 	public void setSocio(Socio socio) {
 		this.socio = socio;
 	}
-	
+
+	public Socio getSocioSeleccionado() {
+		return socioSeleccionado;
+	}
+
+	public void setSocioSeleccionado(Socio socioSeleccionado) {
+		this.socioSeleccionado = socioSeleccionado;
+	}
+
 	public long totalSocios(){
 		long total = lstSociosActivos.size();
 		return total;
@@ -170,6 +183,31 @@ public class ConexionBean implements Serializable {
 
 	public void setConexion(Conexion conexion) {
 		this.conexion = conexion;
+	}
+
+	public Conexion getConexionSeleccionada() {
+		return conexionSeleccionada;
+	}
+
+	public void setConexionSeleccionada(Conexion conexionSeleccionada) {
+		this.conexionSeleccionada = conexionSeleccionada;
+	}
+
+	public List<Conexion> getLstConexiones() {
+		try {
+			ConexionDAO daoConexion = new ConexionDAOImplement();
+			lstConexiones = daoConexion.listaConexion();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
+							.getMessage()));
+		}
+		return lstConexiones;
+	}
+
+	public void setLstConexiones(List<Conexion> lstConexiones) {
+		this.lstConexiones = lstConexiones;
 	}
 
 	public long getEstadoConexionId() {
@@ -343,117 +381,85 @@ public class ConexionBean implements Serializable {
 							"Error al procesar: " + e.getMessage()));
 		}
 	}		
-		
-//		// se iguala dom facturacion al de servicio
-//		if(domServFactIguales == true){
-//			domFact = domServ;
-//			try {
-//				domFact.setTipoDomicilio(daoTipoDomicilio.buscarTipoDomicilio("FACTURACION"));
-//			} catch (Exception e) {
-//				FacesContext.getCurrentInstance().addMessage(
-//						null,
-//						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-//								"Error al procesar: " + e.getMessage()));
-//			}
-//		}
-//		else{
-//			try {
-//				domFact.setProvincia(provinciaDAO.buscarProvinciaId(provinciaDomFactId));
-//				domFact.setPais(paisDAO.buscarPaisId(paisDomFactId));
-//				domFact.setTipoDomicilio(daoTipoDomicilio.buscarTipoDomicilio("FACTURACION"));
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//		}
-		
-//		// se ingresan los domicilios de serv y fact
-//		
-//		DomicilioDAO daoDomicilio = new DomicilioDAOImplement();
-//		
-//		try {
-//			daoDomicilio.insertarDomicilio(domServ);
-//			daoDomicilio.insertarDomicilio(domFact);
-//		} catch (Exception e) {
-//			FacesContext.getCurrentInstance().addMessage(
-//					null,
-//					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-//							"Error al procesar: " + e.getMessage()));
-//		}
-		
-		
-//		// se setea a conexion los domicilios y boolean Dom Fact Iguales
-//		conexion.setDomicilioServicio(domServ);
-//		conexion.setDomicilioFacturacion(domFact);
-//		conexion.setDomServFactIguales(domServFactIguales);
-		
-//		// se setean los tipos a las ubicaciones catastrales y las mismas a la conexion
-//		
-//		TipoUbicacionCatastralDAO daoTipoUbicacionCatastral = new TipoUbicacionCatastralDAOImplement();
-//		
-//		try {
-//			ubicOficial.setTipoUbicacionCatastral(daoTipoUbicacionCatastral.buscarTipoUbicacionCatastralDescripcion("OFICIAL"));
-//			ubicCatastral.setTipoUbicacionCatastral(daoTipoUbicacionCatastral.buscarTipoUbicacionCatastralDescripcion("CATASTRAL"));
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		List<UbicacionCatastral> listaUbicaciones = new ArrayList();
-//		listaUbicaciones.add(ubicOficial);
-//		listaUbicaciones.add(ubicCatastral);
-//		
-//		conexion.setUbicacionesCatastrales(listaUbicaciones);
-		
-//		// se setea la informacion restante a la conexion
-//		
-//		EstadoConexionDAO daoEstadoConexion = new EstadoConexionDAOImplement();
-//		ZonaConexionDAO daoZonaConexion = new ZonaConexionDAOImplement();
-//		TipoTerrenoDAO daoTipoTerreno = new TipoTerrenoDAOImplement();
-//		RegimenPropiedadDAO daoRegimenPropiedad = new RegimenPropiedadDAOImplement();
-//		TipoSuministroDAO daoTipoSuministro = new TipoSuministroDAOImplement();
-//		CategoriaConexionDAO daoCategoriaConexion = new CategoriaConexionDAOImplement();
-//		TipoConexionDAO daoTipoConexion = new TipoConexionDAOImplement();
-//		FormaPagoDAO daoFormaPago = new FormaPagoDAOImplement();
-//		
-//		try {
-//			conexion.setEstadoConexion(daoEstadoConexion.buscarEstadoConexionId(estadoConexionId));
-//			conexion.setZonaConexion(daoZonaConexion.buscarZonaConexionId(zonaConexionId));
-//			conexion.setTipoTerreno(daoTipoTerreno.buscarTipoTerrenoId(tipoTerrenoConexionId));
-//			conexion.setRegimenPropiedad(daoRegimenPropiedad.buscarRegimenPropiedadId(regimenConexionId));
-//			conexion.setTipoSuministro(daoTipoSuministro.buscarTipoSuministroId(tipoSuministroConexionId));
-//			conexion.setCategoriaConexion(daoCategoriaConexion.buscarCategoriaConexionId(categoriaConexionId));
-//			conexion.setTipoConexion(daoTipoConexion.buscarTipoConexionId(tipoConexionId));
-//			conexion.setFormaPago(daoFormaPago.buscarFormaPagoId(fPagoConexionId));
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		socio.getConexiones().add(conexion);
-//		
-		// se agrega la conexion al socio
-		
-//		SocioDAO daoSocio = new SocioDAOImplement();
-//		
-//		try {
-//			daoSocio.modificarSocio(socio);
-//			FacesContext.getCurrentInstance().addMessage(
-//					null,
-//					new FacesMessage(FacesMessage.SEVERITY_INFO,
-//							"Correctamente", "Se agrego correctamente"));
-//			inicializar();
-//		} catch (Exception e) {
-//			FacesContext.getCurrentInstance().addMessage(
-//					null,
-//					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-//							"Error al procesar: " + e.getMessage()));
-//		}
-	
 
+	public void mostrarSocio(Socio socio) {
+		this.socioSeleccionado = socio;
+	}
+	
+	public void mostrarConexion(Conexion conexion) {
+		this.conexionSeleccionada = conexion;
+	}
+
+	public List<Conexion> obtenerConexionesSocio(){
+		List<Conexion> lista = new ArrayList<Conexion>();
+		
+		try{
+			lista = socioSeleccionado.getConexiones();
+		}
+		catch(Exception e){
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error al procesar: " + e.getMessage()));
+		}
+		
+		return lista;
+	}
+	
+	public void cambiarEstadoConexion(String estado, Conexion conexion){
+		ConexionDAO daoConexion = new ConexionDAOImplement();
+		EstadoConexionDAO daoEstadoConexion = new EstadoConexionDAOImplement();
+		
+		try {
+			conexion.setEstadoConexion(daoEstadoConexion.buscarEstadoConexion(estado));
+			
+			//faltan las transacciones
+			
+			daoConexion.modificarConexion(conexion);
+			
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Correctamente", "La conexión se modifico correctamente."));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error al procesar: " + e.getMessage()));
+		}
+	}
+	
+	public String obtenerSocioPorConexion(Conexion conexion){
+		List<Socio> lista = new ArrayList<Socio>();
+		String cadena = "";
+		ConexionDAO daoConexion = new ConexionDAOImplement();
+		try{
+			lista = daoConexion.buscarSocioPorConexion(conexion);
+		}
+		catch(Exception e){
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error al procesar: " + e.getMessage()));
+		}
+		System.out.println("HOLA: " + lista.get(0).getNumero());
+		
+		cadena = lista.get(0).getNumero() + " " + lista.get(0).getApellidoRazonSocial() + " " + lista.get(0).getNombreDenominacion();
+		
+		String cadenaa = " HOLA";
+		
+		return cadenaa;
+	}
+	
+	public String asd(){
+		
+		String cadena = "ASD";
+		return cadena;
+	}
+	
 	private void inicializar(){
 		socio = new Socio();
+		socioSeleccionado = new Socio();
 		domServ = new Domicilio();
 		domFact = new Domicilio();
 		paisDomFactId = 0;
@@ -461,6 +467,8 @@ public class ConexionBean implements Serializable {
 		ubicOficial = new UbicacionCatastral();
 		ubicCatastral = new UbicacionCatastral();
 		conexion = new Conexion();
+		conexionSeleccionada = new Conexion();
+		lstConexiones = new ArrayList<Conexion>();
 		estadoConexionId = 0;
 		zonaConexionId = 0;
 		tipoTerrenoConexionId = 0;

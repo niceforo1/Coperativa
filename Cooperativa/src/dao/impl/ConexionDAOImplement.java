@@ -126,4 +126,38 @@ public class ConexionDAOImplement implements ConexionDAO{
 		return conexion;
 	}
 
+	@Override
+	public List<Socio> buscarSocioPorConexion(Conexion conexion) throws Exception {
+		Session session = null;
+		List<Socio> socio= null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			Query query = session.createQuery("from Socio s"
+											+ " where s.conexiones.id = ?");
+//											+ " where c.id = ?");
+//											+ " INNER JOIN SOCIOS_CONEXIONES sc"
+//											+ "	ON s.ID_SOCIO = sc.SOCIOS_ID_SOCIO"
+//											+ "	INNER JOIN CONEXIONES c"
+//											+ "	ON c.ID_CONEXION = sc.conexiones_ID_CONEXION"
+//											+ "	WHERE c.ID_CONEXION = ?");
+			query.setLong(0, conexion.getId());
+			socio = (List<Socio>) query.list();
+			session.getTransaction().commit();						
+		}catch(ConstraintViolationException e){
+			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){						
+			throw new Exception(e);		
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
+		return socio;
+	}
+
 }

@@ -33,10 +33,6 @@
 	font-weight: bold;
 }
 
-.numeroper {
-	color: red;
-	font-weight: bold;
-}
 </style>
 		<center>
 			<h:form id="alta">
@@ -289,7 +285,7 @@
 					<p:tab id="consulta" title="#{msg.paramSocioConsulta}">
 
 						<p:dataTable id="socioDT" var="soc" value="#{socioBean.lstSocio}"
-							scrollable="true" scrollHeight="150" rowKey="#{soc.id}"
+							scrollable="true" scrollHeight="150" rowKey="#{soc.numero}"
 							emptyMessage="#{msg.paramNoDatos}" >
 
 							<f:facet name="header">
@@ -367,90 +363,90 @@
 								<f:facet name="header">
 									<h:outputText value="" />
 								</f:facet>
-								<h:outputText value="Nombre:" styleClass="#{label}" />
-								<h:outputText
+								<p:outputLabel value="Nombre:" styleClass="#{label}" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.apellidoRazonSocial} #{socioBean.socioSeleccionado.nombreDenominacion}" />
-								<h:outputText
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.tipoDocumento.descripcion}:" />
-								<h:outputText value="#{socioBean.socioSeleccionado.numeroDocumento}" />
-								<h:outputText value="ESTADO:" />
-								<h:outputText
+								<p:outputLabel value="#{socioBean.socioSeleccionado.numeroDocumento}" />
+								<p:outputLabel value="ESTADO:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.estadoSocio.descripcion}"
 									styleClass="#{socioBean.socioSeleccionado.estadoSocio.descripcion}" />
-								<h:outputText value="Fecha Alta:" />
-								<h:outputText
+								<p:outputLabel value="Fecha Alta:" />
+								<p:outputLabel
 									value="#{loginBean.formatearFechaMes(socioBean.socioSeleccionado.fechaAlta, 'dd/MM/yyyy')}" />
-								<h:outputText value="Tipo Socio:" />
-								<h:outputText
+								<p:outputLabel value="Tipo Socio:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.tipoSocio.descripcion}" />	
-								<h:outputText value="Estado Civil:" />
-								<h:outputText
+								<p:outputLabel value="Estado Civil:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.estadoCivil.descripcion}" />
-								<h:outputText value="Nombre Conyuge:" />
-								<h:outputText
+								<p:outputLabel value="Nombre Conyuge:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.nombreConyuge}" />
-								<h:outputText value="Telefono:" />
-								<h:outputText
+								<p:outputLabel value="Telefono:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.numCelular}" />
-								<h:outputText value="Email:" />
-								<h:outputText
+								<p:outputLabel value="Email:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.email}" />
-								<h:outputText value="Nacionalidad:" />
-								<h:outputText
+								<p:outputLabel value="Nacionalidad:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.pais.descripcion}" />	
-								<h:outputText value="Profesion/Rubro:" />
-								<h:outputText
+								<p:outputLabel value="Profesion/Rubro:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.profesionRubro}" />	
-								<h:outputText value="Observaciones:" />
-								<h:outputText
+								<p:outputLabel value="Observaciones:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.observaciones}" />
-								<h:outputText value="Condicion IVA:" />
-								<h:outputText
+								<p:outputLabel value="Condicion IVA:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.condicionIva.descripcion}" />					
-								<h:outputText value="ING Brutos:" />
-								<h:outputText
+								<p:outputLabel value="ING Brutos:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.ingBrutos}" />	
-								<h:outputText value="Inscripto a Ganancias:" />
-								<h:outputText
+								<p:outputLabel value="Inscripto a Ganancias:" />
+								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.inscriptoGanancias == true?'SI':'NO'}" />	
-								<h:outputText value="Domicilio:" />
+								<p:outputLabel value="Domicilio:" />
 								<p:dataTable
 									value="#{socioBean.socioSeleccionado.domicilios}"
 									var="domici" emptyMessage="#{msg.paramNoDatos}">
 									<p:column headerText="Pais">
-										<h:outputText
+										<p:outputLabel
 											value="#{domici.pais.descripcion}" />
 									</p:column>
 									<p:column headerText="Provincia">
-										<h:outputText
+										<p:outputLabel
 											value="#{domici.provincia.descripcion}" />
 									</p:column>
 									<p:column headerText="Localidad">
-										<h:outputText
+										<p:outputLabel
 											value="#{domici.localidad}" />
 									</p:column>
 									<p:column headerText="Barrio">
-										<h:outputText value="#{domici.barrio}" />
+										<p:outputLabel value="#{domici.barrio}" />
 									</p:column>
 									<p:column headerText="Direccion">
-										<h:outputText value="#{domici.calle}" />
+										<p:outputLabel value="#{domici.calle}" />
 									</p:column>
 									<p:column headerText="Numero">
-										<h:outputText value="#{domici.numero}" />
+										<p:outputLabel value="#{domici.numero}" />
 									</p:column>
 									<p:column headerText="Departamento">
-										<h:outputText value="#{domici.departamento}" />
+										<p:outputLabel value="#{domici.departamento}" />
 									</p:column>
 									<p:column headerText="Cod Postal">
-										<h:outputText
+										<p:outputLabel
 											value="#{domici.codPostal}" />
 									</p:column>
 									<p:column headerText="Tel Fijo">
-										<h:outputText
+										<p:outputLabel
 											value="#{domici.telFijo}" />
 									</p:column>
 									<p:column headerText="Tipo Domicilio">
-										<h:outputText value="#{domici.tipoDomicilio.descripcion}" />
+										<p:outputLabel value="#{domici.tipoDomicilio.descripcion}" />
 									</p:column>
 								</p:dataTable>
 							</p:panelGrid>

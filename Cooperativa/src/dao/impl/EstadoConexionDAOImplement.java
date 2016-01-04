@@ -9,6 +9,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import persistencia.HibernateUtil;
 import model.EstadoConexion;
+import model.EstadoSocio;
 import model.Pais;
 import dao.EstadoConexionDAO;
 
@@ -124,6 +125,31 @@ public class EstadoConexionDAOImplement implements EstadoConexionDAO {
 				session.close();
 			}
 		}		
+		return estado;
+	}
+
+	@Override
+	public EstadoConexion buscarEstadoConexion(String descripcion) throws Exception {
+		Session session = null;
+		EstadoConexion estado = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from EstadoConexion ec"
+											+ " where ec.descripcion = ?");
+			query.setString(0, descripcion);
+			estado = (EstadoConexion) query.list().get(0);			
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			System.out.println("error: " +e.getMessage());
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
 		return estado;
 	}
 

@@ -10,4 +10,5 @@ public interface EstadoConexionDAO {
 	public void modificarEstadoConexion(EstadoConexion estado) throws Exception;
 	public void eliminarEstadoConexion(EstadoConexion estado) throws Exception;
 	public EstadoConexion buscarEstadoConexionId(Long id) throws Exception;
+	public EstadoConexion buscarEstadoConexion(String descripcion) throws Exception;
 }
