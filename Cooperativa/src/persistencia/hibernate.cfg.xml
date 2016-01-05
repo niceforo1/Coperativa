@@ -5,10 +5,10 @@
 
 
 		<property name="connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
-		<!-- <property name="connection.url">jdbc:jtds:sqlserver://GABINO-PC:1433/Cooperativa</property>-->
-		<property name="connection.url">jdbc:jtds:sqlserver://192.168.160.1:49593/Cooperativa</property>
+		<property name="connection.url">jdbc:jtds:sqlserver://GABINO-PC:1433/Cooperativa</property>
+		<!-- <property name="connection.url">jdbc:jtds:sqlserver://192.168.160.1:49593/Cooperativa</property> -->
 		<property name="connection.username">sa</property>
-		<property name="connection.password">lal</property>
+		<property name="connection.password"></property>
 		<property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
 
 		<property name="hibernate.show_sql">true</property>
@@ -26,8 +26,7 @@
 		<mapping class="model.Socio" />
 		<mapping class="model.TipoDomicilio" />
 		<mapping class="model.Domicilio" />
-		<mapping class="model.SociosTransacciones" />
-		
+		<mapping class="model.SociosTransacciones" />		
 		<mapping class="model.EstadoConexion" />
 		<mapping class="model.ZonaConexion" />
 		<mapping class="model.TipoTerreno" />
@@ -39,5 +38,7 @@
 		<mapping class="model.TipoUbicacionCatastral" />
 		<mapping class="model.UbicacionCatastral" />
 		<mapping class="model.Conexion" />
+		<mapping class="model.EstadoPeriodo" />
+		<mapping class="model.PeriodoLectura" />		
 	</session-factory>
 </hibernate-configuration>

@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -14,39 +15,39 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "LECTURAS")
-public class Lectura {
+public class Lectura implements Serializable {
 
 	@Id
 	@Column(name = "ID_LECTURA")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	//verrrrrr
-	//periodo mes
-	//periodo año
-	
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "PERIODO_ID")
+	private PeriodoLectura periodoLectura;
+
 	@Column(name = "LECTURERO")
 	private String lecturero;
-	
+
 	@Column(name = "FECHA_GENERACION")
 	private Date fechaGeneracion;
-	
+
 	@Column(name = "FECHA_REGISTRO_LECTURA")
 	private Date fechaRegistroLectura;
-	
+
 	@Column(name = "LECTURA_ANTERIOR")
 	private Long lecturaAnterior;
-	
+
 	@Column(name = "LECTURA_ACTUAL")
 	private Long lecturaActual;
-	
+
 	@Column(name = "OBSERVACIONES")
 	private String observaciones;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USR_ID")
 	private Usuario usuario;
-	
+
 	public Lectura() {
 	}
 
@@ -113,5 +114,13 @@ public class Lectura {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
+	public PeriodoLectura getPeriodoLectura() {
+		return periodoLectura;
+	}
+
+	public void setPeriodoLectura(PeriodoLectura periodoLectura) {
+		this.periodoLectura = periodoLectura;
+	}
+
 }
