@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{lecturaBean.obtenerConex}" />
+		</f:metadata>
+		
+		<center>
+			<h:form id="alta">
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="#{msg.paramLecturaConexion}"
+								for="conex" />
+					<p:inputText id="conex"
+						value="#{lecturaBean.conexSeleccionada.id}" disabled="true" />
+					<p:outputLabel value="#{msg.paramLecturaPeriodos}"
+								for="perLect" />
+					<p:selectOneMenu id="perLect"
+						value="#{lecturaBean.periodoLecturaId}" required="true"
+						panelStyle="width:180px" effect="fold">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems
+							value="#{periodoLecturaBean.lstPeriodoLecturaEnProceso}"
+							var="perLect" itemLabel="#{perLect.anio} - #{perLect.mes}"
+							itemValue="#{perLect.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="#{msg.paramLecturaLecturero}"
+								for="lecturero" />
+					<p:inputText id="lecturero"
+						value="#{lecturaBean.lectura.lecturero}" converter="upperConverter" />
+					<p:outputLabel value="#{msg.paramLecturaFechaGeneracion}" for="fechaGen"/>
+					<p:calendar id="fechaGen" value="#{lecturaBean.lectura.fechaGeneracion}"
+						effect="explode" required="true" locale="es" navigator="true" />
+					<p:outputLabel value="#{msg.paramLecturaFechaRegLectura}" for="fechaRegLect"/>
+					<p:calendar id="fechaRegLect" value="#{lecturaBean.lectura.fechaRegistroLectura}"
+						effect="explode" required="true" locale="es" navigator="true" />
+					<p:outputLabel value="#{msg.paramLecturaActual}"
+								for="lectActual" />
+					<p:inputText id="lectActual"
+						value="#{lecturaBean.lectura.lecturaActual}" />	
+					<p:outputLabel value="#{msg.paramLecturaObservaciones}"
+								for="observaciones" />
+					<p:inputTextarea id="observaciones" autoResize="true"
+								value="#{lecturaBean.lectura.observaciones}" rows="3" 
+								converter="upperConverter"/>	
+					<f:facet name="footer">
+						<center>
+							<p:commandButton
+								action="#{lecturaBean.insertarLectura}"
+								value="#{msg.paramCargar}" />
+						</center>
+					</f:facet>					
+				</p:panelGrid>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

@@ -25,7 +25,7 @@ public class UbicacionCatastral implements Serializable{
 	@Id
     @Column(name = "ID_UBICACION_CATASTRAL")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_UBICACION_CATASTRAL")

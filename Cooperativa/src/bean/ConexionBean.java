@@ -362,6 +362,10 @@ public class ConexionBean implements Serializable {
 			conexion.setFormaPago(daoFormaPago.buscarFormaPagoId(fPagoConexionId));
 			conexion.setUsuario(login.getUsuario());
 			
+			ConexionDAO conexionDAO = new ConexionDAOImplement();
+			conexion.setSocio(socio);
+			conexionDAO.insertarConexion(conexion);
+			
 			// se agrega la conexion al socio
 			
 			socio.getConexiones().add(conexion);

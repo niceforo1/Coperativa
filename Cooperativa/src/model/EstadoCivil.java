@@ -17,7 +17,7 @@ public class EstadoCivil implements Serializable {
 	@Id
     @Column(name = "ID_ESTADO_CIVIL")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     
     
     @Column(name = "DESCRIPCION", nullable = false)

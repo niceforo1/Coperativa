@@ -43,7 +43,7 @@
 			<h:form id="alta">
 				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
 					closable="true" />
-				<p:tabView dynamic="true" cache="true">>
+				<p:tabView dynamic="true" cache="true">
 					<p:tab id="carga" title="#{msg.paramConexionCarga}">
 
 						<p:dataTable id="sociosDT" var="soc"
@@ -462,7 +462,7 @@
 							emptyMessage="#{msg.paramNoDatos}">
 							<f:facet name="header">
 								<center>
-									<h:outputText value="#{msg.paramSocioTable}" />
+									<h:outputText value="#{msg.paramConexionTable}" />
 								</center>
 							</f:facet>
 							<p:column id="id" headerText="#{msg.paramConexionNumero}"
@@ -472,6 +472,10 @@
 							<p:column headerText="#{msg.paramConexionCalle}"
 								filterBy="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" filterMatchMode="contains">
 								<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
+							</p:column>
+							<p:column headerText="#{msg.paramConexionSocio}"
+								filterBy="#{conex.socio.apellidoRazonSocial} #{conex.socio.nombreDenominacion}" filterMatchMode="contains">
+								<h:outputText value="#{conex.socio.apellidoRazonSocial} #{conex.socio.nombreDenominacion}" />
 							</p:column>
 							<p:column style="width:32px;text-align: center"
 								exportable="false">

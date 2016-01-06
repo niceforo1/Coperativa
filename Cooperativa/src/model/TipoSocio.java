@@ -17,7 +17,7 @@ public class TipoSocio implements Serializable {
 	@Id
 	@Column(name = "ID_TIPO_SOCIO")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@Column(name = "DESCRIPCION", nullable = false)
 	private String descripcion;

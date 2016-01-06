@@ -22,19 +22,41 @@ public class PeriodoLectura implements Serializable {
 	private Long id;
 
 	@Column(name = "MES", nullable = false)
-	private Long mes;
+	private long mes;
 
 	@Column(name = "ANIO", nullable = false)
-	private Long anio;
+	private long anio;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ESTADO_PERIODO_ID")
 	private EstadoPeriodo estadoPeriodo;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "USR_ID")
-	private Usuario usuario;
+	@JoinColumn(name = "USR_ID_ALTA")
+	private Usuario usuarioAltaPeriodo;
+	
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "USR_ID_CIERRE")
+	private Usuario usuarioCierrePeriodo;
 
+	@Column(name = "FECHA_CIERRE_LECTURA")
+	private Date fechaCierreLectura;
+	
+	@Column(name = "CESP")
+	private long cesp;
+	
+	@Column(name = "VTO_CESP")
+	private Date fechaVtoCesp;
+	
+	@Column(name = "FECHA_EMISION_FACTURA")
+	private Date fechaEmisionFactura;
+	
+	@Column(name = "VENCIMIENTO_FACT_1")
+	private Date fechaPrimerVencimientoFactura;
+	
+	@Column(name = "VENCIMIENTO_FACT_2")
+	private Date fechaSegundoVencimientoFactura;
+	
 	@Column(name = "FECHA_ULTIMA_MOD")
 	private Date fechaUltimaMod;
 
@@ -50,19 +72,19 @@ public class PeriodoLectura implements Serializable {
 		this.id = id;
 	}
 
-	public Long getMes() {
+	public long getMes() {
 		return mes;
 	}
 
-	public void setMes(Long mes) {
+	public void setMes(long mes) {
 		this.mes = mes;
 	}
 
-	public Long getAnio() {
+	public long getAnio() {
 		return anio;
 	}
 
-	public void setAnio(Long anio) {
+	public void setAnio(long anio) {
 		this.anio = anio;
 	}
 
@@ -74,12 +96,69 @@ public class PeriodoLectura implements Serializable {
 		this.estadoPeriodo = estadoPeriodo;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getUsuarioAltaPeriodo() {
+		return usuarioAltaPeriodo;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuarioAltaPeriodo(Usuario usuarioAltaPeriodo) {
+		this.usuarioAltaPeriodo = usuarioAltaPeriodo;
+	}
+
+	public Usuario getUsuarioCierrePeriodo() {
+		return usuarioCierrePeriodo;
+	}
+
+	public void setUsuarioCierrePeriodo(Usuario usuarioCierrePeriodo) {
+		this.usuarioCierrePeriodo = usuarioCierrePeriodo;
+	}
+
+	public Date getFechaCierreLectura() {
+		return fechaCierreLectura;
+	}
+
+	public void setFechaCierreLectura(Date fechaCierreLectura) {
+		this.fechaCierreLectura = fechaCierreLectura;
+	}
+
+	public long getCesp() {
+		return cesp;
+	}
+
+	public void setCesp(long cesp) {
+		this.cesp = cesp;
+	}
+
+	public Date getFechaVtoCesp() {
+		return fechaVtoCesp;
+	}
+
+	public void setFechaVtoCesp(Date fechaVtoCesp) {
+		this.fechaVtoCesp = fechaVtoCesp;
+	}
+
+	public Date getFechaEmisionFactura() {
+		return fechaEmisionFactura;
+	}
+
+	public void setFechaEmisionFactura(Date fechaEmisionFactura) {
+		this.fechaEmisionFactura = fechaEmisionFactura;
+	}
+
+	public Date getFechaPrimerVencimientoFactura() {
+		return fechaPrimerVencimientoFactura;
+	}
+
+	public void setFechaPrimerVencimientoFactura(Date fechaPrimerVencimientoFactura) {
+		this.fechaPrimerVencimientoFactura = fechaPrimerVencimientoFactura;
+	}
+
+	public Date getFechaSegundoVencimientoFactura() {
+		return fechaSegundoVencimientoFactura;
+	}
+
+	public void setFechaSegundoVencimientoFactura(
+			Date fechaSegundoVencimientoFactura) {
+		this.fechaSegundoVencimientoFactura = fechaSegundoVencimientoFactura;
 	}
 
 	public Date getFechaUltimaMod() {

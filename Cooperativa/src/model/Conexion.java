@@ -32,9 +32,9 @@ public class Conexion implements Serializable {
 	@JoinColumn(name = "ID_ESTADO_CONEXION")
 	private EstadoConexion estadoConexion;
 
-//	@OneToOne(cascade = CascadeType.PERSIST)
-//	@JoinColumn(name = "ID_SOCIO")
-//	private Socio socio;
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_SOCIO")
+	private Socio socio;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_NRO_ZONA")
@@ -74,7 +74,7 @@ public class Conexion implements Serializable {
 	private TipoConexion tipoConexion;
 
 	@Column(name = "NRO_MEDIDOR")
-	private Long nroMedidor;
+	private long nroMedidor;
 
 	@Column(name = "EMITE_FACTURA")
 	private Boolean emiteFactura;
@@ -98,6 +98,10 @@ public class Conexion implements Serializable {
 	@JoinColumn(name = "USR_ID")
 	private Usuario usuario;
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Lectura> lecturas;
+	
 	public Conexion() {
 
 	}
@@ -118,13 +122,13 @@ public class Conexion implements Serializable {
 		this.estadoConexion = estadoConexion;
 	}
 
-//	public Socio getSocio() {
-//		return socio;
-//	}
-//
-//	public void setSocio(Socio socio) {
-//		this.socio = socio;
-//	}
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
+	}
 
 	public ZonaConexion getZonaConexion() {
 		return zonaConexion;
@@ -263,4 +267,12 @@ public class Conexion implements Serializable {
 		this.ubicacionesCatastrales = ubicacionesCatastrales;
 	}
 
+	public List<Lectura> getLecturas() {
+		return lecturas;
+	}
+
+	public void setLecturas(List<Lectura> lecturas) {
+		this.lecturas = lecturas;
+	}
+	
 }

@@ -16,7 +16,7 @@ public class EstadoConexion implements Serializable {
 	@Id
     @Column(name = "ID_ESTADO_CONEXION")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     
     
     @Column(name = "DESCRIPCION", nullable = false)

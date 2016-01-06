@@ -17,7 +17,7 @@ public class TipoConexion implements Serializable{
 	@Id
     @Column(name = "ID_TIPO_CONEXION")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     
     
     @Column(name = "DESCRIPCION", nullable = false)

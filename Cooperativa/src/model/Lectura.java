@@ -36,10 +36,10 @@ public class Lectura implements Serializable {
 	private Date fechaRegistroLectura;
 
 	@Column(name = "LECTURA_ANTERIOR")
-	private Long lecturaAnterior;
+	private long lecturaAnterior;
 
 	@Column(name = "LECTURA_ACTUAL")
-	private Long lecturaActual;
+	private long lecturaActual;
 
 	@Column(name = "OBSERVACIONES")
 	private String observaciones;

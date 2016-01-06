@@ -16,7 +16,7 @@ public class FormaPago implements Serializable{
 	@Id
     @Column(name = "ID_FORMA_PAGO")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     
     
     @Column(name = "DESCRIPCION", nullable = false)

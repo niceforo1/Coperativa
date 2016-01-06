@@ -18,7 +18,7 @@ public class TipoDomicilio implements Serializable {
 	@Id
 	@Column(name = "ID_TIPO_DOMICILIO")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@Column(name = "DESCRIPCION")
 	private String descripcion;

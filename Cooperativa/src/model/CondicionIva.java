@@ -17,7 +17,7 @@ public class CondicionIva implements Serializable{
 	@Id
     @Column(name = "ID_CONDICION_IVA")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @Column(name = "ABREVIATURA", unique = true, nullable = false)
     private String codigo;
@@ -31,13 +31,14 @@ public class CondicionIva implements Serializable{
 	public CondicionIva() {
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
+
 
 	public String getCodigo() {
 		return codigo;

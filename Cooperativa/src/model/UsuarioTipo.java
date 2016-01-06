@@ -16,7 +16,7 @@ public class UsuarioTipo implements Serializable {
 	@Id
 	@Column(name = "TPO_USR_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@Column(name = "TPO_USR_CODIGO", unique = true, nullable = false)
 	private String codigo;

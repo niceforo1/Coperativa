@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+		<f:metadata>
+			<f:event type="preRenderView"
+					listener="#{lecturaBean.verificarLectura}" />
+		</f:metadata>	
+		<center>
+			<h:form id="alta">
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<p:tabView dynamic="true" cache="true">
+					<p:tab id="consulta" title="#{msg.paramConexionConsultaPorSocio}">
+						<p:dataTable id="socioDT" var="soc" value="#{socioBean.lstSocio}"
+							scrollable="true" scrollHeight="150" rowKey="#{soc.numero}"
+							emptyMessage="#{msg.paramNoDatos}"
+							selection="#{conexionBean.socioSeleccionado}"
+							selectionMode="single">
+							<p:ajax event="rowSelect" update=":alta" />
+							<p:ajax event="rowUnselect" update=":alta" />
+							<p:column selectionMode="single" width="32px;">
+							</p:column>
+							<f:facet name="header">
+								<center>
+									<h:outputText value="#{msg.paramSocioTable}" />
+								</center>
+							</f:facet>
+							<p:column id="numero" headerText="#{msg.paramSocioNumero}"
+								filterBy="#{soc.numero}" filterMatchMode="contains">
+								<h:outputText value="#{soc.numero}" />
+							</p:column>
+							<p:column id="dni" headerText="#{msg.paramSocioDni}"
+								filterBy="#{soc.numeroDocumento}" filterMatchMode="contains">
+								<h:outputText value="#{soc.numeroDocumento}" />
+							</p:column>
+							<p:column headerText="#{msg.paramSocioNombre}"
+								filterBy="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}"
+								filterMatchMode="contains">
+								<h:outputText
+									value="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" />
+							</p:column>
+
+							<f:facet name="footer">
+
+							</f:facet>
+						</p:dataTable>
+
+						<p:dataTable id="conexSocioDT" var="conex"
+							value="#{conexionBean.obtenerConexionesSocio()}"
+							scrollable="true" scrollHeight="150" rowKey="#{conex.id}"
+							emptyMessage="#{msg.paramNoDatos}"
+							rendered="#{!(conexionBean.socioSeleccionado.numero == 0)}">
+							<f:facet name="header">
+								<center>
+									<h:outputText value="#{msg.paramConexionTable}" />
+								</center>
+							</f:facet>
+							<p:column id="id" headerText="#{msg.paramConexionNumero}"
+								filterBy="#{conex.id}" filterMatchMode="contains">
+								<h:outputText value="#{conex.id}" />
+							</p:column>
+
+							<p:column headerText="#{msg.paramConexionCalle}"
+								filterBy="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}"
+								filterMatchMode="contains">
+								<h:outputText
+									value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
+							</p:column>
+
+							<p:column style="width:200px;text-align: center"
+								exportable="false">
+								<p:commandButton value="Agregar Lectura"
+									action="#{lecturaBean.pasarPagina(conex)}"/>
+							</p:column>
+
+							<f:facet name="footer">
+
+							</f:facet>
+						</p:dataTable>
+					</p:tab>
+					<p:tab id="consultaDos" title="#{msg.paramConexionConsultaTotales}">
+						<p:dataTable id="conexionDT" var="conex"
+							value="#{conexionBean.lstConexiones}" scrollable="true"
+							scrollHeight="150" rowKey="#{conex.id}"
+							emptyMessage="#{msg.paramNoDatos}">
+							<f:facet name="header">
+								<center>
+									<h:outputText value="#{msg.paramConexionTable}" />
+								</center>
+							</f:facet>
+							<p:column id="id" headerText="#{msg.paramConexionNumero}"
+								filterBy="#{conex.id}" filterMatchMode="contains">
+								<h:outputText value="#{conex.id}" />
+							</p:column>
+							<p:column headerText="#{msg.paramConexionCalle}"
+								filterBy="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}"
+								filterMatchMode="contains">
+								<h:outputText
+									value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
+							</p:column>
+							<p:column headerText="#{msg.paramConexionSocio}"
+								filterBy="#{conex.socio.apellidoRazonSocial} #{conex.socio.nombreDenominacion}"
+								filterMatchMode="contains">
+								<h:outputText
+									value="#{conex.socio.apellidoRazonSocial} #{conex.socio.nombreDenominacion}" />
+							</p:column>
+							<p:column style="width:32px;text-align: center"
+								exportable="false">
+								<p:commandButton icon="fa fa-fw fa-search"
+									actionListener="#{conexionBean.mostrarConexion(conex)}"
+									update=":alta :conexDet" immediate="true"
+									oncomplete="PF('conexDetDialog').show()" />
+							</p:column>
+							<f:facet name="footer">
+
+							</f:facet>
+						</p:dataTable>
+
+					</p:tab>
+				</p:tabView>
+
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

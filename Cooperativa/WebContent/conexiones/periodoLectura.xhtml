@@ -64,6 +64,25 @@
 						<f:selectItem itemLabel="2029" itemValue="2029" />
 						<f:selectItem itemLabel="2030" itemValue="2030" />
 					</p:selectOneMenu>
+					<p:outputLabel value="#{msg.paramPeriodoLecturaCESP}" for="cesp" />
+					<p:inputText id="cesp" value="#{periodoLecturaBean.periodoLectura.cesp}"
+						required="true" />
+					<p:outputLabel value="#{msg.paramPeriodoLecturaVtoCESP}" for="vtoCesp"/>
+					<p:calendar id="vtoCesp" value="#{periodoLecturaBean.periodoLectura.fechaVtoCesp}"
+						effect="explode"
+						required="true" locale="es" navigator="true" />
+					<p:outputLabel value="#{msg.paramPeriodoLecturaFechaEmisionFactura}" for="fechaEmFact"/>
+					<p:calendar id="fechaEmFact" value="#{periodoLecturaBean.periodoLectura.fechaEmisionFactura}"
+						effect="explode"
+						required="true" locale="es" navigator="true" />
+					<p:outputLabel value="#{msg.paramPeriodoLecturaFechaPrimerVencimientoFact}" for="primerVencFact"/>
+					<p:calendar id="primerVencFact" value="#{periodoLecturaBean.periodoLectura.fechaPrimerVencimientoFactura}"
+						effect="explode"
+						required="true" locale="es" navigator="true" />	
+					<p:outputLabel value="#{msg.paramPeriodoLecturaFechaSegundoVencimientoFact}" for="segundoVencFact"/>
+					<p:calendar id="segundoVencFact" value="#{periodoLecturaBean.periodoLectura.fechaSegundoVencimientoFactura}"
+						effect="explode"
+						required="true" locale="es" navigator="true" />			
 					<f:facet name="footer">
 						<center>
 							<p:commandButton

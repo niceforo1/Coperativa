@@ -14,8 +14,10 @@ import javax.faces.context.FacesContext;
 
 import dao.EstadoPeriodoDAO;
 import dao.PeriodoLecturaDAO;
+import dao.SocioDAO;
 import dao.impl.EstadoPeriodoDAOImplement;
 import dao.impl.PeriodoLecturaDAOImplement;
+import dao.impl.SocioDAOImplement;
 import model.PeriodoLectura;
 
 @ManagedBean(name = "periodoLecturaBean")
@@ -23,7 +25,8 @@ import model.PeriodoLectura;
 public class PeriodoLecturaBean implements Serializable {
 	private PeriodoLectura periodoLectura;
 	private List<PeriodoLectura> lstPeriodoLectura;
-
+	private List<PeriodoLectura> lstPeriodoLecturaEnProceso;
+	
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
 
@@ -40,6 +43,15 @@ public class PeriodoLecturaBean implements Serializable {
 	}
 
 	public List<PeriodoLectura> getLstPeriodoLectura() {
+		try {
+			PeriodoLecturaDAO daoPeriodoLectura = new PeriodoLecturaDAOImplement();
+			lstPeriodoLectura = daoPeriodoLectura.listaPeriodoLectura();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
+							.getMessage()));
+		}
 		return lstPeriodoLectura;
 	}
 
@@ -47,18 +59,37 @@ public class PeriodoLecturaBean implements Serializable {
 		this.lstPeriodoLectura = lstPeriodoLectura;
 	}
 	
+	public List<PeriodoLectura> getLstPeriodoLecturaEnProceso() {
+		try {
+			PeriodoLecturaDAO daoPeriodoLectura = new PeriodoLecturaDAOImplement();
+			lstPeriodoLecturaEnProceso = daoPeriodoLectura.listaPeriodoLecturaEnProceso("EN PROCESO");
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
+							.getMessage()));
+		}
+		return lstPeriodoLecturaEnProceso;
+	}
+
+	public void setLstPeriodoLecturaEnProceso(
+			List<PeriodoLectura> lstPeriodoLecturaEnProceso) {
+		this.lstPeriodoLecturaEnProceso = lstPeriodoLecturaEnProceso;
+	}
+
 	public void insertarPeriodoLectura() {
 		EstadoPeriodoDAO estadoPeriodoDAO =new EstadoPeriodoDAOImplement();
 		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
 		try {
 			periodoLectura.setEstadoPeriodo(estadoPeriodoDAO.buscarEstadoPeriodo("EN PROCESO"));
-			periodoLectura.setUsuario(login.getUsuario());
+			periodoLectura.setUsuarioAltaPeriodo(login.getUsuario());
 			periodoLectura.setFechaUltimaMod(Calendar.getInstance().getTime()); 
 			periodoLecturaDAO.insertarPeriodoLectura(periodoLectura);
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Correctamente", "El Período se agregó correctamente."));
+			inicializar();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
