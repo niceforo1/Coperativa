@@ -13,12 +13,16 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import dao.EstadoPeriodoDAO;
+import dao.EstadoSocioDAO;
 import dao.PeriodoLecturaDAO;
 import dao.SocioDAO;
 import dao.impl.EstadoPeriodoDAOImplement;
+import dao.impl.EstadoSocioDAOImplement;
 import dao.impl.PeriodoLecturaDAOImplement;
 import dao.impl.SocioDAOImplement;
 import model.PeriodoLectura;
+import model.Socio;
+import model.SociosTransacciones;
 
 @ManagedBean(name = "periodoLecturaBean")
 @ViewScoped
@@ -80,15 +84,34 @@ public class PeriodoLecturaBean implements Serializable {
 	public void insertarPeriodoLectura() {
 		EstadoPeriodoDAO estadoPeriodoDAO =new EstadoPeriodoDAOImplement();
 		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
+		List<PeriodoLectura> lstPer = new ArrayList<PeriodoLectura>();
+		boolean existe = false;
+		
 		try {
-			periodoLectura.setEstadoPeriodo(estadoPeriodoDAO.buscarEstadoPeriodo("EN PROCESO"));
-			periodoLectura.setUsuarioAltaPeriodo(login.getUsuario());
-			periodoLectura.setFechaUltimaMod(Calendar.getInstance().getTime()); 
-			periodoLecturaDAO.insertarPeriodoLectura(periodoLectura);
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "El Período se agregó correctamente."));
+			lstPer = periodoLecturaDAO.listaPeriodoLectura();
+			
+			for(PeriodoLectura per : lstPer){
+				System.out.println("HOLA: " + per.getAnio() + "-" + per.getMes() + " " + periodoLectura.getAnio() + "-" + periodoLectura.getMes());
+				if((per.getAnio() == periodoLectura.getAnio()) && (per.getMes() == periodoLectura.getMes())){
+					existe = true;
+				}
+			}
+			
+			if(existe == false){
+				periodoLectura.setEstadoPeriodo(estadoPeriodoDAO.buscarEstadoPeriodo("EN PROCESO"));
+				periodoLectura.setUsuarioAltaPeriodo(login.getUsuario());
+				periodoLectura.setFechaUltimaMod(Calendar.getInstance().getTime()); 
+				periodoLecturaDAO.insertarPeriodoLectura(periodoLectura);
+				
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Correctamente", "El Período se agregó correctamente."));
+			}
+			
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error al procesar: Período ya cargado. " ));
 			inicializar();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -98,6 +121,28 @@ public class PeriodoLecturaBean implements Serializable {
 		
 	}
 
+	public void cambiarEstadoPeriodo(String estado, PeriodoLectura periodo) {
+		EstadoPeriodoDAO estadoPeriodoDAO =new EstadoPeriodoDAOImplement();
+		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
+		try {
+			periodo.setEstadoPeriodo(estadoPeriodoDAO.buscarEstadoPeriodo(estado));
+						
+			//se cambia ultima fecha mod
+			periodo.setFechaUltimaMod(Calendar.getInstance().getTime());
+			
+			periodoLecturaDAO.modificarPeriodoLectura(periodo);
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Correctamente", "El período se modifico correctamente."));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error al procesar: " + e.getMessage()));
+		}
+	}
+	
 	public LoginBean getLogin() {
 		return login;
 	}

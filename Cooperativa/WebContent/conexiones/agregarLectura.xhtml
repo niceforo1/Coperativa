@@ -16,7 +16,12 @@
 			<f:event type="preRenderView"
 				listener="#{lecturaBean.obtenerConex}" />
 		</f:metadata>
-		
+<style>
+.BAJA {
+	color: red;
+	font-weight: bold;
+}
+</style>			
 		<center>
 			<h:form id="alta">
 				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
@@ -31,6 +36,7 @@
 					<p:selectOneMenu id="perLect"
 						value="#{lecturaBean.periodoLecturaId}" required="true"
 						panelStyle="width:180px" effect="fold">
+						<p:ajax event="change" update="lectActual" />
 						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 						<f:selectItems
 							value="#{periodoLecturaBean.lstPeriodoLecturaEnProceso}"
@@ -40,17 +46,21 @@
 					<p:outputLabel value="#{msg.paramLecturaLecturero}"
 								for="lecturero" />
 					<p:inputText id="lecturero"
-						value="#{lecturaBean.lectura.lecturero}" converter="upperConverter" />
+						required="true" value="#{lecturaBean.lectura.lecturero}" converter="upperConverter" />
 					<p:outputLabel value="#{msg.paramLecturaFechaGeneracion}" for="fechaGen"/>
 					<p:calendar id="fechaGen" value="#{lecturaBean.lectura.fechaGeneracion}"
 						effect="explode" required="true" locale="es" navigator="true" />
 					<p:outputLabel value="#{msg.paramLecturaFechaRegLectura}" for="fechaRegLect"/>
 					<p:calendar id="fechaRegLect" value="#{lecturaBean.lectura.fechaRegistroLectura}"
 						effect="explode" required="true" locale="es" navigator="true" />
+					
 					<p:outputLabel value="#{msg.paramLecturaActual}"
 								for="lectActual" />
 					<p:inputText id="lectActual"
-						value="#{lecturaBean.lectura.lecturaActual}" />	
+						value="#{lecturaBean.lectura.lecturaActual}" >	
+						<p:ajax event="keyup" update="out" />
+					</p:inputText>	
+					
 					<p:outputLabel value="#{msg.paramLecturaObservaciones}"
 								for="observaciones" />
 					<p:inputTextarea id="observaciones" autoResize="true"
@@ -62,8 +72,9 @@
 								action="#{lecturaBean.insertarLectura}"
 								value="#{msg.paramCargar}" />
 						</center>
-					</f:facet>					
+					</f:facet>	
 				</p:panelGrid>
+				<h:outputText id="out" value="#{lecturaBean.revisarLectura()}" />	
 			</h:form>
 		</center>
 	</ui:define>

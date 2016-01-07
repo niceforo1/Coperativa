@@ -34,30 +34,34 @@
 			</h:form>
 		</center>
 		
-		<br />		
-		
-		<h:form id="mostrar">
-			<p:dataTable id="estadosConexionDT" var="estCon"
-				value="#{estadoConexionBean.listaEstadoConexion}" scrollable="true"
-				scrollHeight="150" rowKey="#{estCon.id}"
-				emptyMessage="#{msg.paramNoDatos}">
-				<f:facet name="header">
-					<center>
-						<h:outputText value="#{msg.paramEstadoConexionTable}" />
-					</center>
-				</f:facet>
-				<p:column headerText="#{msg.paramDescripcion}" filterBy="#{estCon.descripcion}" filterMatchMode="contains">
-					<h:outputText value="#{estCon.descripcion}" />
-				</p:column>
-				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-close" actionListener="#{estadoConexionBean.eliminarEstadoConexion(estCon)}" 
-						update=":mostrar"/>
-				</p:column>
-				<f:facet name="footer">
-					<h:outputLabel value=" " />
-				</f:facet>
-			</p:dataTable>
-		</h:form>		
+		<br />
+
+		<center>
+			<h:form id="mostrar">
+				<p:dataTable id="estadosConexionDT" var="estCon"
+					value="#{estadoConexionBean.listaEstadoConexion}" scrollable="true"
+					scrollHeight="150" rowKey="#{estCon.id}"
+					emptyMessage="#{msg.paramNoDatos}">
+					<f:facet name="header">
+						<center>
+							<h:outputText value="#{msg.paramEstadoConexionTable}" />
+						</center>
+					</f:facet>
+					<p:column headerText="#{msg.paramDescripcion}"
+						filterBy="#{estCon.descripcion}" filterMatchMode="contains">
+						<h:outputText value="#{estCon.descripcion}" />
+					</p:column>
+					<p:column style="width:32px;text-align: center">
+						<p:commandButton icon="ui-icon-close"
+							actionListener="#{estadoConexionBean.eliminarEstadoConexion(estCon)}"
+							update=":mostrar" />
+					</p:column>
+					<f:facet name="footer">
+						<h:outputLabel value=" " />
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+		</center>
 	</ui:define>
 	<ui:define name="footer">
 	</ui:define>

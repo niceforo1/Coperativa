@@ -13,7 +13,7 @@
 	</ui:define>
 	<ui:define name="content">
 
-		<style>
+<style>
 .ACTIVA {
 	color: green;
 	font-weight: bold;
@@ -37,7 +37,6 @@
 .label {
 	font-weight: bold;
 }
-
 </style>
 		<center>
 			<h:form id="alta">
@@ -500,9 +499,10 @@
 					<p:outputPanel id="conexDetail" style="text-align:center;">
 						<p:scrollPanel style="width:auto;height:auto"
 							rendered="#{not empty conexionBean.conexionSeleccionada}" mode="native">
-							<p:panelGrid columns="2"
+							<center>
+							<p:panelGrid columns="4"
 								rendered="#{not empty conexionBean.conexionSeleccionada}"
-								columnClasses="label,value">
+								columnClasses="label,value,label,value">
 								<f:facet name="header">
 									<h:outputText value="" />
 								</f:facet>
@@ -547,7 +547,11 @@
 								<p:outputLabel value="#{msg.paramEmiteFacturaConexion}" />
 								<p:outputLabel
 									value="#{conexionBean.conexionSeleccionada.emiteFactura == true?'SI':'NO'}" />
-										
+								</p:panelGrid>	
+								</center>	
+								<p:panelGrid columns="2"
+								rendered="#{not empty conexionBean.conexionSeleccionada}"
+								columnClasses="label,value">
 								<p:outputLabel value="Domicilio Servicio" styleClass="#{label}" />
 								<p:dataTable
 									value="#{conexionBean.conexionSeleccionada.domicilioServicio}"
@@ -583,6 +587,9 @@
 									var="domFact" emptyMessage="#{msg.paramNoDatos}">
 									<p:column headerText="Provincia">
 										<p:outputLabel value="#{domFact.provincia.descripcion}" />
+									</p:column>
+									<p:column headerText="Localidad">
+										<p:outputLabel value="#{domFact.localidad}" />
 									</p:column>
 									<p:column headerText="Barrio">
 										<p:outputLabel value="#{domFact.barrio}" />

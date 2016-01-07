@@ -16,81 +16,172 @@
 			<h:form id="alta">
 				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
 					closable="true" />
-				<p:panelGrid columns="2">
-					<p:outputLabel for="mes" value="Mes:" />
-					<p:selectOneMenu id="mes"
-						value="#{periodoLecturaBean.periodoLectura.mes}"
-						panelStyle="width:180px" effect="fold" filter="true"
-						required="true">
-						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
-						<f:selectItem itemLabel="ENERO" itemValue="1" />
-						<f:selectItem itemLabel="FEBRERO" itemValue="2" />
-						<f:selectItem itemLabel="MARZO" itemValue="3" />
-						<f:selectItem itemLabel="ABRIL" itemValue="4" />
-						<f:selectItem itemLabel="MAYO" itemValue="5" />
-						<f:selectItem itemLabel="JUNIO" itemValue="6" />
-						<f:selectItem itemLabel="JULIO" itemValue="7" />
-						<f:selectItem itemLabel="AGOSTO" itemValue="8" />
-						<f:selectItem itemLabel="SEPTIEMBRE" itemValue="9" />
-						<f:selectItem itemLabel="OCTUBRE" itemValue="10" />
-						<f:selectItem itemLabel="NOVIEMBRE" itemValue="11" />
-						<f:selectItem itemLabel="DICIEMBRE" itemValue="12" />
-					</p:selectOneMenu>
-					<p:outputLabel for="mes" value="Año:" />
-					<p:selectOneMenu id="anio"
-						value="#{periodoLecturaBean.periodoLectura.anio}"
-						panelStyle="width:180px" effect="fold" filter="true"
-						required="true">
-						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
-						<f:selectItem itemLabel="2010" itemValue="2010" />
-						<f:selectItem itemLabel="2011" itemValue="2011" />
-						<f:selectItem itemLabel="2012" itemValue="2012" />
-						<f:selectItem itemLabel="2013" itemValue="2013" />
-						<f:selectItem itemLabel="2014" itemValue="2014" />
-						<f:selectItem itemLabel="2015" itemValue="2015" />
-						<f:selectItem itemLabel="2016" itemValue="2016" />
-						<f:selectItem itemLabel="2017" itemValue="2017" />
-						<f:selectItem itemLabel="2018" itemValue="2018" />
-						<f:selectItem itemLabel="2019" itemValue="2019" />
-						<f:selectItem itemLabel="2020" itemValue="2020" />
-						<f:selectItem itemLabel="2021" itemValue="2021" />
-						<f:selectItem itemLabel="2022" itemValue="2022" />
-						<f:selectItem itemLabel="2023" itemValue="2023" />
-						<f:selectItem itemLabel="2024" itemValue="2024" />
-						<f:selectItem itemLabel="2025" itemValue="2025" />
-						<f:selectItem itemLabel="2026" itemValue="2026" />
-						<f:selectItem itemLabel="2027" itemValue="2027" />
-						<f:selectItem itemLabel="2028" itemValue="2028" />
-						<f:selectItem itemLabel="2029" itemValue="2029" />
-						<f:selectItem itemLabel="2030" itemValue="2030" />
-					</p:selectOneMenu>
-					<p:outputLabel value="#{msg.paramPeriodoLecturaCESP}" for="cesp" />
-					<p:inputText id="cesp" value="#{periodoLecturaBean.periodoLectura.cesp}"
-						required="true" />
-					<p:outputLabel value="#{msg.paramPeriodoLecturaVtoCESP}" for="vtoCesp"/>
-					<p:calendar id="vtoCesp" value="#{periodoLecturaBean.periodoLectura.fechaVtoCesp}"
-						effect="explode"
-						required="true" locale="es" navigator="true" />
-					<p:outputLabel value="#{msg.paramPeriodoLecturaFechaEmisionFactura}" for="fechaEmFact"/>
-					<p:calendar id="fechaEmFact" value="#{periodoLecturaBean.periodoLectura.fechaEmisionFactura}"
-						effect="explode"
-						required="true" locale="es" navigator="true" />
-					<p:outputLabel value="#{msg.paramPeriodoLecturaFechaPrimerVencimientoFact}" for="primerVencFact"/>
-					<p:calendar id="primerVencFact" value="#{periodoLecturaBean.periodoLectura.fechaPrimerVencimientoFactura}"
-						effect="explode"
-						required="true" locale="es" navigator="true" />	
-					<p:outputLabel value="#{msg.paramPeriodoLecturaFechaSegundoVencimientoFact}" for="segundoVencFact"/>
-					<p:calendar id="segundoVencFact" value="#{periodoLecturaBean.periodoLectura.fechaSegundoVencimientoFactura}"
-						effect="explode"
-						required="true" locale="es" navigator="true" />			
-					<f:facet name="footer">
+				<p:panel header="#{msg.paramPeriodoLecturaHeader}">
+					<p:panelGrid columns="2">
+						<p:outputLabel for="mes" value="Mes:" />
+						<p:selectOneMenu id="mes"
+							value="#{periodoLecturaBean.periodoLectura.mes}"
+							panelStyle="width:180px" effect="fold" filter="true"
+							required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItem itemLabel="ENERO" itemValue="1" />
+							<f:selectItem itemLabel="FEBRERO" itemValue="2" />
+							<f:selectItem itemLabel="MARZO" itemValue="3" />
+							<f:selectItem itemLabel="ABRIL" itemValue="4" />
+							<f:selectItem itemLabel="MAYO" itemValue="5" />
+							<f:selectItem itemLabel="JUNIO" itemValue="6" />
+							<f:selectItem itemLabel="JULIO" itemValue="7" />
+							<f:selectItem itemLabel="AGOSTO" itemValue="8" />
+							<f:selectItem itemLabel="SEPTIEMBRE" itemValue="9" />
+							<f:selectItem itemLabel="OCTUBRE" itemValue="10" />
+							<f:selectItem itemLabel="NOVIEMBRE" itemValue="11" />
+							<f:selectItem itemLabel="DICIEMBRE" itemValue="12" />
+						</p:selectOneMenu>
+						<p:outputLabel for="mes" value="Año:" />
+						<p:selectOneMenu id="anio"
+							value="#{periodoLecturaBean.periodoLectura.anio}"
+							panelStyle="width:180px" effect="fold" filter="true"
+							required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItem itemLabel="2010" itemValue="2010" />
+							<f:selectItem itemLabel="2011" itemValue="2011" />
+							<f:selectItem itemLabel="2012" itemValue="2012" />
+							<f:selectItem itemLabel="2013" itemValue="2013" />
+							<f:selectItem itemLabel="2014" itemValue="2014" />
+							<f:selectItem itemLabel="2015" itemValue="2015" />
+							<f:selectItem itemLabel="2016" itemValue="2016" />
+							<f:selectItem itemLabel="2017" itemValue="2017" />
+							<f:selectItem itemLabel="2018" itemValue="2018" />
+							<f:selectItem itemLabel="2019" itemValue="2019" />
+							<f:selectItem itemLabel="2020" itemValue="2020" />
+							<f:selectItem itemLabel="2021" itemValue="2021" />
+							<f:selectItem itemLabel="2022" itemValue="2022" />
+							<f:selectItem itemLabel="2023" itemValue="2023" />
+							<f:selectItem itemLabel="2024" itemValue="2024" />
+							<f:selectItem itemLabel="2025" itemValue="2025" />
+							<f:selectItem itemLabel="2026" itemValue="2026" />
+							<f:selectItem itemLabel="2027" itemValue="2027" />
+							<f:selectItem itemLabel="2028" itemValue="2028" />
+							<f:selectItem itemLabel="2029" itemValue="2029" />
+							<f:selectItem itemLabel="2030" itemValue="2030" />
+						</p:selectOneMenu>
+						<p:outputLabel value="#{msg.paramPeriodoLecturaCESP}" for="cesp" />
+						<p:inputText id="cesp"
+							value="#{periodoLecturaBean.periodoLectura.cesp}" required="true" />
+						<p:outputLabel value="#{msg.paramPeriodoLecturaVtoCESP}"
+							for="vtoCesp" />
+						<p:calendar id="vtoCesp"
+							value="#{periodoLecturaBean.periodoLectura.fechaVtoCesp}"
+							effect="explode" required="true" locale="es" navigator="true" />
+						<p:outputLabel
+							value="#{msg.paramPeriodoLecturaFechaEmisionFactura}"
+							for="fechaEmFact" />
+						<p:calendar id="fechaEmFact"
+							value="#{periodoLecturaBean.periodoLectura.fechaEmisionFactura}"
+							effect="explode" required="true" locale="es" navigator="true" />
+						<p:outputLabel
+							value="#{msg.paramPeriodoLecturaFechaPrimerVencimientoFact}"
+							for="primerVencFact" />
+						<p:calendar id="primerVencFact"
+							value="#{periodoLecturaBean.periodoLectura.fechaPrimerVencimientoFactura}"
+							effect="explode" required="true" locale="es" navigator="true" />
+						<p:outputLabel
+							value="#{msg.paramPeriodoLecturaFechaSegundoVencimientoFact}"
+							for="segundoVencFact" />
+						<p:calendar id="segundoVencFact"
+							value="#{periodoLecturaBean.periodoLectura.fechaSegundoVencimientoFactura}"
+							effect="explode" required="true" locale="es" navigator="true" />
+						<f:facet name="footer">
+							<center>
+								<p:commandButton
+									actionListener="#{periodoLecturaBean.insertarPeriodoLectura}"
+									update=":alta :mostrar" value="#{msg.paramCargar}" />
+							</center>
+						</f:facet>
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+
+			<br />
+
+			<h:form id="mostrar">
+				<p:dataTable id="periodosLectDT" var="perLect"
+					value="#{periodoLecturaBean.lstPeriodoLectura}" scrollable="true"
+					scrollHeight="150" rowKey="#{perLect.id}"
+					emptyMessage="#{msg.paramNoDatos}">
+					<f:facet name="header">
 						<center>
-							<p:commandButton
-								actionListener="#{periodoLecturaBean.insertarPeriodoLectura}"
-								update=":alta" value="#{msg.paramCargar}" />
+							<p:outputLabel value="#{msg.paramPeriodoLecturaTable}" />
 						</center>
-					</f:facet>					
-				</p:panelGrid>
+					</f:facet>
+					<p:column headerText="Id" filterBy="#{perLect.id}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{perLect.id}" />
+					</p:column>
+					<p:column style="width:110px" headerText="Año" filterBy="#{perLect.anio}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{perLect.anio}" />
+					</p:column>
+					<p:column style="width:110px" headerText="Mes" filterBy="#{perLect.mes}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{perLect.mes}" />
+					</p:column>
+					<p:column headerText="#{msg.paramPeriodoLecturaCESP}"
+						filterBy="#{perLect.cesp}" filterMatchMode="contains">
+						<p:outputLabel value="#{perLect.cesp}" />
+					</p:column>
+					<ui:remove>
+					<p:column style="width:100px" headerText="#{msg.paramPeriodoLecturaVtoCESP}"
+						filterBy="#{perLect.fechaVtoCesp}" filterMatchMode="contains">
+						<p:outputLabel
+							value="#{loginBean.formatearFechaMes(perLect.fechaVtoCesp, 'dd/MM/yyyy')}" />
+					</p:column>
+					</ui:remove>
+					<p:column
+						headerText="#{msg.paramPeriodoLecturaFechaEmisionFactura}"
+						filterBy="#{perLect.fechaEmisionFactura}"
+						filterMatchMode="contains">
+						<p:outputLabel
+							value="#{loginBean.formatearFechaMes(perLect.fechaEmisionFactura, 'dd/MM/yyyy')}" />
+					</p:column>
+					<p:column headerText="1er Vencimiento Fact"
+						filterBy="#{perLect.fechaPrimerVencimientoFactura}"
+						filterMatchMode="contains">
+						<p:outputLabel
+							value="#{loginBean.formatearFechaMes(perLect.fechaPrimerVencimientoFactura, 'dd/MM/yyyy')}" />
+					</p:column>
+					<p:column headerText="2do Vencimiento Fact"
+						filterBy="#{perLect.fechaSegundoVencimientoFactura}"
+						filterMatchMode="contains">
+						<p:outputLabel
+							value="#{loginBean.formatearFechaMes(perLect.fechaSegundoVencimientoFactura, 'dd/MM/yyyy')}" />
+					</p:column>
+					<p:column headerText="Ultima Modificación"
+						filterBy="#{perLect.fechaUltimaMod}" filterMatchMode="contains">
+						<p:outputLabel
+							value="#{loginBean.formatearFechaMes(perLect.fechaUltimaMod, 'dd/MM/yyyy')}" />
+					</p:column>
+					<p:column headerText="#{msg.paramPeriodoLecturaEstado}"
+						filterBy="#{perLect.estadoPeriodo.descripcion}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{perLect.estadoPeriodo.descripcion}" />
+					</p:column>
+					<p:column style="width:110px;text-align: center" exportable="false"
+						rendered="#{perLect.estadoPeriodo.descripcion == 'EN PROCESO'}">
+						<p:commandButton value="CERRAR PERIODO"
+							actionListener="#{periodoLecturaBean.cambiarEstadoPeriodo('CERRADO', perLect)}"
+							update=":alta :mostrar" immediate="true" />
+					</p:column>
+					<p:column style="width:110px;text-align: center" exportable="false"
+						rendered="#{perLect.estadoPeriodo.descripcion == 'CERRADO'}">
+						<p:commandButton value="FACTURADO"
+							actionListener="#{periodoLecturaBean.cambiarEstadoPeriodo('FACTURADO', perLect)}"
+							update=":alta :mostrar" immediate="true" />
+					</p:column>
+					<f:facet name="footer">
+						<p:outputLabel value=" " />
+					</f:facet>
+				</p:dataTable>
 			</h:form>
 		</center>
 	</ui:define>

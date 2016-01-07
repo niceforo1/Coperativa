@@ -62,8 +62,23 @@ public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 
 	@Override
 	public void modificarPeriodoLectura(PeriodoLectura periodo) throws Exception {
-		// TODO Auto-generated method stub
-		
+		Session session = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.update(periodo);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}			
 	}
 
 	@Override

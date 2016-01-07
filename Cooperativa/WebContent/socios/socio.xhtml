@@ -357,9 +357,10 @@
 					<p:outputPanel id="socDetail" style="text-align:center;">
 						<p:scrollPanel style="width:auto;height:auto"
 							rendered="#{not empty socioBean.socioSeleccionado}" mode="native">
-							<p:panelGrid columns="2"
+							<center>
+							<p:panelGrid columns="4"
 								rendered="#{not empty socioBean.socioSeleccionado}"
-								columnClasses="label,value">
+								columnClasses="label,value,label,value">
 								<f:facet name="header">
 									<h:outputText value="" />
 								</f:facet>
@@ -409,6 +410,11 @@
 								<p:outputLabel value="Inscripto a Ganancias:" />
 								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.inscriptoGanancias == true?'SI':'NO'}" />	
+								</p:panelGrid>
+								</center>
+								<p:panelGrid columns="2"
+								rendered="#{not empty socioBean.socioSeleccionado}"
+								columnClasses="label,value">
 								<p:outputLabel value="Domicilio:" />
 								<p:dataTable
 									value="#{socioBean.socioSeleccionado.domicilios}"
