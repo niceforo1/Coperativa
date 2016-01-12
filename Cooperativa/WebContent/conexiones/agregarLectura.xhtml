@@ -55,11 +55,13 @@
 						effect="explode" required="true" locale="es" navigator="true" />
 					
 					<p:outputLabel value="#{msg.paramLecturaActual}"
-								for="lectActual" />
+								for="lectActual">
+						<h:outputText id="out"  value="#{lecturaBean.mensajeBlur}"/>
+					</p:outputLabel>
 					<p:inputText id="lectActual"
-						value="#{lecturaBean.lectura.lecturaActual}" >	
-						<p:ajax event="keyup" update="out" />
-					</p:inputText>	
+						value="#{lecturaBean.lecturaActual}" >	
+						<p:ajax event="blur" update="out" listener="#{lecturaBean.mostrarAviso}"/>
+					</p:inputText>
 					
 					<p:outputLabel value="#{msg.paramLecturaObservaciones}"
 								for="observaciones" />
@@ -74,7 +76,6 @@
 						</center>
 					</f:facet>	
 				</p:panelGrid>
-				<h:outputText id="out" value="#{lecturaBean.revisarLectura()}" />	
 			</h:form>
 		</center>
 	</ui:define>
