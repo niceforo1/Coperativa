@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+
+		<style>
+.ACTIVA {
+	color: green;
+	font-weight: bold;
+}
+
+.BAJA {
+	color: red;
+	font-weight: bold;
+}
+
+.LIMITADA {
+	color: orange;
+	font-weight: bold;
+}
+
+.EN REPARACION {
+	color: yellow;
+	font-weight: bold;
+}
+
+.label {
+	font-weight: bold;
+}
+</style>
+		<center>
+			<h:form id="alta">
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<p:panelGrid columns="7">
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="Periodo" />
+						</center>
+					</f:facet>
+					<p:outputLabel value="#{lecturaBean.periodo.mes}/#{lecturaBean.periodo.anio}"/>
+					<p:outputLabel value="Lecturero" for="lecturero"/>
+					<p:inputText id="lecturero" value="#{lecturaBean.lectura.lecturero}" required="true"/>
+					<p:outputLabel value="Fecha Registro" for="fecReg"/>
+					<p:calendar id="fecReg" value="#{lecturaBean.lectura.fechaRegistroLectura}"
+						effect="explode" required="true" locale="es" navigator="true" />
+				</p:panelGrid>
+				<hr/>
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="Carga Lecturas" />
+						</center>
+					</f:facet>
+					<p:outputLabel value="Número Conexión" for="numero" />
+					<p:inputText id="numero" value="#{lecturaBean.conexionID}">
+						<p:ajax event="blur" update="socio, lectAnt"
+							listener="#{lecturaBean.retornarConexion}" />
+					</p:inputText>
+					<p:outputLabel value="Socio:" />
+					<p:outputLabel
+						value="#{lecturaBean.conexion.socio.apellidoRazonSocial} #{lecturaBean.conexion.socio.nombreDenominacion}"
+						id="socio" />
+					<p:outputLabel value="Lectura Anterior: " />
+					<p:outputLabel id="lectAnt"
+						value="#{lecturaBean.lectura.lecturaAnterior}" />
+					<p:outputLabel value="Lectura Actual: " />
+					<p:inputText id="lectActual"
+						value="#{lecturaBean.lectura.lecturaActual}">
+						<p:ajax event="blur" update="out"
+							listener="#{lecturaBean.mostrarAviso}" />
+						<h:outputText styleClass="BAJA" id="out"
+							value="#{lecturaBean.mensajeBlur}" />
+					</p:inputText>
+
+					<f:facet name="footer">
+						<center>
+							<p:commandButton action="#{lecturaBean.insertarLectura}"
+								value="#{msg.paramCargar}" />
+						</center>
+					</f:facet>
+				</p:panelGrid>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

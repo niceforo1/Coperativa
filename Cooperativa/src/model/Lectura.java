@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "LECTURAS")
-public class Lectura implements Serializable {
+public class Lectura implements Serializable,Comparable<Lectura>{
 
 	@Id
 	@Column(name = "ID_LECTURA")
@@ -83,19 +83,19 @@ public class Lectura implements Serializable {
 		this.fechaRegistroLectura = fechaRegistroLectura;
 	}
 
-	public Long getLecturaAnterior() {
+	public long getLecturaAnterior() {
 		return lecturaAnterior;
 	}
 
-	public void setLecturaAnterior(Long lecturaAnterior) {
+	public void setLecturaAnterior(long lecturaAnterior) {
 		this.lecturaAnterior = lecturaAnterior;
 	}
 
-	public Long getLecturaActual() {
+	public long getLecturaActual() {
 		return lecturaActual;
 	}
 
-	public void setLecturaActual(Long lecturaActual) {
+	public void setLecturaActual(long lecturaActual) {
 		this.lecturaActual = lecturaActual;
 	}
 
@@ -123,4 +123,22 @@ public class Lectura implements Serializable {
 		this.periodoLectura = periodoLectura;
 	}
 
+	@Override
+	public String toString() {
+		return "Lectura [id=" + id + ", periodoLectura=" + periodoLectura + ", lecturero=" + lecturero
+				+ ", fechaGeneracion=" + fechaGeneracion + ", fechaRegistroLectura=" + fechaRegistroLectura
+				+ ", lecturaAnterior=" + lecturaAnterior + ", lecturaActual=" + lecturaActual + ", observaciones="
+				+ observaciones + ", usuario=" + usuario + "]";
+	}
+
+	@Override
+	public int compareTo(Lectura o) {
+		if (id > o.id) {
+            return -1;
+        }
+        if (id < o.id) {
+            return 1;
+        }
+        return 0;
+	}
 }

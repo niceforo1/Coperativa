@@ -1,13 +1,13 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.Collections;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 import com.sun.faces.context.flash.ELFlash;
 
@@ -20,16 +20,17 @@ import dao.impl.PeriodoLecturaDAOImplement;
 import model.Conexion;
 import model.ConfiguracionLectura;
 import model.Lectura;
+import model.PeriodoLectura;
 
 @ManagedBean(name = "lecturaBean")
 @ViewScoped
 public class LecturaBean implements Serializable {
 
 	private Lectura lectura;
-	private long lecturaActual;
-	private long periodoLecturaId;
 	private String mensajeBlur;
-	private Conexion conexSeleccionada;
+	private long conexionID;
+	private Conexion conexion;
+	private PeriodoLectura periodo;
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
@@ -46,31 +47,6 @@ public class LecturaBean implements Serializable {
 		this.mensajeBlur = mensajeBlur;
 	}
 
-	public long getLecturaActual() {
-		return lecturaActual;
-	}
-
-	public void setLecturaActual(long lecturaActual) {
-		if (lecturaActual > 10) {
-			System.out.println("PASO MSG");
-			mensajeBlur = "Verifique este campo.";
-		} else {
-			System.out.println("PASO NO MSG");
-			mensajeBlur = "";
-		}
-		lectura.setLecturaActual(lecturaActual);
-	}
-
-	public void mostrarAviso(){		
-		if(lectura.getLecturaActual() > 10){
-			System.out.println("PUTO BLUR");
-			mensajeBlur= " Verifique este campo. ";
-		}else{
-			System.out.println("lindo BLUR");
-			mensajeBlur= "";
-		}
-	}
-
 	public Lectura getLectura() {
 		return lectura;
 	}
@@ -79,20 +55,12 @@ public class LecturaBean implements Serializable {
 		this.lectura = lectura;
 	}
 
-	public long getPeriodoLecturaId() {
-		return periodoLecturaId;
+	public Conexion getConexion() {
+		return conexion;
 	}
 
-	public void setPeriodoLecturaId(long periodoLecturaId) {
-		this.periodoLecturaId = periodoLecturaId;
-	}
-
-	public Conexion getConexSeleccionada() {
-		return conexSeleccionada;
-	}
-
-	public void setConexSeleccionada(Conexion conexSeleccionada) {
-		this.conexSeleccionada = conexSeleccionada;
+	public void setConexion(Conexion conexion) {
+		this.conexion = conexion;
 	}
 
 	public LoginBean getLogin() {
@@ -103,91 +71,122 @@ public class LecturaBean implements Serializable {
 		this.login = login;
 	}
 
-	public String insertarLectura() {
-		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
+	public long getConexionID() {
+		return conexionID;
+	}
+
+	public void setConexionID(long conexionID) {
+		this.conexionID = conexionID;
+	}
+
+	public PeriodoLectura getPeriodo() {
+		return periodo;
+	}
+
+	public void setPeriodo(PeriodoLectura periodo) {
+		this.periodo = periodo;
+	}
+
+	public void retornarConexion() {
 		ConexionDAO conexionDAO = new ConexionDAOImplement();
 		try {
-			lectura.setPeriodoLectura(periodoLecturaDAO.buscarPeriodoLecturaId(periodoLecturaId));
-			lectura.setUsuario(login.getUsuario());
-
-			// OBTENER LECTURA ANTERIOR
-			long anio = lectura.getPeriodoLectura().getAnio();
-			long mes = lectura.getPeriodoLectura().getMes();
-			if (mes == 1) {
-				anio = anio - 1;
-				mes = 12;
-			} else {
-				mes = mes - 1;
+			conexion = conexionDAO.buscarConexionID(conexionID);
+			Collections.sort(conexion.getLecturas());
+			lectura.setLecturaAnterior(conexion.getLecturas().get(0).getLecturaActual());
+			if (conexion == null) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se encuentra la conexión"));
 			}
-
-			for (Lectura lect : conexSeleccionada.getLecturas()) {
-				if ((lect.getPeriodoLectura().getAnio() == anio) && (lect.getPeriodoLectura().getMes() == mes)) {
-					lectura.setLecturaAnterior(lect.getLecturaActual());
-				}
-
-			}
-
-			if (lectura.getLecturaActual() <= 0) {
-				ELFlash.getFlash().put("lectura", new Boolean(false));
-			} else {
-				conexSeleccionada.getLecturas().add(lectura);
-				conexionDAO.modificarConexion(conexSeleccionada);
-				ELFlash.getFlash().put("lectura", new Boolean(true));
-			}
-
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+					"Error al buscar conexión: " + e.getMessage()));
 		}
 
+	}
+
+	public void mostrarAviso() {
+		if (lectura.getLecturaActual() > 10) {
+			mensajeBlur = " Verifique este campo. ";
+		} else {
+			mensajeBlur = "";
+		}
+	}
+
+	public String insertarLectura() {
+		/*
+		 * PeriodoLecturaDAO periodoLecturaDAO = new
+		 * PeriodoLecturaDAOImplement(); ConexionDAO conexionDAO = new
+		 * ConexionDAOImplement(); try {
+		 * lectura.setPeriodoLectura(periodoLecturaDAO.buscarPeriodoLecturaId(
+		 * periodoLecturaId)); lectura.setUsuario(login.getUsuario());
+		 * 
+		 * // OBTENER LECTURA ANTERIOR long anio =
+		 * lectura.getPeriodoLectura().getAnio(); long mes =
+		 * lectura.getPeriodoLectura().getMes(); if (mes == 1) { anio = anio -
+		 * 1; mes = 12; } else { mes = mes - 1; }
+		 * 
+		 * for (Lectura lect : conexSeleccionada.getLecturas()) { if
+		 * ((lect.getPeriodoLectura().getAnio() == anio) &&
+		 * (lect.getPeriodoLectura().getMes() == mes)) {
+		 * lectura.setLecturaAnterior(lect.getLecturaActual()); }
+		 * 
+		 * }
+		 * 
+		 * if (lectura.getLecturaActual() <= 0) {
+		 * ELFlash.getFlash().put("lectura", new Boolean(false)); } else {
+		 * conexSeleccionada.getLecturas().add(lectura);
+		 * conexionDAO.modificarConexion(conexSeleccionada);
+		 * ELFlash.getFlash().put("lectura", new Boolean(true)); }
+		 * 
+		 * } catch (Exception e) {
+		 * FacesContext.getCurrentInstance().addMessage(null, new
+		 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+		 * "Error al procesar: " + e.getMessage())); }
+		 */
 		return "/conexiones/lecturas.xhtml?faces-redirect=true";
 	}
 
 	public String revisarLectura() {
-
-		ConfiguracionLecturaDAO daoConfiguracionLectura = new ConfiguracionLecturaDAOImplement();
-
-		ConfiguracionLectura confLect;
-
-		String resultado = "";
-
-		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
-
-		try {
-			System.out.println(periodoLecturaId);
-			lectura.setPeriodoLectura(periodoLecturaDAO.buscarPeriodoLecturaId(periodoLecturaId));
-
-			// OBTENER LECTURA ANTERIOR
-			long anio = lectura.getPeriodoLectura().getAnio();
-			long mes = lectura.getPeriodoLectura().getMes();
-			if (mes == 1) {
-				anio = anio - 1;
-				mes = 12;
-			} else {
-				mes = mes - 1;
-			}
-
-			for (Lectura lect : conexSeleccionada.getLecturas()) {
-				if ((lect.getPeriodoLectura().getAnio() == anio) && (lect.getPeriodoLectura().getMes() == mes)) {
-					lectura.setLecturaAnterior(lect.getLecturaActual());
-				}
-
-			}
-
-			confLect = daoConfiguracionLectura.listaConfiguracionLectura().get(0);
-
-			if ((lectura.getLecturaActual() - lectura.getLecturaAnterior()) > confLect.getMonto()) {
-				resultado = "Lectura Correcta?";
-			} else {
-				resultado = "Lectura Correcta";
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return resultado;
+		/*
+		 * ConfiguracionLecturaDAO daoConfiguracionLectura = new
+		 * ConfiguracionLecturaDAOImplement();
+		 * 
+		 * ConfiguracionLectura confLect;
+		 * 
+		 * String resultado = "";
+		 * 
+		 * PeriodoLecturaDAO periodoLecturaDAO = new
+		 * PeriodoLecturaDAOImplement();
+		 * 
+		 * try { System.out.println(periodoLecturaId);
+		 * lectura.setPeriodoLectura(periodoLecturaDAO.buscarPeriodoLecturaId(
+		 * periodoLecturaId));
+		 * 
+		 * // OBTENER LECTURA ANTERIOR long anio =
+		 * lectura.getPeriodoLectura().getAnio(); long mes =
+		 * lectura.getPeriodoLectura().getMes(); if (mes == 1) { anio = anio -
+		 * 1; mes = 12; } else { mes = mes - 1; }
+		 * 
+		 * for (Lectura lect : conexSeleccionada.getLecturas()) { if
+		 * ((lect.getPeriodoLectura().getAnio() == anio) &&
+		 * (lect.getPeriodoLectura().getMes() == mes)) {
+		 * lectura.setLecturaAnterior(lect.getLecturaActual()); }
+		 * 
+		 * }
+		 * 
+		 * confLect =
+		 * daoConfiguracionLectura.listaConfiguracionLectura().get(0);
+		 * 
+		 * if ((lectura.getLecturaActual() - lectura.getLecturaAnterior()) >
+		 * confLect.getMonto()) { resultado = "Lectura Correcta?"; } else {
+		 * resultado = "Lectura Correcta"; }
+		 * 
+		 * } catch (Exception e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 * 
+		 * return resultado;
+		 */
+		return "";
 	}
 
 	public String pasarPagina(Conexion conexion) {
@@ -196,12 +195,11 @@ public class LecturaBean implements Serializable {
 		return "/conexiones/agregarLectura.xhtml?faces-redirect=true";
 	}
 
-	public void obtenerConex() {
-		inicializar();
-		String BEAN_KEY = "conex";
-		// ELFlash.getFlash().put(BEAN_KEY, ELFlash.getFlash().get(BEAN_KEY));
-		this.conexSeleccionada = (Conexion) ELFlash.getFlash().get(BEAN_KEY);
-	}
+	/*
+	 * public void obtenerConex() { inicializar(); String BEAN_KEY = "conex"; //
+	 * ELFlash.getFlash().put(BEAN_KEY, ELFlash.getFlash().get(BEAN_KEY));
+	 * this.conexSeleccionada = (Conexion) ELFlash.getFlash().get(BEAN_KEY); }
+	 */
 
 	public void verificarLectura() {
 		Boolean lect = false;
@@ -221,8 +219,14 @@ public class LecturaBean implements Serializable {
 
 	private void inicializar() {
 		lectura = new Lectura();
-		periodoLecturaId = 0;
-		conexSeleccionada = new Conexion();
+		conexion = new Conexion();
+		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
+		try {
+			periodo = periodoLecturaDAO.buscarPeriodoLecturaAbierto();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No existe Período Abierto."));
+		}
 	}
 
 }

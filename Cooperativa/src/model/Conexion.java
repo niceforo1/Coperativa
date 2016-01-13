@@ -274,5 +274,18 @@ public class Conexion implements Serializable {
 	public void setLecturas(List<Lectura> lecturas) {
 		this.lecturas = lecturas;
 	}
+
+	@Override
+	public String toString() {
+		return "Conexion [id=" + id + ", estadoConexion=" + estadoConexion + ", socio=" + socio + ", zonaConexion="
+				+ zonaConexion + ", fechaAlta=" + fechaAlta + ", terreno=" + terreno + ", tipoTerreno=" + tipoTerreno
+				+ ", pileta=" + pileta + ", regimenPropiedad=" + regimenPropiedad + ", formaPago=" + formaPago
+				+ ", tipoSuministro=" + tipoSuministro + ", categoriaConexion=" + categoriaConexion + ", tipoConexion="
+				+ tipoConexion + ", nroMedidor=" + nroMedidor + ", emiteFactura=" + emiteFactura
+				+ ", domServFactIguales=" + domServFactIguales + ", domicilioServicio=" + domicilioServicio
+				+ ", domicilioFacturacion=" + domicilioFacturacion + ", ubicacionesCatastrales="
+				+ ubicacionesCatastrales + ", usuario=" + usuario + ", lecturas=" + lecturas + "]";
+	}
+	
 	
 }
