@@ -27,6 +27,7 @@ public class LoginBean implements Serializable {
 	private String password;
 	private String diaPrimerVenc = "10";
 	private String diaSegVenc = "20";
+	
 
 	// private boolean tipoUsuario = false;
 

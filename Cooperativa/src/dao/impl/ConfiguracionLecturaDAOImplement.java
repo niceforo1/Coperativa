@@ -15,14 +15,13 @@ import dao.ConfiguracionLecturaDAO;
 public class ConfiguracionLecturaDAOImplement implements ConfiguracionLecturaDAO{
 
 	@Override
-	public List<ConfiguracionLectura> listaConfiguracionLectura()
-			throws Exception {
+	public ConfiguracionLectura obtenerConfiguracionLectura() throws Exception {
 		Session session = null;
-		List<ConfiguracionLectura> lista = null;
+		ConfiguracionLectura lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("from ConfiguracionLectura");
-			lista = (List<ConfiguracionLectura>) query.list();
+			lista = (ConfiguracionLectura) query.list().get(0);
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
 			session.getTransaction().rollback();
