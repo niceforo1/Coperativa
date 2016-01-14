@@ -50,9 +50,9 @@
 					</f:facet>
 					<p:outputLabel value="#{lecturaBean.periodo.mes}/#{lecturaBean.periodo.anio}"/>
 					<p:outputLabel value="Lecturero" for="lecturero"/>
-					<p:inputText id="lecturero" value="#{lecturaBean.lectura.lecturero}" required="true"/>
+					<p:inputText id="lecturero" value="#{lecturaBean.lecturero}"  required="true" converter="upperConverter"/>
 					<p:outputLabel value="Fecha Registro" for="fecReg"/>
-					<p:calendar id="fecReg" value="#{lecturaBean.lectura.fechaRegistroLectura}"
+					<p:calendar id="fecReg" value="#{lecturaBean.fechaRegistro}"
 						effect="explode" required="true" locale="es" navigator="true" />
 				</p:panelGrid>
 				<hr/>
@@ -64,13 +64,23 @@
 					</f:facet>
 					<p:outputLabel value="Número Conexión" for="numero" />
 					<p:inputText id="numero" value="#{lecturaBean.conexionID}">
-						<p:ajax event="blur" update="socio, lectAnt"
+						<p:ajax event="blur" update="socio, socio1, socio2, lectAnt"
 							listener="#{lecturaBean.retornarConexion}" />
 					</p:inputText>
 					<p:outputLabel value="Socio:" />
-					<p:outputLabel
-						value="#{lecturaBean.conexion.socio.apellidoRazonSocial} #{lecturaBean.conexion.socio.nombreDenominacion}"
-						id="socio" />
+					<p:panelGrid columns="3">
+						<p:outputLabel
+							value="#{lecturaBean.conexion.socio.apellidoRazonSocial} #{lecturaBean.conexion.socio.nombreDenominacion}"
+							id="socio" />							
+							
+						<p:outputLabel
+							value="#{lecturaBean.conexion.domicilioServicio.barrio} #{lecturaBean.conexion.domicilioServicio.calle} #{lecturaBean.conexion.domicilioServicio.numero}"
+							id="socio1" />
+						<p:outputLabel
+							value="#{lecturaBean.conexion.nroMedidor}"
+							id="socio2" />
+							
+					</p:panelGrid>
 					<p:outputLabel value="Lectura Anterior: " />
 					<p:outputLabel id="lectAnt"
 						value="#{lecturaBean.lectura.lecturaAnterior}" />
@@ -82,11 +92,12 @@
 						<h:outputText styleClass="BAJA" id="out"
 							value="#{lecturaBean.mensajeBlur}" />
 					</p:inputText>
-
+					<p:outputLabel value="Observaciones: " />
+					<p:inputTextarea value="#{lecturaBean.lectura.observaciones}" rows="10" cols="40"/>					
 					<f:facet name="footer">
 						<center>
 							<p:commandButton action="#{lecturaBean.insertarLectura}"
-								value="#{msg.paramCargar}" />
+								value="#{msg.paramCargar}" update=":alta"/>
 						</center>
 					</f:facet>
 				</p:panelGrid>

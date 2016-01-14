@@ -17,5 +17,5 @@ public class UpperConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value)
 			throws ConverterException {
 		return ((String)value).toUpperCase();
-	}
+	}  
 }

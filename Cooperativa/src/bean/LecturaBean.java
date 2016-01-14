@@ -1,7 +1,9 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -13,9 +15,11 @@ import com.sun.faces.context.flash.ELFlash;
 
 import dao.ConexionDAO;
 import dao.ConfiguracionLecturaDAO;
+import dao.LecturaDAO;
 import dao.PeriodoLecturaDAO;
 import dao.impl.ConexionDAOImplement;
 import dao.impl.ConfiguracionLecturaDAOImplement;
+import dao.impl.LecturaDAOImplement;
 import dao.impl.PeriodoLecturaDAOImplement;
 import model.Conexion;
 import model.ConfiguracionLectura;
@@ -31,6 +35,8 @@ public class LecturaBean implements Serializable {
 	private long conexionID;
 	private Conexion conexion;
 	private PeriodoLectura periodo;
+	private String lecturero;
+	private Date fechaRegistro;
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
@@ -87,6 +93,22 @@ public class LecturaBean implements Serializable {
 		this.periodo = periodo;
 	}
 
+	public String getLecturero() {
+		return lecturero;
+	}
+
+	public void setLecturero(String lecturero) {
+		this.lecturero = lecturero;
+	}
+
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
 	public void retornarConexion() {
 		ConexionDAO conexionDAO = new ConexionDAOImplement();
 		try {
@@ -112,38 +134,25 @@ public class LecturaBean implements Serializable {
 		}
 	}
 
-	public String insertarLectura() {
-		/*
-		 * PeriodoLecturaDAO periodoLecturaDAO = new
-		 * PeriodoLecturaDAOImplement(); ConexionDAO conexionDAO = new
-		 * ConexionDAOImplement(); try {
-		 * lectura.setPeriodoLectura(periodoLecturaDAO.buscarPeriodoLecturaId(
-		 * periodoLecturaId)); lectura.setUsuario(login.getUsuario());
-		 * 
-		 * // OBTENER LECTURA ANTERIOR long anio =
-		 * lectura.getPeriodoLectura().getAnio(); long mes =
-		 * lectura.getPeriodoLectura().getMes(); if (mes == 1) { anio = anio -
-		 * 1; mes = 12; } else { mes = mes - 1; }
-		 * 
-		 * for (Lectura lect : conexSeleccionada.getLecturas()) { if
-		 * ((lect.getPeriodoLectura().getAnio() == anio) &&
-		 * (lect.getPeriodoLectura().getMes() == mes)) {
-		 * lectura.setLecturaAnterior(lect.getLecturaActual()); }
-		 * 
-		 * }
-		 * 
-		 * if (lectura.getLecturaActual() <= 0) {
-		 * ELFlash.getFlash().put("lectura", new Boolean(false)); } else {
-		 * conexSeleccionada.getLecturas().add(lectura);
-		 * conexionDAO.modificarConexion(conexSeleccionada);
-		 * ELFlash.getFlash().put("lectura", new Boolean(true)); }
-		 * 
-		 * } catch (Exception e) {
-		 * FacesContext.getCurrentInstance().addMessage(null, new
-		 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-		 * "Error al procesar: " + e.getMessage())); }
-		 */
-		return "/conexiones/lecturas.xhtml?faces-redirect=true";
+	public void insertarLectura() {
+		lectura.setFechaGeneracion(Calendar.getInstance().getTime());
+		lectura.setPeriodoLectura(periodo);
+		lectura.setUsuario(login.getUsuario());
+		lectura.setLecturero(lecturero);
+		lectura.setFechaRegistroLectura(fechaRegistro);
+		// LecturaDAO lecturaDAO = new LecturaDAOImplement();
+		try {
+			ConexionDAO conexionDAO = new ConexionDAOImplement();
+			conexion.getLecturas().add(lectura);
+			conexionDAO.modificarConexion(conexion);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+					"Error al Insertar Lectura: " + e.getMessage()));
+		}
+		lectura = new Lectura();
+		conexion = new Conexion();
+		conexionID = 0;
+		mensajeBlur = "";
 	}
 
 	public String revisarLectura() {

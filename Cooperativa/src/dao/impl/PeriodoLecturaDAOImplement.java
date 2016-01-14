@@ -127,35 +127,6 @@ public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 	}
 
 	@Override
-	public List<PeriodoLectura> listaPeriodoLecturaEnProceso(String estado) throws Exception {
-		
-		Session session = null;
-		List<PeriodoLectura> lista = null;
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from PeriodoLectura as s" 
-											// + " inner join EstadoSocio as es"
-											// + " on es.id = s.estadoSocio"
-											 + " where s.estadoPeriodo.descripcion = ?");
-			query.setString(0, estado);
-			lista = (List<PeriodoLectura>) query.list();
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			System.out.println("error: " + e.getMessage());
-			throw new Exception(e);
-		}finally{
-			if(session != null){
-				System.out.println("CIERRA LA SESION");
-				session.close();
-			}
-		}
-		return lista;
-		
-	}
-
-	@Override
 	public PeriodoLectura buscarPeriodoLecturaAbierto() throws Exception {
 		Session session = null;
 		PeriodoLectura periodo= null;

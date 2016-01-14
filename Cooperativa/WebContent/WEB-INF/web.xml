@@ -21,7 +21,7 @@
     <filter-name>LoginFilter</filter-name>
     <url-pattern>/socios/*</url-pattern>
     <url-pattern>/facturacion/*</url-pattern>
-    <url-pattern>/personas/*</url-pattern>
+    <url-pattern>/conexiones/*</url-pattern>
     <url-pattern>/usuarios/*</url-pattern>
     <url-pattern>/index.xhtml</url-pattern>
   </filter-mapping>

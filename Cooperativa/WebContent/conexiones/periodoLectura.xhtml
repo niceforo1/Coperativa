@@ -22,7 +22,7 @@
 						<p:selectOneMenu id="mes"
 							value="#{periodoLecturaBean.periodoLectura.mes}"
 							panelStyle="width:180px" effect="fold" filter="true"
-							required="true">
+							required="true" disabled="#{periodoLecturaBean.periodoAbiertoCons()}">
 							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 							<f:selectItem itemLabel="ENERO" itemValue="1" />
 							<f:selectItem itemLabel="FEBRERO" itemValue="2" />
@@ -41,7 +41,7 @@
 						<p:selectOneMenu id="anio"
 							value="#{periodoLecturaBean.periodoLectura.anio}"
 							panelStyle="width:180px" effect="fold" filter="true"
-							required="true">
+							required="true" disabled="#{periodoLecturaBean.periodoAbiertoCons()}">
 							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 							<f:selectItem itemLabel="2010" itemValue="2010" />
 							<f:selectItem itemLabel="2011" itemValue="2011" />
@@ -93,7 +93,7 @@
 							effect="explode" required="true" locale="es" navigator="true" />
 						<f:facet name="footer">
 							<center>
-								<p:commandButton
+								<p:commandButton disabled="#{periodoLecturaBean.periodoAbiertoCons()}"
 									actionListener="#{periodoLecturaBean.insertarPeriodoLectura}"
 									update=":alta :mostrar" value="#{msg.paramCargar}" />
 							</center>
