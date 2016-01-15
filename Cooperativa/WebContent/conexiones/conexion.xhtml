@@ -426,6 +426,7 @@
 								<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
 							</p:column>
 							
+							<ui:remove>
 							<p:column style="width:32px;text-align: center"
 								exportable="false"
 								rendered="#{!(conex.estadoConexion.descripcion == 'BAJA')}">
@@ -441,6 +442,7 @@
 									actionListener="#{conexionBean.cambiarEstadoConexion('ACTIVA', conex)}"
 									update=":alta " immediate="true" />
 							</p:column>
+							</ui:remove>
 							
 							<p:column style="width:32px;text-align: center"
 								exportable="false">
@@ -448,6 +450,14 @@
 									actionListener="#{conexionBean.mostrarConexion(conex)}"
 									update=":alta :conexDet" immediate="true"
 									oncomplete="PF('conexDetDialog').show()" />
+							</p:column>
+							
+							<p:column style="width:32px;text-align: center"
+								exportable="false">
+								<p:commandButton icon="fa fa-fw fa-edit"
+									actionListener="#{conexionBean.editarConexion(conex)}" 
+									update=":alta :conexEdit" immediate="true"
+									oncomplete="PF('conexEditDialog').show()" />
 							</p:column>
 							
 							<f:facet name="footer">
@@ -639,6 +649,246 @@
 										<p:outputLabel value="#{ubicCat.ph}" />
 									</p:column>
 								</p:dataTable>
+							</p:panelGrid>
+						</p:scrollPanel>
+					</p:outputPanel>
+				</h:form>
+			</p:dialog>
+			<p:dialog header="Edición de Conexión" widgetVar="conexEditDialog"
+				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
+				resizable="false" dynamic="true" maximizable="false"
+				appendTo="@(body)" rendered="#{not empty conexionBean.conexionEditar}">
+				<p:ajax event="close" update=":alta :conexEdit"
+					listener="#{conexionBean.inicializar()}" />
+				<h:form id="conexEdit">
+					<p:outputPanel id="conexEditDetail" style="text-align:center;">
+						<p:scrollPanel style="width:auto;height:auto"
+							rendered="#{not empty conexionBean.conexionEditar}" mode="native">
+							<p:panelGrid columns="2"
+								rendered="#{not empty conexionBean.conexionEditar}"
+								columnClasses="label,value, label, value">
+
+								<p:outputLabel
+									value="#{msg.paramConexionEditDatosNoParametrizables}"
+									for="checkDatosNoP" />
+								<p:selectBooleanCheckbox id="checkDatosNoP"
+									value="#{conexionBean.checkDatosNoParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="#{msg.paramConexionEditDatosParametrizables}"
+									for="checkParametrizables" />
+								<p:selectBooleanCheckbox id="checkParametrizables"
+									value="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramConexionEditDomServFac}"
+									for="checkDomServFactIguales" />
+								<p:selectBooleanCheckbox id="checkDomServFactIguales"
+									value="#{conexionBean.checkDomServFactIguales}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="#{msg.paramEstadoConexion}"
+									for="checkEstConex"
+									rendered="#{conexionBean.checkDatosParametrizables}" />
+								<p:selectBooleanCheckbox id="checkEstConex"
+									value="#{conexionBean.checkEstConex}"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramZonaConexion}"
+									for="checkZonaConex"
+									rendered="#{conexionBean.checkDatosParametrizables}" />
+								<p:selectBooleanCheckbox id="checkZonaConex"
+									value="#{conexionBean.checkZonaConex}"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramTipoTerrenoConexion}"
+									for="checkTipoTerreno"
+									rendered="#{conexionBean.checkDatosParametrizables}" />
+								<p:selectBooleanCheckbox id="checkTipoTerreno"
+									value="#{conexionBean.checkTipoTerreno}"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramRegimenConexion}"
+									for="checkRegimenPropiedad"
+									rendered="#{conexionBean.checkDatosParametrizables}" />
+								<p:selectBooleanCheckbox id="checkRegimenPropiedad"
+									value="#{conexionBean.checkRegimenPropiedad}"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramTipoSuministroConexion}"
+									for="checkTipoSuministro"
+									rendered="#{conexionBean.checkDatosParametrizables}" />
+								<p:selectBooleanCheckbox id="checkTipoSuministro"
+									value="#{conexionBean.checkTipoSuministro}"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramCategoriaConexion}"
+									for="checkCategoriaConex"
+									rendered="#{conexionBean.checkDatosParametrizables}" />
+								<p:selectBooleanCheckbox id="checkCategoriaConex"
+									value="#{conexionBean.checkCategoriaConex}"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramTipoConexion}"
+									for="checkTipoConex"
+									rendered="#{conexionBean.checkDatosParametrizables}" />
+								<p:selectBooleanCheckbox id="checkTipoConex"
+									value="#{conexionBean.checkTipoConex}"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:outputLabel value="#{msg.paramFPagoConexion}"
+									for="checkFormaPago"
+									rendered="#{conexionBean.checkDatosParametrizables}" />
+								<p:selectBooleanCheckbox id="checkFormaPago"
+									value="#{conexionBean.checkFormaPago}"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+									<p:ajax update="conexEdit" />
+								</p:selectBooleanCheckbox>
+								
+								<p:panelGrid columns="2" columnClasses="label,value"
+									rendered="#{conexionBean.checkDatosNoParametrizables}">
+									
+									<p:outputLabel value="#{msg.paramTerrenoConexion}" for="terreno"
+										styleClass="#{label}" />
+									<p:inputText id="terreno"
+										value="#{conexionBean.conexionEditar.terreno}"
+										required="true" />
+										
+									<p:outputLabel value="#{msg.paramPiletaConexion}" for="pileta"
+										styleClass="#{label}" />
+									<p:inputText id="pileta"
+										value="#{conexionBean.conexionEditar.pileta}"
+										required="true" />
+									
+									<p:outputLabel value="#{msg.paramNroMedidorConexion}" for="nroMedidor"
+										styleClass="#{label}" />
+									<p:inputText id="nroMedidor"
+										value="#{conexionBean.conexionEditar.nroMedidor}"
+										required="true" />
+										
+									<p:outputLabel value="#{msg.paramEmiteFacturaConexion}"
+										for="emiteFact" />
+									<p:selectBooleanCheckbox id="emiteFact"
+										value="#{conexionBean.conexionEditar.emiteFactura}" />	
+								</p:panelGrid>
+								
+								<p:panelGrid columns="2" columnClasses="label,value"
+									rendered="#{conexionBean.checkDatosParametrizables}">
+
+									<p:outputLabel value="#{msg.paramEstadoConexion}"
+										for="estConex" rendered="#{conexionBean.checkEstConex}" />
+									<p:selectOneMenu id="estConex" value="#{conexionBean.estadoConexionId}"
+										required="true" panelStyle="width:180px" effect="fold"
+										rendered="#{conexionBean.checkEstConex}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{estadoConexionBean.listaEstadoConexion}"
+											var="estCon" itemLabel="#{estCon.descripcion}"
+											itemValue="#{estCon.id}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel value="#{msg.paramZonaConexion}"
+										for="zonaConex" rendered="#{conexionBean.checkZonaConex}" />
+									<p:selectOneMenu id="zonaConex" value="#{conexionBean.zonaConexionId}"
+										required="true" panelStyle="width:180px" effect="fold"
+										rendered="#{conexionBean.checkZonaConex}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{zonaConexionBean.listaZonasConexion}"
+											var="zonaConex" itemLabel="#{zonaConex.descripcion}"
+											itemValue="#{zonaConex.id}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel value="#{msg.paramTipoTerrenoConexion}"
+										for="tipoTerrConex" rendered="#{conexionBean.checkTipoTerreno}" />
+									<p:selectOneMenu id="tipoTerrConex" value="#{conexionBean.tipoTerrenoConexionId}"
+										required="true" panelStyle="width:180px" effect="fold"
+										rendered="#{conexionBean.checkTipoTerreno}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{tipoTerrenoBean.listaTiposTerreno}"
+											var="tipoTerrConex" itemLabel="#{tipoTerrConex.descripcion}"
+											itemValue="#{tipoTerrConex.id}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel value="#{msg.paramRegimenConexion}"
+										for="regimenConex" rendered="#{conexionBean.checkRegimenPropiedad}" />
+									<p:selectOneMenu id="regimenConex" value="#{conexionBean.regimenConexionId}"
+										required="true" panelStyle="width:180px" effect="fold"
+										rendered="#{conexionBean.checkRegimenPropiedad}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{regimenPropiedadBean.listaRegimenPropiedad}"
+											var="regimenConex" itemLabel="#{regimenConex.descripcion}"
+											itemValue="#{regimenConex.id}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel value="#{msg.paramTipoSuministroConexion}"
+										for="tSuministroConex" rendered="#{conexionBean.checkTipoSuministro}" />
+									<p:selectOneMenu id="tSuministroConex" value="#{conexionBean.tipoSuministroConexionId}"
+										required="true" panelStyle="width:180px" effect="fold"
+										rendered="#{conexionBean.checkTipoSuministro}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{tipoSuministroBean.listaTipoSuministro}"
+											var="tSuministroConex" itemLabel="#{tSuministroConex.descripcion}"
+											itemValue="#{tSuministroConex.id}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel value="#{msg.paramCategoriaConexion}"
+										for="categoriaConex" rendered="#{conexionBean.checkCategoriaConex}" />
+									<p:selectOneMenu id="categoriaConex" value="#{conexionBean.categoriaConexionId}"
+										required="true" panelStyle="width:180px" effect="fold"
+										rendered="#{conexionBean.checkCategoriaConex}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{categoriaConexionBean.listaCategoriaConexion}"
+											var="categoriaConex" itemLabel="#{categoriaConex.descripcion}"
+											itemValue="#{categoriaConex.id}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel value="#{msg.paramTipoConexion}"
+										for="tipoConex" rendered="#{conexionBean.checkTipoConex}" />
+									<p:selectOneMenu id="tipoConex" value="#{conexionBean.tipoConexionId}"
+										required="true" panelStyle="width:180px" effect="fold"
+										rendered="#{conexionBean.checkTipoConex}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{tipoConexionBean.listaTipoConexion}"
+											var="tipoConex" itemLabel="#{tipoConex.descripcion}"
+											itemValue="#{tipoConex.id}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel value="#{msg.paramFPagoConexion}"
+										for="fPagoConex" rendered="#{conexionBean.checkFormaPago}" />
+									<p:selectOneMenu id="fPagoConex" value="#{conexionBean.fPagoConexionId}"
+										required="true" panelStyle="width:180px" effect="fold"
+										rendered="#{conexionBean.checkFormaPago}">
+										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+										<f:selectItems value="#{formaPagoBean.listaFormaPago}"
+											var="fPagoConex" itemLabel="#{fPagoConex.descripcion}"
+											itemValue="#{fPagoConex.id}" />
+									</p:selectOneMenu>
+								</p:panelGrid>
+
+								<f:facet name="footer">
+									<center>
+										<p:commandButton id="Editar" value="Modificar"
+											actionListener="#{conexionBean.editarConexion()}"
+											update=" :conexEdit" onclick="conexEdit.hide()" />
+									</center>
+								</f:facet>
+								
 							</p:panelGrid>
 						</p:scrollPanel>
 					</p:outputPanel>

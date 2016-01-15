@@ -16,12 +16,6 @@
 			<f:event type="preRenderView"
 				listener="#{lecturaBean.obtenerConex}" />
 		</f:metadata>
-<style>
-.BAJA {
-	color: red;
-	font-weight: bold;
-}
-</style>			
 		<center>
 			<h:form id="alta">
 				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
@@ -56,7 +50,7 @@
 					
 					<p:outputLabel value="#{msg.paramLecturaActual}"
 								for="lectActual">
-						<h:outputText id="out"  value="#{lecturaBean.mensajeBlur}"/>
+						<h:outputText id="out" value="#{lecturaBean.mensajeBlur}"/>
 					</p:outputLabel>
 					<p:inputText id="lectActual"
 						value="#{lecturaBean.lecturaActual}" >	

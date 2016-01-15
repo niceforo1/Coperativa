@@ -102,6 +102,10 @@ public class Conexion implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Lectura> lecturas;
 	
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_T_NARANJA")
+	private TarjetaNaranja datosTarjetaNaranja;
+	
 	public Conexion() {
 
 	}
@@ -273,6 +277,18 @@ public class Conexion implements Serializable {
 
 	public void setLecturas(List<Lectura> lecturas) {
 		this.lecturas = lecturas;
+	}
+
+	public TarjetaNaranja getDatosTarjetaNaranja() {
+		return datosTarjetaNaranja;
+	}
+
+	public void setDatosTarjetaNaranja(TarjetaNaranja datosTarjetaNaranja) {
+		this.datosTarjetaNaranja = datosTarjetaNaranja;
+	}
+
+	public void setNroMedidor(long nroMedidor) {
+		this.nroMedidor = nroMedidor;
 	}
 
 	@Override

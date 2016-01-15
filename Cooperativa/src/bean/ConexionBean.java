@@ -21,6 +21,7 @@ import dao.RegimenPropiedadDAO;
 import dao.SocioDAO;
 import dao.TipoConexionDAO;
 import dao.TipoDomicilioDAO;
+import dao.TipoSocioDAO;
 import dao.TipoSuministroDAO;
 import dao.TipoTerrenoDAO;
 import dao.TipoUbicacionCatastralDAO;
@@ -36,6 +37,7 @@ import dao.impl.RegimenPropiedadDAOImplement;
 import dao.impl.SocioDAOImplement;
 import dao.impl.TipoConexionDAOImplement;
 import dao.impl.TipoDomicilioDAOImplement;
+import dao.impl.TipoSocioDAOImplement;
 import dao.impl.TipoSuministroDAOImplement;
 import dao.impl.TipoTerrenoDAOImplement;
 import dao.impl.TipoUbicacionCatastralDAOImplement;
@@ -66,6 +68,7 @@ public class ConexionBean implements Serializable {
 	
 	private Conexion conexion;
 	private Conexion conexionSeleccionada;
+	private Conexion conexionEditar;
 	private List<Conexion> lstConexiones;
 	private long estadoConexionId;
 	private long zonaConexionId;
@@ -75,6 +78,20 @@ public class ConexionBean implements Serializable {
 	private long categoriaConexionId;
 	private long tipoConexionId;
 	private long fPagoConexionId;
+	
+	private boolean checkDatosParametrizables;
+	private boolean checkEstConex;
+	private boolean checkZonaConex;
+	private boolean checkTipoTerreno;
+	private boolean checkRegimenPropiedad;
+	private boolean checkFormaPago;
+	private boolean checkTipoSuministro;
+	private boolean checkCategoriaConex;
+	private boolean checkTipoConex;
+	
+	private boolean checkDatosNoParametrizables;
+	
+	private boolean checkDomServFactIguales;
 	
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
@@ -193,6 +210,14 @@ public class ConexionBean implements Serializable {
 		this.conexionSeleccionada = conexionSeleccionada;
 	}
 
+	public Conexion getConexionEditar() {
+		return conexionEditar;
+	}
+
+	public void setConexionEditar(Conexion conexionEditar) {
+		this.conexionEditar = conexionEditar;
+	}
+
 	public List<Conexion> getLstConexiones() {
 		try {
 			ConexionDAO daoConexion = new ConexionDAOImplement();
@@ -274,6 +299,95 @@ public class ConexionBean implements Serializable {
 		this.fPagoConexionId = fPagoConexionId;
 	}
 	
+	public boolean isCheckDatosParametrizables() {
+		return checkDatosParametrizables;
+	}
+
+	public void setCheckDatosParametrizables(boolean checkDatosParametrizables) {
+		this.checkDatosParametrizables = checkDatosParametrizables;
+	}
+
+	public boolean isCheckEstConex() {
+		return checkEstConex;
+	}
+
+	public void setCheckEstConex(boolean checkEstConex) {
+		this.checkEstConex = checkEstConex;
+	}
+
+	public boolean isCheckZonaConex() {
+		return checkZonaConex;
+	}
+
+	public void setCheckZonaConex(boolean checkZonaConex) {
+		this.checkZonaConex = checkZonaConex;
+	}
+
+	public boolean isCheckTipoTerreno() {
+		return checkTipoTerreno;
+	}
+
+	public void setCheckTipoTerreno(boolean checkTipoTerreno) {
+		this.checkTipoTerreno = checkTipoTerreno;
+	}
+
+	public boolean isCheckRegimenPropiedad() {
+		return checkRegimenPropiedad;
+	}
+
+	public void setCheckRegimenPropiedad(boolean checkRegimenPropiedad) {
+		this.checkRegimenPropiedad = checkRegimenPropiedad;
+	}
+
+	public boolean isCheckFormaPago() {
+		return checkFormaPago;
+	}
+
+	public void setCheckFormaPago(boolean checkFormaPago) {
+		this.checkFormaPago = checkFormaPago;
+	}
+
+	public boolean isCheckTipoSuministro() {
+		return checkTipoSuministro;
+	}
+
+	public void setCheckTipoSuministro(boolean checkTipoSuministro) {
+		this.checkTipoSuministro = checkTipoSuministro;
+	}
+
+	public boolean isCheckCategoriaConex() {
+		return checkCategoriaConex;
+	}
+
+	public void setCheckCategoriaConex(boolean checkCategoriaConex) {
+		this.checkCategoriaConex = checkCategoriaConex;
+	}
+
+	public boolean isCheckTipoConex() {
+		return checkTipoConex;
+	}
+
+	public void setCheckTipoConex(boolean checkTipoConex) {
+		this.checkTipoConex = checkTipoConex;
+	}
+
+	public boolean isCheckDatosNoParametrizables() {
+		return checkDatosNoParametrizables;
+	}
+
+	public void setCheckDatosNoParametrizables(boolean checkDatosNoParametrizables) {
+		this.checkDatosNoParametrizables = checkDatosNoParametrizables;
+	}
+
+
+	public boolean isCheckDomServFactIguales() {
+		return checkDomServFactIguales;
+	}
+
+	public void setCheckDomServFactIguales(boolean checkDomServFactIguales) {
+		this.checkDomServFactIguales = checkDomServFactIguales;
+	}
+
 	public LoginBean getLogin() {
 		return login;
 	}
@@ -433,35 +547,73 @@ public class ConexionBean implements Serializable {
 		}
 	}
 	
-	public String obtenerSocioPorConexion(Conexion conexion){
-		List<Socio> lista = new ArrayList<Socio>();
-		String cadena = "";
-		ConexionDAO daoConexion = new ConexionDAOImplement();
-		try{
-			lista = daoConexion.buscarSocioPorConexion(conexion);
-		}
-		catch(Exception e){
+	public void editarConexion(){
+		
+		checkDomServFactIguales= false;
+		
+		try {
+			
+			if(checkEstConex == true){
+				EstadoConexionDAO daoEstadoConexion = new EstadoConexionDAOImplement();
+				conexionEditar.setEstadoConexion(daoEstadoConexion.buscarEstadoConexionId(estadoConexionId));
+			}
+			
+			if(checkZonaConex == true){
+				ZonaConexionDAO daoZonaConexion = new ZonaConexionDAOImplement();
+				conexionEditar.setZonaConexion(daoZonaConexion.buscarZonaConexionId(zonaConexionId));
+			}
+			
+			if(checkTipoTerreno == true){
+				TipoTerrenoDAO daoTipoTerreno = new TipoTerrenoDAOImplement();
+				conexionEditar.setTipoTerreno(daoTipoTerreno.buscarTipoTerrenoId(tipoTerrenoConexionId));
+			}
+			
+			if(checkRegimenPropiedad == true){
+				RegimenPropiedadDAO daoRegimenPropiedad = new RegimenPropiedadDAOImplement();
+				conexionEditar.setRegimenPropiedad(daoRegimenPropiedad.buscarRegimenPropiedadId(regimenConexionId));
+			}
+			
+			if(checkTipoSuministro == true){
+				TipoSuministroDAO daoTipoSuministro = new TipoSuministroDAOImplement();
+				conexionEditar.setTipoSuministro(daoTipoSuministro.buscarTipoSuministroId(tipoSuministroConexionId));
+			}
+			
+			if(checkCategoriaConex == true){
+				CategoriaConexionDAO daoCategoriaConexion = new CategoriaConexionDAOImplement();
+				conexionEditar.setCategoriaConexion(daoCategoriaConexion.buscarCategoriaConexionId(categoriaConexionId));
+			}
+			
+			if(checkTipoConex == true){
+				TipoConexionDAO daoTipoConexion = new TipoConexionDAOImplement();
+				conexionEditar.setTipoConexion(daoTipoConexion.buscarTipoConexionId(tipoConexionId));
+			}
+			
+			if(checkFormaPago == true){
+				FormaPagoDAO daoFormaPago = new FormaPagoDAOImplement();
+				conexionEditar.setFormaPago(daoFormaPago.buscarFormaPagoId(fPagoConexionId));
+			}
+			
+			ConexionDAO conexionDAO = new ConexionDAOImplement();
+			conexionDAO.modificarConexion(conexionEditar);
+			
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Correctamente", "Se editó correctamente."));
+			inicializar();
+		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
 		}
-		System.out.println("HOLA: " + lista.get(0).getNumero());
-		
-		cadena = lista.get(0).getNumero() + " " + lista.get(0).getApellidoRazonSocial() + " " + lista.get(0).getNombreDenominacion();
-		
-		String cadenaa = " HOLA";
-		
-		return cadenaa;
 	}
 	
-	public String asd(){
-		
-		String cadena = "ASD";
-		return cadena;
+	public void editarConexion(Conexion conexion){
+		this.conexionEditar = conexion;
 	}
 	
-	private void inicializar(){
+	public void inicializar(){
 		socio = new Socio();
 		socioSeleccionado = new Socio();
 		domServ = new Domicilio();
@@ -472,6 +624,7 @@ public class ConexionBean implements Serializable {
 		ubicCatastral = new UbicacionCatastral();
 		conexion = new Conexion();
 		conexionSeleccionada = new Conexion();
+		conexionEditar = new Conexion();
 		lstConexiones = new ArrayList<Conexion>();
 		estadoConexionId = 0;
 		zonaConexionId = 0;
@@ -481,5 +634,19 @@ public class ConexionBean implements Serializable {
 		categoriaConexionId = 0;
 		tipoConexionId = 0;
 		fPagoConexionId = 0;
+		
+		checkDatosParametrizables= false;
+		checkEstConex = false;
+		checkZonaConex= false;
+		checkTipoTerreno= false;
+		checkRegimenPropiedad= false;
+		checkFormaPago= false;
+		checkTipoSuministro= false;
+		checkCategoriaConex= false;
+		checkTipoConex= false;
+		
+		checkDatosNoParametrizables = false;
+		
+		checkDomServFactIguales= false;
 	}
 }
