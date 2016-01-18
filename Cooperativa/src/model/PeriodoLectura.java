@@ -37,25 +37,10 @@ public class PeriodoLectura implements Serializable {
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USR_ID_CIERRE")
-	private Usuario usuarioCierrePeriodo;
+	private Usuario usuarioCierrePeriodo;	
 
 	@Column(name = "FECHA_CIERRE_LECTURA")
-	private Date fechaCierreLectura;
-	
-	@Column(name = "CESP")
-	private long cesp;
-	
-	@Column(name = "VTO_CESP")
-	private Date fechaVtoCesp;
-	
-	@Column(name = "FECHA_EMISION_FACTURA")
-	private Date fechaEmisionFactura;
-	
-	@Column(name = "VENCIMIENTO_FACT_1")
-	private Date fechaPrimerVencimientoFactura;
-	
-	@Column(name = "VENCIMIENTO_FACT_2")
-	private Date fechaSegundoVencimientoFactura;
+	private Date fechaCierreLectura;	
 	
 	@Column(name = "FECHA_ULTIMA_MOD")
 	private Date fechaUltimaMod;
@@ -118,47 +103,6 @@ public class PeriodoLectura implements Serializable {
 
 	public void setFechaCierreLectura(Date fechaCierreLectura) {
 		this.fechaCierreLectura = fechaCierreLectura;
-	}
-
-	public long getCesp() {
-		return cesp;
-	}
-
-	public void setCesp(long cesp) {
-		this.cesp = cesp;
-	}
-
-	public Date getFechaVtoCesp() {
-		return fechaVtoCesp;
-	}
-
-	public void setFechaVtoCesp(Date fechaVtoCesp) {
-		this.fechaVtoCesp = fechaVtoCesp;
-	}
-
-	public Date getFechaEmisionFactura() {
-		return fechaEmisionFactura;
-	}
-
-	public void setFechaEmisionFactura(Date fechaEmisionFactura) {
-		this.fechaEmisionFactura = fechaEmisionFactura;
-	}
-
-	public Date getFechaPrimerVencimientoFactura() {
-		return fechaPrimerVencimientoFactura;
-	}
-
-	public void setFechaPrimerVencimientoFactura(Date fechaPrimerVencimientoFactura) {
-		this.fechaPrimerVencimientoFactura = fechaPrimerVencimientoFactura;
-	}
-
-	public Date getFechaSegundoVencimientoFactura() {
-		return fechaSegundoVencimientoFactura;
-	}
-
-	public void setFechaSegundoVencimientoFactura(
-			Date fechaSegundoVencimientoFactura) {
-		this.fechaSegundoVencimientoFactura = fechaSegundoVencimientoFactura;
 	}
 
 	public Date getFechaUltimaMod() {
