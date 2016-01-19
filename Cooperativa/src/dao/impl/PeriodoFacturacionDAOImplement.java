@@ -7,22 +7,21 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import dao.PeriodoLecturaDAO;
-import model.EstadoPeriodo;
+import dao.PeriodoFacturacionDAO;
+import model.PeriodoFacturacion;
 import model.PeriodoLectura;
-import model.Socio;
 import persistencia.HibernateUtil;
 
-public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
+public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 
 	@Override
-	public List<PeriodoLectura> listaPeriodoLectura() throws Exception {
+	public List<PeriodoFacturacion> listaPeriodoFacturacion() throws Exception {
 		Session session = null;
-		List<PeriodoLectura> lista = null;
+		List<PeriodoFacturacion> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from PeriodoLectura");
-			lista = (List<PeriodoLectura>) query.list();
+			Query query = session.createQuery("from PeriodoFacturacion");
+			lista = (List<PeriodoFacturacion>) query.list();
 		}catch(ConstraintViolationException e){			
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());		
@@ -35,16 +34,59 @@ public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 				session.close();
 			}
 		}		
-		return lista;	
+		return lista;
 	}
 
 	@Override
-	public void insertarPeriodoLectura(PeriodoLectura periodo) throws Exception {
+	public void insertarPeriodoFacturacion(PeriodoFacturacion periodoFacturacion) throws Exception {
 		Session session = null;		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(periodo);
+			session.save(periodoFacturacion);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);		
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}		
+	}
+
+	@Override
+	public void modificarPeriodoFacturacion(PeriodoFacturacion periodoFacturacion) throws Exception {
+		Session session = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.update(periodoFacturacion);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}		
+		
+	}
+
+	@Override
+	public void eliminarPeriodoFacturacion(PeriodoFacturacion periodoFacturacion) throws Exception {
+		Session session = null;		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.delete(periodoFacturacion);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -61,55 +103,13 @@ public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 	}
 
 	@Override
-	public void modificarPeriodoLectura(PeriodoLectura periodo) throws Exception {
+	public PeriodoFacturacion buscarPeriodoFacturacionId(Long id) throws Exception {
 		Session session = null;
+		PeriodoFacturacion periodoFacturacion= null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.update(periodo);
-			session.getTransaction().commit();
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			session.getTransaction().rollback();
-			throw new Exception(e);
-		}finally{
-			if(session != null){
-				session.close();
-			}
-		}			
-	}
-
-	@Override
-	public void eliminarPeriodoLectura(PeriodoLectura periodo) throws Exception {
-		Session session = null;		
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			session.delete(periodo);
-			session.getTransaction().commit();
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());		
-		}catch(HibernateException e){
-			session.getTransaction().rollback();
-			throw new Exception(e);		
-		}finally{
-			if(session != null){
-				session.close();
-			}
-		}		
-	}
-
-	@Override
-	public PeriodoLectura buscarPeriodoLecturaId(Long id) throws Exception {
-		Session session = null;
-		PeriodoLectura periodoLectura= null;
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			periodoLectura = (PeriodoLectura)session.get(PeriodoLectura.class, id.longValue());			
+			periodoFacturacion = (PeriodoFacturacion)session.get(PeriodoFacturacion.class, id.longValue());			
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){			
 			session.getTransaction().rollback();
@@ -122,35 +122,6 @@ public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 				session.close();
 			}
 		}
-		return periodoLectura;	
+		return periodoFacturacion;	
 	}
-
-	@Override
-	public PeriodoLectura buscarPeriodoLecturaAbierto() throws Exception {
-		Session session = null;
-		PeriodoLectura periodo= null;
-		String estado = "EN PROCESO";
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from PeriodoLectura as s" 
-											// + " inner join EstadoSocio as es"
-											// + " on es.id = s.estadoSocio"
-											 + " where s.estadoPeriodo.descripcion = ?");
-			query.setString(0, estado);
-			periodo = (PeriodoLectura) query.list().get(0);
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			System.out.println("error: " + e.getMessage());
-			throw new Exception(e);
-		}finally{
-			if(session != null){
-				System.out.println("CIERRA LA SESION");
-				session.close();
-			}
-		}
-		return periodo;		
-	}
-
 }
