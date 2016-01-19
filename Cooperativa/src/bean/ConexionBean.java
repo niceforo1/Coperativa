@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.RowEditEvent;
+
 import dao.CategoriaConexionDAO;
 import dao.ConexionDAO;
 import dao.DomicilioDAO;
@@ -19,6 +21,7 @@ import dao.PaisDAO;
 import dao.ProvinciaDAO;
 import dao.RegimenPropiedadDAO;
 import dao.SocioDAO;
+import dao.TarjetaNaranjaDAO;
 import dao.TipoConexionDAO;
 import dao.TipoDomicilioDAO;
 import dao.TipoSocioDAO;
@@ -35,6 +38,7 @@ import dao.impl.PaisDAOImplement;
 import dao.impl.ProvinciaDAOImplement;
 import dao.impl.RegimenPropiedadDAOImplement;
 import dao.impl.SocioDAOImplement;
+import dao.impl.TarjetaNaranjaDAOImplement;
 import dao.impl.TipoConexionDAOImplement;
 import dao.impl.TipoDomicilioDAOImplement;
 import dao.impl.TipoSocioDAOImplement;
@@ -45,6 +49,7 @@ import dao.impl.ZonaConexionDAOImplement;
 import model.Conexion;
 import model.Domicilio;
 import model.Socio;
+import model.TarjetaNaranja;
 import model.UbicacionCatastral;
 
 @ManagedBean(name = "conexionBean")
@@ -92,6 +97,8 @@ public class ConexionBean implements Serializable {
 	private boolean checkDatosNoParametrizables;
 	
 	private boolean checkDomServFactIguales;
+	
+	private TarjetaNaranja datosTarjeta;
 	
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
@@ -388,6 +395,14 @@ public class ConexionBean implements Serializable {
 		this.checkDomServFactIguales = checkDomServFactIguales;
 	}
 
+	public TarjetaNaranja getDatosTarjeta() {
+		return datosTarjeta;
+	}
+
+	public void setDatosTarjeta(TarjetaNaranja datosTarjeta) {
+		this.datosTarjeta = datosTarjeta;
+	}
+
 	public LoginBean getLogin() {
 		return login;
 	}
@@ -609,6 +624,56 @@ public class ConexionBean implements Serializable {
 		}
 	}
 	
+	public void editarDatosTarjeta(){
+		
+		try {
+			TarjetaNaranjaDAO tarjetaDAO = new TarjetaNaranjaDAOImplement();
+			
+			tarjetaDAO.insertarTarjetaNaranja(datosTarjeta);
+			
+			conexionEditar.setDatosTarjetaNaranja(datosTarjeta);
+						
+			ConexionDAO conexionDAO = new ConexionDAOImplement();
+			conexionDAO.modificarConexion(conexionEditar);
+			
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Correctamente", "Se editó correctamente."));
+			inicializar();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error al procesar: " + e.getMessage()));
+		}
+	}
+	
+	public void onRowEdit(RowEditEvent event) {
+		System.out.println("HOLA: " + conexionEditar.getDomicilioFacturacion().getLocalidad() + " " + conexionEditar.getDomicilioFacturacion().getProvincia().getDescripcion()); 
+		try {
+			//ProvinciaDAO provinciaDAO = new ProvinciaDAOImplement();
+			//conexionEditar.getDomicilioFacturacion().setProvincia(provinciaDAO.buscarProvinciaId(conexionEditar.getDomicilioFacturacion().getProvincia().getId()));
+			
+			DomicilioDAO daoDomicilio = new DomicilioDAOImplement();
+			daoDomicilio.modificarDomicilio(conexionEditar.getDomicilioFacturacion());
+			
+			ConexionDAO conexionDAO = new ConexionDAOImplement();
+			conexionDAO.modificarConexion(conexionEditar);
+			
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Correctamente", "Se editó correctamente."));
+			inicializar();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error al procesar: " + e.getMessage()));
+		}
+    }
+	
 	public void editarConexion(Conexion conexion){
 		this.conexionEditar = conexion;
 	}
@@ -648,5 +713,7 @@ public class ConexionBean implements Serializable {
 		checkDatosNoParametrizables = false;
 		
 		checkDomServFactIguales= false;
+		
+		datosTarjeta = new TarjetaNaranja();
 	}
 }

@@ -28,7 +28,7 @@ public class TarjetaNaranja implements Serializable{
 	private String vencimiento;
 	
 	@Column(name = "OBSERVACIONES")
-	private String obsercaciones;
+	private String observaciones;
 	
 	public TarjetaNaranja() {
 	}
@@ -65,12 +65,12 @@ public class TarjetaNaranja implements Serializable{
 		this.vencimiento = vencimiento;
 	}
 
-	public String getObsercaciones() {
-		return obsercaciones;
+	public String getObservaciones() {
+		return observaciones;
 	}
 
-	public void setObsercaciones(String obsercaciones) {
-		this.obsercaciones = obsercaciones;
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 	
 }

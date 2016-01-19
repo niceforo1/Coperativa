@@ -34,7 +34,23 @@ public class DomicilioDAOImplement implements DomicilioDAO{
 
 	@Override
 	public void modificarDomicilio(Domicilio domicilio) throws Exception {
-		// TODO Auto-generated method stub
+		Session session = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.update(domicilio);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}		
 		
 	}
 

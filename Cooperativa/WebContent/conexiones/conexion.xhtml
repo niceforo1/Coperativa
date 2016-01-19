@@ -460,6 +460,14 @@
 									oncomplete="PF('conexEditDialog').show()" />
 							</p:column>
 							
+							<p:column style="width:32px;text-align: center"
+								exportable="false">
+								<p:commandButton icon="fa fa-credit-card"
+									actionListener="#{conexionBean.editarConexion(conex)}" 
+									update=":alta :tarjetaEdit" immediate="true"
+									oncomplete="PF('tarjetaEditDialog').show()" />
+							</p:column>
+							
 							<f:facet name="footer">
 							
 							</f:facet>
@@ -491,7 +499,7 @@
 								<p:commandButton icon="fa fa-fw fa-search"
 									actionListener="#{conexionBean.mostrarConexion(conex)}"
 									update=":alta :conexDet" immediate="true"
-									oncomplete="PF('conexDetDialog').show()" />
+									oncomplete="PF('conexDetDialog').show()" />  
 							</p:column>
 							<f:facet name="footer">
 							
@@ -626,6 +634,24 @@
 									</p:column>
 								</p:dataTable>
 								
+								<p:outputLabel value="Tarjeta Naranja" styleClass="#{label}" />
+								<p:dataTable
+									value="#{conexionBean.conexionSeleccionada.datosTarjetaNaranja}"
+									var="datosTarj" emptyMessage="#{msg.paramNoDatos}">
+									<p:column headerText="#{msg.paramConexionTarjetaTitular}">
+										<p:outputLabel value="#{datosTarj.titular}" />
+									</p:column>
+									<p:column headerText="#{msg.paramConexionTarjetaNroTarjeta}">
+										<p:outputLabel value="#{datosTarj.nroTarjeta}" />
+									</p:column>
+									<p:column headerText="#{msg.paramConexionTarjetaVencimiento}">
+										<p:outputLabel value="#{datosTarj.vencimiento}" />
+									</p:column>
+									<p:column headerText="#{msg.paramConexionTarjetaObservaciones}">
+										<p:outputLabel value="#{datosTarj.observaciones}" />
+									</p:column>
+								</p:dataTable>
+								
 								<p:outputLabel value="Ubicaciónes Catastrales" styleClass="#{label}" />
 								<p:dataTable
 									value="#{conexionBean.conexionSeleccionada.ubicacionesCatastrales}"
@@ -667,7 +693,7 @@
 							<p:panelGrid columns="2"
 								rendered="#{not empty conexionBean.conexionEditar}"
 								columnClasses="label,value, label, value">
-
+								
 								<p:outputLabel
 									value="#{msg.paramConexionEditDatosNoParametrizables}"
 									for="checkDatosNoP" />
@@ -880,6 +906,80 @@
 											itemValue="#{fPagoConex.id}" />
 									</p:selectOneMenu>
 								</p:panelGrid>
+								
+								<p:panelGrid columns="2" columnClasses="label,value"
+									rendered="#{conexionBean.checkDomServFactIguales}">
+
+									<p:outputLabel value="Domicilio Facturación" styleClass="#{label}" />
+									<p:dataTable editable="true"
+										value="#{conexionBean.conexionEditar.domicilioFacturacion}"
+										var="domFact" emptyMessage="#{msg.paramNoDatos}">
+										
+										<p:ajax event="rowEdit" listener="#{conexionBean.onRowEdit}" update=":alta :conexEdit" />
+										
+										<p:column headerText="Provincia">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{domFact.provincia.descripcion}" />
+												</f:facet>
+												<f:facet name="input">
+													<h:selectOneMenu value="#{domFact.provincia.id}" style="width:100%">
+														<f:selectItems value="#{provinciaBean.lstProvincia}" var="prov"
+															itemLabel="#{prov.descripcion}" itemValue="#{prov.id}" />
+													</h:selectOneMenu>
+												</f:facet>
+												<ui:remove><p:selectOneMenu id="provincia"
+													value="#{conexionBean.provinciaDomFactId}"
+													panelStyle="width:180px" effect="fold" filter="true"
+													required="true">
+													<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+													<f:selectItems value="#{provinciaBean.lstProvincia}"
+														var="provDom" itemLabel="#{provDom.descripcion}"
+														itemValue="#{provDom.id}" />
+												</p:selectOneMenu></ui:remove>
+											</p:cellEditor>
+										</p:column>
+										
+										<p:column headerText="Localidad">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{domFact.localidad}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText id="locInput" value="#{domFact.localidad}"
+														style="width:100%" />
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="Barrio">
+											<p:outputLabel value="#{domFact.barrio}" />
+										</p:column>
+										<p:column headerText="Direccion">
+											<p:outputLabel value="#{domFact.calle}" />
+										</p:column>
+										<p:column headerText="Numero">
+											<p:outputLabel value="#{domFact.numero}" />
+										</p:column>
+										<p:column headerText="Departamento">
+											<p:outputLabel value="#{domFact.departamento}" />
+										</p:column>
+										<p:column headerText="Cod Postal">
+											<p:outputLabel value="#{domFact.codPostal}" />
+										</p:column>
+										<p:column headerText="Tel Fijo">
+											<p:outputLabel value="#{domFact.telFijo}" />
+										</p:column>
+										<p:column headerText="Tipo Domicilio">
+											<p:outputLabel value="#{domFact.tipoDomicilio.descripcion}" />
+										</p:column>
+										 <p:column style="width:32px">
+								           <p:rowEditor />
+								       </p:column>
+										
+									</p:dataTable>
+
+								</p:panelGrid>
+								
 
 								<f:facet name="footer">
 									<center>
@@ -894,6 +994,59 @@
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
+						
+			<p:dialog header="Datos de Tarjeta" widgetVar="tarjetaEditDialog"
+				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
+				resizable="false" dynamic="true" maximizable="false"
+				appendTo="@(body)" rendered="#{not empty conexionBean.conexionEditar}">
+				<p:ajax event="close" update=":alta :tarjetaEdit"
+					listener="#{conexionBean.inicializar()}" />
+				<h:form id="tarjetaEdit">
+					<p:outputPanel id="tarjetaEditDetail" style="text-align:center;">
+						<p:scrollPanel style="width:auto;height:auto"
+							rendered="#{not empty conexionBean.conexionEditar}" mode="native">
+							<p:panelGrid columns="2"
+								rendered="#{not empty conexionBean.conexionEditar}"
+								columnClasses="label,value, label, value">
+								
+								<p:panelGrid columns="2" columnClasses="label,value">
+									
+									<p:outputLabel value="#{msg.paramConexionTarjetaTitular}" for="titular"
+										styleClass="#{label}" />
+									<p:inputText id="titular"
+										value="#{conexionBean.datosTarjeta.titular}"
+										required="true" />
+									<p:outputLabel value="#{msg.paramConexionTarjetaNroTarjeta}" for="nro"
+										styleClass="#{label}" />
+									<p:inputMask id="nro" mask="9999999999999999"
+										value="#{conexionBean.datosTarjeta.nroTarjeta}"
+										required="true" />	
+									<p:outputLabel value="#{msg.paramConexionTarjetaVencimiento}" for="vencimiento"
+										styleClass="#{label}" />
+									<p:inputText id="vencimiento"
+										value="#{conexionBean.datosTarjeta.vencimiento}"
+										required="true" />	
+									<p:outputLabel value="#{msg.paramConexionTarjetaObservaciones}" for="observaciones"
+										styleClass="#{label}" />	
+									<p:inputTextarea id="observaciones" autoResize="true"
+										value="#{conexionBean.datosTarjeta.observaciones}" rows="3" 
+										converter="upperConverter" />	
+								</p:panelGrid>
+								
+								<f:facet name="footer">
+									<center>
+										<p:commandButton id="Editar" value="Modificar"
+											actionListener="#{conexionBean.editarDatosTarjeta()}"
+											update=" :tarjetaEdit" onclick="tarjetaEdit.hide()" />
+									</center>
+								</f:facet>
+								
+							</p:panelGrid>
+						</p:scrollPanel>
+					</p:outputPanel>
+				</h:form>
+			</p:dialog>
+			
 		</center>
 	</ui:define>
 </ui:composition>
