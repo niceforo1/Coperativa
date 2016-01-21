@@ -65,32 +65,8 @@
 							<f:selectItem itemLabel="2029" itemValue="2029" />
 							<f:selectItem itemLabel="2030" itemValue="2030" />
 						</p:selectOneMenu>
-						<p:outputLabel value="#{msg.paramPeriodoLecturaCESP}" for="cesp" />
-						<p:inputText id="cesp"
-							value="#{periodoLecturaBean.periodoLectura.cesp}" required="true" />
-						<p:outputLabel value="#{msg.paramPeriodoLecturaVtoCESP}"
-							for="vtoCesp" />
-						<p:calendar id="vtoCesp"
-							value="#{periodoLecturaBean.periodoLectura.fechaVtoCesp}"
-							effect="explode" required="true" locale="es" navigator="true" />
-						<p:outputLabel
-							value="#{msg.paramPeriodoLecturaFechaEmisionFactura}"
-							for="fechaEmFact" />
-						<p:calendar id="fechaEmFact"
-							value="#{periodoLecturaBean.periodoLectura.fechaEmisionFactura}"
-							effect="explode" required="true" locale="es" navigator="true" />
-						<p:outputLabel
-							value="#{msg.paramPeriodoLecturaFechaPrimerVencimientoFact}"
-							for="primerVencFact" />
-						<p:calendar id="primerVencFact"
-							value="#{periodoLecturaBean.periodoLectura.fechaPrimerVencimientoFactura}"
-							effect="explode" required="true" locale="es" navigator="true" />
-						<p:outputLabel
-							value="#{msg.paramPeriodoLecturaFechaSegundoVencimientoFact}"
-							for="segundoVencFact" />
-						<p:calendar id="segundoVencFact"
-							value="#{periodoLecturaBean.periodoLectura.fechaSegundoVencimientoFactura}"
-							effect="explode" required="true" locale="es" navigator="true" />
+						
+						
 						<f:facet name="footer">
 							<center>
 								<p:commandButton disabled="#{periodoLecturaBean.periodoAbiertoCons()}"
@@ -125,36 +101,6 @@
 					<p:column style="width:110px" headerText="Mes" filterBy="#{perLect.mes}"
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perLect.mes}" />
-					</p:column>
-					<p:column headerText="#{msg.paramPeriodoLecturaCESP}"
-						filterBy="#{perLect.cesp}" filterMatchMode="contains">
-						<p:outputLabel value="#{perLect.cesp}" />
-					</p:column>
-					<ui:remove>
-					<p:column style="width:100px" headerText="#{msg.paramPeriodoLecturaVtoCESP}"
-						filterBy="#{perLect.fechaVtoCesp}" filterMatchMode="contains">
-						<p:outputLabel
-							value="#{loginBean.formatearFechaMes(perLect.fechaVtoCesp, 'dd/MM/yyyy')}" />
-					</p:column>
-					</ui:remove>
-					<p:column
-						headerText="#{msg.paramPeriodoLecturaFechaEmisionFactura}"
-						filterBy="#{perLect.fechaEmisionFactura}"
-						filterMatchMode="contains">
-						<p:outputLabel
-							value="#{loginBean.formatearFechaMes(perLect.fechaEmisionFactura, 'dd/MM/yyyy')}" />
-					</p:column>
-					<p:column headerText="1er Vencimiento Fact"
-						filterBy="#{perLect.fechaPrimerVencimientoFactura}"
-						filterMatchMode="contains">
-						<p:outputLabel
-							value="#{loginBean.formatearFechaMes(perLect.fechaPrimerVencimientoFactura, 'dd/MM/yyyy')}" />
-					</p:column>
-					<p:column headerText="2do Vencimiento Fact"
-						filterBy="#{perLect.fechaSegundoVencimientoFactura}"
-						filterMatchMode="contains">
-						<p:outputLabel
-							value="#{loginBean.formatearFechaMes(perLect.fechaSegundoVencimientoFactura, 'dd/MM/yyyy')}" />
 					</p:column>
 					<p:column headerText="Ultima Modificación"
 						filterBy="#{perLect.fechaUltimaMod}" filterMatchMode="contains">

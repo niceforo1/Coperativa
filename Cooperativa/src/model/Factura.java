@@ -75,7 +75,7 @@ public class Factura implements Serializable {
 	@Column(name = "IVA")
 	private Float iva;
 
-	@Column(name = "IVA", nullable = false)
+	@Column(name = "IMPORTE_TOTAL", nullable = false)
 	private Float importeTotal;
 
 	public Factura() {

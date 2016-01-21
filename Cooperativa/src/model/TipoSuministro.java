@@ -21,7 +21,7 @@ public class TipoSuministro implements Serializable {
 	@Column(name = "DESCRIPCION", nullable = false)
 	private String descripcion;
 
-	@Column(name = "IMPORTE", nullable = false)
+	@Column(name = "IMPORTE")
 	private Float importe;
 
 	public TipoSuministro() {

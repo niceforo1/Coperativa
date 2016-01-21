@@ -39,7 +39,24 @@ public class FacturaDAOImplement implements FacturaDAO {
 
 	@Override
 	public void insertarFactura(Factura factura) throws Exception {
-		// TODO Auto-generated method stub
+		Session session = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.save(factura);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}				
+		
 		
 	}
 

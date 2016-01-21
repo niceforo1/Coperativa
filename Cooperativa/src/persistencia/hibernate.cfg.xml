@@ -5,8 +5,8 @@
 
 
 		<property name="connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
-		<property name="connection.url">jdbc:jtds:sqlserver://localhost:1433/Cooperativa</property>
-		<!-- <property name="connection.url">jdbc:jtds:sqlserver://192.168.160.1:49593/Cooperativa</property> --> 
+		<!--<property name="connection.url">jdbc:jtds:sqlserver://localhost:1433/Cooperativa</property>-->
+		<property name="connection.url">jdbc:jtds:sqlserver://192.168.160.1:49593/Cooperativa</property>  
 		<property name="connection.username">sa</property>
 		<property name="connection.password"></property>
 		<property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
@@ -37,6 +37,7 @@
 		<mapping class="model.TipoConexion" />
 		<mapping class="model.TipoUbicacionCatastral" />
 		<mapping class="model.UbicacionCatastral" />
+		<mapping class="model.TarjetaNaranja" />
 		<mapping class="model.Conexion" />
 		<mapping class="model.EstadoPeriodo" />
 		<mapping class="model.PeriodoLectura" />	
@@ -46,6 +47,7 @@
 		<mapping class="model.PeriodoFacturacion" />
 		<mapping class="model.ConceptoFacturacion" />
 		<mapping class="model.PeriodoCanon" />
+		<mapping class="model.Factura" />
 		<mapping class="model.TarjetaNaranja" />
 	</session-factory>
 </hibernate-configuration>

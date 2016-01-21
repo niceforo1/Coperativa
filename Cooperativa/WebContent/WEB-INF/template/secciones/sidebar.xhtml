@@ -31,6 +31,8 @@
             <p:menuitem value="Lecturas" url="/conexiones/lecturas.xhtml" icon="ui-icon-document" />
         </p:submenu>
         <p:submenu label="Facturación" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+        	<p:menuitem value="Período Facturación" url="/facturacion/periodoFacturacion.xhtml" icon="ui-icon-document" />
+        	
         </p:submenu>
         <p:submenu label="Reportes" > 
 			<p:menuitem value="Lista Completa Socios" url="/pruebaReporte.xhtml" icon="ui-icon-document" />

@@ -6,6 +6,7 @@ import dao.ConceptoFacturacionDAO;
 import dao.ConexionDAO;
 import dao.ConfiguracionFacturaDAO;
 import dao.EstadoPeriodoDAO;
+import dao.FacturaDAO;
 import dao.LecturaDAO;
 import dao.PeriodoCanonDAO;
 import dao.PeriodoFacturacionDAO;
@@ -15,6 +16,7 @@ import dao.impl.ConceptoFacturacionDAOImplement;
 import dao.impl.ConexionDAOImplement;
 import dao.impl.ConfiguracionFacturaDAOImplement;
 import dao.impl.EstadoPeriodoDAOImplement;
+import dao.impl.FacturaDAOImplement;
 import dao.impl.LecturaDAOImplement;
 import dao.impl.PeriodoCanonDAOImplement;
 import dao.impl.PeriodoFacturacionDAOImplement;
@@ -36,8 +38,9 @@ public class Testeos {
 
 		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
 		LecturaDAO lecturaDAO = new LecturaDAOImplement();
-		TipoSuministroDAO daoTipoSuministro = new TipoSuministroDAOImplement();
 		ConceptoFacturacionDAO conceptoFacturacionDAO = new ConceptoFacturacionDAOImplement(); 
+		PeriodoFacturacionDAO periodoFacturacionDAO = new PeriodoFacturacionDAOImplement();
+		FacturaDAO daoFactura = new FacturaDAOImplement();
 		try {
 			System.out.println(lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaAbierto()).size());
 			for (Lectura lec : lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaAbierto())) {
@@ -77,16 +80,16 @@ public class Testeos {
 				}else{
 					fact.setTramo1(totalConsumido);
 					importeTramos = (0.27F*fact.getTramo1());
-				}								
+				}		
+				fact.setCargoFijo(lec.getConexion().getTipoSuministro().getImporte());
 				fact.setCapitalSocial((0.1F*(fact.getCargoFijo()+importeTramos))+5F);				
-				fact.setCargoFijo(lec.getConexion().getTipoSuministro().getImporte());				
 				fact.setConceptoFacturacion(conceptoFacturacionDAO.buscarConceptoFacturacionId(1L));				
 				fact.setConexion(lec.getConexion());				
 				fact.setErsep(0.012F*(fact.getCargoFijo()+importeTramos));								
 				fact.setImpresionesOtros(7F);//FIJO
 				fact.setInteresesSegVenc(3F);
 				fact.setIva(lec.getConexion().getSocio().getCondicionIva().getPorcentaje()*(fact.getCargoFijo()+importeTramos));
-				//fact.setPeriodoFacturacion(periodoFacturacion);
+				fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 				fact.setRecuperoInversion(5F);//FIJO
 				fact.setTipoFactura("C");	
 				fact.setImporteTotal(fact.getCargoFijo()+
@@ -97,6 +100,7 @@ public class Testeos {
 						fact.getImpresionesOtros()+
 						fact.getIva());
 				
+				daoFactura.insertarFactura(fact);
 			}
 
 		} catch (Exception e) { // TODO Auto-generated catch block

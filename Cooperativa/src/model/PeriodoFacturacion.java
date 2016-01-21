@@ -41,6 +41,10 @@ public class PeriodoFacturacion implements Serializable {
 
 	@Column(name = "VENCIMIENTO_FACT_2")
 	private Date fechaSegundoVencimientoFactura;
+	
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ESTADO_PERIODO_ID")
+	private EstadoPeriodo estadoPeriodo;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USR_ID_CIERRE_FACT")
@@ -110,8 +114,17 @@ public class PeriodoFacturacion implements Serializable {
 		return fechaSegundoVencimientoFactura;
 	}
 
-	public void setFechaSegundoVencimientoFactura(Date fechaSegundoVencimientoFactura) {
+	public void setFechaSegundoVencimientoFactura(
+			Date fechaSegundoVencimientoFactura) {
 		this.fechaSegundoVencimientoFactura = fechaSegundoVencimientoFactura;
+	}
+
+	public EstadoPeriodo getEstadoPeriodo() {
+		return estadoPeriodo;
+	}
+
+	public void setEstadoPeriodo(EstadoPeriodo estadoPeriodo) {
+		this.estadoPeriodo = estadoPeriodo;
 	}
 
 	public Usuario getUsuarioCierreFact() {

@@ -117,9 +117,10 @@ public class PeriodoLecturaBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Correctamente", "El Período se agregó correctamente."));
 			}
-
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: Período ya cargado. "));
+			else{
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: Período ya cargado. "));
+			}
 			inicializar();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,

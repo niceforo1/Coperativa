@@ -124,4 +124,33 @@ public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 		}
 		return periodoFacturacion;	
 	}
+
+	@Override
+	public PeriodoFacturacion buscarPeriodoFacturacionAbierto()
+			throws Exception {
+		Session session = null;
+		PeriodoFacturacion periodo= null;
+		String estado = "EN PROCESO";
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from PeriodoFacturacion as s" 
+											// + " inner join EstadoSocio as es"
+											// + " on es.id = s.estadoSocio"
+											 + " where s.estadoPeriodo.descripcion = ?");
+			query.setString(0, estado);
+			periodo = (PeriodoFacturacion) query.list().get(0);
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			System.out.println("error: " + e.getMessage());
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
+		return periodo;		
+	}
 }
