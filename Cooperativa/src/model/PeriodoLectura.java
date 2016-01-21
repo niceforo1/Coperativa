@@ -34,14 +34,14 @@ public class PeriodoLectura implements Serializable {
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USR_ID_ALTA")
 	private Usuario usuarioAltaPeriodo;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USR_ID_CIERRE")
-	private Usuario usuarioCierrePeriodo;	
+	private Usuario usuarioCierrePeriodo;
 
 	@Column(name = "FECHA_CIERRE_LECTURA")
-	private Date fechaCierreLectura;	
-	
+	private Date fechaCierreLectura;
+
 	@Column(name = "FECHA_ULTIMA_MOD")
 	private Date fechaUltimaMod;
 
@@ -111,6 +111,13 @@ public class PeriodoLectura implements Serializable {
 
 	public void setFechaUltimaMod(Date fechaUltimaMod) {
 		this.fechaUltimaMod = fechaUltimaMod;
+	}
+
+	@Override
+	public String toString() {
+		return "PeriodoLectura [id=" + id + ", mes=" + mes + ", anio=" + anio + ", estadoPeriodo=" + estadoPeriodo
+				+ ", usuarioAltaPeriodo=" + usuarioAltaPeriodo + ", usuarioCierrePeriodo=" + usuarioCierrePeriodo
+				+ ", fechaCierreLectura=" + fechaCierreLectura + ", fechaUltimaMod=" + fechaUltimaMod + "]";
 	}
 
 }

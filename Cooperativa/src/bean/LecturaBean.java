@@ -115,6 +115,7 @@ public class LecturaBean implements Serializable {
 			conexion = conexionDAO.buscarConexionID(conexionID);
 			Collections.sort(conexion.getLecturas());
 			lectura.setLecturaAnterior(conexion.getLecturas().get(0).getLecturaActual());
+			lectura.setConexion(conexion);
 			if (conexion == null) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se encuentra la conexión"));
@@ -148,6 +149,7 @@ public class LecturaBean implements Serializable {
 		lectura.setUsuario(login.getUsuario());
 		lectura.setLecturero(lecturero);
 		lectura.setFechaRegistroLectura(fechaRegistro);
+		
 		// LecturaDAO lecturaDAO = new LecturaDAOImplement();
 		try {
 			ConexionDAO conexionDAO = new ConexionDAOImplement();

@@ -46,5 +46,6 @@
 		<mapping class="model.PeriodoFacturacion" />
 		<mapping class="model.ConceptoFacturacion" />
 		<mapping class="model.PeriodoCanon" />
+		<mapping class="model.TarjetaNaranja" />
 	</session-factory>
 </hibernate-configuration>

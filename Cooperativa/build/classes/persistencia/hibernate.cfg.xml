@@ -42,5 +42,10 @@
 		<mapping class="model.PeriodoLectura" />	
 		<mapping class="model.Lectura" />	
 		<mapping class="model.ConfiguracionLectura" />
+		<mapping class="model.ConfiguracionFactura" />
+		<mapping class="model.PeriodoFacturacion" />
+		<mapping class="model.ConceptoFacturacion" />
+		<mapping class="model.PeriodoCanon" />
+		<mapping class="model.TarjetaNaranja" />
 	</session-factory>
 </hibernate-configuration>

@@ -293,14 +293,7 @@ public class Conexion implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Conexion [id=" + id + ", estadoConexion=" + estadoConexion + ", socio=" + socio + ", zonaConexion="
-				+ zonaConexion + ", fechaAlta=" + fechaAlta + ", terreno=" + terreno + ", tipoTerreno=" + tipoTerreno
-				+ ", pileta=" + pileta + ", regimenPropiedad=" + regimenPropiedad + ", formaPago=" + formaPago
-				+ ", tipoSuministro=" + tipoSuministro + ", categoriaConexion=" + categoriaConexion + ", tipoConexion="
-				+ tipoConexion + ", nroMedidor=" + nroMedidor + ", emiteFactura=" + emiteFactura
-				+ ", domServFactIguales=" + domServFactIguales + ", domicilioServicio=" + domicilioServicio
-				+ ", domicilioFacturacion=" + domicilioFacturacion + ", ubicacionesCatastrales="
-				+ ubicacionesCatastrales + ", usuario=" + usuario + ", lecturas=" + lecturas + "]";
+		return "Conexion [id=" + id + ", lecturas=" + lecturas + "]";
 	}
 	
 	

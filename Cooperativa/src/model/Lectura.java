@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "LECTURAS")
-public class Lectura implements Serializable,Comparable<Lectura>{
+public class Lectura implements Serializable, Comparable<Lectura> {
 
 	@Id
 	@Column(name = "ID_LECTURA")
@@ -47,6 +47,10 @@ public class Lectura implements Serializable,Comparable<Lectura>{
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USR_ID")
 	private Usuario usuario;
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_CONEXION")
+	private Conexion conexion;
 
 	public Lectura() {
 	}
@@ -123,6 +127,14 @@ public class Lectura implements Serializable,Comparable<Lectura>{
 		this.periodoLectura = periodoLectura;
 	}
 
+	public Conexion getConexion() {
+		return conexion;
+	}
+
+	public void setConexion(Conexion conexion) {
+		this.conexion = conexion;
+	}
+
 	@Override
 	public String toString() {
 		return "Lectura [id=" + id + ", periodoLectura=" + periodoLectura + ", lecturero=" + lecturero
@@ -134,11 +146,11 @@ public class Lectura implements Serializable,Comparable<Lectura>{
 	@Override
 	public int compareTo(Lectura o) {
 		if (id > o.id) {
-            return -1;
-        }
-        if (id < o.id) {
-            return 1;
-        }
-        return 0;
+			return -1;
+		}
+		if (id < o.id) {
+			return 1;
+		}
+		return 0;
 	}
 }

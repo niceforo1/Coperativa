@@ -34,7 +34,7 @@ public class Factura implements Serializable {
 
 	@Column(name = "INTERESES_2DO_VTO")
 	private Float interesesSegVenc;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_CONEXION")
 	private Conexion conexion;
@@ -43,22 +43,22 @@ public class Factura implements Serializable {
 	private Float cargoFijo;
 
 	@Column(name = "TRAMO_1")
-	private int tramo1;
+	private long tramo1;
 
 	@Column(name = "TRAMO_2")
-	private int tramo2;
+	private long tramo2;
 
 	@Column(name = "TRAMO_3")
-	private int tramo3;
+	private long tramo3;
 
 	@Column(name = "TRAMO_4")
-	private int tramo4;
+	private long tramo4;
 
 	@Column(name = "TRAMO_5")
-	private int tramo5;
+	private long tramo5;
 
 	@Column(name = "TRAMO_6")
-	private int tramo6;
+	private long tramo6;
 
 	@Column(name = "CAPITAL_SOCIAL", nullable = false)
 	private Float capitalSocial;
@@ -79,7 +79,7 @@ public class Factura implements Serializable {
 	private Float importeTotal;
 
 	public Factura() {
-	
+
 	}
 
 	public Long getId() {
@@ -138,51 +138,51 @@ public class Factura implements Serializable {
 		this.cargoFijo = cargoFijo;
 	}
 
-	public int getTramo1() {
+	public long getTramo1() {
 		return tramo1;
 	}
 
-	public void setTramo1(int tramo1) {
+	public void setTramo1(long tramo1) {
 		this.tramo1 = tramo1;
 	}
 
-	public int getTramo2() {
+	public long getTramo2() {
 		return tramo2;
 	}
 
-	public void setTramo2(int tramo2) {
+	public void setTramo2(long tramo2) {
 		this.tramo2 = tramo2;
 	}
 
-	public int getTramo3() {
+	public long getTramo3() {
 		return tramo3;
 	}
 
-	public void setTramo3(int tramo3) {
+	public void setTramo3(long tramo3) {
 		this.tramo3 = tramo3;
 	}
 
-	public int getTramo4() {
+	public long getTramo4() {
 		return tramo4;
 	}
 
-	public void setTramo4(int tramo4) {
+	public void setTramo4(long tramo4) {
 		this.tramo4 = tramo4;
 	}
 
-	public int getTramo5() {
+	public long getTramo5() {
 		return tramo5;
 	}
 
-	public void setTramo5(int tramo5) {
+	public void setTramo5(long tramo5) {
 		this.tramo5 = tramo5;
 	}
 
-	public int getTramo6() {
+	public long getTramo6() {
 		return tramo6;
 	}
 
-	public void setTramo6(int tramo6) {
+	public void setTramo6(long tramo6) {
 		this.tramo6 = tramo6;
 	}
 
