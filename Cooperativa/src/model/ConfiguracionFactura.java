@@ -18,38 +18,38 @@ public class ConfiguracionFactura implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "CARGO_FIJO", nullable = false)
+	@Column(name = "CARGO_FIJO")
 	private Float cargoFijo;
 
 	@Column(name = "TRAMO_1", nullable = false)
-	private int tramo1;
+	private Float tramo1;
 
 	@Column(name = "TRAMO_2", nullable = false)
-	private int tramo2;
+	private Float tramo2;
 
 	@Column(name = "TRAMO_3", nullable = false)
-	private int tramo3;
+	private Float tramo3;
 
 	@Column(name = "TRAMO_4", nullable = false)
-	private int tramo4;
+	private Float tramo4;
 
 	@Column(name = "TRAMO_5", nullable = false)
-	private int tramo5;
+	private Float tramo5;
 
 	@Column(name = "TRAMO_6", nullable = false)
-	private int tramo6;
+	private Float tramo6;
 
 	@Column(name = "CAPITAL_SOCIAL", nullable = false)
-	private int capitalSocial;
+	private Float capitalSocial;
 
 	@Column(name = "ERSEP", nullable = false)
-	private int ersep;
+	private Float ersep;
 
 	@Column(name = "RECUPERO_INVERSION", nullable = false)
-	private int recuperoInversion;
+	private Float recuperoInversion;
 
 	@Column(name = "IMPRESION_Y_OTROS", nullable = false)
-	private int impresionesOtros;
+	private Float impresionesOtros;
 
 	@Column(name = "LEYENDA_COMPROBANTE", nullable = false)
 	private String leyendaComprobante;
@@ -57,7 +57,7 @@ public class ConfiguracionFactura implements Serializable {
 	public ConfiguracionFactura() {
 
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -74,83 +74,83 @@ public class ConfiguracionFactura implements Serializable {
 		this.cargoFijo = cargoFijo;
 	}
 
-	public int getTramo1() {
+	public Float getTramo1() {
 		return tramo1;
 	}
 
-	public void setTramo1(int tramo1) {
+	public void setTramo1(Float tramo1) {
 		this.tramo1 = tramo1;
 	}
 
-	public int getTramo2() {
+	public Float getTramo2() {
 		return tramo2;
 	}
 
-	public void setTramo2(int tramo2) {
+	public void setTramo2(Float tramo2) {
 		this.tramo2 = tramo2;
 	}
 
-	public int getTramo3() {
+	public Float getTramo3() {
 		return tramo3;
 	}
 
-	public void setTramo3(int tramo3) {
+	public void setTramo3(Float tramo3) {
 		this.tramo3 = tramo3;
 	}
 
-	public int getTramo4() {
+	public Float getTramo4() {
 		return tramo4;
 	}
 
-	public void setTramo4(int tramo4) {
+	public void setTramo4(Float tramo4) {
 		this.tramo4 = tramo4;
 	}
 
-	public int getTramo5() {
+	public Float getTramo5() {
 		return tramo5;
 	}
 
-	public void setTramo5(int tramo5) {
+	public void setTramo5(Float tramo5) {
 		this.tramo5 = tramo5;
 	}
 
-	public int getTramo6() {
+	public Float getTramo6() {
 		return tramo6;
 	}
 
-	public void setTramo6(int tramo6) {
+	public void setTramo6(Float tramo6) {
 		this.tramo6 = tramo6;
 	}
 
-	public int getCapitalSocial() {
+	public Float getCapitalSocial() {
 		return capitalSocial;
 	}
 
-	public void setCapitalSocial(int capitalSocial) {
+	public void setCapitalSocial(Float capitalSocial) {
 		this.capitalSocial = capitalSocial;
 	}
 
-	public int getErsep() {
+	public Float getErsep() {
 		return ersep;
 	}
 
-	public void setErsep(int ersep) {
+	public void setErsep(Float ersep) {
 		this.ersep = ersep;
 	}
 
-	public int getRecuperoInversion() {
+	public Float getRecuperoInversion() {
 		return recuperoInversion;
 	}
 
-	public void setRecuperoInversion(int recuperoInversion) {
+	public void setRecuperoInversion(Float recuperoInversion) {
 		this.recuperoInversion = recuperoInversion;
 	}
 
-	public int getImpresionesOtros() {
+	public Float getImpresionesOtros() {
 		return impresionesOtros;
 	}
 
-	public void setImpresionesOtros(int impresionesOtros) {
+	public void setImpresionesOtros(Float impresionesOtros) {
 		this.impresionesOtros = impresionesOtros;
 	}
 

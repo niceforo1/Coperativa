@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+	   <h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleConfiguracionFactura}"/>
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+	   <center>
+			<h:form id="alta">			
+				<p:panel header="#{msg.paramConfiguracionFacturaHeader}">
+					<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />			
+					<p:panelGrid columns="2">						
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaTramo1}" for="tramo1" />
+						<p:inputText id="tramo1" value="#{configuracionFacturaBean.configuracionFactura.tramo1}" 
+									 required="true"/>
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaTramo2}" for="tramo2" />
+						<p:inputText id="tramo2" value="#{configuracionFacturaBean.configuracionFactura.tramo2}" 
+									 required="true"/>
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaTramo3}" for="tramo3" />
+						<p:inputText id="tramo3" value="#{configuracionFacturaBean.configuracionFactura.tramo3}" 
+									 required="true"/>
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaTramo4}" for="tramo4" />
+						<p:inputText id="tramo4" value="#{configuracionFacturaBean.configuracionFactura.tramo4}" 
+									 required="true"/>
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaTramo5}" for="tramo5" />
+						<p:inputText id="tramo5" value="#{configuracionFacturaBean.configuracionFactura.tramo5}" 
+									 required="true"/>
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaTramo6}" for="tramo6" />
+						<p:inputText id="tramo6" value="#{configuracionFacturaBean.configuracionFactura.tramo6}" 
+									 required="true"/>
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaCapitalSocial}" for="capitalSocial" />
+						<p:inputText id="capitalSocial" value="#{configuracionFacturaBean.configuracionFactura.capitalSocial}" 
+									 required="true"/>	
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaERSEP}" for="ersep" />
+						<p:inputText id="ersep" value="#{configuracionFacturaBean.configuracionFactura.ersep}" 
+									 required="true"/>
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaRecuperoInversion}" for="recuperoInversion" />
+						<p:inputText id="recuperoInversion" value="#{configuracionFacturaBean.configuracionFactura.recuperoInversion}" 
+									 required="true"/>		
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaImpresionesOtros}" for="impresionesOtros" />
+						<p:inputText id="impresionesOtros" value="#{configuracionFacturaBean.configuracionFactura.impresionesOtros}" 
+									 required="true"/>	
+						<p:outputLabel value="#{msg.paramConfiguracionFacturaLeyendaComprobante}" for="leyendaComprobante" />
+						<p:inputText id="leyendaComprobante" value="#{configuracionFacturaBean.configuracionFactura.leyendaComprobante}"
+									 converter="upperConverter"/>			 			 		 				 					 
+						<f:facet name="footer">
+							<center>								
+								<p:commandButton action="#{configuracionFacturaBean.insertarConfiguracionLectura}" 
+												 update=":mostrar, alta" disabled="#{configuracionFacturaBean.existeConfiguracion()}"
+												 value="#{msg.paramCargar}" />								
+							</center>
+						</f:facet>
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</center>
+		
+		<br />
+
+		<h:form id="mostrar">
+			<p:dataTable editable="true" 
+				value="#{configuracionFacturaBean.listaConfiguracionFactura}"
+				var="confFact" emptyMessage="#{msg.paramNoDatos}">
+				
+				<f:facet name="header">
+					<center>
+						<h:outputText value="#{msg.paramConfiguracionFacturaTable}" />
+					</center>
+				</f:facet>
+				
+				<p:column headerText="#{msg.paramConfiguracionFacturaTramo1}">
+					<h:outputText value="#{confFact.tramo1}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaTramo2}">
+					<h:outputText value="#{confFact.tramo2}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaTramo3}">
+					<h:outputText value="#{confFact.tramo3}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaTramo4}">
+					<h:outputText value="#{confFact.tramo4}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaTramo5}">
+					<h:outputText value="#{confFact.tramo5}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaTramo6}">
+					<h:outputText value="#{confFact.tramo6}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaCapitalSocial}">
+					<h:outputText value="#{confFact.capitalSocial}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaERSEP}">
+					<h:outputText value="#{confFact.ersep}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaRecuperoInversion}">
+					<h:outputText value="#{confFact.recuperoInversion}" />
+				</p:column>
+				<p:column headerText="#{msg.paramConfiguracionFacturaImpresionesOtros}">
+					<h:outputText value="#{confFact.impresionesOtros}" />
+				</p:column>
+				<p:column style="width:32px;text-align: center" exportable="false">
+					<p:commandButton icon="fa fa-fw fa-edit"
+						actionListener="#{configuracionFacturaBean.editarConfiguracion(confFact)}"
+						update=":alta :confEdit" immediate="true"
+						oncomplete="PF('confFactEditDialog').show()" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+		<p:dialog header="Edición Conf Factura" widgetVar="confFactEditDialog"
+				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
+				resizable="false" dynamic="true" maximizable="false"
+				appendTo="@(body)" rendered="#{not empty configuracionFacturaBean.configuracionFacturaEditar}">
+			<p:ajax event="close" update=":alta :mostrar :confEdit"
+					listener="#{conexionBean.inicializar()}" />
+			<h:form id="confEdit">
+				<p:dataTable editable="true"
+					value="#{configuracionFacturaBean.configuracionFacturaEditar}"
+					var="confFact" emptyMessage="#{msg.paramNoDatos}">
+	
+					<p:ajax event="rowEdit" 
+						listener="#{configuracionFacturaBean.onRowEdit}" />
+	
+					<p:column headerText="#{msg.paramConfiguracionFacturaTramo1}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.tramo1}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.tramo1}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaTramo2}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.tramo2}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.tramo2}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaTramo3}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.tramo3}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.tramo3}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaTramo4}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.tramo4}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.tramo4}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaTramo5}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.tramo5}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.tramo5}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaTramo6}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.tramo6}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.tramo6}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaCapitalSocial}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.capitalSocial}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.capitalSocial}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaERSEP}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.ersep}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.ersep}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaRecuperoInversion}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.recuperoInversion}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.recuperoInversion}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.paramConfiguracionFacturaImpresionesOtros}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{confFact.impresionesOtros}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{confFact.impresionesOtros}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column style="width:32px">
+						<p:rowEditor />
+					</p:column>
+	
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+	<ui:define name="footer">
+	</ui:define>
+</ui:composition>
+</html>

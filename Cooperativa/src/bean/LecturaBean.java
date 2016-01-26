@@ -149,6 +149,7 @@ public class LecturaBean implements Serializable {
 		lectura.setUsuario(login.getUsuario());
 		lectura.setLecturero(lecturero);
 		lectura.setFechaRegistroLectura(fechaRegistro);
+		lectura.setConexion(conexion);
 		
 		// LecturaDAO lecturaDAO = new LecturaDAOImplement();
 		try {
