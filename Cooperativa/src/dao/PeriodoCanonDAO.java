@@ -10,5 +10,6 @@ public interface PeriodoCanonDAO {
 	public void insertarPeriodosCanon(PeriodoCanon PeriodosCanon) throws Exception;
 	public void modificarPeriodosCanon(PeriodoCanon PeriodosCanon) throws Exception;
 	public void eliminarPeriodosCanon(PeriodoCanon PeriodosCanon) throws Exception;
-	public PeriodoCanon buscarPeriodosCanonId(Long id) throws Exception;	
+	public PeriodoCanon buscarPeriodosCanonId(Long id) throws Exception;
+	public PeriodoCanon buscarPeriodosCanonMes(int mes) throws Exception;
 }

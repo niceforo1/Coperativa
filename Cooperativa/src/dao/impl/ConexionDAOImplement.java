@@ -9,6 +9,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import persistencia.HibernateUtil;
 import model.Conexion;
+import model.PeriodoCanon;
 import model.Socio;
 import dao.ConexionDAO;
 
@@ -158,6 +159,32 @@ public class ConexionDAOImplement implements ConexionDAO{
 			}
 		}
 		return socio;
+	}
+
+	@Override
+	public List<Conexion> buscarConexionesCanon() throws Exception {
+		Session session = null;
+		List<Conexion> conexionesCanon= null;		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from Conexion c "
+										  + " where c.categoriaConexion.id = ? ");
+			
+			query.setInteger(0, 2);			
+			conexionesCanon = (List<Conexion>) query.list();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			System.out.println("error: " + e.getMessage());
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
+		return conexionesCanon;
 	}
 
 }

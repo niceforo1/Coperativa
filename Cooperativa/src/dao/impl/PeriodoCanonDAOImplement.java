@@ -123,4 +123,29 @@ public class PeriodoCanonDAOImplement implements PeriodoCanonDAO {
 		return periodoCanon;
 	}
 
+	@Override
+	public PeriodoCanon buscarPeriodosCanonMes(int mes) throws Exception {
+		Session session = null;
+		PeriodoCanon periodoCanon= null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from PeriodoCanon pc "
+					+ " where pc.mes = ? ");
+			query.setInteger(0, mes);			
+			periodoCanon = (PeriodoCanon) query.list().get(0);
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			System.out.println("error: " + e.getMessage());
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
+		return periodoCanon;		
+	}
+
 }
