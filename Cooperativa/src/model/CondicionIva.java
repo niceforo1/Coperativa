@@ -26,7 +26,10 @@ public class CondicionIva implements Serializable{
     private String descripcion;
 
     @Column(name = "PORCENTAJE", nullable = false)
-    private int porcentaje;
+    private Float porcentaje;
+    
+    @Column(name = "IVA_OTROS_CONCEPTOS", nullable = true)
+    private Float ivaOtrosConceptos;
 
 	public CondicionIva() {
 	}
@@ -55,13 +58,21 @@ public class CondicionIva implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
-	public int getPorcentaje() {
+	
+	public Float getPorcentaje() {
 		return porcentaje;
 	}
 
-	public void setPorcentaje(int porcentaje) {
+	public void setPorcentaje(Float porcentaje) {
 		this.porcentaje = porcentaje;
+	}
+
+	public Float getIvaOtrosConceptos() {
+		return ivaOtrosConceptos;
+	}
+
+	public void setIvaOtrosConceptos(Float ivaOtrosConceptos) {
+		this.ivaOtrosConceptos = ivaOtrosConceptos;
 	}
 
 	@Override
