@@ -92,11 +92,13 @@ public class PeriodoFacturacionBean implements Serializable {
 	}
 
 	public boolean periodoAbiertoCons(){
-	if(periodoFacturacionEnProceso != null){
-		return true;
-	}else{
-		return false;
-	}		
+		
+		if(periodoFacturacionEnProceso != null){
+			System.out.println("HOLA HOLA HOLA!!!" + periodoFacturacionEnProceso.getId());
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public void insertarPeriodoFacturacion() {

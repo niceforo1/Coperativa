@@ -37,6 +37,8 @@ public class LecturaBean implements Serializable {
 	private PeriodoLectura periodo;
 	private String lecturero;
 	private Date fechaRegistro;
+	
+	private boolean esCanon;
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
@@ -109,17 +111,48 @@ public class LecturaBean implements Serializable {
 		this.fechaRegistro = fechaRegistro;
 	}
 
+	public boolean isEsCanon() {
+		return esCanon;
+	}
+
+	public void setEsCanon(boolean esCanon) {
+		this.esCanon = esCanon;
+	}
+
 	public void retornarConexion() {
 		ConexionDAO conexionDAO = new ConexionDAOImplement();
+		String canon = "CANON";
+		
+		
+		
 		try {
 			conexion = conexionDAO.buscarConexionID(conexionID);
-			Collections.sort(conexion.getLecturas());
+			
+			if(conexion.getLecturas() != null){
+				Collections.sort(conexion.getLecturas());
+			}
+				
+			//Collections.sort(conexion.getLecturas());
+			
+			//VERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+			
 			lectura.setLecturaAnterior(conexion.getLecturas().get(0).getLecturaActual());
 			lectura.setConexion(conexion);
+			
 			if (conexion == null) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se encuentra la conexión"));
 			}
+			
+			if(conexion.getCategoriaConexion().getDescripcion().equals(canon)){
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La conexión es de tipo CANON"));
+				esCanon = true;
+			}
+			else{
+				esCanon = false;
+			}
+			
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"Error al buscar conexión: " + e.getMessage()));
@@ -170,6 +203,7 @@ public class LecturaBean implements Serializable {
 	private void inicializar() {
 		lectura = new Lectura();
 		conexion = new Conexion();
+		esCanon = false;
 		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
 		try {
 			periodo = periodoLecturaDAO.buscarPeriodoLecturaAbierto();

@@ -7,20 +7,21 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import dao.ConexionesSaldosDAO;
-import model.ConexionesSaldos;
 import persistencia.HibernateUtil;
+import model.ConexionesSaldos;
+import model.PeriodosSaldos;
+import dao.PeriodosSaldosDAO;
 
-public class ConexionesSaldosDAOImplement implements ConexionesSaldosDAO {
+public class PeriodosSaldosDAOImplement implements PeriodosSaldosDAO{
 
 	@Override
-	public List<ConexionesSaldos> listaConexionesSaldos() throws Exception {
+	public List<PeriodosSaldos> listaPeriodosSaldos() throws Exception {
 		Session session = null;
-		List<ConexionesSaldos> lista = null;
+		List<PeriodosSaldos> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from ConexionesSaldos");
-			lista = (List<ConexionesSaldos>) query.list();
+			Query query = session.createQuery("from PeriodosSaldos");
+			lista = (List<PeriodosSaldos>) query.list();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());
@@ -37,12 +38,13 @@ public class ConexionesSaldosDAOImplement implements ConexionesSaldosDAO {
 	}
 
 	@Override
-	public void insertarConexionesSaldos(ConexionesSaldos conexionesSaldo) throws Exception {
+	public void insertarPeriodosSaldos(PeriodosSaldos periodosSaldos)
+			throws Exception {
 		Session session = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(conexionesSaldo);
+			session.save(periodosSaldos);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -59,12 +61,36 @@ public class ConexionesSaldosDAOImplement implements ConexionesSaldosDAO {
 	}
 
 	@Override
-	public void modificarConexionesSaldos(ConexionesSaldos conexionesSaldo) throws Exception {
+	public void modificarPeriodosSaldos(PeriodosSaldos periodosSaldos)
+			throws Exception {
 		Session session = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.update(conexionesSaldo);
+			session.update(periodosSaldos);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}	
+		
+	}
+
+	@Override
+	public void eliminarPeriodosSaldos(PeriodosSaldos periodosSaldos)
+			throws Exception {
+		Session session = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.delete(periodosSaldos);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -77,37 +103,17 @@ public class ConexionesSaldosDAOImplement implements ConexionesSaldosDAO {
 				session.close();
 			}
 		}		
+		
 	}
 
 	@Override
-	public void eliminarConexionesSaldos(ConexionesSaldos conexionesSaldo) throws Exception {
+	public PeriodosSaldos buscarPeriodosSaldosId(Long id) throws Exception {
 		Session session = null;
+		PeriodosSaldos periodoSaldos = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.delete(conexionesSaldo);
-			session.getTransaction().commit();
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			session.getTransaction().rollback();
-			throw new Exception(e);
-		}finally{
-			if(session != null){
-				session.close();
-			}
-		}		
-	}
-
-	@Override
-	public ConexionesSaldos buscarConexionesSaldosId(Long id) throws Exception {
-		Session session = null;
-		ConexionesSaldos conexSaldo = null;
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			conexSaldo = (ConexionesSaldos)session.get(ConexionesSaldos.class, id.longValue());			
+			periodoSaldos = (PeriodosSaldos)session.get(PeriodosSaldos.class, id.longValue());			
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
@@ -121,24 +127,25 @@ public class ConexionesSaldosDAOImplement implements ConexionesSaldosDAO {
 				session.close();
 			}
 		}		
-		return conexSaldo;
+		return periodoSaldos;
 	}
 
 	@Override
-	public ConexionesSaldos buscarConexionesSaldosConexion(Long id) throws Exception {
+	public PeriodosSaldos buscarPeriodosSaldosConexion(Long id)
+			throws Exception {
 		Session session = null;
-		ConexionesSaldos conexSaldo = null;
-		List<ConexionesSaldos> lista = null;
+		PeriodosSaldos periodoSaldos = null;
+		List<PeriodosSaldos> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			Query query = session.createQuery("from ConexionesSaldos cs"
-											+ " where cs.conexion.id = ?");
+			Query query = session.createQuery("from PeriodosSaldos ps"
+											+ " where ps.conexion.id = ?");
 			
 			query.setLong(0,id);
 			lista = query.list();
 			if(lista.size()>0){
-				conexSaldo = lista.get(0);
+				periodoSaldos = lista.get(0);
 			}
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
@@ -153,6 +160,7 @@ public class ConexionesSaldosDAOImplement implements ConexionesSaldosDAO {
 				session.close();
 			}
 		}		
-		return conexSaldo;
+		return periodoSaldos;
 	}
+
 }

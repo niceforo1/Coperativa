@@ -93,7 +93,7 @@
 							effect="explode" required="true" locale="es" navigator="true" />
 						<f:facet name="footer">
 							<center>
-								<p:commandButton
+								<p:commandButton 
 									actionListener="#{periodoFacturacionBean.insertarPeriodoFacturacion}"
 									update=":alta :mostrar" value="#{msg.paramCargar}" disabled="#{periodoFacturacionBean.periodoAbiertoCons()}" /> 
 							</center>
@@ -165,7 +165,7 @@
 						rendered="#{perFact.estadoPeriodo.descripcion == 'EN PROCESO'}">
 						<p:commandButton value="CERRAR PERIODO"
 							actionListener="#{periodoFacturacionBean.cambiarEstadoPeriodo('CERRADO', perFact)}"
-							update=":alta :mostrar" immediate="true" />
+							update=":mostrar :alta" immediate="true" />
 					</p:column>
 					<p:column style="width:110px;text-align: center" exportable="false"
 						rendered="#{perFact.estadoPeriodo.descripcion == 'CERRADO'}">

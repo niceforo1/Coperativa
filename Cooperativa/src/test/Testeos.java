@@ -9,6 +9,7 @@ import dao.LecturaDAO;
 import dao.PeriodoCanonDAO;
 import dao.PeriodoFacturacionDAO;
 import dao.PeriodoLecturaDAO;
+import dao.PeriodosSaldosDAO;
 import dao.impl.ConceptoFacturacionDAOImplement;
 import dao.impl.ConexionDAOImplement;
 import dao.impl.ConexionesSaldosDAOImplement;
@@ -18,11 +19,13 @@ import dao.impl.LecturaDAOImplement;
 import dao.impl.PeriodoCanonDAOImplement;
 import dao.impl.PeriodoFacturacionDAOImplement;
 import dao.impl.PeriodoLecturaDAOImplement;
+import dao.impl.PeriodosSaldosDAOImplement;
 import model.Conexion;
 import model.ConexionesSaldos;
 import model.ConfiguracionFactura;
 import model.Factura;
 import model.Lectura;
+import model.PeriodosSaldos;
 
 public class Testeos {
 	final static String NORMAL= "NORMAL";
@@ -36,6 +39,7 @@ public class Testeos {
 		FacturaDAO daoFactura = new FacturaDAOImplement();
 		PeriodoCanonDAO periodoCanonDAO = new PeriodoCanonDAOImplement();
 		ConexionesSaldosDAO conexionesSaldosDAO = new ConexionesSaldosDAOImplement();
+		PeriodosSaldosDAO periodosSaldosDAO = new PeriodosSaldosDAOImplement();
 		try {
 			ConfiguracionFactura configFactura = daoConfiguracionFactura.obtenerConfiguracionFactura().get(0);			
 			for (Lectura lec : lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaAbierto())) {
@@ -115,7 +119,17 @@ public class Testeos {
 					conSaldo.setUltimoVencRegistrado(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
 					conSaldo.setSaldoTotal(0F - fact.getImporteTotal());
 					conexionesSaldosDAO.insertarConexionesSaldos(conSaldo);
-				}			
+				}	
+					
+				PeriodosSaldos perSaldo = new PeriodosSaldos();
+				perSaldo.setConexion(fact.getConexion());
+				perSaldo.setMes(fact.getPeriodoFacturacion().getMes());
+				perSaldo.setAnio(fact.getPeriodoFacturacion().getAnio());
+				perSaldo.setFechaVencimiento(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
+				perSaldo.setConsumo(totalConsumido);
+				perSaldo.setSaldo(0F - fact.getImporteTotal());
+				periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);
+				
 			}
 			if(periodoCanonDAO.buscarPeriodosCanonMes((int) periodoLecturaDAO.buscarPeriodoLecturaAbierto().getMes()) != null){			
 				ConexionDAO conexionDAO = new ConexionDAOImplement();
@@ -157,6 +171,15 @@ public class Testeos {
 						conSaldo.setSaldoTotal(0F - fact.getImporteTotal());
 						conexionesSaldosDAO.insertarConexionesSaldos(conSaldo);
 					}
+					PeriodosSaldos perSaldo = new PeriodosSaldos();
+					perSaldo.setConexion(fact.getConexion());
+					perSaldo.setMes(fact.getPeriodoFacturacion().getMes());
+					perSaldo.setAnio(fact.getPeriodoFacturacion().getAnio());
+					perSaldo.setFechaVencimiento(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
+					perSaldo.setConsumo(0);
+					perSaldo.setSaldo(0F - fact.getImporteTotal());
+					periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);
+					
 				}				
 			}
 		} catch (Exception e) {

@@ -68,7 +68,7 @@
 							</f:facet>
 							<p:outputLabel value="Número Conexión" for="numero" />
 							<p:inputText id="numero" value="#{lecturaBean.conexionID}">
-								<p:ajax event="blur" update="socio, socio1, socio2, lectAnt"
+								<p:ajax event="blur" update="socio, socio1, socio2, lectAnt, button"
 									listener="#{lecturaBean.retornarConexion}" />
 							</p:inputText>
 							<p:outputLabel value="Socio:" />
@@ -102,8 +102,8 @@
 								rows="10" cols="40" />
 							<f:facet name="footer">
 								<center>
-									<p:commandButton action="#{lecturaBean.insertarLectura}"
-										value="#{msg.paramCargar}" update=":alta" />
+									<p:commandButton action="#{lecturaBean.insertarLectura}" id="button"
+										value="#{msg.paramCargar}" update=":alta" disabled="#{lecturaBean.esCanon}"/>
 								</center>
 							</f:facet>
 						</p:panelGrid>
