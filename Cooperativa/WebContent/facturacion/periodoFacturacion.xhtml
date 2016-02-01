@@ -67,11 +67,11 @@
 						</p:selectOneMenu>
 						<p:outputLabel value="#{msg.paramPeriodoFacturacionCESP}" for="cesp" />
 						<p:inputText id="cesp"
-							value="#{periodoFacturacionBean.periodoFacturacion.cesp}" required="true" />
+							value="#{periodoFacturacionBean.periodoFacturacion.periodoCesp.cesp}" required="true" />
 						<p:outputLabel value="#{msg.paramPeriodoFacturacionVtoCESP}"
 							for="vtoCesp" />
 						<p:calendar id="vtoCesp"
-							value="#{periodoFacturacionBean.periodoFacturacion.fechaVtoCesp}"
+							value="#{periodoFacturacionBean.periodoFacturacion.periodoCesp.fechaVtoCesp}"
 							effect="explode" required="true" locale="es" navigator="true" />
 						<p:outputLabel
 							value="#{msg.paramPeriodoFacturacionFechaEmisionFactura}"
@@ -127,14 +127,14 @@
 						<p:outputLabel value="#{perFact.mes}" />
 					</p:column>
 					<p:column headerText="#{msg.paramPeriodoFacturacionCESP}"
-						filterBy="#{perFact.cesp}" filterMatchMode="contains">
-						<p:outputLabel value="#{perFact.cesp}" />
+						filterBy="#{perFact.periodoCesp.cesp}" filterMatchMode="contains">
+						<p:outputLabel value="#{perFact.periodoCesp.cesp}" />
 					</p:column>
 					<ui:remove>
 					<p:column style="width:100px" headerText="#{msg.paramPeriodoFacturacionVtoCESP}"
-						filterBy="#{perFact.fechaVtoCesp}" filterMatchMode="contains">
+						filterBy="#{perFact.periodoCesp.fechaVtoCesp}" filterMatchMode="contains">
 						<p:outputLabel
-							value="#{loginBean.formatearFechaMes(perFact.fechaVtoCesp, 'dd/MM/yyyy')}" />
+							value="#{loginBean.formatearFechaMes(perFact.periodoCesp.fechaVtoCesp, 'dd/MM/yyyy')}" />
 					</p:column>
 					</ui:remove>
 					<p:column

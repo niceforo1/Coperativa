@@ -2,6 +2,7 @@ package test;
 
 import dao.ConceptoFacturacionDAO;
 import dao.ConexionDAO;
+import dao.ConexionesSaldosDAO;
 import dao.ConfiguracionFacturaDAO;
 import dao.FacturaDAO;
 import dao.LecturaDAO;
@@ -10,6 +11,7 @@ import dao.PeriodoFacturacionDAO;
 import dao.PeriodoLecturaDAO;
 import dao.impl.ConceptoFacturacionDAOImplement;
 import dao.impl.ConexionDAOImplement;
+import dao.impl.ConexionesSaldosDAOImplement;
 import dao.impl.ConfiguracionFacturaDAOImplement;
 import dao.impl.FacturaDAOImplement;
 import dao.impl.LecturaDAOImplement;
@@ -17,6 +19,7 @@ import dao.impl.PeriodoCanonDAOImplement;
 import dao.impl.PeriodoFacturacionDAOImplement;
 import dao.impl.PeriodoLecturaDAOImplement;
 import model.Conexion;
+import model.ConexionesSaldos;
 import model.ConfiguracionFactura;
 import model.Factura;
 import model.Lectura;
@@ -31,7 +34,8 @@ public class Testeos {
 		PeriodoFacturacionDAO periodoFacturacionDAO = new PeriodoFacturacionDAOImplement();
 		ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();
 		FacturaDAO daoFactura = new FacturaDAOImplement();
-		PeriodoCanonDAO periodoCanonDAO = new PeriodoCanonDAOImplement();		
+		PeriodoCanonDAO periodoCanonDAO = new PeriodoCanonDAOImplement();
+		ConexionesSaldosDAO conexionesSaldosDAO = new ConexionesSaldosDAOImplement();
 		try {
 			ConfiguracionFactura configFactura = daoConfiguracionFactura.obtenerConfiguracionFactura().get(0);			
 			for (Lectura lec : lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaAbierto())) {
@@ -98,8 +102,20 @@ public class Testeos {
 							fact.getImpresionesOtros()+
 							fact.getIva());
 					
-				}		
+				}
 				daoFactura.insertarFactura(fact);
+				ConexionesSaldos conSaldo = conexionesSaldosDAO.buscarConexionesSaldosConexion(fact.getConexion().getId());
+				if(conSaldo != null){
+					conSaldo.setSaldoTotal(conSaldo.getSaldoTotal() - fact.getImporteTotal());
+					conSaldo.setUltimoVencRegistrado(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
+					conexionesSaldosDAO.modificarConexionesSaldos(conSaldo);
+				}else{
+					conSaldo = new ConexionesSaldos();
+					conSaldo.setConexion(fact.getConexion());
+					conSaldo.setUltimoVencRegistrado(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
+					conSaldo.setSaldoTotal(0F - fact.getImporteTotal());
+					conexionesSaldosDAO.insertarConexionesSaldos(conSaldo);
+				}			
 			}
 			if(periodoCanonDAO.buscarPeriodosCanonMes((int) periodoLecturaDAO.buscarPeriodoLecturaAbierto().getMes()) != null){			
 				ConexionDAO conexionDAO = new ConexionDAOImplement();
@@ -127,16 +143,30 @@ public class Testeos {
 							fact.getErsep()+
 							fact.getRecuperoInversion()+
 							fact.getImpresionesOtros()+
-							fact.getIva());
-				}
+							fact.getIva());					
+					daoFactura.insertarFactura(fact);
+					ConexionesSaldos conSaldo = conexionesSaldosDAO.buscarConexionesSaldosConexion(fact.getConexion().getId());
+					if(conSaldo != null){
+						conSaldo.setSaldoTotal(conSaldo.getSaldoTotal() - fact.getImporteTotal());
+						conSaldo.setUltimoVencRegistrado(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
+						conexionesSaldosDAO.modificarConexionesSaldos(conSaldo);
+					}else{
+						conSaldo = new ConexionesSaldos();
+						conSaldo.setConexion(fact.getConexion());
+						conSaldo.setUltimoVencRegistrado(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
+						conSaldo.setSaldoTotal(0F - fact.getImporteTotal());
+						conexionesSaldosDAO.insertarConexionesSaldos(conSaldo);
+					}
+				}				
 			}
-		} catch (Exception e) { // TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	
 //	try {
+	//System.out.println(lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaAbierto()).size());
 //	System.out.println(lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaAbierto()).size());
 //	for (Lectura lec : lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaAbierto())) {
 //		Factura fact = new Factura();

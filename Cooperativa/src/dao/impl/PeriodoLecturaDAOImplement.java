@@ -133,8 +133,6 @@ public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("from PeriodoLectura as s" 
-											// + " inner join EstadoSocio as es"
-											// + " on es.id = s.estadoSocio"
 											 + " where s.estadoPeriodo.descripcion = ?");
 			query.setString(0, estado);
 			periodo = (PeriodoLectura) query.list().get(0);

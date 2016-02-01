@@ -7,21 +7,20 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import dao.PeriodoCanonDAO;
-import model.Pais;
-import model.PeriodoCanon;
+import dao.ConexionesSaldosDAO;
+import model.ConexionesSaldos;
 import persistencia.HibernateUtil;
 
-public class PeriodoCanonDAOImplement implements PeriodoCanonDAO {
+public class ConexionesSaldosDAOImplement implements ConexionesSaldosDAO {
 
 	@Override
-	public List<PeriodoCanon> listaPeriodosCanon() throws Exception {
+	public List<ConexionesSaldos> listaConexionesSaldos() throws Exception {
 		Session session = null;
-		List<PeriodoCanon> lista = null;
+		List<ConexionesSaldos> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from PeriodoCanon");
-			lista = (List<PeriodoCanon>) query.list();
+			Query query = session.createQuery("from ConexionesSaldos");
+			lista = (List<ConexionesSaldos>) query.list();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());
@@ -38,12 +37,34 @@ public class PeriodoCanonDAOImplement implements PeriodoCanonDAO {
 	}
 
 	@Override
-	public void insertarPeriodosCanon(PeriodoCanon periodoCanon) throws Exception {
+	public void insertarConexionesSaldos(ConexionesSaldos forma) throws Exception {
 		Session session = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(periodoCanon);
+			session.save(forma);
+			session.getTransaction().commit();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			session.getTransaction().rollback();
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				session.close();
+			}
+		}
+		
+	}
+
+	@Override
+	public void modificarConexionesSaldos(ConexionesSaldos forma) throws Exception {
+		Session session = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.update(forma);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -59,12 +80,12 @@ public class PeriodoCanonDAOImplement implements PeriodoCanonDAO {
 	}
 
 	@Override
-	public void modificarPeriodosCanon(PeriodoCanon periodoCanon) throws Exception {
+	public void eliminarConexionesSaldos(ConexionesSaldos forma) throws Exception {
 		Session session = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.update(periodoCanon);
+			session.delete(forma);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -76,38 +97,17 @@ public class PeriodoCanonDAOImplement implements PeriodoCanonDAO {
 			if(session != null){
 				session.close();
 			}
-		}			
+		}		
 	}
 
 	@Override
-	public void eliminarPeriodosCanon(PeriodoCanon periodoCanon) throws Exception {
+	public ConexionesSaldos buscarConexionesSaldosId(Long id) throws Exception {
 		Session session = null;
+		ConexionesSaldos conexSaldo = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.delete(periodoCanon);
-			session.getTransaction().commit();
-		}catch(ConstraintViolationException e){
-			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			session.getTransaction().rollback();
-			throw new Exception(e);
-		}finally{
-			if(session != null){
-				session.close();
-			}
-		}			
-	}
-
-	@Override
-	public PeriodoCanon buscarPeriodosCanonId(Long id) throws Exception {
-		Session session = null;
-		PeriodoCanon periodoCanon= null;
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			periodoCanon = (PeriodoCanon)session.get(PeriodoCanon.class, id.longValue());			
+			conexSaldo = (ConexionesSaldos)session.get(ConexionesSaldos.class, id.longValue());			
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
@@ -117,39 +117,42 @@ public class PeriodoCanonDAOImplement implements PeriodoCanonDAO {
 			throw new Exception(e);		
 		}finally{
 			if(session != null){
+				System.out.println("CIERRA LA SESION");
 				session.close();
 			}
 		}		
-		return periodoCanon;
+		return conexSaldo;
 	}
 
 	@Override
-	public PeriodoCanon buscarPeriodosCanonMes(int mes) throws Exception {
+	public ConexionesSaldos buscarConexionesSaldosConexion(Long id) throws Exception {
 		Session session = null;
-		PeriodoCanon periodoCanon= null;
-		List<PeriodoCanon> lista = null;
+		ConexionesSaldos conexSaldo = null;
+		List<ConexionesSaldos> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from PeriodoCanon pc "
-					+ " where pc.mes = ? ");
-			query.setInteger(0, mes);			
+			session.beginTransaction();
+			Query query = session.createQuery("from ConexionesSaldos cs"
+											+ " where cs.conexion.id = ?");
+			
+			query.setLong(0,id);
 			lista = query.list();
-			if(lista.size() > 0){
-				periodoCanon = (PeriodoCanon) lista.get(0);
-			}			
+			if(lista.size()>0){
+				conexSaldo = lista.get(0);
+			}
+			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
+			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
 			session.getTransaction().rollback();
-			throw new Exception(e.getSQLException());
-		}catch(HibernateException e){
-			System.out.println("error: " + e.getMessage());
-			throw new Exception(e);
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){						
+			throw new Exception(e);		
 		}finally{
 			if(session != null){
 				System.out.println("CIERRA LA SESION");
 				session.close();
 			}
-		}
-		return periodoCanon;		
+		}		
+		return conexSaldo;
 	}
-
 }

@@ -27,11 +27,9 @@ public class PeriodoFacturacion implements Serializable {
 	@Column(name = "ANIO", nullable = false)
 	private long anio;
 
-	@Column(name = "CESP")
-	private long cesp;
-
-	@Column(name = "VTO_CESP")
-	private Date fechaVtoCesp;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "PERIODO_CESP_ID")
+	private PeriodoCesp periodoCesp;
 
 	@Column(name = "FECHA_EMISION_FACTURA")
 	private Date fechaEmisionFactura;
@@ -41,7 +39,7 @@ public class PeriodoFacturacion implements Serializable {
 
 	@Column(name = "VENCIMIENTO_FACT_2")
 	private Date fechaSegundoVencimientoFactura;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ESTADO_PERIODO_ID")
 	private EstadoPeriodo estadoPeriodo;
@@ -78,22 +76,6 @@ public class PeriodoFacturacion implements Serializable {
 		this.anio = anio;
 	}
 
-	public long getCesp() {
-		return cesp;
-	}
-
-	public void setCesp(long cesp) {
-		this.cesp = cesp;
-	}
-
-	public Date getFechaVtoCesp() {
-		return fechaVtoCesp;
-	}
-
-	public void setFechaVtoCesp(Date fechaVtoCesp) {
-		this.fechaVtoCesp = fechaVtoCesp;
-	}
-
 	public Date getFechaEmisionFactura() {
 		return fechaEmisionFactura;
 	}
@@ -114,8 +96,7 @@ public class PeriodoFacturacion implements Serializable {
 		return fechaSegundoVencimientoFactura;
 	}
 
-	public void setFechaSegundoVencimientoFactura(
-			Date fechaSegundoVencimientoFactura) {
+	public void setFechaSegundoVencimientoFactura(Date fechaSegundoVencimientoFactura) {
 		this.fechaSegundoVencimientoFactura = fechaSegundoVencimientoFactura;
 	}
 
@@ -133,6 +114,14 @@ public class PeriodoFacturacion implements Serializable {
 
 	public void setUsuarioCierreFact(Usuario usuarioCierreFact) {
 		this.usuarioCierreFact = usuarioCierreFact;
+	}
+
+	public PeriodoCesp getPeriodoCesp() {
+		return periodoCesp;
+	}
+
+	public void setPeriodoCesp(PeriodoCesp periodoCesp) {
+		this.periodoCesp = periodoCesp;
 	}
 
 }

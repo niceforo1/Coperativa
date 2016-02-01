@@ -3,7 +3,6 @@ package dao;
 import java.util.List;
 
 import model.PeriodoFacturacion;
-import model.PeriodoLectura;
 
 public interface PeriodoFacturacionDAO {
 	public List<PeriodoFacturacion> listaPeriodoFacturacion() throws Exception;

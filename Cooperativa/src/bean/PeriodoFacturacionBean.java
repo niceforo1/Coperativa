@@ -22,6 +22,7 @@ import dao.impl.EstadoSocioDAOImplement;
 import dao.impl.PeriodoFacturacionDAOImplement;
 import dao.impl.PeriodoLecturaDAOImplement;
 import dao.impl.SocioDAOImplement;
+import model.PeriodoCesp;
 import model.PeriodoFacturacion;
 import model.PeriodoLectura;
 import model.Socio;
@@ -157,5 +158,6 @@ public class PeriodoFacturacionBean implements Serializable {
 	private void inicializar() {
 		getPeriodoFacturacionEnProceso();
 		periodoFacturacion = new PeriodoFacturacion();
+		periodoFacturacion.setPeriodoCesp(new PeriodoCesp());
 	}
 }
