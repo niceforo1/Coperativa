@@ -178,8 +178,7 @@ public class Testeos {
 					perSaldo.setFechaVencimiento(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
 					perSaldo.setConsumo(0);
 					perSaldo.setSaldo(0F - fact.getImporteTotal());
-					periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);
-					
+					periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);					
 				}				
 			}
 		} catch (Exception e) {

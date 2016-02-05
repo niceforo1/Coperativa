@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -131,7 +132,7 @@ public class PeriodosSaldosDAOImplement implements PeriodosSaldosDAO{
 	}
 
 	@Override
-	public PeriodosSaldos buscarPeriodosSaldosConexion(Long id)
+	public List<PeriodosSaldos> buscarPeriodosSaldosConexion(Long id)
 			throws Exception {
 		Session session = null;
 		PeriodosSaldos periodoSaldos = null;
@@ -140,13 +141,9 @@ public class PeriodosSaldosDAOImplement implements PeriodosSaldosDAO{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			Query query = session.createQuery("from PeriodosSaldos ps"
-											+ " where ps.conexion.id = ?");
-			
+											+ " where ps.conexion.id = ?");			
 			query.setLong(0,id);
-			lista = query.list();
-			if(lista.size()>0){
-				periodoSaldos = lista.get(0);
-			}
+			lista = query.list();			
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
@@ -160,7 +157,7 @@ public class PeriodosSaldosDAOImplement implements PeriodosSaldosDAO{
 				session.close();
 			}
 		}		
-		return periodoSaldos;
+		return lista;
 	}
 
 }

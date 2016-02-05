@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+		<center>
+			<h:form id="alta">
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<p:panel header="Consulta Estado Deuda Socio">
+					<p:panelGrid columns="6">
+						<p:outputLabel value="Número Conexión" for="numero" />
+						<p:inputText id="numero" value="#{consEstDeudaBean.conexionID}">
+							<p:ajax event="blur" update="conEst, socio, socio1"
+								listener="#{consEstDeudaBean.retornarConexion}" />
+						</p:inputText>
+						<p:outputLabel value="Estado: " for="conEst" />
+						<p:outputLabel value="#{consEstDeudaBean.conexion.estadoConexion.descripcion}" id="conEst" />
+						<p:outputLabel value="Titular:" />
+						<p:panelGrid columns="2">
+							<p:outputLabel
+								value="#{consEstDeudaBean.conexion.socio.apellidoRazonSocial} #{consEstDeudaBean.conexion.socio.nombreDenominacion}"
+								id="socio" />
+	
+							<p:outputLabel
+								value="#{consEstDeudaBean.conexion.domicilioServicio.barrio} #{consEstDeudaBean.conexion.domicilioServicio.calle} #{consEstDeudaBean.conexion.domicilioServicio.numero}"
+								id="socio1" />								
+					</p:panelGrid>	
+					
+					<ui:remove>			
+					<f:facet name="footer">
+						<center>
+							<p:commandButton 
+								actionListener="#{periodoFacturacionBean.insertarPeriodoFacturacion}"
+								update=":alta" value="#{msg.paramCargar}" disabled="#{periodoFacturacionBean.periodoAbiertoCons()}" /> 
+						</center>
+					</f:facet>
+					</ui:remove>
+				</p:panelGrid>
+				<br/>
+				<p:panelGrid columns="4">
+					<p:outputLabel value="Desde:" />
+					<p:calendar id="fechaDesde"
+							value="#{consEstDeudaBean.fechaDesde}" effect="explode"
+							required="true" locale="es" navigator="true" />
+					<p:outputLabel value="Hasta:" />
+					<p:calendar id="fechaHasta"
+							value="#{consEstDeudaBean.fechaHasta}" effect="explode"
+							required="true" locale="es" navigator="true" />
+					<f:facet name="footer">
+						<center>
+							<p:commandButton 
+								actionListener="#{consEstDeudaBean.retornarPeriodosFiltrados}"
+								update=":alta" value="Consultar" /> 
+						</center>
+					</f:facet>
+				</p:panelGrid>
+				</p:panel>
+			</h:form>
+
+			<br />
+			
+		</center>
+	</ui:define>
+</ui:composition>
+</html>
