@@ -157,7 +157,8 @@ public class Testeos {
 							fact.getErsep()+
 							fact.getRecuperoInversion()+
 							fact.getImpresionesOtros()+
-							fact.getIva());					
+							fact.getIva());
+					System.out.println(fact.toString());					
 					daoFactura.insertarFactura(fact);
 					ConexionesSaldos conSaldo = conexionesSaldosDAO.buscarConexionesSaldosConexion(fact.getConexion().getId());
 					if(conSaldo != null){

@@ -25,16 +25,17 @@ public class ConsultaEstadoDeudaSocioBean {
 	private Date fechaDesde;
 	private Date fechaHasta;
 	private List<PeriodosSaldos> lstPeriodosSaldos;
+	private Float totalSaldo;
 
 	public ConsultaEstadoDeudaSocioBean() {
 		inicializar();
 	}
 
-	public List<PeriodosSaldos> getPeriodosSaldos() {
+	public List<PeriodosSaldos> getLstPeriodosSaldos() {
 		return lstPeriodosSaldos;
 	}
 
-	public void setPeriodosSaldos(List<PeriodosSaldos> lstPeriodosSaldos) {
+	public void setLstPeriodosSaldos(List<PeriodosSaldos> lstPeriodosSaldos) {
 		this.lstPeriodosSaldos = lstPeriodosSaldos;
 	}
 
@@ -70,13 +71,18 @@ public class ConsultaEstadoDeudaSocioBean {
 		this.conexionID = conexionID;
 	}
 
+	public Float getTotalSaldo() {
+		return totalSaldo;
+	}
+
+	public void setTotalSaldo(Float totalSaldo) {
+		this.totalSaldo = totalSaldo;
+	}
+
 	public void retornarConexion() {
 		ConexionDAO conexionDAO = new ConexionDAOImplement();
 		try {
 			conexion = conexionDAO.buscarConexionID(conexionID);
-			System.out.println("conexion: " + conexion.toString());
-			// VERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-
 			if (conexion == null) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se encuentra la conexión"));
@@ -87,12 +93,15 @@ public class ConsultaEstadoDeudaSocioBean {
 					"Error al buscar conexión: " + e.getMessage()));
 		}
 	}
-	
-	public void retornarPeriodosFiltrados(){
+
+	public void retornarPeriodosFiltrados() {
 		PeriodosSaldosDAO periodosSaldosDAO = new PeriodosSaldosDAOImplement();
+		totalSaldo = 0F;
 		try {
-			lstPeriodosSaldos= periodosSaldosDAO.buscarPeriodosSaldosConexion(conexionID);
-			System.out.println(lstPeriodosSaldos.size());
+			lstPeriodosSaldos = periodosSaldosDAO.buscarPeriodosSaldosConexion(conexionID,fechaDesde,fechaHasta);
+			for(PeriodosSaldos per : lstPeriodosSaldos){
+				totalSaldo +=per.getSaldo();
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"Error al buscar periodo saldos: " + e.getMessage()));
@@ -102,6 +111,7 @@ public class ConsultaEstadoDeudaSocioBean {
 	private void inicializar() {
 		conexion = new Conexion();
 		conexionID = 0L;
+		totalSaldo =0f;
 		lstPeriodosSaldos = new ArrayList<PeriodosSaldos>();
 	}
 }

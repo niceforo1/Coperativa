@@ -233,4 +233,15 @@ public class Factura implements Serializable {
 	public void setImporteTotal(Float importeTotal) {
 		this.importeTotal = importeTotal;
 	}
+
+	@Override
+	public String toString() {
+		return "Factura [id=" + id + ", tipoFactura=" + tipoFactura + ", periodoFacturacion=" + periodoFacturacion
+				+ ", conceptoFacturacion=" + conceptoFacturacion + ", interesesSegVenc=" + interesesSegVenc
+				+ ", conexion=" + conexion + ", cargoFijo=" + cargoFijo + ", tramo1=" + tramo1 + ", tramo2=" + tramo2
+				+ ", tramo3=" + tramo3 + ", tramo4=" + tramo4 + ", tramo5=" + tramo5 + ", tramo6=" + tramo6
+				+ ", capitalSocial=" + capitalSocial + ", ersep=" + ersep + ", recuperoInversion=" + recuperoInversion
+				+ ", impresionesOtros=" + impresionesOtros + ", iva=" + iva + ", importeTotal=" + importeTotal + "]";
+	}
+
 }

@@ -4,7 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
 	<ui:define name="tituloPantalla">
 		<h:outputFormat value="#{msg.title}">
@@ -60,7 +61,7 @@
 						<center>
 							<p:commandButton 
 								actionListener="#{consEstDeudaBean.retornarPeriodosFiltrados}"
-								update=":alta" value="Consultar" /> 
+								update=":alta :mostrar" value="Consultar" /> 
 						</center>
 					</f:facet>
 				</p:panelGrid>
@@ -68,6 +69,36 @@
 			</h:form>
 
 			<br />
+			
+			<h:form id="mostrar">
+				<p:dataTable id="consEstadoDudaSocDT" var="perSaldos"
+					value="#{consEstDeudaBean.lstPeriodosSaldos}" scrollable="true"
+					scrollHeight="150" rowKey="#{perSaldos.id}"
+					emptyMessage="#{msg.paramNoDatos}">
+					<p:column headerText="Mes" filterBy="#{perSaldos.mes}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{perSaldos.mes}" />
+					</p:column>
+					<p:column headerText="Año" filterBy="#{perSaldos.anio}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{perSaldos.anio}" />
+					</p:column>
+					<p:column headerText="Consumo" filterBy="#{perSaldos.consumo}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{perSaldos.consumo}" />
+					</p:column>
+					<p:column headerText="Saldo" filterBy="#{perSaldos.saldo}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{perSaldos.saldo}" />
+					</p:column>
+					<f:facet name="footer">
+						<center>
+							<p:outputLabel value="#{consEstDeudaBean.totalSaldo}"/> 
+						</center>
+					</f:facet>
+				</p:dataTable>			
+			</h:form>
+			
 			
 		</center>
 	</ui:define>

@@ -10,5 +10,5 @@ public interface PeriodosSaldosDAO {
 	public void modificarPeriodosSaldos(PeriodosSaldos periodosSaldos) throws Exception;
 	public void eliminarPeriodosSaldos(PeriodosSaldos periodosSaldos) throws Exception;
 	public PeriodosSaldos buscarPeriodosSaldosId(Long id) throws Exception;
-	public List<PeriodosSaldos> buscarPeriodosSaldosConexion(Long id) throws Exception;	
+	public List<PeriodosSaldos> buscarPeriodosSaldosConexion(Long id, Date fechaDesde,Date fechaHasta) throws Exception;	
 }
