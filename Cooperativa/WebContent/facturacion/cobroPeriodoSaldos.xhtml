@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{cobrarPeriodoSaldoBean.obtenerComp}" />
+		</f:metadata>
+		<center>
+			<h:form id="alta">
+				<p:panel header="Cobrar">
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Sub Total" for="subTotal" />
+						<p:outputLabel value="#{cobrarPeriodoSaldoBean.subTotal}" id="subTotal"/>
+						<p:outputLabel value="Intereses" for="intereses"/>
+						<p:outputLabel value="#{cobrarPeriodoSaldoBean.interesGlobal}" id="intereses"/>
+						<p:outputLabel value="Total" for="total"/>
+						<p:outputLabel value="#{cobrarPeriodoSaldoBean.total}" id="total"/>
+						<p:outputLabel value="Tipo de Pago" for="tipoPagos" />
+						<p:selectOneMenu id="tipoPagos"
+							value="#{cobrarPeriodoSaldoBean.tipoPago}"
+							panelStyle="width:180px" effect="fold" filter="true" required="true"> 
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItem itemLabel="PAGO TOTAL" itemValue="PAGO TOTAL" />
+							<f:selectItem itemLabel="PAGO PARCIAL" itemValue="PAGO PARCIAL" />
+						</p:selectOneMenu>						
+						<p:outputLabel value="Forma de Pago" for="formaPago" />
+						<p:selectOneMenu id="formaPago"
+							value="#{cobrarPeriodoSaldoBean.formaPagoID}"
+							panelStyle="width:180px" effect="fold" filter="true"
+							required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{formaPagoBean.listaFormaPago}"
+								var="forPago" itemLabel="#{forPago.descripcion}"
+								itemValue="#{forPago.id}" />
+						</p:selectOneMenu>
+						<f:facet name="footer">
+						<center>
+							<p:commandButton value="Cobrar" actionListener="#{cobrarPeriodoSaldoBean.cobrar}" 
+											 update=":alta"/>
+						</center>
+					</f:facet>
+					</p:panelGrid>
+				</p:panel>
+				<ui:remove>
+					<p:dataTable id="cobroPerioSaldo" var="cobSaldo"
+					value="#{cobrarPeriodoSaldoBean.lstPeriodosSaldos}" scrollable="true"
+					scrollHeight="150" rowKey="#{cobSaldo.id}"
+					emptyMessage="#{msg.paramNoDatos}">
+					<p:column headerText="Mes" >
+						<p:outputLabel value="#{cobSaldo.mes}" />
+					</p:column>
+					<p:column headerText="Año" >
+						<p:outputLabel value="#{cobSaldo.anio}" />
+					</p:column>
+					<p:column headerText="Fecha Vencimiento" >
+						<p:outputLabel value="#{cobSaldo.fechaVencimiento}" />
+					</p:column>
+					<p:column headerText="Saldo">
+						<p:outputLabel value="#{cobSaldo.saldo}" />
+					</p:column>
+					<f:facet name="footer">
+						<center>
+							<p:outputLabel value="#{cobrarPeriodoSaldoBean.total}"/><br/>
+						</center>
+					</f:facet>
+					</p:dataTable>
+				</ui:remove>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

@@ -44,11 +44,11 @@ public class TipoSuministro implements Serializable {
 	}
 
 	public Float getImporte() {
-		return importe;
+		return (float)(Math.rint(importe*100)/100);
 	}
 
 	public void setImporte(Float importe) {
-		this.importe = importe;
+		this.importe = (float)(Math.rint(importe*100)/100);
 	}
 
 }

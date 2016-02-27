@@ -67,91 +67,91 @@ public class ConfiguracionFactura implements Serializable {
 	}
 
 	public Float getCargoFijo() {
-		return cargoFijo;
+		return (float)(Math.rint(cargoFijo*100)/100);
 	}
 
 	public void setCargoFijo(Float cargoFijo) {
-		this.cargoFijo = cargoFijo;
+		this.cargoFijo = (float)(Math.rint(cargoFijo*100)/100);
 	}
 
 	public Float getTramo1() {
-		return tramo1;
+		return (float)(Math.rint(tramo1*100)/100);
 	}
 
 	public void setTramo1(Float tramo1) {
-		this.tramo1 = tramo1;
+		this.tramo1 = (float)(Math.rint(tramo1*100)/100);
 	}
 
 	public Float getTramo2() {
-		return tramo2;
+		return (float)(Math.rint(tramo2*100)/100);
 	}
 
 	public void setTramo2(Float tramo2) {
-		this.tramo2 = tramo2;
+		this.tramo2 = (float)(Math.rint(tramo2*100)/100);
 	}
 
 	public Float getTramo3() {
-		return tramo3;
+		return (float)(Math.rint(tramo3*100)/100);
 	}
 
 	public void setTramo3(Float tramo3) {
-		this.tramo3 = tramo3;
+		this.tramo3 = (float)(Math.rint(tramo3*100)/100);
 	}
 
 	public Float getTramo4() {
-		return tramo4;
+		return (float)(Math.rint(tramo4*100)/100);
 	}
 
 	public void setTramo4(Float tramo4) {
-		this.tramo4 = tramo4;
+		this.tramo4 = (float)(Math.rint(tramo4*100)/100);
 	}
 
 	public Float getTramo5() {
-		return tramo5;
+		return (float)(Math.rint(tramo5*100)/100);
 	}
 
 	public void setTramo5(Float tramo5) {
-		this.tramo5 = tramo5;
+		this.tramo5 = (float)(Math.rint(tramo5*100)/100);
 	}
 
 	public Float getTramo6() {
-		return tramo6;
+		return (float)(Math.rint(tramo6*100)/100);
 	}
 
 	public void setTramo6(Float tramo6) {
-		this.tramo6 = tramo6;
+		this.tramo6 = (float)(Math.rint(tramo6*100)/100);
 	}
 
 	public Float getCapitalSocial() {
-		return capitalSocial;
+		return (float)(Math.rint(capitalSocial*100)/100);
 	}
 
 	public void setCapitalSocial(Float capitalSocial) {
-		this.capitalSocial = capitalSocial;
+		this.capitalSocial = (float)(Math.rint(capitalSocial*100)/100);
 	}
 
 	public Float getErsep() {
-		return ersep;
+		return (float)(Math.rint(ersep*100)/100);
 	}
 
 	public void setErsep(Float ersep) {
-		this.ersep = ersep;
+		this.ersep = (float)(Math.rint(ersep*100)/100);
 	}
 
 	public Float getRecuperoInversion() {
-		return recuperoInversion;
+		return (float)(Math.rint(recuperoInversion*100)/100);
 	}
 
 	public void setRecuperoInversion(Float recuperoInversion) {
-		this.recuperoInversion = recuperoInversion;
+		this.recuperoInversion = (float)(Math.rint(recuperoInversion*100)/100);
 	}
 
 	public Float getImpresionesOtros() {
-		return impresionesOtros;
+		return (float)(Math.rint(impresionesOtros*100)/100);
 	}
 
 	public void setImpresionesOtros(Float impresionesOtros) {
-		this.impresionesOtros = impresionesOtros;
+		this.impresionesOtros = (float)(Math.rint(impresionesOtros*100)/100);
 	}
 
 	public String getLeyendaComprobante() {

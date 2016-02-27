@@ -30,60 +30,64 @@ public class Socio implements Serializable {
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_SOCIO", nullable = false)
 	private TipoSocio tipoSocio;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_ESTADO_SOCIO", nullable = false)
 	private EstadoSocio estadoSocio;
-	
+
 	@Column(name = "FECHA_APROBACION", nullable = false)
 	private Date fechaAlta;
-	
+
 	@Column(name = "APELLIDO_RAZON_SOCIAL", nullable = false)
 	private String apellidoRazonSocial;
-	
+
 	@Column(name = "NOMBRE_DENOMINACION", nullable = false)
 	private String nombreDenominacion;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_DOC", nullable = false)
 	private TipoDocumento tipoDocumento;
-	
-	@Column(name = "ID_NRO_DOC", nullable = false, unique= true)
+
+	@Column(name = "ID_NRO_DOC", nullable = false, unique = true)
 	private long numeroDocumento;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_ESTADO_CIVIL")
 	private EstadoCivil estadoCivil;
-	
+
 	@Column(name = "NOMBRE_CONYUGE")
 	private String nombreConyuge;
-	
+
 	@Column(name = "TE_CELULAR")
 	private long numCelular;
-	
+
 	@Column(name = "EMAIL")
 	private String email;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_PAIS", nullable = false)
 	private Pais pais;
-	
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_PROVINCIA", nullable = false)
+	private Provincia provincia;
+
 	@Column(name = "PROFESION_RUBRO")
 	private String profesionRubro;
-	
-	@Column(name = "OBSERVACIONES", length=5000)
+
+	@Column(name = "OBSERVACIONES", length = 5000)
 	private String observaciones;
-	
+
 	@Column(name = "ING_BRUTOS")
 	private long ingBrutos;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_CONDICION_IVA", nullable = false)
 	private CondicionIva condicionIva;
-	
+
 	@Column(name = "INSCRIPTO_GANANCIAS")
 	private boolean inscriptoGanancias;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Domicilio> domicilios;
@@ -91,15 +95,15 @@ public class Socio implements Serializable {
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USR_ID", nullable = false)
 	private Usuario usuario;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Conexion> conexiones;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<SociosTransacciones> transacciones;
-	
+
 	public Socio() {
 
 	}
@@ -263,7 +267,7 @@ public class Socio implements Serializable {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	public List<Conexion> getConexiones() {
 		return conexiones;
 	}
@@ -279,6 +283,13 @@ public class Socio implements Serializable {
 	public void setTransacciones(List<SociosTransacciones> transacciones) {
 		this.transacciones = transacciones;
 	}
-	
-	
+
+	public Provincia getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
+	}
+
 }// end Socio

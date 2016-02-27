@@ -38,12 +38,13 @@ public class NotaDebitoDAOImplement implements NotaDebitoDAO{
 	}
 
 	@Override
-	public void insertarNotaDebito(NotaDebito notaDebito) throws Exception {
+	public Long insertarNotaDebito(NotaDebito notaDebito) throws Exception {
 		Session session = null;
+		Long id = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(notaDebito);
+			id = (Long)session.save(notaDebito);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -55,8 +56,8 @@ public class NotaDebitoDAOImplement implements NotaDebitoDAO{
 			if(session != null){
 				session.close();
 			}
-		}		
-		
+		}
+		return id;
 	}
 
 	@Override

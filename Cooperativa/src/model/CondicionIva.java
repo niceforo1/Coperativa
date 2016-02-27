@@ -60,19 +60,19 @@ public class CondicionIva implements Serializable{
 	}
 	
 	public Float getPorcentaje() {
-		return porcentaje;
+		return  (float)(Math.rint(porcentaje*100)/100);
 	}
 
 	public void setPorcentaje(Float porcentaje) {
-		this.porcentaje = porcentaje;
+		this.porcentaje = (float)(Math.rint(porcentaje*100)/100);
 	}
 
 	public Float getIvaOtrosConceptos() {
-		return ivaOtrosConceptos;
+		return (float)(Math.rint(ivaOtrosConceptos*100)/100);
 	}
 
 	public void setIvaOtrosConceptos(Float ivaOtrosConceptos) {
-		this.ivaOtrosConceptos = ivaOtrosConceptos;
+		this.ivaOtrosConceptos = (float) (Math.rint(ivaOtrosConceptos*100)/100);
 	}
 
 	@Override

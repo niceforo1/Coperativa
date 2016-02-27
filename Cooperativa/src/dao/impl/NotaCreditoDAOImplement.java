@@ -38,12 +38,13 @@ public class NotaCreditoDAOImplement implements NotaCreditoDAO{
 	}
 
 	@Override
-	public void insertarNotaCredito(NotaCredito notaCredito) throws Exception {
+	public Long insertarNotaCredito(NotaCredito notaCredito) throws Exception {
 		Session session = null;
+		Long id = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(notaCredito);
+			id = (Long)session.save(notaCredito);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -55,7 +56,8 @@ public class NotaCreditoDAOImplement implements NotaCreditoDAO{
 			if(session != null){
 				session.close();
 			}
-		}				
+		}
+		return id;
 	}
 
 	@Override

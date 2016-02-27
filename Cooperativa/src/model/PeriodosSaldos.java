@@ -15,32 +15,32 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PERIODOS_SALDOS")
-public class PeriodosSaldos implements Serializable{
+public class PeriodosSaldos implements Serializable {
 
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_CONEXION", nullable=false)
+	@JoinColumn(name = "ID_CONEXION", nullable = false)
 	private Conexion conexion;
-	
+
 	@Column(name = "PERIODO_MES")
 	private long mes;
 
 	@Column(name = "PERIODO_ANIO")
 	private long anio;
-	
+
 	@Column(name = "VTO")
 	private Date fechaVencimiento;
-	
+
 	@Column(name = "CONSUMO")
 	private long consumo;
-	
+
 	@Column(name = "SALDO")
 	private Float saldo;
-	
+
 	public PeriodosSaldos() {
 	}
 
@@ -93,11 +93,17 @@ public class PeriodosSaldos implements Serializable{
 	}
 
 	public Float getSaldo() {
-		return saldo;
+		return (float)(Math.rint(saldo*100)/100);
 	}
 
 	public void setSaldo(Float saldo) {
-		this.saldo = saldo;
+		this.saldo = (float)(Math.rint(saldo*100)/100);
+	}
+
+	@Override
+	public String toString() {
+		return "PeriodosSaldos [id=" + id + ", conexion=" + conexion + ", mes=" + mes + ", anio=" + anio
+				+ ", fechaVencimiento=" + fechaVencimiento + ", consumo=" + consumo + ", saldo=" + saldo + "]";
 	}
 
 }

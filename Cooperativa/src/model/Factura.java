@@ -115,11 +115,11 @@ public class Factura implements Serializable {
 	}
 
 	public Float getInteresesSegVenc() {
-		return interesesSegVenc;
+		return (float)(Math.rint(interesesSegVenc*100)/100);
 	}
 
 	public void setInteresesSegVenc(Float interesesSegVenc) {
-		this.interesesSegVenc = interesesSegVenc;
+		this.interesesSegVenc = (float)(Math.rint(interesesSegVenc*100)/100);
 	}
 
 	public Conexion getConexion() {
@@ -131,11 +131,11 @@ public class Factura implements Serializable {
 	}
 
 	public Float getCargoFijo() {
-		return cargoFijo;
+		return (float)(Math.rint(cargoFijo*100)/100);
 	}
 
 	public void setCargoFijo(Float cargoFijo) {
-		this.cargoFijo = cargoFijo;
+		this.cargoFijo = (float)(Math.rint(cargoFijo*100)/100);
 	}
 
 	public long getTramo1() {
@@ -187,51 +187,51 @@ public class Factura implements Serializable {
 	}
 
 	public Float getCapitalSocial() {
-		return capitalSocial;
+		return (float)(Math.rint(capitalSocial*100)/100);
 	}
 
 	public void setCapitalSocial(Float capitalSocial) {
-		this.capitalSocial = capitalSocial;
+		this.capitalSocial = (float)(Math.rint(capitalSocial*100)/100);
 	}
 
 	public Float getErsep() {
-		return ersep;
+		return (float)(Math.rint(ersep*100)/100);
 	}
 
 	public void setErsep(Float ersep) {
-		this.ersep = ersep;
+		this.ersep = (float)(Math.rint(ersep*100)/100);
 	}
 
 	public Float getRecuperoInversion() {
-		return recuperoInversion;
+		return (float)(Math.rint(recuperoInversion*100)/100);
 	}
 
 	public void setRecuperoInversion(Float recuperoInversion) {
-		this.recuperoInversion = recuperoInversion;
+		this.recuperoInversion = (float)(Math.rint(recuperoInversion*100)/100);
 	}
 
 	public Float getImpresionesOtros() {
-		return impresionesOtros;
+		return (float)(Math.rint(impresionesOtros*100)/100);
 	}
 
 	public void setImpresionesOtros(Float impresionesOtros) {
-		this.impresionesOtros = impresionesOtros;
+		this.impresionesOtros = (float)(Math.rint(impresionesOtros*100)/100);
 	}
 
 	public Float getIva() {
-		return iva;
+		return (float)(Math.rint(iva*100)/100);
 	}
 
 	public void setIva(Float iva) {
-		this.iva = iva;
+		this.iva = (float)(Math.rint(iva*100)/100);
 	}
 
 	public Float getImporteTotal() {
-		return importeTotal;
+		return (float)(Math.rint(importeTotal*100)/100) ;
 	}
 
 	public void setImporteTotal(Float importeTotal) {
-		this.importeTotal = importeTotal;
+		this.importeTotal = (float)(Math.rint(importeTotal*100)/100);
 	}
 
 	@Override

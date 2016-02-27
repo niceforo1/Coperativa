@@ -4,26 +4,29 @@ import java.util.Date;
 
 import dao.ConexionDAO;
 import dao.ConexionesSaldosDAO;
+import dao.PaisDAO;
 import dao.PeriodoCespDAO;
 import dao.impl.ConexionDAOImplement;
 import dao.impl.ConexionesSaldosDAOImplement;
+import dao.impl.PaisDAOImplement;
 import dao.impl.PeriodoCespDAOImplement;
 import model.ConexionesSaldos;
+import model.Pais;
 
 public class Test2 {
 
 	public static void main(String[] args) {
-		ConexionesSaldosDAO conexionesSaldosDAO= new ConexionesSaldosDAOImplement();
-		ConexionDAO conexionDAO = new ConexionDAOImplement();
+		Pais pais = new Pais();
+		PaisDAO dao = new PaisDAOImplement();
+		pais.setDescripcion("PARAGUAY");
 		try {
-			ConexionesSaldos conexionesSaldos = new ConexionesSaldos();
-			conexionesSaldos.setSaldoTotal(100F);
-			conexionesSaldos.setUltimoVencRegistrado(new Date());
-			conexionesSaldos.setConexion(conexionDAO.buscarConexionID(6L));
-			conexionesSaldosDAO.insertarConexionesSaldos(conexionesSaldos);			
+			pais.setId(dao.insertarPais(pais));
+			System.out.println("EL ID DEL PAIS ES: "+ pais.getId());
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 }
+

@@ -3,11 +3,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:body style="background-color:lightgray">
-	<div style="float: left;"> 
-		<h:graphicImage library="images" name="logoUnionElectrica.jpg" style="width:50px; height:70px;"/>		
+	<div style="float: left;">
+		<h:form>
+		<h:commandLink action="/index.xhtml">
+			<h:graphicImage library="images" name="Coop.png" style="width:70px; height:70px;"/>
+		</h:commandLink>
+		</h:form>								
 	</div>
-	<h:outputText value="#{msg.cabecera}" style="font:30px arial;"/> 
-<!-- 	<h:outputText value="" style="font:30px arial;"/> -->
+	<h:outputText value="#{msg.cabecera}" style="font:30px times new roman; position: absolute; top: 50%;
+												-webkit-transform: translateY(-50%); -ms-transform: translateY(-50%);
+  												transform: translateY(-50%);"/> 
 	<div style="float: right;">
 		<h:form>
 			<h:outputText value="#{loginBean.usuario.usuario}" style="font:15px arial;"/>

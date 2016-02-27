@@ -14,47 +14,47 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "DOMICILIOS")
-public class Domicilio implements Serializable{
+public class Domicilio implements Serializable {
 
 	@Id
-    @Column(name = "ID_DOMICILIO")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
+	@Column(name = "ID_DOMICILIO")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_DOMICILIO", nullable = false)
 	private TipoDomicilio tipoDomicilio;
-	
-	@Column(name = "CALLE", nullable = false)
-    private String calle;
-    
-	@Column(name = "NUMERO", nullable = false)
+
+	@Column(name = "CALLE")
+	private String calle;
+
+	@Column(name = "NUMERO")
 	private long numero;
-	
-    @Column(name = "DPTO_OF")
-    private String departamento;
-    
-    @Column(name = "BARRIO")
-    private String barrio;
-    
-    @Column(name = "LOCALIDAD")
-    private String localidad;
-    
-    @OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_PROVINCIA", nullable = false)
+
+	@Column(name = "DPTO_OF")
+	private String departamento;
+
+	@Column(name = "BARRIO")
+	private String barrio;
+
+	@Column(name = "LOCALIDAD")
+	private String localidad;
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_PROVINCIA")
 	private Provincia provincia;
-    
-    @Column(name = "CODIGO_POST", nullable = false)
-    private String codPostal;
-    
-    @OneToOne(cascade = CascadeType.PERSIST)
-   	@JoinColumn(name = "ID_PAIS", nullable = false)
-   	private Pais pais;
 
-    @Column(name = "TE_FIJO")
-    private long telFijo;
+	@Column(name = "CODIGO_POST")
+	private String codPostal;
 
-    public Domicilio(){
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_PAIS", nullable = false)
+	private Pais pais;
+
+	@Column(name = "TE_FIJO")
+	private String telFijo;
+
+	public Domicilio() {
 
 	}
 
@@ -138,21 +138,19 @@ public class Domicilio implements Serializable{
 		this.pais = pais;
 	}
 
-	public long getTelFijo() {
+	public String getTelFijo() {
 		return telFijo;
 	}
 
-	public void setTelFijo(long telFijo) {
+	public void setTelFijo(String telFijo) {
 		this.telFijo = telFijo;
 	}
 
 	@Override
 	public String toString() {
-		return "Domicilio [id=" + id + ", tipoDomicilio=" + tipoDomicilio
-				+ ", calle=" + calle + ", numero=" + numero + ", departamento="
-				+ departamento + ", barrio=" + barrio + ", localidad="
-				+ localidad + ", provincia=" + provincia + ", codPostal="
-				+ codPostal + ", pais=" + pais + ", telFijo=" + telFijo + "]";
+		return "Domicilio [id=" + id + ", tipoDomicilio=" + tipoDomicilio + ", calle=" + calle + ", numero=" + numero
+				+ ", departamento=" + departamento + ", barrio=" + barrio + ", localidad=" + localidad + ", provincia="
+				+ provincia + ", codPostal=" + codPostal + ", pais=" + pais + ", telFijo=" + telFijo + "]";
 	}
 
-}//end Domicilio
+}// end Domicilio

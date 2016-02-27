@@ -97,7 +97,8 @@ public class Testeos {
 					fact.setIva(lec.getConexion().getSocio().getCondicionIva().getPorcentaje()*(fact.getCargoFijo()+importeTramos));
 					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 					fact.setRecuperoInversion(configFactura.getRecuperoInversion());//FIJO
-					fact.setTipoFactura("C");	
+					
+					fact.setTipoFactura("C");
 					fact.setImporteTotal(fact.getCargoFijo()+
 							importeTramos+
 							fact.getCapitalSocial()+

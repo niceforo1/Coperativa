@@ -10,6 +10,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import dao.FacturaDAO;
 import model.EstadoSocio;
 import model.Factura;
+import model.PeriodosSaldos;
 import persistencia.HibernateUtil;
 
 public class FacturaDAOImplement implements FacturaDAO {
@@ -125,6 +126,37 @@ public class FacturaDAOImplement implements FacturaDAO {
 			}
 		}		
 		return factura;		
+	}
+
+	@Override
+	public Factura buscarFacturaPerSaldo(PeriodosSaldos periodosSaldos) throws Exception {
+		Session session = null;
+		Factura factura = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			Query query = session.createQuery("from Factura f"
+										  + " where f.periodoFacturacion.mes = ?"
+										  + " and f.periodoFacturacion.anio = ?"
+										  + " and f.conexion.id = ?");
+			query.setLong(0,periodosSaldos.getMes());
+			query.setLong(1,periodosSaldos.getAnio());
+			query.setLong(2,periodosSaldos.getConexion().getId());
+			factura = (Factura)query.list().get(0);
+			session.getTransaction().commit();						
+		}catch(ConstraintViolationException e){
+			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){						
+			throw new Exception(e);		
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}		
+		return factura;
 	}
 
 }

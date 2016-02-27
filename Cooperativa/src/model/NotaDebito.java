@@ -138,19 +138,19 @@ public class NotaDebito implements Serializable{
 	}
 
 	public Float getIva() {
-		return iva;
+		return (float)(Math.rint(iva*100)/100);
 	}
 
 	public void setIva(Float iva) {
-		this.iva = iva;
+		this.iva = (float)(Math.rint(iva*100)/100);
 	}
 
 	public Float getImporte() {
-		return importe;
+		return (float)(Math.rint(importe*100)/100);
 	}
 
 	public void setImporte(Float importe) {
-		this.importe = importe;
+		this.importe = (float)(Math.rint(importe*100)/100);
 	}
 
 	public String getObservaciones() {

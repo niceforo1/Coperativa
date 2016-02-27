@@ -19,45 +19,61 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
-@Table(name="UBICACIONES_CATASTRALES")
-public class UbicacionCatastral implements Serializable{
+@Table(name = "UBICACIONES_CATASTRALES")
+public class UbicacionCatastral implements Serializable {
 
 	@Id
-    @Column(name = "ID_UBICACION_CATASTRAL")
+	@Column(name = "ID_UBICACION_CATASTRAL")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
+	private Long id;
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_UBICACION_CATASTRAL")
 	private TipoUbicacionCatastral tipoUbicacionCatastral;
-    
-    @Column(name = "CIRCUITO", nullable = false)
-    private long circuito;
-    
-    @Column(name = "REGION", nullable = false)
-    private long region;
-    
-    @Column(name = "SECCIONAL", nullable = false)
-    private long seccional;
-    
-    @Column(name = "MANZANA", nullable = false)
-    private long manzana;
-    
-    @Column(name = "LOTE", nullable = false)
-    private long lote;
-    
-    @Column(name = "PH", nullable = false)
-    private long ph;
-    
+
+	@Column(name = "CIRCUITO")
+	private long circuito;
+
+	@Column(name = "REGION")
+	private long region;
+
+	@Column(name = "SECCIONAL")
+	private long seccional;
+
+	@Column(name = "MANZANA")
+	private long manzana;
+
+	@Column(name = "LOTE")
+	private String lote;
+
+	@Column(name = "PH")
+	private String ph;
+
 	public UbicacionCatastral() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getLote() {
+		return lote;
+	}
+
+	public void setLote(String lote) {
+		this.lote = lote;
+	}
+
+	public String getPh() {
+		return ph;
+	}
+
+	public void setPh(String ph) {
+		this.ph = ph;
 	}
 
 	public long getCircuito() {
@@ -92,28 +108,11 @@ public class UbicacionCatastral implements Serializable{
 		this.manzana = manzana;
 	}
 
-	public long getLote() {
-		return lote;
-	}
-
-	public void setLote(long lote) {
-		this.lote = lote;
-	}
-
-	public long getPh() {
-		return ph;
-	}
-
-	public void setPh(long ph) {
-		this.ph = ph;
-	}
-
 	public TipoUbicacionCatastral getTipoUbicacionCatastral() {
 		return tipoUbicacionCatastral;
 	}
 
-	public void setTipoUbicacionCatastral(
-			TipoUbicacionCatastral tipoUbicacionCatastral) {
+	public void setTipoUbicacionCatastral(TipoUbicacionCatastral tipoUbicacionCatastral) {
 		this.tipoUbicacionCatastral = tipoUbicacionCatastral;
 	}
 }

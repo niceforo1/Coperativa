@@ -61,11 +61,11 @@ public class ConexionesSaldos implements Serializable{
 	}
 
 	public Float getSaldoTotal() {
-		return saldoTotal;
+		return(float)(Math.rint(saldoTotal*100)/100) ;
 	}
 
 	public void setSaldoTotal(Float saldoTotal) {
-		this.saldoTotal = saldoTotal;
+		this.saldoTotal = (float)(Math.rint(saldoTotal*100)/100);
 	}
 
 }

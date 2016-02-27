@@ -38,12 +38,13 @@ public class ReciboItemDAOImplement implements ReciboItemDAO{
 	}
 
 	@Override
-	public void insertarReciboItem(ReciboItem recibo) throws Exception {
+	public Long insertarReciboItem(ReciboItem recibo) throws Exception {
 		Session session = null;
+		Long id = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(recibo);
+			id = (Long)session.save(recibo);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -55,7 +56,8 @@ public class ReciboItemDAOImplement implements ReciboItemDAO{
 			if(session != null){
 				session.close();
 			}
-		}		
+		}
+		return id;
 	}
 
 	@Override

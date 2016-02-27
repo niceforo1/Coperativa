@@ -39,12 +39,13 @@ public class FormaPagoDAOImplement implements FormaPagoDAO {
 	}
 
 	@Override
-	public void insertarFormaPago(FormaPago forma) throws Exception {
+	public Long insertarFormaPago(FormaPago forma) throws Exception {
 		Session session = null;
+		Long id = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(forma);
+			id = (Long)session.save(forma);
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -57,6 +58,7 @@ public class FormaPagoDAOImplement implements FormaPagoDAO {
 				session.close();
 			}
 		}
+		return id;
 		
 	}
 

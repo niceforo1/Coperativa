@@ -73,6 +73,7 @@
 			<h:form id="mostrar">
 				<p:dataTable id="consEstadoDudaSocDT" var="perSaldos"
 					value="#{consEstDeudaBean.lstPeriodosSaldos}" scrollable="true"
+					selection="#{consEstDeudaBean.lstPeriodosSaldosCobrar}"
 					scrollHeight="150" rowKey="#{perSaldos.id}"
 					emptyMessage="#{msg.paramNoDatos}">
 					<p:column headerText="Mes" filterBy="#{perSaldos.mes}"
@@ -90,16 +91,16 @@
 					<p:column headerText="Saldo" filterBy="#{perSaldos.saldo}"
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perSaldos.saldo}" />
-					</p:column>
+					</p:column>					
+					
+					<p:column  selectionMode="multiple" style="width:16px;text-align:center"/>
 					<f:facet name="footer">
-						<center>
-							<p:outputLabel value="#{consEstDeudaBean.totalSaldo}"/> 
+						<center>							
+							<p:commandButton value="Cobrar2" action="#{consEstDeudaBean.cobrarPeriodos}"/>
 						</center>
 					</f:facet>
 				</p:dataTable>			
-			</h:form>
-			
-			
+			</h:form>	
 		</center>
 	</ui:define>
 </ui:composition>

@@ -44,7 +44,7 @@ public class Conexion implements Serializable {
 	private Date fechaAlta;
 
 	@Column(name = "TERRENO")
-	private long terreno;
+	private Float terreno;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_TIPO_TERRENO")
@@ -89,7 +89,7 @@ public class Conexion implements Serializable {
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_DOMICILIO_FACT")
 	private Domicilio domicilioFacturacion;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<UbicacionCatastral> ubicacionesCatastrales;
@@ -101,11 +101,11 @@ public class Conexion implements Serializable {
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Lectura> lecturas;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "ID_T_NARANJA")
 	private TarjetaNaranja datosTarjetaNaranja;
-	
+
 	public Conexion() {
 
 	}
@@ -150,11 +150,11 @@ public class Conexion implements Serializable {
 		this.fechaAlta = fechaAlta;
 	}
 
-	public long getTerreno() {
+	public Float getTerreno() {
 		return terreno;
 	}
 
-	public void setTerreno(long terreno) {
+	public void setTerreno(Float terreno) {
 		this.terreno = terreno;
 	}
 
@@ -266,8 +266,7 @@ public class Conexion implements Serializable {
 		return ubicacionesCatastrales;
 	}
 
-	public void setUbicacionesCatastrales(
-			List<UbicacionCatastral> ubicacionesCatastrales) {
+	public void setUbicacionesCatastrales(List<UbicacionCatastral> ubicacionesCatastrales) {
 		this.ubicacionesCatastrales = ubicacionesCatastrales;
 	}
 
@@ -295,6 +294,5 @@ public class Conexion implements Serializable {
 	public String toString() {
 		return "Conexion [id=" + id + ", lecturas=" + lecturas + "]";
 	}
-	
-	
+
 }

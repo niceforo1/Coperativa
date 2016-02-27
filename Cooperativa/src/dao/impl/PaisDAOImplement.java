@@ -38,12 +38,13 @@ public class PaisDAOImplement implements PaisDAO{
 	}
 
 	@Override
-	public void insertarPais(Pais pais) throws Exception {
+	public Long insertarPais(Pais pais) throws Exception {
 		Session session = null;
+		Long id = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(pais);
+			id = (Long)session.save(pais);			
 			session.getTransaction().commit();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -56,6 +57,7 @@ public class PaisDAOImplement implements PaisDAO{
 				session.close();
 			}
 		}
+		return id;
 	}
 
 	@Override

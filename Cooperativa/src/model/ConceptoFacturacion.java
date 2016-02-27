@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,11 +46,11 @@ public class ConceptoFacturacion implements Serializable {
 	}
 
 	public Float getAlicuotaIva() {
-		return alicuotaIva;
+		return (float)(Math.rint(alicuotaIva*100)/100);
 	}
 
 	public void setAlicuotaIva(Float alicuotaIva) {
-		this.alicuotaIva = alicuotaIva;
+		this.alicuotaIva = (float) (Math.rint(alicuotaIva*100)/100);
 	}
 
 }
