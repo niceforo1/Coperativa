@@ -327,7 +327,7 @@ public class SocioBean implements Serializable {
 			List<Domicilio> listaDom = new ArrayList<Domicilio>();
 			listaDom.add(domicilio);
 			socio.setDomicilios(listaDom);
-			
+			socio.setProvincia(domicilio.getProvincia());
 			SocioDAO socioDAO = new SocioDAOImplement();
 			socioDAO.insertarSocio(socio);
 			
@@ -442,6 +442,7 @@ public class SocioBean implements Serializable {
 	}
 	
 	public long totalSocios(){
+		System.out.println("CANTIDAD SOCIOS:" +lstSocio.size());
 		long total = lstSocio.size();
 		return total;
 	}

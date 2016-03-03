@@ -31,22 +31,22 @@ public class UbicacionCatastral implements Serializable {
 	@JoinColumn(name = "ID_TIPO_UBICACION_CATASTRAL")
 	private TipoUbicacionCatastral tipoUbicacionCatastral;
 
-	@Column(name = "CIRCUITO")
-	private long circuito;
+	@Column(name = "CIRCUITO", nullable=true)
+	private Long circuito;
 
-	@Column(name = "REGION")
-	private long region;
+	@Column(name = "REGION", nullable=true)
+	private Long region;
 
-	@Column(name = "SECCIONAL")
-	private long seccional;
+	@Column(name = "SECCIONAL", nullable=true)
+	private Long seccional;
 
-	@Column(name = "MANZANA")
-	private long manzana;
+	@Column(name = "MANZANA", nullable=true)
+	private Long manzana;
 
-	@Column(name = "LOTE")
+	@Column(name = "LOTE", nullable=true)
 	private String lote;
 
-	@Column(name = "PH")
+	@Column(name = "PH", nullable=true)
 	private String ph;
 
 	public UbicacionCatastral() {
@@ -76,35 +76,35 @@ public class UbicacionCatastral implements Serializable {
 		this.ph = ph;
 	}
 
-	public long getCircuito() {
+	public Long getCircuito() {
 		return circuito;
 	}
 
-	public void setCircuito(long circuito) {
+	public void setCircuito(Long circuito) {
 		this.circuito = circuito;
 	}
 
-	public long getRegion() {
+	public Long getRegion() {
 		return region;
 	}
 
-	public void setRegion(long region) {
+	public void setRegion(Long region) {
 		this.region = region;
 	}
 
-	public long getSeccional() {
+	public Long getSeccional() {
 		return seccional;
 	}
 
-	public void setSeccional(long seccional) {
+	public void setSeccional(Long seccional) {
 		this.seccional = seccional;
 	}
 
-	public long getManzana() {
+	public Long getManzana() {
 		return manzana;
 	}
 
-	public void setManzana(long manzana) {
+	public void setManzana(Long manzana) {
 		this.manzana = manzana;
 	}
 

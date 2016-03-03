@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PlanillaLecturas" pageWidth="800" pageHeight="842" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4d400763-c5c1-4f91-b4c2-bf1efc07ce6c">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="3"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="idPer" class="java.lang.String"/>
+	<parameter name="periodoFecha" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select c.ID_CONEXION, s.APELLIDO_RAZON_SOCIAL+ ' ' +s.NOMBRE_DENOMINACION TITULAR, d.CALLE + ' ' + convert(varchar(40),d.NUMERO) DIRECCION,
+	   c.NRO_MEDIDOR, CASE WHEN (select  l.LECTURA_ANTERIOR
+						from LECTURAS l
+						where l.ID_CONEXION = c.ID_CONEXION
+						and l.PERIODO_ID = $P{idPer}) IS NULL THEN 0 ELSE (select  l.LECTURA_ANTERIOR
+						from LECTURAS l
+						where l.ID_CONEXION = c.ID_CONEXION
+						and l.PERIODO_ID = $P{idPer}) END LEC_ANTERIOR,
+      u.manzana
+from CONEXIONES c
+inner join DOMICILIOS d on c.ID_DOMICILIO_SERV = d.ID_DOMICILIO
+inner join SOCIOS s on c.ID_SOCIO = s.ID_SOCIO
+inner join UBICACIONES_CATASTRALES u on c.ID_DOMICILIO_SERV = u.ID_UBICACION_CATASTRAL
+order by MANZANA]]>
+	</queryString>
+	<field name="ID_CONEXION" class="java.math.BigDecimal"/>
+	<field name="TITULAR" class="java.lang.String"/>
+	<field name="DIRECCION" class="java.lang.String"/>
+	<field name="NRO_MEDIDOR" class="java.math.BigDecimal"/>
+	<field name="LEC_ANTERIOR" class="java.math.BigDecimal"/>
+	<field name="manzana" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="263" height="29" forecolor="#000000" uuid="0a91e8eb-15c3-41bb-bc33-422a8b380b88"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Gisha" size="24"/>
+				</textElement>
+				<text><![CDATA[Planilla de Lecturas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="0" width="47" height="20" uuid="02ee2e9f-13f6-4a88-ad12-73359583c70d"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Lecturero:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="370" y="12" width="144" height="1" uuid="6fb64c60-d444-4e12-a5f3-2b4d87b535e6"/>
+			</line>
+			<staticText>
+				<reportElement x="317" y="35" width="46" height="20" uuid="4e2453fd-533c-4a50-996e-1d124cc0cb02"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Periodo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="370" y="35" width="100" height="20" uuid="f40f6b1a-8fcd-4ab0-9f8d-fd51fc6cdf98"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{periodoFecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="561" y="0" width="47" height="20" uuid="f750eb90-5e9b-4bb0-9871-6fd5465abf35"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="615" y="12" width="144" height="1" uuid="a76bb678-537e-4f10-87dc-d926c80f1515"/>
+			</line>
+			<line>
+				<reportElement x="616" y="45" width="144" height="1" uuid="11ac6b5f-0d3b-4c3d-b028-8785d7526e85"/>
+			</line>
+			<staticText>
+				<reportElement x="538" y="35" width="70" height="20" uuid="7b704417-8e6e-4431-ab7b-2ffa84b0a795"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Fecha Pasado:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="33" width="760" height="2" uuid="00519fb2-5550-4da1-90b7-f8365ebf6d97"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="36" y="19" width="51" height="15" uuid="709fefb3-6cf8-49fa-851b-3cb835aa8976"/>
+				<text><![CDATA[ID_CONEXION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="88" y="19" width="111" height="15" uuid="864ffaec-1b22-4053-a030-9a53de065697"/>
+				<text><![CDATA[TITULAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="19" width="111" height="15" uuid="7ce1fc1f-a9d5-46a7-bc35-606b2791e2eb"/>
+				<text><![CDATA[DIRECCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="311" y="19" width="111" height="15" uuid="52eede87-d452-4a29-90cc-b7b5ea3e49df"/>
+				<text><![CDATA[NRO_MEDIDOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="422" y="19" width="61" height="15" uuid="536128b5-f1e0-4c86-94c7-126702aaa99d"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[LEC_ANT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="485" y="19" width="111" height="15" uuid="e126444a-bc9a-4522-b536-f4a6912bcfe5"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[LECTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="600" y="19" width="111" height="15" uuid="7ae41fcb-7fa3-4ba9-bbad-2d9c24ca2719"/>
+				<text><![CDATA[OBSERVACIONES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="28" height="14" uuid="de4ac13d-273f-413d-a2d3-b88380644af6"/>
+				<text><![CDATA[MZA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="760" height="1" uuid="54724be1-afc4-42ad-8185-0fad3f28a4d0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="36" y="0" width="51" height="15" uuid="fb6ca573-212c-49a0-93e8-572b7a5c5add"/>
+				<textFieldExpression><![CDATA[$F{ID_CONEXION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="88" y="0" width="111" height="15" uuid="92ab6c90-5a4e-4f62-84a9-a1257aaa4fa3"/>
+				<textFieldExpression><![CDATA[$F{TITULAR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="200" y="0" width="111" height="15" uuid="7ebf6f06-bc20-4c67-8ccf-1d8975f75180"/>
+				<textFieldExpression><![CDATA[$F{DIRECCION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="311" y="0" width="111" height="15" uuid="7bd44d5b-b35d-4de8-963f-980d8f2ae6c6"/>
+				<textFieldExpression><![CDATA[$F{NRO_MEDIDOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="422" y="0" width="61" height="15" uuid="e7ea1a67-041f-4455-8bd0-f3819cb6366c"/>
+				<textFieldExpression><![CDATA[$F{LEC_ANTERIOR}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="486" y="11" width="108" height="1" uuid="de8c9c4e-2afe-4f7f-ba2a-7bc65da4a53b"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="604" y="11" width="153" height="1" uuid="d5ef449c-7a5c-4d40-9620-80e50d414a88"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="36" height="15" uuid="63e51379-ad04-4810-b9d5-ddbc70655e9a"/>
+				<textFieldExpression><![CDATA[$F{manzana}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="760" height="1" uuid="2410f254-3561-4e22-9787-bbf80b4dc7c1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="637" y="0" width="80" height="20" uuid="bff8ff75-bc4a-4399-a24a-ab8f7abde6e7"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="719" y="0" width="40" height="20" uuid="e5627cbf-7383-4c27-837f-880d611f134b"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="3bdf7cfe-b3e8-4384-ab92-7719f70324ff"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

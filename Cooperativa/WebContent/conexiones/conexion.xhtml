@@ -291,7 +291,7 @@
 								for="tipoTerrConex" />
 							<p:selectOneMenu id="tipoTerrConex"
 								value="#{conexionBean.tipoTerrenoConexionId}"
-								panelStyle="width:180px" effect="fold" required="true">
+								panelStyle="width:180px" effect="fold">
 								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 								<f:selectItems value="#{tipoTerrenoBean.listaTiposTerreno}"
 									var="tipoTerrConex" itemLabel="#{tipoTerrConex.descripcion}"

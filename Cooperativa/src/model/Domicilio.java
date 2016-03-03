@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,15 +22,15 @@ public class Domicilio implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_DOMICILIO", nullable = false)
 	private TipoDomicilio tipoDomicilio;
 
 	@Column(name = "CALLE")
 	private String calle;
 
-	@Column(name = "NUMERO")
-	private long numero;
+	@Column(name = "NUMERO", nullable = true)
+	private Long numero;
 
 	@Column(name = "DPTO_OF")
 	private String departamento;
@@ -40,14 +41,14 @@ public class Domicilio implements Serializable {
 	@Column(name = "LOCALIDAD")
 	private String localidad;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_PROVINCIA")
 	private Provincia provincia;
 
 	@Column(name = "CODIGO_POST")
 	private String codPostal;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_PAIS", nullable = false)
 	private Pais pais;
 
@@ -82,11 +83,11 @@ public class Domicilio implements Serializable {
 		this.calle = calle;
 	}
 
-	public long getNumero() {
+	public Long getNumero() {
 		return numero;
 	}
 
-	public void setNumero(long numero) {
+	public void setNumero(Long numero) {
 		this.numero = numero;
 	}
 

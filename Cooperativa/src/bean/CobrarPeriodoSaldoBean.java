@@ -210,7 +210,7 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 				ReciboItem reciboItem2 = new ReciboItem();
 				reciboItem2.setAnio(periodo.getAnio());
 				reciboItem2.setComprobanteOrigen("ND");
-				reciboItem2.setImporte(fact.getImporteTotal());
+				reciboItem2.setImporte(notaDebito.getImporte());
 				reciboItem2.setMes(periodo.getMes());
 				reciboItem2.setNroComprobante(notaDebito.getId());
 				reciboItem2.setTipoComprobante(tipoComprobante);

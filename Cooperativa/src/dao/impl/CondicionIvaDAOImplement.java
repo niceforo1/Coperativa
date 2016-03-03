@@ -91,7 +91,7 @@ public class CondicionIvaDAOImplement implements CondicionIvaDAO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			condicionIva = (CondicionIva)session.get(CondicionIva.class, id.intValue());			
+			condicionIva = (CondicionIva)session.get(CondicionIva.class, id.longValue());			
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());

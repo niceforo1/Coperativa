@@ -28,15 +28,15 @@ public class Conexion implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_ESTADO_CONEXION")
 	private EstadoConexion estadoConexion;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_SOCIO")
 	private Socio socio;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_NRO_ZONA")
 	private ZonaConexion zonaConexion;
 
@@ -46,63 +46,63 @@ public class Conexion implements Serializable {
 	@Column(name = "TERRENO")
 	private Float terreno;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_TERRENO")
 	private TipoTerreno tipoTerreno;
 
 	@Column(name = "PILETA")
-	private long pileta;
+	private Long pileta;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_REGIMEN_PROPIEDAD")
 	private RegimenPropiedad regimenPropiedad;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_FORMA_PAGO")
 	private FormaPago formaPago;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_SUMINISTRO")
 	private TipoSuministro tipoSuministro;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_CATEGORIA_CONEXION")
 	private CategoriaConexion categoriaConexion;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_CONEXION")
 	private TipoConexion tipoConexion;
 
 	@Column(name = "NRO_MEDIDOR")
 	private long nroMedidor;
 
-	@Column(name = "EMITE_FACTURA")
+	@Column(name = "EMITE_FACTURA",nullable=true)
 	private Boolean emiteFactura;
 
 	@Column(name = "DOM_SERV_FACT_IGUALES")
 	private Boolean domServFactIguales;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_DOMICILIO_SERV", nullable = false)
 	private Domicilio domicilioServicio;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_DOMICILIO_FACT")
 	private Domicilio domicilioFacturacion;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<UbicacionCatastral> ubicacionesCatastrales;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "USR_ID")
 	private Usuario usuario;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Lectura> lecturas;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_T_NARANJA")
 	private TarjetaNaranja datosTarjetaNaranja;
 
@@ -166,11 +166,11 @@ public class Conexion implements Serializable {
 		this.tipoTerreno = tipoTerreno;
 	}
 
-	public long getPileta() {
+	public Long getPileta() {
 		return pileta;
 	}
 
-	public void setPileta(long pileta) {
+	public void setPileta(Long pileta) {
 		this.pileta = pileta;
 	}
 

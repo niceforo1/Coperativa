@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,25 +12,28 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "INFO_TNARANJA")
-public class TarjetaNaranja implements Serializable{
+public class TarjetaNaranja implements Serializable {
 
 	@Id
 	@Column(name = "ID_T_NARANJA")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "TITULAR")
 	private String titular;
-	
+
 	@Column(name = "NRO_TARJETA")
 	private long nroTarjeta;
-	
+
 	@Column(name = "VENCIMIENTO")
 	private String vencimiento;
-	
+
+	@Column(name = "ALTA_TARJETA")
+	private String altaTarjeta;
+
 	@Column(name = "OBSERVACIONES")
 	private String observaciones;
-	
+
 	public TarjetaNaranja() {
 	}
 
@@ -65,6 +69,14 @@ public class TarjetaNaranja implements Serializable{
 		this.vencimiento = vencimiento;
 	}
 
+	public String getAltaTarjeta() {
+		return altaTarjeta;
+	}
+
+	public void setAltaTarjeta(String altaTarjeta) {
+		this.altaTarjeta = altaTarjeta;
+	}
+
 	public String getObservaciones() {
 		return observaciones;
 	}
@@ -72,5 +84,5 @@ public class TarjetaNaranja implements Serializable{
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
 	}
-	
+
 }
