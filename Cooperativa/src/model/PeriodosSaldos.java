@@ -38,8 +38,8 @@ public class PeriodosSaldos implements Serializable {
 	@Column(name = "CONSUMO")
 	private long consumo;
 
-	@Column(name = "SALDO")
-	private Float saldo;
+	@Column(name = "SALDO", precision = 15, scale = 2)
+	private Double saldo;
 
 	public PeriodosSaldos() {
 	}
@@ -92,12 +92,12 @@ public class PeriodosSaldos implements Serializable {
 		this.consumo = consumo;
 	}
 
-	public Float getSaldo() {
-		return (float)(Math.rint(saldo*100)/100);
+	public Double getSaldo() {
+		return (Math.rint(saldo*100)/100);
 	}
 
-	public void setSaldo(Float saldo) {
-		this.saldo = (float)(Math.rint(saldo*100)/100);
+	public void setSaldo(Double saldo) {
+		this.saldo = (Math.rint(saldo*100)/100);
 	}
 
 	@Override

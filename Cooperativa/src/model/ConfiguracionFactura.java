@@ -18,38 +18,38 @@ public class ConfiguracionFactura implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "CARGO_FIJO")
-	private Float cargoFijo;
+	@Column(name = "CARGO_FIJO", precision = 15, scale = 2)
+	private Double cargoFijo;
 
-	@Column(name = "TRAMO_1", nullable = false)
-	private Float tramo1;
+	@Column(name = "TRAMO_1", nullable = false, precision = 15, scale = 2)
+	private Double tramo1;
 
-	@Column(name = "TRAMO_2", nullable = false)
-	private Float tramo2;
+	@Column(name = "TRAMO_2", nullable = false, precision = 15, scale = 2)
+	private Double tramo2;
 
-	@Column(name = "TRAMO_3", nullable = false)
-	private Float tramo3;
+	@Column(name = "TRAMO_3", nullable = false, precision = 15, scale = 2)
+	private Double tramo3;
 
-	@Column(name = "TRAMO_4", nullable = false)
-	private Float tramo4;
+	@Column(name = "TRAMO_4", nullable = false, precision = 15, scale = 2)
+	private Double tramo4;
 
-	@Column(name = "TRAMO_5", nullable = false)
-	private Float tramo5;
+	@Column(name = "TRAMO_5", nullable = false, precision = 15, scale = 2)
+	private Double tramo5;
 
-	@Column(name = "TRAMO_6", nullable = false)
-	private Float tramo6;
+	@Column(name = "TRAMO_6", nullable = false, precision = 15, scale = 2)
+	private Double tramo6;
 
-	@Column(name = "CAPITAL_SOCIAL", nullable = false)
-	private Float capitalSocial;
+	@Column(name = "CAPITAL_SOCIAL", nullable = false, precision = 15, scale = 2)
+	private Double capitalSocial;
 
-	@Column(name = "ERSEP", nullable = false)
-	private Float ersep;
+	@Column(name = "ERSEP", nullable = false, precision = 15, scale = 2)
+	private Double ersep;
 
-	@Column(name = "RECUPERO_INVERSION", nullable = false)
-	private Float recuperoInversion;
+	@Column(name = "RECUPERO_INVERSION", nullable = false, precision = 15, scale = 2)
+	private Double recuperoInversion;
 
-	@Column(name = "IMPRESION_Y_OTROS", nullable = false)
-	private Float impresionesOtros;
+	@Column(name = "IMPRESION_Y_OTROS", nullable = false, precision = 15, scale = 2)
+	private Double impresionesOtros;
 
 	@Column(name = "LEYENDA_COMPROBANTE", nullable = false)
 	private String leyendaComprobante;
@@ -66,92 +66,92 @@ public class ConfiguracionFactura implements Serializable {
 		this.id = id;
 	}
 
-	public Float getCargoFijo() {
-		return (float)(Math.rint(cargoFijo*100)/100);
+	public Double getCargoFijo() {
+		return (Math.rint(cargoFijo*100)/100);
 	}
 
-	public void setCargoFijo(Float cargoFijo) {
-		this.cargoFijo = (float)(Math.rint(cargoFijo*100)/100);
+	public void setCargoFijo(Double cargoFijo) {
+		this.cargoFijo = (Math.rint(cargoFijo*100)/100);
 	}
 
-	public Float getTramo1() {
-		return (float)(Math.rint(tramo1*100)/100);
+	public Double getTramo1() {
+		return (Math.rint(tramo1*100)/100);
 	}
 
-	public void setTramo1(Float tramo1) {
-		this.tramo1 = (float)(Math.rint(tramo1*100)/100);
+	public void setTramo1(Double tramo1) {
+		this.tramo1 = (Math.rint(tramo1*100)/100);
 	}
 
-	public Float getTramo2() {
-		return (float)(Math.rint(tramo2*100)/100);
+	public Double getTramo2() {
+		return (Math.rint(tramo2*100)/100);
 	}
 
-	public void setTramo2(Float tramo2) {
-		this.tramo2 = (float)(Math.rint(tramo2*100)/100);
+	public void setTramo2(Double tramo2) {
+		this.tramo2 = (Math.rint(tramo2*100)/100);
 	}
 
-	public Float getTramo3() {
-		return (float)(Math.rint(tramo3*100)/100);
+	public Double getTramo3() {
+		return (Math.rint(tramo3*100)/100);
 	}
 
-	public void setTramo3(Float tramo3) {
-		this.tramo3 = (float)(Math.rint(tramo3*100)/100);
+	public void setTramo3(Double tramo3) {
+		this.tramo3 = (Math.rint(tramo3*100)/100);
 	}
 
-	public Float getTramo4() {
-		return (float)(Math.rint(tramo4*100)/100);
+	public Double getTramo4() {
+		return (Math.rint(tramo4*100)/100);
 	}
 
-	public void setTramo4(Float tramo4) {
-		this.tramo4 = (float)(Math.rint(tramo4*100)/100);
+	public void setTramo4(Double tramo4) {
+		this.tramo4 = (Math.rint(tramo4*100)/100);
 	}
 
-	public Float getTramo5() {
-		return (float)(Math.rint(tramo5*100)/100);
+	public Double getTramo5() {
+		return (Math.rint(tramo5*100)/100);
 	}
 
-	public void setTramo5(Float tramo5) {
-		this.tramo5 = (float)(Math.rint(tramo5*100)/100);
+	public void setTramo5(Double tramo5) {
+		this.tramo5 = (Math.rint(tramo5*100)/100);
 	}
 
-	public Float getTramo6() {
-		return (float)(Math.rint(tramo6*100)/100);
+	public Double getTramo6() {
+		return (Math.rint(tramo6*100)/100);
 	}
 
-	public void setTramo6(Float tramo6) {
-		this.tramo6 = (float)(Math.rint(tramo6*100)/100);
+	public void setTramo6(Double tramo6) {
+		this.tramo6 = (Math.rint(tramo6*100)/100);
 	}
 
-	public Float getCapitalSocial() {
-		return (float)(Math.rint(capitalSocial*100)/100);
+	public Double getCapitalSocial() {
+		return (Math.rint(capitalSocial*100)/100);
 	}
 
-	public void setCapitalSocial(Float capitalSocial) {
-		this.capitalSocial = (float)(Math.rint(capitalSocial*100)/100);
+	public void setCapitalSocial(Double capitalSocial) {
+		this.capitalSocial = (Math.rint(capitalSocial*100)/100);
 	}
 
-	public Float getErsep() {
-		return (float)(Math.rint(ersep*100)/100);
+	public Double getErsep() {
+		return (Math.rint(ersep*100)/100);
 	}
 
-	public void setErsep(Float ersep) {
-		this.ersep = (float)(Math.rint(ersep*100)/100);
+	public void setErsep(Double ersep) {
+		this.ersep = (Math.rint(ersep*100)/100);
 	}
 
-	public Float getRecuperoInversion() {
-		return (float)(Math.rint(recuperoInversion*100)/100);
+	public Double getRecuperoInversion() {
+		return (Math.rint(recuperoInversion*100)/100);
 	}
 
-	public void setRecuperoInversion(Float recuperoInversion) {
-		this.recuperoInversion = (float)(Math.rint(recuperoInversion*100)/100);
+	public void setRecuperoInversion(Double recuperoInversion) {
+		this.recuperoInversion = (Math.rint(recuperoInversion*100)/100);
 	}
 
-	public Float getImpresionesOtros() {
-		return (float)(Math.rint(impresionesOtros*100)/100);
+	public Double getImpresionesOtros() {
+		return (Math.rint(impresionesOtros*100)/100);
 	}
 
-	public void setImpresionesOtros(Float impresionesOtros) {
-		this.impresionesOtros = (float)(Math.rint(impresionesOtros*100)/100);
+	public void setImpresionesOtros(Double impresionesOtros) {
+		this.impresionesOtros = (Math.rint(impresionesOtros*100)/100);
 	}
 
 	public String getLeyendaComprobante() {

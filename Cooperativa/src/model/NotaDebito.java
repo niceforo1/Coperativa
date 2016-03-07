@@ -49,11 +49,11 @@ public class NotaDebito implements Serializable{
 	@JoinColumn(name = "ID_CONCEPTO_FACTURACION")
 	private ConceptoFacturacion conceptoFacturacion;
 	
-	@Column(name = "IVA")
-	private Float iva;
+	@Column(name = "IVA", precision = 15, scale = 2)
+	private Double iva;
 	
-	@Column(name = "IMPORTE")
-	private Float importe;
+	@Column(name = "IMPORTE", precision = 15, scale = 2)
+	private Double importe;
 	
 	@Column(name = "OBSERVACIONES", length=5000)
 	private String observaciones;
@@ -137,20 +137,20 @@ public class NotaDebito implements Serializable{
 		this.conceptoFacturacion = conceptoFacturacion;
 	}
 
-	public Float getIva() {
-		return (float)(Math.rint(iva*100)/100);
+	public Double getIva() {
+		return (Math.rint(iva*100)/100);
 	}
 
-	public void setIva(Float iva) {
-		this.iva = (float)(Math.rint(iva*100)/100);
+	public void setIva(Double iva) {
+		this.iva = (Math.rint(iva*100)/100);
 	}
 
-	public Float getImporte() {
-		return (float)(Math.rint(importe*100)/100);
+	public Double getImporte() {
+		return (Math.rint(importe*100)/100);
 	}
 
-	public void setImporte(Float importe) {
-		this.importe = (float)(Math.rint(importe*100)/100);
+	public void setImporte(Double importe) {
+		this.importe = (Math.rint(importe*100)/100);
 	}
 
 	public String getObservaciones() {

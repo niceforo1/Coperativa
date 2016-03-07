@@ -22,7 +22,7 @@ public class Domicilio implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
 	@JoinColumn(name = "ID_TIPO_DOMICILIO", nullable = false)
 	private TipoDomicilio tipoDomicilio;
 

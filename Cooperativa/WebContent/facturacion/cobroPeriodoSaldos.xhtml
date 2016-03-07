@@ -20,6 +20,7 @@
 		<center>
 			<h:form id="alta">
 				<p:panel header="Cobrar">
+					<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />			
 					<p:panelGrid columns="2">
 						<p:outputLabel value="Sub Total" for="subTotal" />
 						<p:outputLabel value="#{cobrarPeriodoSaldoBean.subTotal}" id="subTotal"/>
@@ -45,6 +46,8 @@
 								var="forPago" itemLabel="#{forPago.descripcion}"
 								itemValue="#{forPago.id}" />
 						</p:selectOneMenu>
+						<p:outputLabel value="Importe" for="importe"/>
+						<p:inputText id="importe" required="true" value="#{cobrarPeriodoSaldoBean.importe}"/>
 						<f:facet name="footer">
 						<center>
 							<p:commandButton value="Cobrar" actionListener="#{cobrarPeriodoSaldoBean.cobrar}" 

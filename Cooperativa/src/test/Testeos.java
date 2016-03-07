@@ -45,7 +45,7 @@ public class Testeos {
 			for (Lectura lec : lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaAbierto())) {
 				Factura fact = new Factura();
 				long totalConsumido = lec.getLecturaActual()-lec.getLecturaAnterior();
-				Float importeTramos= 0F;
+				Double importeTramos= 0D;
 				if(lec.getConexion().getCategoriaConexion().getDescripcion().equals(NORMAL)){
 					if(totalConsumido >50){
 						fact.setTramo6(totalConsumido-50);
@@ -93,8 +93,8 @@ public class Testeos {
 					fact.setConexion(lec.getConexion());				
 					fact.setErsep((configFactura.getErsep()/100)*(fact.getCargoFijo()+importeTramos));	// se divide en 100 el porcentaje obtenido de la configuracion							
 					fact.setImpresionesOtros(configFactura.getImpresionesOtros());//FIJO
-					fact.setInteresesSegVenc(3F);
-					fact.setIva(lec.getConexion().getSocio().getCondicionIva().getPorcentaje()*(fact.getCargoFijo()+importeTramos));
+					fact.setInteresesSegVenc(3D);///viene de configuracion factura
+					fact.setIva((lec.getConexion().getSocio().getCondicionIva().getPorcentaje()*(fact.getCargoFijo()+importeTramos)/100));
 					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 					fact.setRecuperoInversion(configFactura.getRecuperoInversion());//FIJO
 					
@@ -129,8 +129,7 @@ public class Testeos {
 				perSaldo.setFechaVencimiento(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
 				perSaldo.setConsumo(totalConsumido);
 				perSaldo.setSaldo(0F - fact.getImporteTotal());
-				periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);
-				
+				periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);				
 			}
 			if(periodoCanonDAO.buscarPeriodosCanonMes((int) periodoLecturaDAO.buscarPeriodoLecturaAbierto().getMes()) != null){			
 				ConexionDAO conexionDAO = new ConexionDAOImplement();
@@ -148,7 +147,7 @@ public class Testeos {
 					fact.setConexion(conexion);				
 					fact.setErsep((configFactura.getErsep()/100)*(fact.getCargoFijo()));	// se divide en 100 el porcentaje obtenido de la configuracion							
 					fact.setImpresionesOtros(configFactura.getImpresionesOtros());//FIJO
-					fact.setInteresesSegVenc(3F);
+					fact.setInteresesSegVenc(3D);
 					fact.setIva(conexion.getSocio().getCondicionIva().getPorcentaje()*(fact.getCargoFijo()));
 					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 					fact.setRecuperoInversion(configFactura.getRecuperoInversion());//FIJO

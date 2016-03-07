@@ -21,8 +21,8 @@ public class TipoSuministro implements Serializable {
 	@Column(name = "DESCRIPCION", nullable = false)
 	private String descripcion;
 
-	@Column(name = "IMPORTE")
-	private Float importe;
+	@Column(name = "IMPORTE", precision = 15, scale = 2)
+	private Double importe;
 
 	public TipoSuministro() {
 	}
@@ -43,12 +43,12 @@ public class TipoSuministro implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Float getImporte() {
-		return (float)(Math.rint(importe*100)/100);
+	public Double getImporte() {
+		return (Math.rint(importe*100)/100);
 	}
 
-	public void setImporte(Float importe) {
-		this.importe = (float)(Math.rint(importe*100)/100);
+	public void setImporte(Double importe) {
+		this.importe = (Math.rint(importe*100)/100);
 	}
 
 }

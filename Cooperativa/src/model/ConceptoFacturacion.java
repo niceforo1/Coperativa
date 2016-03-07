@@ -22,8 +22,8 @@ public class ConceptoFacturacion implements Serializable {
 	@Column(name = "DESCRIPCION", nullable = false)
 	private String descripcion;
 
-	@Column(name = "ALICUOTA_IVA", nullable = false)
-	private Float alicuotaIva;
+	@Column(name = "ALICUOTA_IVA", nullable = false, precision = 15, scale = 2)
+	private Double alicuotaIva;
 
 	public ConceptoFacturacion() {
 
@@ -45,12 +45,12 @@ public class ConceptoFacturacion implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Float getAlicuotaIva() {
-		return (float)(Math.rint(alicuotaIva*100)/100);
+	public Double getAlicuotaIva() {
+		return (Math.rint(alicuotaIva*100)/100);
 	}
 
-	public void setAlicuotaIva(Float alicuotaIva) {
-		this.alicuotaIva = (float) (Math.rint(alicuotaIva*100)/100);
+	public void setAlicuotaIva(Double alicuotaIva) {
+		this.alicuotaIva = (Math.rint(alicuotaIva*100)/100);
 	}
 
 }

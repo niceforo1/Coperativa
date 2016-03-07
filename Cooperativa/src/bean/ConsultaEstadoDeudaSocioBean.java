@@ -26,7 +26,7 @@ public class ConsultaEstadoDeudaSocioBean {
 	private Conexion conexion;
 	private Date fechaDesde;
 	private Date fechaHasta;
-	private Float totalSaldo;
+	private Double totalSaldo;
 	private List<PeriodosSaldos> lstPeriodosSaldos;
 	private PeriodosSaldos perSaldoSeleccionado;
 	private List<PeriodosSaldos> lstPeriodosSaldosCobrar;
@@ -83,11 +83,11 @@ public class ConsultaEstadoDeudaSocioBean {
 		this.conexionID = conexionID;
 	}
 
-	public Float getTotalSaldo() {
+	public Double getTotalSaldo() {
 		return totalSaldo;
 	}
 
-	public void setTotalSaldo(Float totalSaldo) {
+	public void setTotalSaldo(Double totalSaldo) {
 		this.totalSaldo = totalSaldo;
 	}
 
@@ -116,7 +116,7 @@ public class ConsultaEstadoDeudaSocioBean {
 
 	public void retornarPeriodosFiltrados() {
 		PeriodosSaldosDAO periodosSaldosDAO = new PeriodosSaldosDAOImplement();
-		totalSaldo = 0F;
+		totalSaldo = 0D;
 		try {
 			lstPeriodosSaldos = periodosSaldosDAO.buscarPeriodosSaldosConexion(conexionID, fechaDesde, fechaHasta);
 			for (PeriodosSaldos per : lstPeriodosSaldos) {
@@ -151,7 +151,7 @@ public class ConsultaEstadoDeudaSocioBean {
 	private void inicializar() {
 		conexion = new Conexion();
 		conexionID = 0L;
-		totalSaldo = 0f;
+		totalSaldo = 0D;
 		lstPeriodosSaldos = new ArrayList<PeriodosSaldos>();
 	}
 }

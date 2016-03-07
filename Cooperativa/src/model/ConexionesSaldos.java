@@ -15,22 +15,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CONEXIONES_SALDOS")
-public class ConexionesSaldos implements Serializable{
+public class ConexionesSaldos implements Serializable {
 
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_CONEXION", nullable=false)
+	@JoinColumn(name = "ID_CONEXION", nullable = false)
 	private Conexion conexion;
-	
+
 	@Column(name = "ULTIMO_VENC_REGIS")
 	private Date ultimoVencRegistrado;
-	
-	@Column(name = "SALDO_TOTAL")
-	private Float saldoTotal;
+
+	@Column(name = "SALDO_TOTAL", precision = 15, scale = 2)
+	private Double saldoTotal;
 
 	public ConexionesSaldos() {
 
@@ -60,12 +60,12 @@ public class ConexionesSaldos implements Serializable{
 		this.ultimoVencRegistrado = ultimoVencRegistrado;
 	}
 
-	public Float getSaldoTotal() {
-		return(float)(Math.rint(saldoTotal*100)/100) ;
+	public Double getSaldoTotal() {
+		return (Math.rint(saldoTotal*100)/100);
 	}
 
-	public void setSaldoTotal(Float saldoTotal) {
-		this.saldoTotal = (float)(Math.rint(saldoTotal*100)/100);
+	public void setSaldoTotal(Double saldoTotal) {
+		this.saldoTotal = (Math.rint(saldoTotal*100)/100);
 	}
 
 }

@@ -40,8 +40,8 @@ public class ReciboItem implements Serializable {
 	@Column(name = "TIPO_PAGO")
 	private String tipoPago;
 
-	@Column(name = "IMPORTE")
-	private Float importe; // importe pago SI ES NOTA DEBITO IMPORTE = NOTA
+	@Column(name = "IMPORTE", precision = 15, scale = 2)
+	private Double importe; // importe pago SI ES NOTA DEBITO IMPORTE = NOTA
 							// DEBITO
 							// importe pago = FACTURA si TIPO PAGO TOTAL
 
@@ -104,12 +104,12 @@ public class ReciboItem implements Serializable {
 		this.tipoPago = tipoPago;
 	}
 
-	public Float getImporte() {
-		return (float) (Math.rint(importe * 100) / 100);
+	public Double getImporte() {
+		return (Math.rint(importe * 100) / 100);
 	}
 
-	public void setImporte(Float importe) {
-		this.importe = (float) (Math.rint(importe * 100) / 100);
+	public void setImporte(Double importe) {
+		this.importe = (Math.rint(importe * 100) / 100);
 	}
 
 }
@@ -147,7 +147,7 @@ public class ReciboItem implements Serializable {
  * 
  * @Column(name = "ID_PERIODO_ANIO") private long anio;
  * 
- * @Column(name = "IMPORTE") private Float importe;
+ * @Column(name = "IMPORTE") private Double importe;
  * 
  * @Column(name = "TIPO_PAGO") private String tipoPago;
  * 
@@ -180,10 +180,10 @@ public class ReciboItem implements Serializable {
  * 
  * public void setAnio(long anio) { this.anio = anio; }
  * 
- * public Float getImporte() { return (float)(Math.rint(importe*100)/100); }
+ * public Double getImporte() { return (Double)(Math.rint(importe*100)/100); }
  * 
- * public void setImporte(Float importe) { this.importe =
- * (float)(Math.rint(importe*100)/100); }
+ * public void setImporte(Double importe) { this.importe =
+ * (Double)(Math.rint(importe*100)/100); }
  * 
  * }
  */
