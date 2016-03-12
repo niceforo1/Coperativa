@@ -40,7 +40,6 @@
 					closable="true" />
 				<p:tabView dynamic="true" cache="true">
 					<p:tab id="carga" title="#{msg.paramSocioCarga}">
-
 						<p:panelGrid columns="4" style="width:750px;">
 
 							<f:facet name="header">
@@ -199,6 +198,9 @@
 									var="condIva" itemLabel="#{condIva.descripcion}"
 									itemValue="#{condIva.id}" />
 							</p:selectOneMenu>
+														
+							<p:outputLabel value="Numero Iva" for="nroIva" rendered="#{socioBean.personaOEmp ne null}"/>
+							<p:inputText id="nroIva" value="#{socioBean.socio.numeroIva}" rendered="#{socioBean.personaOEmp ne null}"/>
 
 							<p:outputLabel value="#{msg.paramSocioInscripGanancias}"
 								for="inscGan" rendered="#{socioBean.personaOEmp ne null}" />
@@ -274,31 +276,49 @@
 									<center>		
 										<p:commandButton actionListener="#{socioBean.insertarSocio}"
 												update=":alta" value="#{msg.paramCargar}" />
+										 <p:commandButton value="Cancelar" update="carga" process="@this" style="margin-right:20px;" >
+							                <p:resetInput target="carga" />
+							            </p:commandButton>
+ 
 									</center>
 							</f:facet>
 						</p:panelGrid>
 					</p:tab >
+					
 					<p:tab id="consulta" title="#{msg.paramSocioConsulta}">
-
-						<p:dataTable id="socioDT" var="soc" value="#{socioBean.lstSocio}"
+						<p:ajaxStatus style="display:block; margin-bottom:0em;height:0px;">					
+						</p:ajaxStatus>		 
+						<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+						<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+							<p:graphicImage library="images" name="ajax-loader.gif" />
+						</p:dialog>
+						<p:panel>
+						<f:facet name="header">
+							<p:outputLabel value="Consulta de Socios"/>
+						</f:facet>
+						<p:panelGrid columns="2">
+							<p:outputLabel value="Numero Socio" for="socio" />
+							<p:inputText id="socio" value="#{socioBean.idSocio}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }">
+								<p:ajax event="blur" update="socioDT"
+									listener="#{socioBean.retornarSocio}" />
+							</p:inputText>
+						</p:panelGrid>
+						<br/><br/><br/>
+						<p:dataTable id="socioDT" var="soc" value="#{socioBean.socioBusqueda}"
 							scrollable="true" scrollHeight="150" rowKey="#{soc.numero}"
 							emptyMessage="#{msg.paramNoDatos}" >
-
 							<f:facet name="header">
 								<center>
 									<h:outputText value="#{msg.paramSocioTable}" />
 								</center>
 							</f:facet>
-							<p:column id="numero" headerText="#{msg.paramSocioNumero}"
-								filterBy="#{soc.numero}" filterMatchMode="contains">
+							<p:column id="numero" headerText="#{msg.paramSocioNumero}">
 								<h:outputText value="#{soc.numero}" />
 							</p:column>
-							<p:column id="dni" headerText="#{msg.paramSocioDni}"
-								filterBy="#{soc.numeroDocumento}" filterMatchMode="contains">
+							<p:column id="dni" headerText="#{msg.paramSocioDni}">
 								<h:outputText value="#{soc.numeroDocumento}" />
 							</p:column>
-							<p:column headerText="#{msg.paramSocioNombre}"
-								filterBy="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" filterMatchMode="contains">
+							<p:column headerText="#{msg.paramSocioNombre}">
 								<h:outputText
 									value="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" />
 							</p:column>
@@ -334,13 +354,8 @@
 									update=":alta :socEdit" immediate="true"
 									oncomplete="PF('socEditDialog').show()" />
 							</p:column>
-							
-							<f:facet name="footer">
-								<p:column>
-									<h:outputText value="Total Socios: #{socioBean.totalSocios()}" />
-								</p:column>
-							</f:facet>
 						</p:dataTable>
+						</p:panel>				
 					</p:tab>
 				</p:tabView>
 			</h:form>

@@ -43,10 +43,10 @@ public class Conexion implements Serializable {
 	@Column(name = "FECHA_ALTA")
 	private Date fechaAlta;
 
-	@Column(name = "TERRENO", precision = 15, scale = 2)
+	@Column(name = "TERRENO", precision=15, scale=2)
 	private Double terreno;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_TERRENO")
 	private TipoTerreno tipoTerreno;
 
@@ -150,8 +150,17 @@ public class Conexion implements Serializable {
 		this.fechaAlta = fechaAlta;
 	}
 
-	public Double getTerreno() {
+	
+	/*public Double getTerreno() {
 		return (Math.rint(terreno*100)/100);
+	}
+
+	public void setTerreno(Double terreno) {
+		this.terreno = (Math.rint(terreno*100)/100);
+	}*/
+
+	public Double getTerreno() {
+		return terreno;
 	}
 
 	public void setTerreno(Double terreno) {

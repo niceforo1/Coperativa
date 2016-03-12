@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PlanillaLecturas" pageWidth="800" pageHeight="842" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4d400763-c5c1-4f91-b4c2-bf1efc07ce6c">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="3"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
@@ -10,35 +10,35 @@
 	<parameter name="idPer" class="java.lang.String"/>
 	<parameter name="periodoFecha" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select c.ID_CONEXION, s.APELLIDO_RAZON_SOCIAL+ ' ' +s.NOMBRE_DENOMINACION TITULAR, d.CALLE + ' ' + convert(varchar(40),d.NUMERO) DIRECCION,
-	   c.NRO_MEDIDOR, CASE WHEN (select  l.LECTURA_ANTERIOR
+		<![CDATA[select c.ID_CONEXION,s.APELLIDO_RAZON_SOCIAL as TITULAR, d.CALLE, d.NUMERO,
+	   convert(varchar(40),c.NRO_MEDIDOR) as NRO_MEDIDOR, CASE WHEN (select  l.LECTURA_ANTERIOR
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
-						and l.PERIODO_ID = $P{idPer}) IS NULL THEN 0 ELSE (select  l.LECTURA_ANTERIOR
+						and l.PERIODO_ID = 1) IS NULL THEN 0 ELSE (select  l.LECTURA_ANTERIOR
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
-						and l.PERIODO_ID = $P{idPer}) END LEC_ANTERIOR,
-	  CASE WHEN (select  l.LECTURA_ACTUAL
+						and l.PERIODO_ID = 1) END LEC_ANTERIOR,
+	  CASE WHEN (select  convert(varchar(40),l.LECTURA_ACTUAL)
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
-						and l.PERIODO_ID = $P{idPer}) IS NULL THEN '-------------' ELSE (select  l.LECTURA_ACTUAL
+						and l.PERIODO_ID = 1) IS NULL THEN '-------------' ELSE (select  convert(varchar(40),l.LECTURA_ACTUAL)
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
-						and l.PERIODO_ID = $P{idPer}) END LEC_ACTUAL,
+						and l.PERIODO_ID = 1) END LEC_ACTUAL,
       u.manzana
 from CONEXIONES c
 inner join DOMICILIOS d on c.ID_DOMICILIO_SERV = d.ID_DOMICILIO
 inner join SOCIOS s on c.ID_SOCIO = s.ID_SOCIO
 inner join UBICACIONES_CATASTRALES u on c.ID_DOMICILIO_SERV = u.ID_UBICACION_CATASTRAL
-where c.id_conexion = 239
 order by MANZANA]]>
 	</queryString>
 	<field name="ID_CONEXION" class="java.math.BigDecimal"/>
 	<field name="TITULAR" class="java.lang.String"/>
-	<field name="DIRECCION" class="java.lang.String"/>
-	<field name="NRO_MEDIDOR" class="java.math.BigDecimal"/>
+	<field name="CALLE" class="java.lang.String"/>
+	<field name="NUMERO" class="java.math.BigDecimal"/>
+	<field name="NRO_MEDIDOR" class="java.lang.String"/>
 	<field name="LEC_ANTERIOR" class="java.math.BigDecimal"/>
-	<field name="LEC_ACTUAL" class="java.math.BigDecimal"/>
+	<field name="LEC_ACTUAL" class="java.lang.String"/>
 	<field name="manzana" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -46,9 +46,9 @@ order by MANZANA]]>
 	<title>
 		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="0" y="0" width="263" height="29" forecolor="#000000" uuid="0a91e8eb-15c3-41bb-bc33-422a8b380b88"/>
+				<reportElement style="Title" x="0" y="0" width="269" height="35" forecolor="#000000" uuid="0a91e8eb-15c3-41bb-bc33-422a8b380b88"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Gisha" size="24"/>
+					<font fontName="Serif" size="24" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Planilla de Lecturas]]></text>
 			</staticText>
@@ -135,10 +135,6 @@ order by MANZANA]]>
 				<reportElement style="Column header" x="0" y="19" width="28" height="14" uuid="de4ac13d-273f-413d-a2d3-b88380644af6"/>
 				<text><![CDATA[MZA]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="509" y="2" width="100" height="20" uuid="7f714150-3744-4ea4-8f3d-92dbaf199764"/>
-				<text><![CDATA[LEC_ACTUAL]]></text>
-			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -159,7 +155,7 @@ order by MANZANA]]>
 			</textField>
 			<textField>
 				<reportElement style="Detail" x="200" y="0" width="111" height="15" uuid="7ebf6f06-bc20-4c67-8ccf-1d8975f75180"/>
-				<textFieldExpression><![CDATA[$F{DIRECCION}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{CALLE}+' '+ $F{NUMERO}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Detail" x="311" y="0" width="111" height="15" uuid="7bd44d5b-b35d-4de8-963f-980d8f2ae6c6"/>

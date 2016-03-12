@@ -20,7 +20,22 @@
     </h:head>
 	<h:body style="background-color: #D3D3D3;">
 	<center>    	
-    	<h:form id="login-form">        
+    	<h:form id="login-form">      	     
+		<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+		    <f:facet name="default">
+		    </f:facet>
+		 
+		    <f:facet name="start">
+		        <p:graphicImage library="images" name="ajax-loader.gif" />
+		    </f:facet>
+		 
+		    <f:facet name="complete">
+		    </f:facet>
+		</p:ajaxStatus>		 
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+			<p:graphicImage library="images" name="ajax-loader.gif" />
+		</p:dialog>
     	<p:layout fullPage="true" >
     	<p:layoutUnit position="west" size="28%">    		    	
     	</p:layoutUnit>

@@ -54,7 +54,7 @@
 					</p:outputLabel>
 					<p:inputText id="lectActual"
 						value="#{lecturaBean.lecturaActual}" >	
-						<p:ajax event="blur" update="out" listener="#{lecturaBean.mostrarAviso}"/>
+						<p:ajax event="change" update="out" listener="#{lecturaBean.mostrarAviso}"/>
 					</p:inputText>
 					
 					<p:outputLabel value="#{msg.paramLecturaObservaciones}"

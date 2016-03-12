@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.jfree.data.ComparableObjectItem;
 import org.primefaces.event.RowEditEvent;
 
 import dao.CategoriaConexionDAO;
@@ -59,21 +60,24 @@ public class ConexionBean implements Serializable {
 	private List<Socio> lstSociosActivos;
 	private Socio socio;
 	private Socio socioSeleccionado;
-	
+	private Long idSocio;
+
 	private boolean domServFactIguales;
-	
+
 	private Domicilio domServ;
 	private Domicilio domFact;
-	
+
 	private long paisDomFactId;
 	private long provinciaDomFactId;
-	
+
 	private UbicacionCatastral ubicOficial;
 	private UbicacionCatastral ubicCatastral;
-	
+
 	private Conexion conexion;
 	private Conexion conexionSeleccionada;
 	private Conexion conexionEditar;
+	private Conexion conexionBusqueda;
+	private Long idConexionBus;
 	private List<Conexion> lstConexiones;
 	private long estadoConexionId;
 	private long zonaConexionId;
@@ -83,7 +87,7 @@ public class ConexionBean implements Serializable {
 	private long categoriaConexionId;
 	private long tipoConexionId;
 	private long fPagoConexionId;
-	
+
 	private boolean checkDatosParametrizables;
 	private boolean checkEstConex;
 	private boolean checkZonaConex;
@@ -93,18 +97,53 @@ public class ConexionBean implements Serializable {
 	private boolean checkTipoSuministro;
 	private boolean checkCategoriaConex;
 	private boolean checkTipoConex;
-	
+
 	private boolean checkDatosNoParametrizables;
-	
+
 	private boolean checkDomServFactIguales;
-	
+
 	private TarjetaNaranja datosTarjeta;
-	
+
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
-	
+
 	public ConexionBean() {
 		inicializar();
+	}
+	
+	public void retornarSocio() {
+		socioSeleccionado= new Socio();
+		SocioDAO socioDAO = new SocioDAOImplement();
+		try {
+			socioSeleccionado =socioDAO.buscarSocioID(idSocio);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al retornar Socio.", e.getMessage()));
+		}
+	}
+
+	public Conexion getConexionBusqueda() {
+		return conexionBusqueda;
+	}
+
+	public void setConexionBusqueda(Conexion conexionBusqueda) {
+		this.conexionBusqueda = conexionBusqueda;
+	}
+
+	public Long getIdConexionBus() {
+		return idConexionBus;
+	}
+
+	public void setIdConexionBus(Long idConexionBus) {
+		this.idConexionBus = idConexionBus;
+	}
+
+	public Long getIdSocio() {
+		return idSocio;
+	}
+
+	public void setIdSocio(Long idSocio) {
+		this.idSocio = idSocio;
 	}
 
 	public List<Socio> getLstSociosActivos() {
@@ -112,10 +151,8 @@ public class ConexionBean implements Serializable {
 			SocioDAO daoSocio = new SocioDAOImplement();
 			lstSociosActivos = daoSocio.listaSociosActivos("ACTIVO");
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
-							.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
 		}
 		return lstSociosActivos;
 	}
@@ -140,11 +177,11 @@ public class ConexionBean implements Serializable {
 		this.socioSeleccionado = socioSeleccionado;
 	}
 
-	public long totalSocios(){
+	public long totalSocios() {
 		long total = lstSociosActivos.size();
 		return total;
 	}
-	
+
 	public boolean isDomServFactIguales() {
 		return domServFactIguales;
 	}
@@ -152,7 +189,7 @@ public class ConexionBean implements Serializable {
 	public void setDomServFactIguales(boolean domServFactIguales) {
 		this.domServFactIguales = domServFactIguales;
 	}
-	
+
 	public Domicilio getDomServ() {
 		return domServ;
 	}
@@ -184,7 +221,7 @@ public class ConexionBean implements Serializable {
 	public void setProvinciaDomFactId(long provinciaDomFactId) {
 		this.provinciaDomFactId = provinciaDomFactId;
 	}
-	
+
 	public UbicacionCatastral getUbicOficial() {
 		return ubicOficial;
 	}
@@ -230,10 +267,8 @@ public class ConexionBean implements Serializable {
 			ConexionDAO daoConexion = new ConexionDAOImplement();
 			lstConexiones = daoConexion.listaConexion();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
-							.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
 		}
 		return lstConexiones;
 	}
@@ -249,7 +284,7 @@ public class ConexionBean implements Serializable {
 	public void setEstadoConexionId(long estadoConexionId) {
 		this.estadoConexionId = estadoConexionId;
 	}
-	
+
 	public long getZonaConexionId() {
 		return zonaConexionId;
 	}
@@ -305,7 +340,7 @@ public class ConexionBean implements Serializable {
 	public void setfPagoConexionId(long fPagoConexionId) {
 		this.fPagoConexionId = fPagoConexionId;
 	}
-	
+
 	public boolean isCheckDatosParametrizables() {
 		return checkDatosParametrizables;
 	}
@@ -386,7 +421,6 @@ public class ConexionBean implements Serializable {
 		this.checkDatosNoParametrizables = checkDatosNoParametrizables;
 	}
 
-
 	public boolean isCheckDomServFactIguales() {
 		return checkDomServFactIguales;
 	}
@@ -412,8 +446,9 @@ public class ConexionBean implements Serializable {
 	}
 
 	public void insertarConexion() {
-		// datos Dom Servicio, se setea localidad,provincia y pais ya que son fijos y no depende de combos
-		
+		// datos Dom Servicio, se setea localidad,provincia y pais ya que son
+		// fijos y no depende de combos
+
 		PaisDAO paisDAO = new PaisDAOImplement();
 		ProvinciaDAO provinciaDAO = new ProvinciaDAOImplement();
 		TipoDomicilioDAO daoTipoDomicilio = new TipoDomicilioDAOImplement();
@@ -422,11 +457,11 @@ public class ConexionBean implements Serializable {
 			domServ.setProvincia(provinciaDAO.buscarProvinciaDescripcion("CORDOBA"));
 			domServ.setPais(paisDAO.buscarPaisDescripcion("ARGENTINA"));
 			domServ.setTipoDomicilio(daoTipoDomicilio.buscarTipoDomicilio("SERVICIO"));
-			
+
 			// se iguala dom facturacion al de servicio
-			if(domServFactIguales == true){
-				//domFact = domServ;
-				
+			if (domServFactIguales == true) {
+				// domFact = domServ;
+
 				domFact.setTipoDomicilio(daoTipoDomicilio.buscarTipoDomicilio("FACTURACION"));
 				domFact.setCalle(domServ.getCalle());
 				domFact.setNumero(domServ.getNumero());
@@ -437,41 +472,42 @@ public class ConexionBean implements Serializable {
 				domFact.setCodPostal(domServ.getCodPostal());
 				domFact.setPais(domServ.getPais());
 				domFact.setTelFijo(domServ.getTelFijo());
-			}
-			else{
+			} else {
 				domFact.setProvincia(provinciaDAO.buscarProvinciaId(provinciaDomFactId));
 				domFact.setPais(paisDAO.buscarPaisId(paisDomFactId));
 				domFact.setTipoDomicilio(daoTipoDomicilio.buscarTipoDomicilio("FACTURACION"));
 			}
-			
+
 			// se ingresan los domicilios de serv y fact
-			
+
 			DomicilioDAO daoDomicilio = new DomicilioDAOImplement();
-			
+
 			daoDomicilio.insertarDomicilio(domServ);
 			daoDomicilio.insertarDomicilio(domFact);
-			
+
 			// se setea a conexion los domicilios y boolean Dom Fact Iguales
 			conexion.setDomicilioServicio(domServ);
 			conexion.setDomicilioFacturacion(domFact);
 			conexion.setDomServFactIguales(domServFactIguales);
-			
-			
-			// se setean los tipos a las ubicaciones catastrales y las mismas a la conexion
-			
+
+			// se setean los tipos a las ubicaciones catastrales y las mismas a
+			// la conexion
+
 			TipoUbicacionCatastralDAO daoTipoUbicacionCatastral = new TipoUbicacionCatastralDAOImplement();
-			
-			ubicOficial.setTipoUbicacionCatastral(daoTipoUbicacionCatastral.buscarTipoUbicacionCatastralDescripcion("OFICIAL"));
-			ubicCatastral.setTipoUbicacionCatastral(daoTipoUbicacionCatastral.buscarTipoUbicacionCatastralDescripcion("CATASTRAL"));
-			
+
+			ubicOficial.setTipoUbicacionCatastral(
+					daoTipoUbicacionCatastral.buscarTipoUbicacionCatastralDescripcion("OFICIAL"));
+			ubicCatastral.setTipoUbicacionCatastral(
+					daoTipoUbicacionCatastral.buscarTipoUbicacionCatastralDescripcion("CATASTRAL"));
+
 			List<UbicacionCatastral> listaUbicaciones = new ArrayList<UbicacionCatastral>();
 			listaUbicaciones.add(ubicOficial);
 			listaUbicaciones.add(ubicCatastral);
-			
+
 			conexion.setUbicacionesCatastrales(listaUbicaciones);
-			
+
 			// se setea la informacion restante a la conexion
-			
+
 			EstadoConexionDAO daoEstadoConexion = new EstadoConexionDAOImplement();
 			ZonaConexionDAO daoZonaConexion = new ZonaConexionDAOImplement();
 			TipoTerrenoDAO daoTipoTerreno = new TipoTerrenoDAOImplement();
@@ -480,7 +516,7 @@ public class ConexionBean implements Serializable {
 			CategoriaConexionDAO daoCategoriaConexion = new CategoriaConexionDAOImplement();
 			TipoConexionDAO daoTipoConexion = new TipoConexionDAOImplement();
 			FormaPagoDAO daoFormaPago = new FormaPagoDAOImplement();
-			
+
 			conexion.setEstadoConexion(daoEstadoConexion.buscarEstadoConexionId(estadoConexionId));
 			conexion.setZonaConexion(daoZonaConexion.buscarZonaConexionId(zonaConexionId));
 			conexion.setTipoTerreno(daoTipoTerreno.buscarTipoTerrenoId(tipoTerrenoConexionId));
@@ -490,197 +526,189 @@ public class ConexionBean implements Serializable {
 			conexion.setTipoConexion(daoTipoConexion.buscarTipoConexionId(tipoConexionId));
 			conexion.setFormaPago(daoFormaPago.buscarFormaPagoId(fPagoConexionId));
 			conexion.setUsuario(login.getUsuario());
-			
+
 			ConexionDAO conexionDAO = new ConexionDAOImplement();
 			conexion.setSocio(socio);
 			conexionDAO.insertarConexion(conexion);
-			
+
 			// se agrega la conexion al socio
-			
+
 			socio.getConexiones().add(conexion);
-			
+
 			SocioDAO daoSocio = new SocioDAOImplement();
-			
+
 			daoSocio.modificarSocio(socio);
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "Se agrego correctamente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se agrego correctamente"));
 			inicializar();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Error al procesar: " + e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
 		}
-	}		
+	}
 
 	public void mostrarSocio(Socio socio) {
 		this.socioSeleccionado = socio;
 	}
-	
+
 	public void mostrarConexion(Conexion conexion) {
 		this.conexionSeleccionada = conexion;
 	}
 
-	public List<Conexion> obtenerConexionesSocio(){
+	public List<Conexion> obtenerConexionesSocio() {
 		List<Conexion> lista = new ArrayList<Conexion>();
-		
-		try{
+
+		try {
 			lista = socioSeleccionado.getConexiones();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
 		}
-		catch(Exception e){
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Error al procesar: " + e.getMessage()));
-		}
-		
+
 		return lista;
 	}
-	
-	public void cambiarEstadoConexion(String estado, Conexion conexion){
-		ConexionDAO daoConexion = new ConexionDAOImplement();
-		EstadoConexionDAO daoEstadoConexion = new EstadoConexionDAOImplement();
-		
+
+	public void obtenerConexionesBusqueda() {
+		ConexionDAO conexionDAO = new ConexionDAOImplement();
 		try {
-			conexion.setEstadoConexion(daoEstadoConexion.buscarEstadoConexion(estado));
-			
-			//faltan las transacciones
-			
-			daoConexion.modificarConexion(conexion);
-			
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "La conexión se modifico correctamente."));
+			conexionBusqueda = new Conexion();
+			conexionBusqueda = conexionDAO.buscarConexionID(idConexionBus);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Error al procesar: " + e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
 		}
 	}
-	
-	public void editarConexion(){
-		
-		checkDomServFactIguales= false;
-		
+
+	public void cambiarEstadoConexion(String estado, Conexion conexion) {
+		ConexionDAO daoConexion = new ConexionDAOImplement();
+		EstadoConexionDAO daoEstadoConexion = new EstadoConexionDAOImplement();
+
 		try {
-			
-			if(checkEstConex == true){
+			conexion.setEstadoConexion(daoEstadoConexion.buscarEstadoConexion(estado));
+
+			// faltan las transacciones
+
+			daoConexion.modificarConexion(conexion);
+
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Correctamente", "La conexión se modifico correctamente."));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+		}
+	}
+
+	public void editarConexion() {
+
+		checkDomServFactIguales = false;
+
+		try {
+
+			if (checkEstConex == true) {
 				EstadoConexionDAO daoEstadoConexion = new EstadoConexionDAOImplement();
 				conexionEditar.setEstadoConexion(daoEstadoConexion.buscarEstadoConexionId(estadoConexionId));
 			}
-			
-			if(checkZonaConex == true){
+
+			if (checkZonaConex == true) {
 				ZonaConexionDAO daoZonaConexion = new ZonaConexionDAOImplement();
 				conexionEditar.setZonaConexion(daoZonaConexion.buscarZonaConexionId(zonaConexionId));
 			}
-			
-			if(checkTipoTerreno == true){
+
+			if (checkTipoTerreno == true) {
 				TipoTerrenoDAO daoTipoTerreno = new TipoTerrenoDAOImplement();
 				conexionEditar.setTipoTerreno(daoTipoTerreno.buscarTipoTerrenoId(tipoTerrenoConexionId));
 			}
-			
-			if(checkRegimenPropiedad == true){
+
+			if (checkRegimenPropiedad == true) {
 				RegimenPropiedadDAO daoRegimenPropiedad = new RegimenPropiedadDAOImplement();
 				conexionEditar.setRegimenPropiedad(daoRegimenPropiedad.buscarRegimenPropiedadId(regimenConexionId));
 			}
-			
-			if(checkTipoSuministro == true){
+
+			if (checkTipoSuministro == true) {
 				TipoSuministroDAO daoTipoSuministro = new TipoSuministroDAOImplement();
 				conexionEditar.setTipoSuministro(daoTipoSuministro.buscarTipoSuministroId(tipoSuministroConexionId));
 			}
-			
-			if(checkCategoriaConex == true){
+
+			if (checkCategoriaConex == true) {
 				CategoriaConexionDAO daoCategoriaConexion = new CategoriaConexionDAOImplement();
-				conexionEditar.setCategoriaConexion(daoCategoriaConexion.buscarCategoriaConexionId(categoriaConexionId));
+				conexionEditar
+						.setCategoriaConexion(daoCategoriaConexion.buscarCategoriaConexionId(categoriaConexionId));
 			}
-			
-			if(checkTipoConex == true){
+
+			if (checkTipoConex == true) {
 				TipoConexionDAO daoTipoConexion = new TipoConexionDAOImplement();
 				conexionEditar.setTipoConexion(daoTipoConexion.buscarTipoConexionId(tipoConexionId));
 			}
-			
-			if(checkFormaPago == true){
+
+			if (checkFormaPago == true) {
 				FormaPagoDAO daoFormaPago = new FormaPagoDAOImplement();
 				conexionEditar.setFormaPago(daoFormaPago.buscarFormaPagoId(fPagoConexionId));
 			}
-			
+
 			ConexionDAO conexionDAO = new ConexionDAOImplement();
 			conexionDAO.modificarConexion(conexionEditar);
-			
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "Se editó correctamente."));
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se editó correctamente."));
 			inicializar();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Error al procesar: " + e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
 		}
 	}
-	
-	public void editarDatosTarjeta(){
-		
+
+	public void editarDatosTarjeta() {
+
 		try {
 			TarjetaNaranjaDAO tarjetaDAO = new TarjetaNaranjaDAOImplement();
-			
+
 			tarjetaDAO.insertarTarjetaNaranja(datosTarjeta);
-			
+
 			conexionEditar.setDatosTarjetaNaranja(datosTarjeta);
-						
+
 			ConexionDAO conexionDAO = new ConexionDAOImplement();
 			conexionDAO.modificarConexion(conexionEditar);
-			
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "Se editó correctamente."));
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se editó correctamente."));
 			inicializar();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Error al procesar: " + e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
 		}
 	}
-	
+
 	public void onRowEdit(RowEditEvent event) {
-		System.out.println("HOLA: " + conexionEditar.getDomicilioFacturacion().getLocalidad() + " " + conexionEditar.getDomicilioFacturacion().getProvincia().getDescripcion()); 
+		System.out.println("HOLA: " + conexionEditar.getDomicilioFacturacion().getLocalidad() + " "
+				+ conexionEditar.getDomicilioFacturacion().getProvincia().getDescripcion());
 		try {
-			//ProvinciaDAO provinciaDAO = new ProvinciaDAOImplement();
-			//conexionEditar.getDomicilioFacturacion().setProvincia(provinciaDAO.buscarProvinciaId(conexionEditar.getDomicilioFacturacion().getProvincia().getId()));
-			
+			// ProvinciaDAO provinciaDAO = new ProvinciaDAOImplement();
+			// conexionEditar.getDomicilioFacturacion().setProvincia(provinciaDAO.buscarProvinciaId(conexionEditar.getDomicilioFacturacion().getProvincia().getId()));
+
 			DomicilioDAO daoDomicilio = new DomicilioDAOImplement();
 			daoDomicilio.modificarDomicilio(conexionEditar.getDomicilioFacturacion());
-			
+
 			ConexionDAO conexionDAO = new ConexionDAOImplement();
 			conexionDAO.modificarConexion(conexionEditar);
-			
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "Se editó correctamente."));
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se editó correctamente."));
 			inicializar();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Error al procesar: " + e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
 		}
-    }
-	
-	public void editarConexion(Conexion conexion){
+	}
+
+	public void editarConexion(Conexion conexion) {
 		this.conexionEditar = conexion;
 	}
-	
-	public void inicializar(){
+
+	public void inicializar() {
+		// conexionBusqueda = new Conexion();
+		idConexionBus = null;
 		socio = new Socio();
-		socioSeleccionado = new Socio();
+		//socioSeleccionado = new Socio();
 		domServ = new Domicilio();
 		domFact = new Domicilio();
 		paisDomFactId = 0;
@@ -699,21 +727,21 @@ public class ConexionBean implements Serializable {
 		categoriaConexionId = 0;
 		tipoConexionId = 0;
 		fPagoConexionId = 0;
-		
-		checkDatosParametrizables= false;
+
+		checkDatosParametrizables = false;
 		checkEstConex = false;
-		checkZonaConex= false;
-		checkTipoTerreno= false;
-		checkRegimenPropiedad= false;
-		checkFormaPago= false;
-		checkTipoSuministro= false;
-		checkCategoriaConex= false;
-		checkTipoConex= false;
-		
+		checkZonaConex = false;
+		checkTipoTerreno = false;
+		checkRegimenPropiedad = false;
+		checkFormaPago = false;
+		checkTipoSuministro = false;
+		checkCategoriaConex = false;
+		checkTipoConex = false;
+
 		checkDatosNoParametrizables = false;
-		
-		checkDomServFactIguales= false;
-		
+
+		checkDomServFactIguales = false;
+
 		datosTarjeta = new TarjetaNaranja();
 	}
 }

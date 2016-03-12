@@ -9,10 +9,10 @@
 		<property name="connection.username">sa</property>
 		<property name="connection.password">123456</property>
 		<property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
-		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.show_sql">true</property>
 		<property name="hbm2ddl.auto">update</property>
 		<property name="hibernate.enable_lazy_load_no_trans">true</property>
-		
+
 
 		<mapping class="model.Usuario" />
 		<mapping class="model.UsuarioTipo" />

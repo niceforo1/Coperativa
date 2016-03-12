@@ -39,44 +39,93 @@
 }
 </style>
 		<center>
-			<h:form id="alta">
-				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
-					closable="true" />
+			<h:form id="alta">		
+				
+				
 				<p:tabView dynamic="true" cache="true">
-					<p:tab id="carga" title="#{msg.paramConexionCarga}">
-
-						<p:dataTable id="sociosDT" var="soc"
-							value="#{conexionBean.lstSociosActivos}" scrollable="true"
-							scrollHeight="150" rowKey="#{soc.numero}"
-							emptyMessage="#{msg.paramNoDatos}"
-							selection="#{conexionBean.socio}" selectionMode="single">
-							<p:ajax event="rowSelect" update=":alta" />
-							<p:ajax event="rowUnselect" update=":alta" />
-							<p:column selectionMode="single" width="32px;">
+					<p:tab id="consulta" title="Consulta Conexion">
+						<p:panel>
+							<f:facet name="header">
+								<p:outputLabel value="Consulta Conexión"/>
+							</f:facet>
+						<p:ajaxStatus style="display:block;margin-bottom:0em;height:0px;">					
+						</p:ajaxStatus>		 
+						<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+						<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+							<p:graphicImage library="images" name="ajax-loader.gif" />
+						</p:dialog>
+						<p:panelGrid columns="2">
+							<p:outputLabel value="Numero Conexión" for="conxBus" />
+							<p:inputText id="conxBus" value="#{conexionBean.idConexionBus}" onkeypress="if (event.keyCode == 13) {onchange(); return false; }">
+								<p:ajax event="change" update="conexDT"
+									listener="#{conexionBean.obtenerConexionesBusqueda}" />
+							</p:inputText>
+						</p:panelGrid>
+						<br/><br/>
+						
+						<p:dataTable id="conexDT" var="conex" value="#{conexionBean.conexionBusqueda}"
+							scrollable="true" scrollHeight="150" rowKey="#{conex.id}"
+							emptyMessage="#{msg.paramNoDatos}">
+							<f:facet name="header">
+								<center>
+									<h:outputText value="#{msg.paramConexionTable}" />
+								</center>
+							</f:facet>
+							<p:column id="id" headerText="#{msg.paramConexionNumero}">
+								<h:outputText value="#{conex.id}" />
 							</p:column>
-							<p:column id="numero" headerText="Numero"
-								filterBy="#{soc.numero}" filterMatchMode="contains">
-								<h:outputText value="#{soc.numero}" />
+							
+							<p:column headerText="#{msg.paramConexionCalle}">
+								<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
 							</p:column>
-							<p:column headerText="Dni" filterBy="#{soc.numeroDocumento}"
-								filterMatchMode="contains">
-								<h:outputText value="#{soc.numeroDocumento}" />
+							
+							<p:column style="width:32px;text-align: center"
+								exportable="false">
+								<p:commandButton icon="fa fa-fw fa-search"
+									actionListener="#{conexionBean.mostrarConexion(conex)}"
+									update=":alta :conexDet" immediate="true"
+									oncomplete="PF('conexDetDialog').show()"  />
 							</p:column>
-							<p:column headerText="Nombre"
-								filterBy="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}"
-								filterMatchMode="contains">
-								<h:outputText
-									value="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" />
+							
+							<p:column style="width:32px;text-align: center"
+								exportable="false">
+								<p:commandButton icon="fa fa-fw fa-edit"
+									actionListener="#{conexionBean.editarConexion(conex)}" 
+									update=":alta :conexEdit" immediate="true"
+									oncomplete="PF('conexEditDialog').show()" />
 							</p:column>
+							
+							<p:column style="width:32px;text-align: center"
+								exportable="false">
+								<p:commandButton icon="fa fa-credit-card"
+									actionListener="#{conexionBean.editarConexion(conex)}" 
+									update=":alta :tarjetaEdit" immediate="true"
+									oncomplete="PF('tarjetaEditDialog').show()" />
+							</p:column>
+							
 							<f:facet name="footer">
-								<p:column>
-									<h:outputText
-										value="Total Socios: #{conexionBean.totalSocios()}" />
-								</p:column>
+							
 							</f:facet>
 						</p:dataTable>
+						</p:panel>
+					</p:tab>
+					
+					<p:tab id="carga" title="#{msg.paramConexionCarga}">
+						<p:panelGrid columns="2">
+							<p:outputLabel value="Numero Socio" for="socio" />
+							<p:inputText id="socio" value="#{conexionBean.idSocio}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }">
+								<p:ajax event="blur" update="nroSocio, denom, btnCargar"
+									listener="#{conexionBean.retornarSocio}" />
+							</p:inputText>
+							<p:outputLabel value="Nro Socio" for="nroSocio"/>
+							<p:outputLabel id="nroSocio" value="#{conexionBean.socioSeleccionado.numero}"/>
+							<p:outputLabel value="Denominación" for="denom"/>
+							<p:outputLabel id="denom" value="#{conexionBean.socioSeleccionado.apellidoRazonSocial}"/>							
+						</p:panelGrid>
+						<br/><br/>
 
-						<p:panelGrid columns="4" style="width:750px;"
+
+						<p:panelGrid columns="1" style="width:750px;"
 							rendered="#{ !(conexionBean.socio.numero == 0) }">
 
 							<f:facet name="header">
@@ -84,7 +133,6 @@
 									<p:outputLabel value="#{msg.paramAltaConexion}" colspan="2" />
 								</center>
 							</f:facet>
-						</p:panelGrid>
 
 						<p:panelGrid columns="4" id="panelDomServ" style="width:750px;"
 							rendered="#{ !(conexionBean.socio.numero == 0) }">
@@ -94,13 +142,7 @@
 									<p:outputLabel value="#{msg.paramDomServ}" colspan="2" />
 								</center>
 							</f:facet>
-
-							<p:outputLabel value="#{msg.paramDomServFact}" for="checkDom" />
-							<p:selectBooleanCheckbox id="checkDom"
-								value="#{conexionBean.domServFactIguales}">
-								<p:ajax update=":alta" />
-							</p:selectBooleanCheckbox>
-
+							
 							<p:outputLabel value="#{msg.paramDomicilioDireccion}"
 								for="direccion" />
 							<p:inputText id="direccion" value="#{conexionBean.domServ.calle}"
@@ -299,8 +341,10 @@
 							</p:selectOneMenu>
 							<p:outputLabel value="#{msg.paramTerrenoConexion}"
 								for="terrConex" />
+							
 							<p:inputText id="terrConex"
 								value="#{conexionBean.conexion.terreno}" />
+								
 							<p:outputLabel value="#{msg.paramPiletaConexion}" for="pileConex" />
 							<p:inputText id="pileConex"
 								value="#{conexionBean.conexion.pileta}" />
@@ -366,147 +410,20 @@
 							</p:selectOneMenu>
 							<f:facet name="footer">
 								<center>
-									<p:commandButton
+									<p:commandButton id="btnCargar"
 										actionListener="#{conexionBean.insertarConexion}"
-										update=":alta" value="#{msg.paramCargar}" />
+										update=":alta" value="#{msg.paramCargar}" disabled="#{conexionBean.socioSeleccionado == null}"/>
+									<p:commandButton value="Cancelar" update="carga" process="@this" style="margin-right:20px;" >
+						                <p:resetInput target="carga" />
+						            </p:commandButton>
 								</center>
 							</f:facet>
 
 						</p:panelGrid>
-
+					</p:panelGrid>
+						
 					</p:tab>
-					<p:tab id="consulta" title="#{msg.paramConexionConsultaPorSocio}">
-						<p:dataTable id="socioDT" var="soc" value="#{socioBean.lstSocio}"
-							scrollable="true" scrollHeight="150" rowKey="#{soc.numero}"
-							emptyMessage="#{msg.paramNoDatos}"
-							selection="#{conexionBean.socioSeleccionado}" selectionMode="single">
-							<p:ajax event="rowSelect" update=":alta" />
-							<p:ajax event="rowUnselect" update=":alta" />
-							<p:column selectionMode="single" width="32px;">
-							</p:column>
-							<f:facet name="header">
-								<center>
-									<h:outputText value="#{msg.paramSocioTable}" />
-								</center>
-							</f:facet>
-							<p:column id="numero" headerText="#{msg.paramSocioNumero}"
-								filterBy="#{soc.numero}" filterMatchMode="contains">
-								<h:outputText value="#{soc.numero}" />
-							</p:column>
-							<p:column id="dni" headerText="#{msg.paramSocioDni}"
-								filterBy="#{soc.numeroDocumento}" filterMatchMode="contains">
-								<h:outputText value="#{soc.numeroDocumento}" />
-							</p:column>
-							<p:column headerText="#{msg.paramSocioNombre}"
-								filterBy="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" filterMatchMode="contains">
-								<h:outputText
-									value="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" />
-							</p:column>
-							
-							<f:facet name="footer">
-							
-							</f:facet>
-						</p:dataTable>
-
-						<p:dataTable id="conexSocioDT" var="conex" value="#{conexionBean.obtenerConexionesSocio()}"
-							scrollable="true" scrollHeight="150" rowKey="#{conex.id}"
-							emptyMessage="#{msg.paramNoDatos}" rendered="#{!(conexionBean.socioSeleccionado.numero == 0)}">
-							<f:facet name="header">
-								<center>
-									<h:outputText value="#{msg.paramConexionTable}" />
-								</center>
-							</f:facet>
-							<p:column id="id" headerText="#{msg.paramConexionNumero}"
-								filterBy="#{conex.id}" filterMatchMode="contains">
-								<h:outputText value="#{conex.id}" />
-							</p:column>
-							
-							<p:column headerText="#{msg.paramConexionCalle}"
-								filterBy="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" filterMatchMode="contains">
-								<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
-							</p:column>
-							
-							<ui:remove>
-							<p:column style="width:32px;text-align: center"
-								exportable="false"
-								rendered="#{!(conex.estadoConexion.descripcion == 'BAJA')}">
-								<p:commandButton icon="fa fa-fw fa-exclamation-circle"
-									actionListener="#{conexionBean.cambiarEstadoConexion('BAJA', conex)}"
-									update=":alta " immediate="true" />
-							</p:column>
-							
-							<p:column style="width:32px;text-align: center"
-								exportable="false"
-								rendered="#{!(conex.estadoConexion.descripcion == 'ACTIVA')}">
-								<p:commandButton icon="fa fa-fw fa-arrow-circle-up"
-									actionListener="#{conexionBean.cambiarEstadoConexion('ACTIVA', conex)}"
-									update=":alta " immediate="true" />
-							</p:column>
-							</ui:remove>
-							
-							<p:column style="width:32px;text-align: center"
-								exportable="false">
-								<p:commandButton icon="fa fa-fw fa-search"
-									actionListener="#{conexionBean.mostrarConexion(conex)}"
-									update=":alta :conexDet" immediate="true"
-									oncomplete="PF('conexDetDialog').show()" />
-							</p:column>
-							
-							<p:column style="width:32px;text-align: center"
-								exportable="false">
-								<p:commandButton icon="fa fa-fw fa-edit"
-									actionListener="#{conexionBean.editarConexion(conex)}" 
-									update=":alta :conexEdit" immediate="true"
-									oncomplete="PF('conexEditDialog').show()" />
-							</p:column>
-							
-							<p:column style="width:32px;text-align: center"
-								exportable="false">
-								<p:commandButton icon="fa fa-credit-card"
-									actionListener="#{conexionBean.editarConexion(conex)}" 
-									update=":alta :tarjetaEdit" immediate="true"
-									oncomplete="PF('tarjetaEditDialog').show()" />
-							</p:column>
-							
-							<f:facet name="footer">
-							
-							</f:facet>
-						</p:dataTable>
-					</p:tab>
-					<p:tab id="consultaDos" title="#{msg.paramConexionConsultaTotales}">
-						<p:dataTable id="conexionDT" var="conex" value="#{conexionBean.lstConexiones}"
-							scrollable="true" scrollHeight="150" rowKey="#{conex.id}"
-							emptyMessage="#{msg.paramNoDatos}">
-							<f:facet name="header">
-								<center>
-									<h:outputText value="#{msg.paramConexionTable}" />
-								</center>
-							</f:facet>
-							<p:column id="id" headerText="#{msg.paramConexionNumero}"
-								filterBy="#{conex.id}" filterMatchMode="contains">
-								<h:outputText value="#{conex.id}" />
-							</p:column>
-							<p:column headerText="#{msg.paramConexionCalle}"
-								filterBy="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" filterMatchMode="contains">
-								<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
-							</p:column>
-							<p:column headerText="#{msg.paramConexionSocio}"
-								filterBy="#{conex.socio.apellidoRazonSocial} #{conex.socio.nombreDenominacion}" filterMatchMode="contains">
-								<h:outputText value="#{conex.socio.apellidoRazonSocial} #{conex.socio.nombreDenominacion}" />
-							</p:column>
-							<p:column style="width:32px;text-align: center"
-								exportable="false">
-								<p:commandButton icon="fa fa-fw fa-search"
-									actionListener="#{conexionBean.mostrarConexion(conex)}"
-									update=":alta :conexDet" immediate="true"
-									oncomplete="PF('conexDetDialog').show()" />  
-							</p:column>
-							<f:facet name="footer">
-							
-							</f:facet>
-						</p:dataTable>
-					
-					</p:tab>
+		
 				</p:tabView>
 			</h:form>
 			<p:dialog header="Detalle Conexión" widgetVar="conexDetDialog"
@@ -524,7 +441,15 @@
 								<f:facet name="header">
 									<h:outputText value="" />
 								</f:facet>
-								
+								<p:outputLabel  value="Nro. Socio"/>
+								<p:outputLabel value="#{conexionBean.conexionSeleccionada.socio.numero}" />
+
+								<p:outputLabel  value="Nombre Socio"/>
+								<p:outputLabel value="#{conexionBean.conexionSeleccionada.socio.apellidoRazonSocial}" />
+						
+								<p:outputLabel
+									value="Numero Conexión" />
+								<p:outputLabel value="#{conexionBean.conexionSeleccionada.id}" />
 								<p:outputLabel
 									value="#{msg.paramEstadoConexion}" />
 								<p:outputLabel value="#{conexionBean.conexionSeleccionada.estadoConexion.descripcion}"
@@ -709,13 +634,6 @@
 									<p:ajax update="conexEdit" />
 								</p:selectBooleanCheckbox>
 								
-								<p:outputLabel value="#{msg.paramConexionEditDomServFac}"
-									for="checkDomServFactIguales" />
-								<p:selectBooleanCheckbox id="checkDomServFactIguales"
-									value="#{conexionBean.checkDomServFactIguales}">
-									<p:ajax update="conexEdit" />
-								</p:selectBooleanCheckbox>
-
 								<p:outputLabel value="#{msg.paramEstadoConexion}"
 									for="checkEstConex"
 									rendered="#{conexionBean.checkDatosParametrizables}" />
@@ -916,7 +834,7 @@
 										var="domFact" emptyMessage="#{msg.paramNoDatos}">
 										
 										<p:ajax event="rowEdit" listener="#{conexionBean.onRowEdit}" update=":alta :conexEdit" />
-										
+									
 										<p:column headerText="Provincia">
 											<p:cellEditor>
 												<f:facet name="output">
@@ -978,8 +896,7 @@
 										
 									</p:dataTable>
 
-								</p:panelGrid>
-								
+								</p:panelGrid>		
 
 								<f:facet name="footer">
 									<center>

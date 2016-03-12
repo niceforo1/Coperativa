@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import dao.LecturaDAO;
+import model.Conexion;
 import model.Lectura;
 import model.PeriodoLectura;
 import model.Socio;
@@ -135,6 +136,33 @@ public class LecturaDAOImplement implements LecturaDAO {
 			Query query = session.createQuery("from Lectura le"
 					  					  + " where le.periodoLectura.id = ? ");
 			query.setLong(0, perido.getId());
+			lstLectura = (List<Lectura>) query.list();		
+			session.getTransaction().commit();						
+		}catch(ConstraintViolationException e){
+			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){						
+			throw new Exception(e);		
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}		
+		return lstLectura;
+	}
+
+	@Override
+	public List<Lectura> buscarLecturasPorConexion(Conexion conexion) throws Exception {
+		Session session = null;
+		List<Lectura> lstLectura = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			Query query = session.createQuery("from Lectura le"
+					  					  + " where le.conexion.id = ? ");
+			query.setLong(0, conexion.getId());
 			lstLectura = (List<Lectura>) query.list();		
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){

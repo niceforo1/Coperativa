@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import model.Conexion;
 import model.Lectura;
 import model.PeriodoLectura;
 public interface LecturaDAO {
@@ -11,4 +12,6 @@ public interface LecturaDAO {
 	public void eliminarLectura(Lectura lectura) throws Exception;
 	public Lectura buscarLecturaId(Long id) throws Exception;
 	public List<Lectura> buscarLecturasPorPeriodo(PeriodoLectura perido)throws Exception;
+	public List<Lectura> buscarLecturasPorConexion(Conexion conexion)throws Exception;
+
 }
