@@ -78,12 +78,6 @@ public class ConfiguracionFacturaBean implements Serializable{
 	public void onRowEdit(RowEditEvent event) {
 		try {
 			ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();
-		//	System.out.println("HOLA: " + configuracionFactura.getId() + " " + configuracionFactura.getTramo1());
-			
-			//daoConfiguracionFactura.modificarConfiguracionFactura(configFact);
-			//System.out.println("HOLA HOLA"  + " " + ((ConfiguracionFactura) event.getObject()).getId() + " " +((ConfiguracionFactura) event.getObject()).getTramo1());
-			
-			System.out.println("HOLA: " + " " + configuracionFacturaEditar.getTramo1());
 			
 			daoConfiguracionFactura.modificarConfiguracionFactura(configuracionFacturaEditar);
 	        

@@ -120,14 +120,14 @@
 									var="tpoSoc" itemLabel="#{tpoSoc.descripcion}"
 									itemValue="#{tpoSoc.id}" />
 							</p:selectOneMenu>
-
+							
 							<p:outputLabel value="#{msg.paramSocioDocum}" for="documento"
 								rendered="#{socioBean.personaOEmp eq 'persona'}" />
-							<p:inputMask id="documento"
+							
+							<p:inputText id="documento"
 								value="#{socioBean.socio.numeroDocumento}" required="true"
-								mask="99999999"
-								rendered="#{socioBean.personaOEmp eq 'persona'}" />
-
+								converter="upperConverter"  maxlength="8" rendered="#{socioBean.personaOEmp eq 'persona'}" />
+							
 							<p:outputLabel value="#{msg.paramEmpresaCuit}" for="cuit"
 								rendered="#{socioBean.personaOEmp eq 'emp'}" />
 							<p:inputMask id="cuit" value="#{socioBean.socio.numeroDocumento}"
@@ -212,8 +212,7 @@
 								for="observaciones" rendered="#{socioBean.personaOEmp ne null}" />
 							<p:inputTextarea id="observaciones" autoResize="true"
 								value="#{socioBean.socio.observaciones}" rows="3" 
-								converter="upperConverter" rendered="#{socioBean.personaOEmp ne null}" />
-							
+								converter="upperConverter" rendered="#{socioBean.personaOEmp ne null}" />							
 						</p:panelGrid>
 						
 						<p:panelGrid columns="4" rendered="#{socioBean.personaOEmp ne null}" style="width:750px;">
@@ -256,7 +255,7 @@
 							<p:outputLabel value="#{msg.paramDomicilioPais}"
 								for="paisDom" />
 							<p:selectOneMenu id="paisDom" value="#{socioBean.paisDomId}"
-								panelStyle="width:180px" effect="fold" >
+								panelStyle="width:180px" effect="fold" required="true" >
 								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 								<f:selectItems value="#{paisBean.lstPaises}"
 									var="paisDom" itemLabel="#{paisDom.descripcion}"
@@ -265,7 +264,7 @@
 							<p:outputLabel value="#{msg.paramDomicilioProvincia}"
 								for="provincia" />
 							<p:selectOneMenu id="provincia" value="#{socioBean.provinciaDomId}"
-								panelStyle="width:180px" effect="fold" filter="true" >
+								panelStyle="width:180px" effect="fold" filter="true" required="true" >
 								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 								<f:selectItems value="#{provinciaBean.lstProvincia}"
 									var="provDom" itemLabel="#{provDom.descripcion}"
@@ -295,16 +294,29 @@
 						<p:panel>
 						<f:facet name="header">
 							<p:outputLabel value="Consulta de Socios"/>
+							<p:selectOneRadio id="seleccion2"
+								value="#{socioBean.filtroBusSoc}" colspan="2">
+								<f:selectItem itemLabel="Numero Socio" itemValue="numeroS" />
+								<f:selectItem itemLabel="Nombre Socio" itemValue="nombreS" />
+								<p:ajax process="seleccion2" update=":alta" />
+							</p:selectOneRadio>
 						</f:facet>
 						<p:panelGrid columns="2">
-							<p:outputLabel value="Numero Socio" for="socio" />
-							<p:inputText id="socio" value="#{socioBean.idSocio}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }">
+							<p:outputLabel value="Numero Socio" for="socio" rendered="#{socioBean.filtroBusSoc eq 'numeroS'}"/>
+							<p:inputText id="socio" value="#{socioBean.idSocio}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }"
+										rendered="#{socioBean.filtroBusSoc eq 'numeroS'}">
+								<p:ajax event="blur" update="socioDT"
+									listener="#{socioBean.retornarSocio}" />
+							</p:inputText>
+							<p:outputLabel value="Nombre Socio" for="socioNom" rendered="#{socioBean.filtroBusSoc eq 'nombreS'}"/>
+							<p:inputText id="socioNom" converter="upperConverter" value="#{socioBean.nombreSocBusq}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }"
+										rendered="#{socioBean.filtroBusSoc eq 'nombreS'}">
 								<p:ajax event="blur" update="socioDT"
 									listener="#{socioBean.retornarSocio}" />
 							</p:inputText>
 						</p:panelGrid>
-						<br/><br/><br/>
-						<p:dataTable id="socioDT" var="soc" value="#{socioBean.socioBusqueda}"
+						<br/><br/>
+						<p:dataTable id="socioDT" var="soc" value="#{socioBean.lstSocioBusqueda}"
 							scrollable="true" scrollHeight="150" rowKey="#{soc.numero}"
 							emptyMessage="#{msg.paramNoDatos}" >
 							<f:facet name="header">
@@ -355,7 +367,8 @@
 									oncomplete="PF('socEditDialog').show()" />
 							</p:column>
 						</p:dataTable>
-						</p:panel>				
+						</p:panel>
+										
 					</p:tab>
 				</p:tabView>
 			</h:form>
@@ -414,8 +427,12 @@
 									value="#{socioBean.socioSeleccionado.observaciones}" />
 								<p:outputLabel value="Condicion IVA:" />
 								<p:outputLabel
-									value="#{socioBean.socioSeleccionado.condicionIva.descripcion}" />					
-								<p:outputLabel value="ING Brutos:" />
+									value="#{socioBean.socioSeleccionado.condicionIva.descripcion}" />
+								<p:outputLabel value="Numero Iva:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.numeroIva}" />						
+								
+								<p:outputLabel value="ING Brutos:" />								
 								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.ingBrutos}" />	
 								<p:outputLabel value="Inscripto a Ganancias:" />

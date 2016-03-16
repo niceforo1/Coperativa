@@ -679,8 +679,6 @@ public class ConexionBean implements Serializable {
 	}
 
 	public void onRowEdit(RowEditEvent event) {
-		System.out.println("HOLA: " + conexionEditar.getDomicilioFacturacion().getLocalidad() + " "
-				+ conexionEditar.getDomicilioFacturacion().getProvincia().getDescripcion());
 		try {
 			// ProvinciaDAO provinciaDAO = new ProvinciaDAOImplement();
 			// conexionEditar.getDomicilioFacturacion().setProvincia(provinciaDAO.buscarProvinciaId(conexionEditar.getDomicilioFacturacion().getProvincia().getId()));

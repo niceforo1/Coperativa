@@ -101,8 +101,6 @@ public class PeriodoLecturaBean implements Serializable {
 			lstPer = periodoLecturaDAO.listaPeriodoLectura();
 
 			for (PeriodoLectura per : lstPer) {
-				System.out.println("HOLA: " + per.getAnio() + "-" + per.getMes() + " " + periodoLectura.getAnio() + "-"
-						+ periodoLectura.getMes());
 				if ((per.getAnio() == periodoLectura.getAnio()) && (per.getMes() == periodoLectura.getMes())) {
 					existe = true;
 				}

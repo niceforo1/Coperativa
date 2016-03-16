@@ -12,4 +12,5 @@ public interface SocioDAO {
 	public void modificarSocio(Socio socio)throws Exception;
 	public void eliminarSocio(Socio socio) throws Exception;
 	public Socio buscarSocioID(Long id) throws Exception;
+	public List<Socio> buscarSocioNombre(String nombre) throws Exception;
 }

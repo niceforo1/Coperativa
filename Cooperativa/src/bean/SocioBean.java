@@ -40,7 +40,10 @@ import model.TipoDocumento;
 public class SocioBean implements Serializable {
 	private Socio socio;
 	private Long idSocio;
-	private Socio socioBusqueda;
+	// private Socio socioBusqueda;
+	private List<Socio> lstSocioBusqueda;
+	private String nombreSocBusq;
+	private String filtroBusSoc;
 
 	private List<Socio> lstSocio;
 	private Socio socioSeleccionado;
@@ -77,12 +80,28 @@ public class SocioBean implements Serializable {
 		return idSocio;
 	}
 
-	public Socio getSocioBusqueda() {
-		return socioBusqueda;
+	public List<Socio> getLstSocioBusqueda() {
+		return lstSocioBusqueda;
 	}
 
-	public void setSocioBusqueda(Socio socioBusqueda) {
-		this.socioBusqueda = socioBusqueda;
+	public String getFiltroBusSoc() {
+		return filtroBusSoc;
+	}
+
+	public void setFiltroBusSoc(String filtroBusSoc) {
+		this.filtroBusSoc = filtroBusSoc;
+	}
+
+	public void setLstSocioBusqueda(List<Socio> lstSocioBusqueda) {
+		this.lstSocioBusqueda = lstSocioBusqueda;
+	}
+
+	public String getNombreSocBusq() {
+		return nombreSocBusq;
+	}
+
+	public void setNombreSocBusq(String nombreSocBusq) {
+		this.nombreSocBusq = nombreSocBusq;
 	}
 
 	public void setIdSocio(Long idSocio) {
@@ -292,10 +311,15 @@ public class SocioBean implements Serializable {
 	}
 
 	public void retornarSocio() {
-		socioBusqueda = new Socio();
+		lstSocioBusqueda = new ArrayList<Socio>();
 		SocioDAO socioDAO = new SocioDAOImplement();
 		try {
-			socioBusqueda =socioDAO.buscarSocioID(idSocio);
+			if (filtroBusSoc.equals("numeroS")) {
+				lstSocioBusqueda.add(socioDAO.buscarSocioID(idSocio));
+			} else {
+				lstSocioBusqueda = socioDAO.buscarSocioNombre(nombreSocBusq);
+			}
+
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al retornar Socio.", e.getMessage()));
@@ -350,6 +374,7 @@ public class SocioBean implements Serializable {
 			socio.setDomicilios(listaDom);
 			socio.setProvincia(domicilio.getProvincia());
 			SocioDAO socioDAO = new SocioDAOImplement();
+			socio.setApellidoRazonSocial(socio.getApellidoRazonSocial() + " " + socio.getNombreDenominacion());
 			socioDAO.insertarSocio(socio);
 
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -462,7 +487,7 @@ public class SocioBean implements Serializable {
 
 	public void inicializar() {
 		socio = new Socio();
-		//socioBusqueda = new Socio();
+		// socioBusqueda = new Socio();
 		socioSeleccionado = new Socio();
 		socioEditar = new Socio();
 		estadoSocioId = null;
@@ -481,6 +506,7 @@ public class SocioBean implements Serializable {
 		checkNacionalidad = false;
 		checkTipoIva = false;
 		idSocio = null;
+		nombreSocBusq = null;
 	}
 
 }
