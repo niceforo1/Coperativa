@@ -81,7 +81,7 @@ public class Socio implements Serializable {
 	@Column(name = "ING_BRUTOS", nullable = true)
 	private Long ingBrutos;
 
-	@Column(name = "NRO_IVA", nullable = false)
+	@Column(name = "NRO_IVA", nullable = true)
 	private Long numeroIva;
 
 	@OneToOne(cascade = CascadeType.PERSIST)

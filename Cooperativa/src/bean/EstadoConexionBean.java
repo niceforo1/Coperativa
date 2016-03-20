@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.EstadoConexionDAO;
 import dao.impl.EstadoConexionDAOImplement;
 import model.EstadoConexion;
@@ -15,6 +17,7 @@ import model.EstadoConexion;
 @ManagedBean(name="estadoConexionBean")
 @ViewScoped
 public class EstadoConexionBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(EstadoConexionBean.class); 
 
 	private List<EstadoConexion> listaEstadoConexion;
 	private EstadoConexion estadoConexion;
@@ -29,6 +32,7 @@ public class EstadoConexionBean implements Serializable {
 			listaEstadoConexion = daoEstConex.listaEstados();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Estado Conexion: " + e.getMessage());
 		}
 		return listaEstadoConexion;
 	}
@@ -62,6 +66,7 @@ public class EstadoConexionBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Estado Conexion: " + e.getMessage());
 		}
 	}
 	
@@ -79,6 +84,8 @@ public class EstadoConexionBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Eliminar Estado Conexion: " + e.getMessage());
+
 		}
 	}
 

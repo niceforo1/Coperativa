@@ -35,36 +35,26 @@
 							<p:outputLabel
 								value="#{consEstDeudaBean.conexion.domicilioServicio.barrio} #{consEstDeudaBean.conexion.domicilioServicio.calle} #{consEstDeudaBean.conexion.domicilioServicio.numero}"
 								id="socio1" />								
-					</p:panelGrid>	
-					
-					<ui:remove>			
-					<f:facet name="footer">
-						<center>
-							<p:commandButton 
-								actionListener="#{periodoFacturacionBean.insertarPeriodoFacturacion}"
-								update=":alta" value="#{msg.paramCargar}" disabled="#{periodoFacturacionBean.periodoAbiertoCons()}" /> 
-						</center>
-					</f:facet>
-					</ui:remove>
-				</p:panelGrid>
-				<br/>
-				<p:panelGrid columns="4">
-					<p:outputLabel value="Desde:" />
-					<p:calendar id="fechaDesde"
-							value="#{consEstDeudaBean.fechaDesde}" effect="explode"
-							required="true" locale="es" navigator="true" />
-					<p:outputLabel value="Hasta:" />
-					<p:calendar id="fechaHasta"
-							value="#{consEstDeudaBean.fechaHasta}" effect="explode"
-							required="true" locale="es" navigator="true" />
-					<f:facet name="footer">
-						<center>
-							<p:commandButton 
-								actionListener="#{consEstDeudaBean.retornarPeriodosFiltrados}"
-								update=":alta :mostrar" value="Consultar" /> 
-						</center>
-					</f:facet>
-				</p:panelGrid>
+						</p:panelGrid>	
+					</p:panelGrid>
+					<br/>
+					<p:panelGrid columns="4">
+						<p:outputLabel value="Desde:" />
+						<p:calendar id="fechaDesde"
+								value="#{consEstDeudaBean.fechaDesde}" effect="explode"
+								required="true" locale="es" navigator="true" />
+						<p:outputLabel value="Hasta:" />
+						<p:calendar id="fechaHasta"
+								value="#{consEstDeudaBean.fechaHasta}" effect="explode"
+								required="true" locale="es" navigator="true" />
+						<f:facet name="footer">
+							<center>
+								<p:commandButton 
+									actionListener="#{consEstDeudaBean.retornarPeriodosFiltrados}"
+									update=":alta :mostrar" value="Consultar" /> 
+							</center>
+						</f:facet>
+					</p:panelGrid>
 				</p:panel>
 			</h:form>
 

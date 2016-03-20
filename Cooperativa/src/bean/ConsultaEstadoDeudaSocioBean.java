@@ -1,5 +1,6 @@
 package bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -10,18 +11,25 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import com.sun.faces.context.flash.ELFlash;
 
 import dao.ConexionDAO;
+import dao.FacturaDAO;
 import dao.PeriodosSaldosDAO;
 import dao.impl.ConexionDAOImplement;
+import dao.impl.FacturaDAOImplement;
 import dao.impl.PeriodosSaldosDAOImplement;
 import model.Conexion;
+import model.Factura;
 import model.PeriodosSaldos;
 
 @ManagedBean(name = "consEstDeudaBean")
 @ViewScoped
-public class ConsultaEstadoDeudaSocioBean {
+public class ConsultaEstadoDeudaSocioBean implements Serializable{
+	private static final Logger LOG = Logger.getLogger(ConsultaEstadoDeudaSocioBean.class); 
+
 	private long conexionID;
 	private Conexion conexion;
 	private Date fechaDesde;
@@ -30,6 +38,28 @@ public class ConsultaEstadoDeudaSocioBean {
 	private List<PeriodosSaldos> lstPeriodosSaldos;
 	private PeriodosSaldos perSaldoSeleccionado;
 	private List<PeriodosSaldos> lstPeriodosSaldosCobrar;
+	private List<Factura> facturaPorConexion;
+
+	public ConsultaEstadoDeudaSocioBean() {
+		inicializar();
+	}
+
+	public List<Factura> getFacturaPorConexion() {
+		facturaPorConexion = new ArrayList<Factura>();
+		FacturaDAO facturaDAO = new FacturaDAOImplement();
+		try {
+			facturaPorConexion = facturaDAO.listaFacturaConexion(conexionID);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No puede buscar las factura para la conexión. "+e.getMessage()));
+			LOG.error("Error al obtener lista Factura por Conexion: "+ e.getMessage());
+		}
+		return facturaPorConexion;
+	}
+
+	public void setFacturaPorConexion(List<Factura> facturaPorConexion) {
+		this.facturaPorConexion = facturaPorConexion;
+	}
 
 	public PeriodosSaldos getPerSaldoSeleccionado() {
 		return perSaldoSeleccionado;
@@ -37,10 +67,6 @@ public class ConsultaEstadoDeudaSocioBean {
 
 	public void setPerSaldoSeleccionado(PeriodosSaldos perSaldoSeleccionado) {
 		this.perSaldoSeleccionado = perSaldoSeleccionado;
-	}
-
-	public ConsultaEstadoDeudaSocioBean() {
-		inicializar();
 	}
 
 	public List<PeriodosSaldos> getLstPeriodosSaldos() {
@@ -111,6 +137,7 @@ public class ConsultaEstadoDeudaSocioBean {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"Error al buscar conexión: " + e.getMessage()));
+			LOG.error("Error al Retornar Conexion: "+ e.getMessage());
 		}
 	}
 
@@ -125,6 +152,7 @@ public class ConsultaEstadoDeudaSocioBean {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"Error al buscar periodo saldos: " + e.getMessage()));
+			LOG.error("Error al Retornar Periodos Filtrados: "+ e.getMessage());
 		}
 	}
 
@@ -144,9 +172,10 @@ public class ConsultaEstadoDeudaSocioBean {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"No existen periodos seleccionados para cobrar"));
+			LOG.error("Error No existen periodos seleccionados para cobrar: ");
 		}
 		return "";
-	}	
+	}
 
 	private void inicializar() {
 		conexion = new Conexion();

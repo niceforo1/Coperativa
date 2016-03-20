@@ -13,35 +13,34 @@
 	</ui:define>
 	<ui:define name="content">
 
-<style>
-.ACTIVA {
-	color: green;
-	font-weight: bold;
-}
-
-.BAJA {
-	color: red;
-	font-weight: bold;
-}
-
-.LIMITADA {
-	color: orange;
-	font-weight: bold;
-}
-
-.EN REPARACION {
-	color: yellow;
-	font-weight: bold;
-}
-
-.label {
-	font-weight: bold;
-}
-</style>
+	<style>
+		.ACTIVA {
+			color: green;
+			font-weight: bold;
+		}
+		
+		.BAJA {
+			color: red;
+			font-weight: bold;
+		}
+		
+		.LIMITADA {
+			color: orange;
+			font-weight: bold;
+		}
+		
+		.EN REPARACION {
+			color: yellow;
+			font-weight: bold;
+		}
+		
+		.label {
+			font-weight: bold;
+		}
+	</style>
 		<center>
-			<h:form id="alta">		
-				
-				
+			<h:form id="alta">
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />
 				<p:tabView dynamic="true" cache="true">
 					<p:tab id="consulta" title="Consulta Conexion">
 						<p:panel>
@@ -77,6 +76,9 @@
 							
 							<p:column headerText="#{msg.paramConexionCalle}">
 								<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
+							</p:column>
+							<p:column headerText="Estado">
+								<h:outputText value="#{conex.estadoConexion.descripcion}" />
 							</p:column>
 							
 							<p:column style="width:32px;text-align: center"
@@ -902,7 +904,7 @@
 									<center>
 										<p:commandButton id="Editar" value="Modificar"
 											actionListener="#{conexionBean.editarConexion()}"
-											update=" :conexEdit" onclick="conexEdit.hide()" />
+											update=":alta :conexEdit" onclick="conexEdit.hide()" />
 									</center>
 								</f:facet>
 								

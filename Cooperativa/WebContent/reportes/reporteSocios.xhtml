@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="Reporte Planilla Lectura]" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+		<center>
+			<h:form id="repSocEst">				
+				<p:panel style="width: 300px;">
+					<f:facet name="header">
+						<p:outputLabel value="Reportes de Socios Estado" />
+					</f:facet>	
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Estado Socio" for="estadoSoc" />
+						<p:selectOneMenu id="estadoSoc" value="#{reportBean.estadoSocio}"
+							panelStyle="width:180px" effect="fold" >
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{estadoSocioBean.listaEstadoSocio}"
+								var="estadoSoc" itemLabel="#{estadoSoc.descripcion}"
+								itemValue="#{estadoSoc.id},#{estadoSoc.descripcion}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Zona" for="zona" />
+						<p:selectOneMenu id="zona" value="#{reportBean.zona}"
+							panelStyle="width:180px" effect="fold" >
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{zonaConexionBean.listaZonasConexion}"
+								var="zonasVal" itemLabel="#{zonasVal.descripcion}"
+								itemValue="#{zonasVal.id},#{zonasVal.descripcion}" />
+						</p:selectOneMenu>
+																
+						<f:facet name="footer">
+							<center>								
+								<p:commandButton action="#{reportBean.verSociosEstado}"
+						 						value="Socio Estado" />								
+							</center>
+						</f:facet>
+					</p:panelGrid>
+				</p:panel>					
+			</h:form>						
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

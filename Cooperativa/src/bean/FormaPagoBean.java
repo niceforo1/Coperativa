@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.FormaPagoDAO;
 import dao.impl.FormaPagoDAOImplement;
 import model.FormaPago;
@@ -15,7 +17,7 @@ import model.FormaPago;
 @ManagedBean(name="formaPagoBean")
 @ViewScoped
 public class FormaPagoBean implements Serializable	{
-
+	private static final Logger LOG = Logger.getLogger(FormaPagoBean.class);
 	private List<FormaPago> listaFormaPago;
 	private FormaPago formaPago;
 	
@@ -29,6 +31,7 @@ public class FormaPagoBean implements Serializable	{
 			listaFormaPago = daoFormaPago.listaFormaPago();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Forma Pago: " + e.getMessage());
 		}
 		return listaFormaPago;
 	}
@@ -59,6 +62,7 @@ public class FormaPagoBean implements Serializable	{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error Insertar Forma Pago: " + e.getMessage());
 		}
 	}
 	
@@ -76,6 +80,7 @@ public class FormaPagoBean implements Serializable	{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error Eliminar Forma Pago: " + e.getMessage());
 		}
 	}
 	private void inicializar(){

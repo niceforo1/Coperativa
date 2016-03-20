@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.TipoDocumentoDAO;
 import dao.impl.TipoDocumentoDAOImplement;
 import model.TipoDocumento;
@@ -16,6 +18,7 @@ import model.TipoDocumento;
 @ViewScoped
 
 public class TipoDocumentoBean implements Serializable{
+	private static final Logger LOG = Logger.getLogger(TipoDocumentoBean.class);
 
 	private List<TipoDocumento> listaTipoDocumento;
 	private List<TipoDocumento> listaTipoDocumentoCUIT;
@@ -32,6 +35,7 @@ public class TipoDocumentoBean implements Serializable{
 			listaTipoDocumento = daoTipoDocumento.listaTipoDocumento();
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Tipo Documento: " + e.getMessage());
 		}
 		return listaTipoDocumento;
 	}
@@ -46,6 +50,7 @@ public class TipoDocumentoBean implements Serializable{
 			listaTipoDocumentoCUIT = daoTipoDocumento.listaTipoDocumentoCUIT();
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Tipo Documento CUIT: " + e.getMessage());
 		}
 		return listaTipoDocumentoCUIT;
 	}
@@ -70,8 +75,8 @@ public class TipoDocumentoBean implements Serializable{
 			inicializar();
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " +e.getMessage()));
-		}
-		
+			LOG.error("Error al Insertar Tipo Documento: " + e.getMessage());
+		}		
 	}
 	
 	public void eliminarTipoDocumento(TipoDocumento tipoDocumento){
@@ -81,6 +86,7 @@ public class TipoDocumentoBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se eliminó correctamente."));
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al Eliminar Tipo Documento: " + e.getMessage());
 		}				
 	}
 	private void inicializar(){

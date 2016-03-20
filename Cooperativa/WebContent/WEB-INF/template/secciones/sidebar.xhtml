@@ -31,17 +31,21 @@
             <p:menuitem value="Lecturas" url="/conexiones/lecturas.xhtml" icon="ui-icon-document" />
         </p:submenu>
 
-	        <p:submenu label="Facturación" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
-	        	<p:menuitem value="Período Facturación" url="/facturacion/periodoFacturacion.xhtml" icon="ui-icon-document" />
-	        	<p:menuitem value="Configuración Factura" url="/facturacion/configuracionFactura.xhtml" icon="ui-icon-document" />
-	        	<p:menuitem value="Consulta Estado Deuda Socio" url="/facturacion/estadoDeudaSocio.xhtml" icon="ui-icon-document" />
-	        </p:submenu>
-	        <p:submenu label="Reportes" > 
-				<p:menuitem value="Planilla de Lecturas" url="/reportes/planillaLectura.xhtml" icon="ui-icon-document" />
-			</p:submenu>
-			<p:submenu label="Usuarios" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}"> 
-				<p:menuitem value="Alta Usuario" url="/usuarios/altaUsuarios.xhtml" icon="ui-icon-document" />
-			</p:submenu>
+        <p:submenu label="Facturación" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+        	<p:menuitem value="Período Facturación" url="/facturacion/periodoFacturacion.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Configuración Factura" url="/facturacion/configuracionFactura.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Consulta Estado Deuda Socio" url="/facturacion/estadoDeudaSocio.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Emision Factura Individual" url="/facturacion/emisionFacturaIndividual.xhtml" icon="ui-icon-document" />
+        	
+        </p:submenu>
+        <p:submenu label="Reportes" > 
+			<p:menuitem value="Planilla de Lecturas" url="/reportes/planillaLectura.xhtml" icon="ui-icon-document" />
+			<p:menuitem value="Reporte de Socios" url="/reportes/reporteSocios.xhtml" icon="ui-icon-document" />
+			<p:menuitem value="Reporte Socios/Conexiones" url="/reportes/reporteSociosConexiones.xhtml" icon="ui-icon-document" />				
+		</p:submenu>
+		<p:submenu label="Usuarios" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}"> 
+			<p:menuitem value="Alta Usuario" url="/usuarios/altaUsuarios.xhtml" icon="ui-icon-document" />
+		</p:submenu>
 	</p:panelMenu>
 </h:body>
 </html>

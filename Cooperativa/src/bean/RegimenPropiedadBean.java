@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.RegimenPropiedadDAO;
 import dao.impl.RegimenPropiedadDAOImplement;
 import model.RegimenPropiedad;
@@ -15,6 +17,7 @@ import model.RegimenPropiedad;
 @ManagedBean(name="regimenPropiedadBean")
 @ViewScoped
 public class RegimenPropiedadBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(RegimenPropiedadBean.class);
 
 	private List<RegimenPropiedad> listaRegimenPropiedad;
 	private RegimenPropiedad regimenPropiedad;
@@ -29,6 +32,7 @@ public class RegimenPropiedadBean implements Serializable {
 			listaRegimenPropiedad = daotipoRegimenPropiedad.listaRegimenPropiedad();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Regimen Propiedad: " + e.getMessage());
 		}
 		return listaRegimenPropiedad;
 	}
@@ -60,6 +64,7 @@ public class RegimenPropiedadBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Regimen Propiedad: " + e.getMessage());
 		}
 	}
 	
@@ -77,6 +82,8 @@ public class RegimenPropiedadBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Eliminar Regimen Propiedad: " + e.getMessage());
+
 		}
 	}
 	private void inicializar(){

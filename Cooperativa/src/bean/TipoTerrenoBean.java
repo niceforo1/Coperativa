@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.TipoTerrenoDAO;
 import dao.impl.TipoTerrenoDAOImplement;
 import model.TipoTerreno;
@@ -15,6 +17,7 @@ import model.TipoTerreno;
 @ManagedBean(name="tipoTerrenoBean")
 @ViewScoped
 public class TipoTerrenoBean implements Serializable{
+	private static final Logger LOG = Logger.getLogger(TipoTerrenoBean.class);
 
 	private List<TipoTerreno> listaTiposTerreno;
 	private TipoTerreno tipoTerreno;
@@ -29,6 +32,7 @@ public class TipoTerrenoBean implements Serializable{
 			listaTiposTerreno = daotipoTerreno.listaTipoTerreno();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Tipos Terreno: " + e.getMessage());
 		}
 		return listaTiposTerreno;
 	}
@@ -59,6 +63,7 @@ public class TipoTerrenoBean implements Serializable{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Tipo Terreno: " + e.getMessage());
 		}
 	}
 	
@@ -76,6 +81,7 @@ public class TipoTerrenoBean implements Serializable{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Eliminar Tipo Terreno: " + e.getMessage());
 		}
 	}
 	

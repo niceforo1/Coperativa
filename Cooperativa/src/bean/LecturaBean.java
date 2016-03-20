@@ -13,6 +13,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import com.sun.faces.context.flash.ELFlash;
 
 import dao.ConexionDAO;
@@ -31,7 +33,7 @@ import model.PeriodoLectura;
 @ManagedBean(name = "lecturaBean")
 @ViewScoped
 public class LecturaBean implements Serializable {
-
+	private static final Logger LOG = Logger.getLogger(LecturaBean.class);
 	private Lectura lectura;
 	private String mensajeBlur;
 	private long conexionID;
@@ -178,7 +180,6 @@ public class LecturaBean implements Serializable {
 				if(conexion.getLecturas().get(0).getPeriodoLectura().getId().equals(periodo.getId())){
 					FacesContext.getCurrentInstance().addMessage(null,
 							new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ya se encuentra una lectura cargada para este período."));
-
 					permiteCarga = true;
 				}				
 			}
@@ -199,6 +200,7 @@ public class LecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"Error al buscar conexión: " + e.getMessage()));
+			LOG.error("Error al Retornar Conexion: "+e.getMessage());
 		}
 
 	}
@@ -211,6 +213,7 @@ public class LecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"Error al buscar Configuración Lectura: " + e.getMessage()));
+			LOG.error("Error al Mostrar Aviso: "+e.getMessage());
 		}
 		if ((lectura.getLecturaActual() - lectura.getLecturaAnterior()) > confLectura.getMonto()) {
 			mensajeBlur = " Verifique este campo. ";
@@ -235,6 +238,7 @@ public class LecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"Error al Insertar Lectura: " + e.getMessage()));
+			LOG.error("Error al Insertar Lectura: "+e.getMessage());
 		}
 		lectura = new Lectura();
 		conexion = new Conexion();
@@ -255,6 +259,7 @@ public class LecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No existe Período Abierto."));
+			LOG.error("Error al Buscar Periodo Lectura Abierto: "+e.getMessage());
 		}
 	}
 
@@ -269,6 +274,7 @@ public class LecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Obtener Conexion Busq: "+e.getMessage());
 		}
 	}
 

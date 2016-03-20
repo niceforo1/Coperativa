@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.PaisDAO;
 import dao.impl.PaisDAOImplement;
 import model.Pais;
@@ -15,6 +17,8 @@ import model.Pais;
 @ManagedBean(name = "paisBean")
 @ViewScoped
 public class PaisBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(PaisBean.class);
+
 	private List<Pais> lstPaises;
 	private Pais pais;
 
@@ -31,6 +35,7 @@ public class PaisBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
 							.getMessage()));
+			LOG.error("Error al obtener Lista Paises: " + e.getMessage());
 		}
 		return lstPaises;
 	}
@@ -55,6 +60,7 @@ public class PaisBean implements Serializable {
 			inicializar();
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " +e.getMessage()));
+			LOG.error("Error al obtener Insertar Pais: " + e.getMessage());
 		}
 	}
 	
@@ -65,6 +71,7 @@ public class PaisBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se eliminó correctamente."));
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al obtener Eliminar Pais: " + e.getMessage());
 		}
 	}
 	

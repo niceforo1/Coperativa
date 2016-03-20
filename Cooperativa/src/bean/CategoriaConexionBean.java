@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.CategoriaConexionDAO;
 import dao.impl.CategoriaConexionDAOImplement;
 import model.CategoriaConexion;
@@ -15,6 +17,7 @@ import model.CategoriaConexion;
 @ManagedBean(name="categoriaConexionBean")
 @ViewScoped
 public class CategoriaConexionBean implements Serializable{
+	private static final Logger LOG = Logger.getLogger(CategoriaConexionBean.class); 
 
 	private List<CategoriaConexion> listaCategoriaConexion;
 	private CategoriaConexion categoriaConexion;
@@ -29,6 +32,7 @@ public class CategoriaConexionBean implements Serializable{
 			listaCategoriaConexion = daoCategoriaConexion.listaCategoriaConexion();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Categoria Conexion: "+e.getMessage());
 		}
 		return listaCategoriaConexion;
 	}
@@ -60,6 +64,8 @@ public class CategoriaConexionBean implements Serializable{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al obtener Insertar Categoria Conexion: "+e.getMessage());
+
 		}
 	}
 	
@@ -77,6 +83,8 @@ public class CategoriaConexionBean implements Serializable{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al obtener Eliminar Categoria Conexion: "+e.getMessage());
+
 		}
 	}
 	private void inicializar(){

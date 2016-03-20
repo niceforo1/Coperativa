@@ -21,12 +21,6 @@ public class CJasperReports {
 	
 	public static void createReport(Connection cnn,JasperReport report, HashMap<String,Object> hash){
 		try{
-			//Connection cnn, String path, HashMap<String,Object> hash
-			//report = (JasperReport) JRLoader.loadObjectFromFile(path);
-			
-			//HashMap<String,Object> parametros = new HashMap<String,Object>();
-			//parametros.put("Estado","VIGENTE");
-			
 			reportFilled = new JasperPrint();
 			reportFilled = JasperFillManager.fillReport(report,hash,cnn);
 		}catch(JRException e){
@@ -37,8 +31,7 @@ public class CJasperReports {
 	public static void showViewer(){
 		viewer = new JasperViewer(reportFilled);
 		//viewer.setVisible(true);
-		viewer.viewReport(reportFilled, false);
-		
+		viewer.viewReport(reportFilled, false);		
 	}
 		
 }	

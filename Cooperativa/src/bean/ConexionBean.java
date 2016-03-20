@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
 import org.jfree.data.ComparableObjectItem;
 import org.primefaces.event.RowEditEvent;
 
@@ -56,6 +57,7 @@ import model.UbicacionCatastral;
 @ManagedBean(name = "conexionBean")
 @ViewScoped
 public class ConexionBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(ConexionBean.class); 
 
 	private List<Socio> lstSociosActivos;
 	private Socio socio;
@@ -119,6 +121,7 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al retornar Socio.", e.getMessage()));
+			LOG.error("Error al Retornar Socio: " +e.getMessage());
 		}
 	}
 
@@ -153,6 +156,7 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al Lista Socios Activos: " +e.getMessage());
 		}
 		return lstSociosActivos;
 	}
@@ -269,6 +273,7 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al Obtener Lista Conexiones: " + e.getMessage());
 		}
 		return lstConexiones;
 	}
@@ -544,6 +549,7 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Conexion: " + e.getMessage());
 		}
 	}
 
@@ -563,6 +569,8 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Obtener Conexiones Socio: " + e.getMessage());
+
 		}
 
 		return lista;
@@ -576,6 +584,8 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Obtener Conexiones Busqueda: " + e.getMessage());
+
 		}
 	}
 
@@ -585,16 +595,14 @@ public class ConexionBean implements Serializable {
 
 		try {
 			conexion.setEstadoConexion(daoEstadoConexion.buscarEstadoConexion(estado));
-
 			// faltan las transacciones
-
 			daoConexion.modificarConexion(conexion);
-
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Correctamente", "La conexión se modifico correctamente."));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Cambiar Estado Conexion: " + e.getMessage());
 		}
 	}
 
@@ -654,6 +662,7 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Editar Conexion: " + e.getMessage());
 		}
 	}
 
@@ -675,6 +684,7 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Editar Datos Tarjeta: " + e.getMessage());
 		}
 	}
 
@@ -695,6 +705,8 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error en On Row Edit: " + e.getMessage());
+
 		}
 	}
 

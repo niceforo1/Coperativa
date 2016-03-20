@@ -17,19 +17,20 @@
 		<center>
 			<h:form id="alta">
 				<center>
-					<p:panelGrid columns="1">
-					<f:facet name="footer">
+					<p:panel style="width: 300px;">
+					<f:facet name="header">
 						<p:outputLabel value="PLANILLA LECTURAS" />
-					</f:facet>												
+					</f:facet>	
+					<p:panelGrid columns="1">
+																
 					<f:facet name="footer">
 							<center>								
 								<p:commandButton actionListener="#{reportBean.verPlanillaLectura}"
 						 value="Planilla de Lecturas" />								
 							</center>
 						</f:facet>
-					</p:panelGrid>					
-				
-					
+					</p:panelGrid>
+					</p:panel>					
 				</center>
 			</h:form>
 		</center>

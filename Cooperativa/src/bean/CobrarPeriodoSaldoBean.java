@@ -12,6 +12,8 @@ import javax.faces.bean.ViewScoped;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import com.sun.faces.context.flash.ELFlash;
 
 import dao.ConexionesSaldosDAO;
@@ -43,6 +45,8 @@ import model.TipoComprobante;
 @ManagedBean(name = "cobrarPeriodoSaldoBean")
 @ViewScoped
 public class CobrarPeriodoSaldoBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(CobrarPeriodoSaldoBean.class); 
+
 	private List<PeriodosSaldos> lstPeriodosSaldos;
 	private Double subTotal;
 	private Double interesGlobal;
@@ -141,7 +145,9 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 			formaPago = formaPagoDAO.buscarFormaPagoId(formaPagoID);
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al buscar periodo Cesp", e.getMessage()));			
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al buscar periodo Cesp", e.getMessage()));
+			LOG.error("Error al buscar periodo Cesp: "+e.getMessage());
+			return;
 		}
 		Date fechaAct = new Date();
 		if (fechaAct == null || fechaAct.after(perCesp.getFechaVtoCesp())) {
@@ -163,7 +169,10 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 						tipoComprobante = tipoComprobanteDAO.buscarTipoComprobanteId(2L);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOG.error("Error al buscar factura per saldo: "+e.getMessage());
+					FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al buscar factura período saldo", e.getMessage()));
+					return;
 				}
 
 				Recibo recibo = new Recibo();
@@ -265,6 +274,7 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 				} catch (Exception e) {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",
 							"No se pudo cobrar el recibo: " + e.getMessage()));
+					LOG.error("No se puede cobrar el recibo, error insertar recibo o conex saldo o per saldo. " +e.getMessage());
 				}
 			}
 		}		

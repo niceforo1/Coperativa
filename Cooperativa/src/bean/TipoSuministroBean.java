@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.FormaPagoDAO;
 import dao.TipoSuministroDAO;
 import dao.impl.FormaPagoDAOImplement;
@@ -18,6 +20,7 @@ import model.TipoSuministro;
 @ManagedBean(name="tipoSuministroBean")
 @ViewScoped
 public class TipoSuministroBean	implements Serializable {
+	private static final Logger LOG = Logger.getLogger(TipoSuministroBean.class);
 
 	private List<TipoSuministro> listaTipoSuministro;
 	private TipoSuministro tipoSuministro;
@@ -32,6 +35,7 @@ public class TipoSuministroBean	implements Serializable {
 			listaTipoSuministro = daoTipoSuministro.listaTipoSuministro();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Tipo Suministro: " + e.getMessage());
 		}
 		return listaTipoSuministro;
 	}
@@ -62,6 +66,7 @@ public class TipoSuministroBean	implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Tipo Suministro: " + e.getMessage());
 		}
 	}
 	
@@ -79,6 +84,7 @@ public class TipoSuministroBean	implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Eliminar Tipo Suministro: " + e.getMessage());
 		}
 	}
 	private void inicializar(){

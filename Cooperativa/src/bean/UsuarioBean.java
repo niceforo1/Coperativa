@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import utils.UtilidadesVarias;
 import dao.UsuarioDAO;
 import dao.UsuarioTiposDAO;
@@ -19,6 +21,8 @@ import model.UsuarioTipo;
 @ManagedBean(name = "usuarioBean")
 @ViewScoped
 public class UsuarioBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(UsuarioBean.class);
+
 	private Usuario usuario;
 	private String passRep;
 	private List<UsuarioTipo> lstTipoUsu;
@@ -69,6 +73,7 @@ public class UsuarioBean implements Serializable {
 							new FacesMessage(FacesMessage.SEVERITY_ERROR,
 									"Error", "Error al buscar Usuarios Tipos: "
 											+ e.getMessage()));
+			LOG.error("Error al obtener Lista Tipo Usuario: " + e.getMessage());
 		}
 		return lstTipoUsu;
 	}
@@ -87,11 +92,13 @@ public class UsuarioBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Correctamente", "Se cargó correctamente."));
+			
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Usuario: " + e.getMessage());
 		}
 	}
 }

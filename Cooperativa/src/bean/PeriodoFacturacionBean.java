@@ -12,6 +12,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.ConceptoFacturacionDAO;
 import dao.ConexionDAO;
 import dao.ConexionesSaldosDAO;
@@ -53,6 +55,8 @@ import model.SociosTransacciones;
 @ManagedBean(name = "periodoFacturacionBean")
 @ViewScoped
 public class PeriodoFacturacionBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(PeriodoFacturacionBean.class);
+
 	final static String NORMAL= "NORMAL";
 	final static String CANON = "CANON";
 	private PeriodoFacturacion periodoFacturacion;
@@ -89,6 +93,7 @@ public class PeriodoFacturacionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Periodo Facturacion: " + e.getMessage());
 		}
 		return lstPeriodoFacturacion;
 		
@@ -106,6 +111,7 @@ public class PeriodoFacturacionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al Periodo Facturacion En Proceso: " + e.getMessage());
 		}
 		return periodoFacturacionEnProceso;
 	}
@@ -153,6 +159,8 @@ public class PeriodoFacturacionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Periodo Facturacion: " + e.getMessage());
+
 		}
 	}
 
@@ -172,6 +180,8 @@ public class PeriodoFacturacionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Cambiar Estado Periodo: " + e.getMessage());
+
 		}
 	}
 
@@ -267,14 +277,14 @@ public class PeriodoFacturacionBean implements Serializable {
 				try{
 					daoFactura.insertarFactura(fact);				
 				}catch(Exception ex){
-					System.out.println(("Error al grabar factura: " +ex.getMessage()));
+					LOG.error("Error al grabar factura: " + ex.getMessage());
 					throw new Exception("Error al grabar factura: " +ex.getMessage());
 				}
 				ConexionesSaldos conSaldo = null;
 				try{
 					conSaldo = conexionesSaldosDAO.buscarConexionesSaldosConexion(fact.getConexion().getId());
 				}catch(Exception ex){
-					System.out.println(("Error al obtener Saldo Conexion: " +ex.getMessage()));
+					LOG.error("Error al obtener Saldo Conexion: " + ex.getMessage());
 					throw new Exception("Error al obtener Saldo Conexion: " +ex.getMessage());
 				}
 				try{
@@ -290,7 +300,7 @@ public class PeriodoFacturacionBean implements Serializable {
 						conexionesSaldosDAO.insertarConexionesSaldos(conSaldo);
 					}					
 				}catch(Exception ex){
-					System.out.println(("Error modificar/grabar Saldo Conexion: " +ex.getMessage()));
+					LOG.error("Error modificar/grabar Saldo Conexion: " + ex.getMessage());
 					throw new Exception("Error modificar/grabar Saldo Conexion: " +ex.getMessage());
 				}					
 				try{
@@ -303,7 +313,7 @@ public class PeriodoFacturacionBean implements Serializable {
 					perSaldo.setSaldo(0F - fact.getImporteTotal());
 					periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);		
 				}catch(Exception ex){
-					System.out.println(("Error modificar/grabar Saldo Periodo Conexion: " +ex.getMessage()));
+					LOG.error("Error modificar/grabar Saldo Periodo Conexion: " + ex.getMessage());
 					throw new Exception("Error modificar/grabar Saldo Periodo Conexion: " +ex.getMessage());
 				}
 						
@@ -344,14 +354,14 @@ public class PeriodoFacturacionBean implements Serializable {
 					try{
 						daoFactura.insertarFactura(fact);				
 					}catch(Exception ex){
-						System.out.println(("Error al grabar factura Canon: " +ex.getMessage()));
+						LOG.error("Error al grabar factura Canon: " + ex.getMessage());
 						throw new Exception("Error al grabar factura Canon: " +ex.getMessage());
 					}
 					ConexionesSaldos conSaldo =null;
 					try{
 						conSaldo= conexionesSaldosDAO.buscarConexionesSaldosConexion(fact.getConexion().getId());
 					}catch(Exception ex){
-						System.out.println(("Error al Obtener Saldo Conexion Canon: " +ex.getMessage()));
+						LOG.error("Error al Obtener Saldo Conexion Canon: " + ex.getMessage());
 						throw new Exception("Error al Obtener Saldo Conexion Canon: " +ex.getMessage());
 					}
 					try{
@@ -367,7 +377,7 @@ public class PeriodoFacturacionBean implements Serializable {
 							conexionesSaldosDAO.insertarConexionesSaldos(conSaldo);
 						}
 					}catch(Exception ex){
-						System.out.println(("Error al modificar/grabar Saldo Conexion Canon: " +ex.getMessage()));
+						LOG.error("Error al modificar/grabar Saldo Conexion Canon: " + ex.getMessage());
 						throw new Exception("Error al modificar/grabar Saldo Conexion Canon: " +ex.getMessage());
 					}
 					try{
@@ -380,13 +390,13 @@ public class PeriodoFacturacionBean implements Serializable {
 						perSaldo.setSaldo(0F - fact.getImporteTotal());
 						periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);
 					}catch(Exception ex){
-						System.out.println(("Error al modificar/grabar Periodos Saldo Conexion Canon: " +ex.getMessage()));
+						LOG.error("Error al modificar/grabar Periodos Saldo Conexion Canon: " + ex.getMessage());
 						throw new Exception("Error al modificar/grabar Periodos Saldo Conexion Canon: " +ex.getMessage());
 					}
 				}			
 			}
 		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
+			LOG.error("Error General Facturacion " + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}

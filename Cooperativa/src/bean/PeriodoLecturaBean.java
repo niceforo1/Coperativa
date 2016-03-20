@@ -12,6 +12,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.EstadoPeriodoDAO;
 import dao.EstadoSocioDAO;
 import dao.PeriodoLecturaDAO;
@@ -27,6 +29,8 @@ import model.SociosTransacciones;
 @ManagedBean(name = "periodoLecturaBean")
 @ViewScoped
 public class PeriodoLecturaBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(PeriodoLecturaBean.class);
+
 	private PeriodoLectura periodoLectura;
 	private List<PeriodoLectura> lstPeriodoLectura;
 	private PeriodoLectura periodoLecturaEnProceso;
@@ -61,6 +65,7 @@ public class PeriodoLecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Periodo Lectura: " + e.getMessage());
 		}
 		return lstPeriodoLectura;
 	}
@@ -76,6 +81,7 @@ public class PeriodoLecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Periodo Lectura En Proceso: " + e.getMessage());
 		}
 		return periodoLecturaEnProceso;
 	}
@@ -105,7 +111,6 @@ public class PeriodoLecturaBean implements Serializable {
 					existe = true;
 				}
 			}
-
 			if (existe == false) {
 				periodoLectura.setEstadoPeriodo(estadoPeriodoDAO.buscarEstadoPeriodo("EN PROCESO"));
 				periodoLectura.setUsuarioAltaPeriodo(login.getUsuario());
@@ -114,8 +119,7 @@ public class PeriodoLecturaBean implements Serializable {
 
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Correctamente", "El Período se agregó correctamente."));
-			}
-			else{
+			}else{
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: Período ya cargado. "));
 			}
@@ -123,8 +127,8 @@ public class PeriodoLecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Periodo Lectura: " + e.getMessage());
 		}
-
 	}
 
 	public void cambiarEstadoPeriodo(String estado, PeriodoLectura periodo) {
@@ -142,6 +146,7 @@ public class PeriodoLecturaBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Cambiar Estado Periodo: " + e.getMessage());
 		}
 	}
 

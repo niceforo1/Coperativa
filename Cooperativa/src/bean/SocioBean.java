@@ -11,6 +11,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.CondicionIvaDAO;
 import dao.DomicilioDAO;
 import dao.EstadoCivilDAO;
@@ -30,6 +32,7 @@ import dao.impl.SocioDAOImplement;
 import dao.impl.TipoDocumentoDAOImplement;
 import dao.impl.TipoDomicilioDAOImplement;
 import dao.impl.TipoSocioDAOImplement;
+import model.Conexion;
 import model.Domicilio;
 import model.Socio;
 import model.SociosTransacciones;
@@ -38,6 +41,8 @@ import model.TipoDocumento;
 @ManagedBean(name = "socioBean")
 @ViewScoped
 public class SocioBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(SocioBean.class);
+
 	private Socio socio;
 	private Long idSocio;
 	// private Socio socioBusqueda;
@@ -143,6 +148,7 @@ public class SocioBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Socio: " + e.getMessage());
 		}
 		return lstSocio;
 	}
@@ -174,6 +180,7 @@ public class SocioBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Tipo Documento: " + e.getMessage());
 		}
 		return tipoDocumento;
 	}
@@ -323,6 +330,7 @@ public class SocioBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al retornar Socio.", e.getMessage()));
+			LOG.error("Error al Retornar Socio: " + e.getMessage());
 		}
 	}
 
@@ -383,6 +391,7 @@ public class SocioBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Socio: " + e.getMessage());
 		}
 	}
 
@@ -395,6 +404,7 @@ public class SocioBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Eliminar Socio: " + e.getMessage());
 		}
 
 	}
@@ -409,6 +419,12 @@ public class SocioBean implements Serializable {
 			SociosTransacciones transaccion = new SociosTransacciones();
 
 			if (estado.equals("BAJA")) {
+				for(Conexion con : socio.getConexiones()){
+					if(con.getEstadoConexion().getDescripcion().equals("ACTIVA")){
+						LOG.error("El socio " +socio.getNumero() + " No se puede dar de baja, tiene conexiones activas.");
+						throw new Exception("no se puede dar de baja un socio con Conexiones Activas");
+					}
+				}				
 				transaccion.setTipoTransaccion("BAJA");
 			}
 			if (estado.equals("ACTIVO")) {
@@ -416,7 +432,7 @@ public class SocioBean implements Serializable {
 			}
 			transaccion.setFecha(Calendar.getInstance().getTime());
 			transaccion.setUsuario(login.getUsuario());
-
+			System.out.println("PASO POR ACA.");
 			socio.getTransacciones().add(transaccion);
 
 			socioDAO.modificarSocio(socio);
@@ -425,6 +441,7 @@ public class SocioBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Cambiar Estado Socio: " + e.getMessage());
 		}
 	}
 
@@ -466,8 +483,11 @@ public class SocioBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se editó correctamente."));
 			inicializar();
 		} catch (Exception e) {
+			LOG.error("Error al Editar Socio: " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+			
+
 		}
 	}
 

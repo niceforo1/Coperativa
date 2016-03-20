@@ -12,6 +12,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import model.Usuario;
 import utils.UtilidadesVarias;
 import dao.UsuarioDAO;
@@ -20,6 +23,7 @@ import dao.impl.UsuarioDAOImplement;
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(LoginBean.class); 
 
 	private static final long serialVersionUID = 7765876811740798583L;
 	private Usuario usuario;
@@ -39,6 +43,7 @@ public class LoginBean implements Serializable {
 	public String doLogin() {
 		UsuarioDAO usuarioDAO = new UsuarioDAOImplement();
 		try {
+			LOG.info("Se ingreso con el usuario "+username);
 			this.usuario = usuarioDAO.buscarUsuario(username,
 					UtilidadesVarias.getStringMessageDigest(password));
 			if (usuario != null) {
@@ -48,11 +53,12 @@ public class LoginBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		FacesMessage msg = new FacesMessage("Error al ingresar!",
-				"Usuario y/o Contraseña Incorrectas");
+		FacesMessage msg = new FacesMessage("Error al ingresar!","Usuario y/o Contraseña Incorrectas");
+		LOG.error("Se ingreso con el usuario "+username +" Usuario y/o Contraseña Incorrectas.");
+
 		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-
+		
 		return navigationBean.toLogin();
 	}
 

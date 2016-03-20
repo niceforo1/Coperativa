@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+	<center>
+		<h:form id="alta">
+			<p:panel>
+				<f:facet name="header">
+					<p:outputLabel value="Consulta Conexión"/>
+				</f:facet>
+				<p:ajaxStatus style="display:block;margin-bottom:0em;height:0px;">					
+				</p:ajaxStatus>		 
+				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+					<p:graphicImage library="images" name="ajax-loader.gif" />
+				</p:dialog>
+				<p:panelGrid columns="6">
+					<p:outputLabel value="Número Conexión" for="numero" />
+					<p:inputText id="numero" value="#{consEstDeudaBean.conexionID}">
+						<p:ajax event="blur" update="conEst, socio, socio1, factDT"
+							listener="#{consEstDeudaBean.retornarConexion}" />
+					</p:inputText>
+					<p:outputLabel value="Estado: " for="conEst" />
+					<p:outputLabel value="#{consEstDeudaBean.conexion.estadoConexion.descripcion}" id="conEst" />
+					<p:outputLabel value="Titular:" />
+					<p:panelGrid columns="2">
+						<p:outputLabel
+							value="#{consEstDeudaBean.conexion.socio.apellidoRazonSocial} #{consEstDeudaBean.conexion.socio.nombreDenominacion}"
+							id="socio" />
+
+						<p:outputLabel
+							value="#{consEstDeudaBean.conexion.domicilioServicio.barrio} #{consEstDeudaBean.conexion.domicilioServicio.calle} #{consEstDeudaBean.conexion.domicilioServicio.numero}"
+							id="socio1" />								
+					</p:panelGrid>	
+				</p:panelGrid>
+			</p:panel>
+			<br/>
+			<p:dataTable id="factDT" var="fact" value="#{consEstDeudaBean.facturaPorConexion}" 
+						 scrollable="true" scrollHeight="150" rowKey="#{fact.id}"
+						 emptyMessage="#{msg.paramNoDatos}">
+				<f:facet name="header">
+					<center>
+						<h:outputText value="Facturas" />
+					</center>
+				</f:facet>
+				<p:column id="id" headerText="Nro Factura">
+					<h:outputText value="#{fact.id}" />
+				</p:column>
+				<p:column id="tpoFact" headerText="Tipo Factura">
+					<h:outputText value="#{fact.tipoFactura}" />
+				</p:column>
+				<p:column id="periodo" headerText="Periodo">
+					<h:outputText value="#{fact.periodoFacturacion.mes} / #{fact.periodoFacturacion.anio}" />
+				</p:column>
+				<p:column id="importeTotal" headerText="Imp. Total">
+					<h:outputText value="#{fact.importeTotal}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</center>
+	</ui:define>
+</ui:composition>
+</html>

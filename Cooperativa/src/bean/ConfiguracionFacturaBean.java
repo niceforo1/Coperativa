@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
 import org.primefaces.event.RowEditEvent;
 
 import dao.ConfiguracionFacturaDAO;
@@ -17,6 +18,8 @@ import model.ConfiguracionFactura;
 @ManagedBean(name="configuracionFacturaBean")
 @ViewScoped
 public class ConfiguracionFacturaBean implements Serializable{
+	private static final Logger LOG = Logger.getLogger(ConfiguracionFacturaBean.class); 
+	
 
 	private List<ConfiguracionFactura> listaConfiguracionFactura;
 	private ConfiguracionFactura configuracionFactura;
@@ -32,6 +35,7 @@ public class ConfiguracionFacturaBean implements Serializable{
 			listaConfiguracionFactura = daoConfiguracionFactura.obtenerConfiguracionFactura();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Configuracion Factura: " + e.getMessage());
 		}
 		return listaConfiguracionFactura;
 	}
@@ -72,15 +76,15 @@ public class ConfiguracionFacturaBean implements Serializable{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Configuracion Lectura: " + e.getMessage());
+
 		}
 	}
 	
 	public void onRowEdit(RowEditEvent event) {
 		try {
-			ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();
-			
-			daoConfiguracionFactura.modificarConfiguracionFactura(configuracionFacturaEditar);
-	        
+			ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();			
+			daoConfiguracionFactura.modificarConfiguracionFactura(configuracionFacturaEditar);	        
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -91,6 +95,8 @@ public class ConfiguracionFacturaBean implements Serializable{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error en On Row Edit: " + e.getMessage());
+
 		}
     }
 	
@@ -98,15 +104,14 @@ public class ConfiguracionFacturaBean implements Serializable{
 		this.configuracionFacturaEditar = conf;
 	}
 	
-	public boolean existeConfiguracion(){
-		
-		boolean existe;
-		
+	public boolean existeConfiguracion(){		
+		boolean existe;		
 		ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();
 		try {
 			listaConfiguracionFactura = daoConfiguracionFactura.obtenerConfiguracionFactura();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Configuracion Factura: " + e.getMessage());
 		}
 		
 		if(listaConfiguracionFactura.isEmpty()){

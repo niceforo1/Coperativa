@@ -6,7 +6,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext; 
+import javax.faces.context.FacesContext;
+
+import org.apache.log4j.Logger;
 
 import dao.TipoSocioDAO;
 import dao.impl.TipoSocioDAOImplement;
@@ -15,7 +17,8 @@ import model.TipoSocio;
 @ManagedBean(name="tipoSocioBean")
 @ViewScoped
 public class TipoSocioBean implements Serializable {
-	
+	private static final Logger LOG = Logger.getLogger(TipoSocioBean.class);
+
 	private List<TipoSocio> listaTipoSocios;
 	private TipoSocio tipoSocio;
 		
@@ -29,6 +32,7 @@ public class TipoSocioBean implements Serializable {
 			listaTipoSocios = daoTipSoc.listaTipoSocio();				
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Tipo Socios: "+e.getMessage());
 		}		
 		return listaTipoSocios;
 	}
@@ -52,6 +56,7 @@ public class TipoSocioBean implements Serializable {
 			inicializar();	
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al Insertar Tipo Socio: "+e.getMessage());
 		}
 	}
 	public void eliminarTipoSocio(TipoSocio tipoSocio){		
@@ -61,6 +66,7 @@ public class TipoSocioBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se eliminó correctamente."));
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al Eliminar Tipo Socio: "+e.getMessage());
 		}
 	}	
 	private void inicializar(){

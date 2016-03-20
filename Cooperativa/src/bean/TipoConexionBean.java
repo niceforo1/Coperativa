@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.TipoConexionDAO;
 import dao.impl.TipoConexionDAOImplement;
 import model.TipoConexion;
@@ -15,6 +17,7 @@ import model.TipoConexion;
 @ManagedBean(name="tipoConexionBean")
 @ViewScoped
 public class TipoConexionBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(TipoConexionBean.class);
 
 	
 	private List<TipoConexion> listaTipoConexion;
@@ -30,6 +33,7 @@ public class TipoConexionBean implements Serializable {
 			listaTipoConexion = daoTipoConexion.listaTipoConexion();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Tipo Conexion: " + e.getMessage());
 		}
 		return listaTipoConexion;
 	}
@@ -60,6 +64,7 @@ public class TipoConexionBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Tipo Conexion: " + e.getMessage());
 		}
 	}
 	
@@ -77,6 +82,8 @@ public class TipoConexionBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Eliminar Tipo Conexion: " + e.getMessage());
+
 		}
 	}
 	private void inicializar(){

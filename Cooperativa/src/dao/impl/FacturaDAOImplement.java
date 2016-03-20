@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import dao.FacturaDAO;
+import model.Conexion;
 import model.EstadoSocio;
 import model.Factura;
 import model.PeriodosSaldos;
@@ -22,6 +23,32 @@ public class FacturaDAOImplement implements FacturaDAO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("from Factura");
+			lista = (List<Factura>) query.list();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			System.out.println("error: " +e.getMessage());
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
+		return lista;
+	}
+	
+
+	@Override
+	public List<Factura> listaFacturaConexion(Long conexionID) throws Exception {
+		Session session = null;
+		List<Factura> lista = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from Factura as fc"
+											+ " where fc.conexion.id = ?");
+			query.setLong(0, conexionID);
 			lista = (List<Factura>) query.list();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -158,5 +185,4 @@ public class FacturaDAOImplement implements FacturaDAO {
 		}		
 		return factura;
 	}
-
 }

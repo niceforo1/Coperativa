@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.EstadoSocioDAO;
 import dao.impl.EstadoSocioDAOImplement;
 import model.EstadoSocio;
@@ -16,7 +18,7 @@ import model.EstadoSocio;
 @ViewScoped
 
 public class EstadoSocioBean implements Serializable {
-
+	private static final Logger LOG = Logger.getLogger(EstadoSocioBean.class);
 	private List<EstadoSocio> listaEstadoSocio;
 	private EstadoSocio estadoSocio;
 		
@@ -30,6 +32,7 @@ public class EstadoSocioBean implements Serializable {
 			listaEstadoSocio = daoEstadoSocio.listaEstadoSocio();
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Estado Socio");
 		}
 		return listaEstadoSocio;
 	}
@@ -51,6 +54,7 @@ public class EstadoSocioBean implements Serializable {
 			inicializar();
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " +e.getMessage()));
+			LOG.error("Error al Insertar Estado Socio: " + e.getMessage());
 		}
 	}
 	
@@ -62,6 +66,7 @@ public class EstadoSocioBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se eliminó correctamente."));
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al Eliminar Estado Socio: " + e.getMessage());
 		}
 	}
 	

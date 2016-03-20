@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.ZonaConexionDAO;
 import dao.impl.ZonaConexionDAOImplement;
 import model.ZonaConexion;
@@ -15,7 +17,8 @@ import model.ZonaConexion;
 @ManagedBean(name="zonaConexionBean")
 @ViewScoped
 public class ZonaConexionBean implements Serializable{
-	
+	private static final Logger LOG = Logger.getLogger(ZonaConexionBean.class);
+
 	private List<ZonaConexion> listaZonasConexion;
 	private ZonaConexion zonaConexion;
 	
@@ -29,6 +32,7 @@ public class ZonaConexionBean implements Serializable{
 			listaZonasConexion = daoZonaConex.listaZonas();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Zonas Conexion: " + e.getMessage());
 		}
 		return listaZonasConexion;
 	}
@@ -59,6 +63,7 @@ public class ZonaConexionBean implements Serializable{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Zona Conexion: " + e.getMessage());
 		}
 	}
 	
@@ -76,6 +81,7 @@ public class ZonaConexionBean implements Serializable{
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Eliminar Zona Conexion: " + e.getMessage());
 		}
 	}
 	

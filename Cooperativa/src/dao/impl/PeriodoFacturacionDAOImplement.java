@@ -130,7 +130,7 @@ public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 			throws Exception {
 		Session session = null;
 		PeriodoFacturacion periodo= null;
-		String estado = "EN PROCESO";
+		String estado = "CERRADO";
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("from PeriodoFacturacion as s" 

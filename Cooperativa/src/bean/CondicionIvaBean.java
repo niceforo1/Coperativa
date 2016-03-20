@@ -8,6 +8,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.log4j.Logger;
+
 import dao.CondicionIvaDAO;
 import dao.impl.CondicionIvaDAOImplement;
 import model.CondicionIva;
@@ -17,6 +20,8 @@ import model.CondicionIva;
 public class CondicionIvaBean implements Serializable{
 	private CondicionIva condicionIva;
 	private List<CondicionIva> lstCondicionIva;
+	private static final Logger LOG = Logger.getLogger(CondicionIvaBean.class); 
+
 	
 	public CondicionIvaBean() {
 		inicializar();
@@ -38,6 +43,7 @@ public class CondicionIvaBean implements Serializable{
 			lstCondicionIva = daoCondicionIva.listaCondicionesIva();
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Condiciones Iva: " + e.getMessage());
 		}	
 		return lstCondicionIva;
 	}
@@ -54,6 +60,7 @@ public class CondicionIvaBean implements Serializable{
 	        inicializar();	
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al Insertar Condicion Iva: " + e.getMessage());
 		}
 	}
 	
@@ -64,6 +71,8 @@ public class CondicionIvaBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se eliminó correctamente."));
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al Eliminar Condicion Iva: " + e.getMessage());
+
 		}
 	}
 	private void inicializar(){

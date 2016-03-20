@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.EstadoCivilDAO;
 import dao.impl.EstadoCivilDAOImplement;
 import model.EstadoCivil;
@@ -17,6 +19,7 @@ import model.EstadoCivil;
 @ViewScoped	
 
 public class EstadoCivilBean implements Serializable{
+	private static final Logger LOG = Logger.getLogger(EstadoCivilBean.class); 
 
 	private List<EstadoCivil> listaEstadoCivil;
 	private EstadoCivil estadoCivil;
@@ -31,6 +34,7 @@ public class EstadoCivilBean implements Serializable{
 			listaEstadoCivil = daoEstCivil.listaEstadoCivil();				
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			LOG.error("Error al obtener Lista Estado Civil: " +e.getMessage());
 		}		
 		return listaEstadoCivil;
 	}
@@ -55,6 +59,7 @@ public class EstadoCivilBean implements Serializable{
 	        inicializar();	
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al Insertar Estado Civil: " +e.getMessage());
 		}
 	}
 	
@@ -65,6 +70,8 @@ public class EstadoCivilBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se eliminó correctamente."));
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: "+e.getMessage()));
+			LOG.error("Error al Eliminar Estado Civil: " +e.getMessage());
+
 		}
 	}
 	

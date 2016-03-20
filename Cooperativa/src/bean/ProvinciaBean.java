@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import dao.ProvinciaDAO;
 import dao.impl.ProvinciaDAOImplement;
 import model.Provincia;
@@ -15,6 +17,8 @@ import model.Provincia;
 @ManagedBean(name = "provinciaBean")
 @ViewScoped
 public class ProvinciaBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(ProvinciaBean.class);
+
 	private List<Provincia> lstProvincia;
 	private Provincia provincia;
 
@@ -31,6 +35,7 @@ public class ProvinciaBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
 							.getMessage()));
+			LOG.error("Error al obtener Lista Provincia: " + e.getMessage());
 		}
 		return lstProvincia;
 	}
@@ -61,6 +66,7 @@ public class ProvinciaBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Insertar Provincia: " + e.getMessage());
 		}
 	}
 
@@ -77,6 +83,7 @@ public class ProvinciaBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Error al procesar: " + e.getMessage()));
+			LOG.error("Error al Eliminar Provincia: " + e.getMessage());
 		}
 	}
 	private void inicializar(){

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="Reporte Planilla Lectura]" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+		<center>			
+			<h:form>					
+				<p:panel style="width: 300px;">
+					<f:facet name="header">
+						<p:outputLabel value="Reportes de Socios Conexiones" />
+					</f:facet>	
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Estado Conexion" for="estadoCon" />
+						<p:selectOneMenu id="estadoCon"
+							value="#{reportBean.estConexion}"
+							panelStyle="width:180px" effect="fold" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{estadoConexionBean.listaEstadoConexion}"
+								var="estCon" itemLabel="#{estCon.descripcion}"
+								itemValue="#{estCon.id},#{estCon.descripcion}" />
+						</p:selectOneMenu>
+												
+						<p:outputLabel value="Formas de Pago" for="formaPago" />							
+						<p:selectOneMenu id="formaPago"
+							value="#{reportBean.formaPago}" panelStyle="width:180px"
+							effect="fold" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{formaPagoBean.listaFormaPago}"
+								var="fPagoConex" itemLabel="#{fPagoConex.descripcion}"
+								itemValue="#{fPagoConex.id},#{fPagoConex.descripcion}" />
+						</p:selectOneMenu>
+							
+						<p:outputLabel value="#{msg.paramCategoriaConexion}"
+							for="categoriaConex" />
+						<p:selectOneMenu id="categoriaConex"
+							value="#{reportBean.categoriaConex}"
+							panelStyle="width:180px" effect="fold" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems
+								value="#{categoriaConexionBean.listaCategoriaConexion}"
+								var="catConex" itemLabel="#{catConex.descripcion}"
+								itemValue="#{catConex.id},#{catConex.descripcion}" />
+						</p:selectOneMenu>
+						
+																
+						<f:facet name="footer">
+							<center>								
+								<p:commandButton actionListener="#{reportBean.verSociosConexiones}"	value="Socio Conexiones" />								
+							</center>
+						</f:facet>
+					</p:panelGrid>
+				</p:panel>	
+			</h:form>				
+		</center>
+	</ui:define>
+</ui:composition>
+</html>
