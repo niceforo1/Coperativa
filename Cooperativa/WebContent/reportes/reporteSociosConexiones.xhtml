@@ -15,8 +15,11 @@
 	</ui:define>
 	<ui:define name="content">
 		<center>			
-			<h:form>					
-				<p:panel style="width: 300px;">
+			<h:form>
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />		
+								
+				<p:panel style="width: 600px;">
+				
 					<f:facet name="header">
 						<p:outputLabel value="Reportes de Socios Conexiones" />
 					</f:facet>	
@@ -24,7 +27,7 @@
 						<p:outputLabel value="Estado Conexion" for="estadoCon" />
 						<p:selectOneMenu id="estadoCon"
 							value="#{reportBean.estConexion}"
-							panelStyle="width:180px" effect="fold" required="true">
+							panelStyle="width:180px" effect="fold">
 							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 							<f:selectItems value="#{estadoConexionBean.listaEstadoConexion}"
 								var="estCon" itemLabel="#{estCon.descripcion}"
@@ -34,26 +37,24 @@
 						<p:outputLabel value="Formas de Pago" for="formaPago" />							
 						<p:selectOneMenu id="formaPago"
 							value="#{reportBean.formaPago}" panelStyle="width:180px"
-							effect="fold" required="true">
+							effect="fold">
 							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 							<f:selectItems value="#{formaPagoBean.listaFormaPago}"
 								var="fPagoConex" itemLabel="#{fPagoConex.descripcion}"
 								itemValue="#{fPagoConex.id},#{fPagoConex.descripcion}" />
 						</p:selectOneMenu>
-							
-						<p:outputLabel value="#{msg.paramCategoriaConexion}"
-							for="categoriaConex" />
+						
+						<p:outputLabel value="#{msg.paramCategoriaConexion}" for="categoriaConex" />
 						<p:selectOneMenu id="categoriaConex"
 							value="#{reportBean.categoriaConex}"
-							panelStyle="width:180px" effect="fold" required="true">
+							panelStyle="width:180px" effect="fold" >
 							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 							<f:selectItems
 								value="#{categoriaConexionBean.listaCategoriaConexion}"
 								var="catConex" itemLabel="#{catConex.descripcion}"
 								itemValue="#{catConex.id},#{catConex.descripcion}" />
-						</p:selectOneMenu>
+						</p:selectOneMenu> 
 						
-																
 						<f:facet name="footer">
 							<center>								
 								<p:commandButton actionListener="#{reportBean.verSociosConexiones}"	value="Socio Conexiones" />								

@@ -65,6 +65,11 @@
 				<p:column id="importeTotal" headerText="Imp. Total">
 					<h:outputText value="#{fact.importeTotal}" />
 				</p:column>
+				<p:column id="Fact">
+					<p:commandButton icon="fa fa-fw fa-print"
+									actionListener="#{reportBean.verFactura(fact.conexion, fact.periodoFacturacion)}"
+									 immediate="true"/>
+				</p:column>				
 			</p:dataTable>
 		</h:form>
 	</center>
