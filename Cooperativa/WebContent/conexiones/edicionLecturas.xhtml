@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+
+		<style>
+.ACTIVA {
+	color: green;
+	font-weight: bold;
+}
+
+.BAJA {
+	color: red;
+	font-weight: bold;
+}
+
+.LIMITADA {
+	color: orange;
+	font-weight: bold;
+}
+
+.EN REPARACION {
+	color: yellow;
+	font-weight: bold;
+}
+
+.label {
+	font-weight: bold;
+}
+</style>
+		<center>
+			<h:form id="alta">
+				<p:ajaxStatus style="display:block; margin-bottom:0em;height:0px;">					
+				</p:ajaxStatus>		 
+				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+					<p:graphicImage library="images" name="ajax-loader.gif" />
+				</p:dialog>
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<p:panel>	
+					<f:facet name="header">
+						<center>
+							<p:outputLabel value="Seleccione Periodo a Modificar"/>
+						</center>
+					</f:facet>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Periodo Lectura:"/>
+						<p:selectOneMenu id="perLect" value="#{lecturaBean.periodoLectID}"
+							panelStyle="width:180px" effect="fold" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{periodoLecturaBean.lstPeriodoLectura}"
+								var="perLectura" itemLabel="#{perLectura.mes}/#{perLectura.anio}"
+								itemValue="#{perLectura.id}" />
+						</p:selectOneMenu>							
+					</p:panelGrid>
+					<f:facet name="footer">
+						<center>
+							<p:commandButton value="Consultar Lecturas" actionListener="#{lecturaBean.consultarLecturas}" update=":alta"/>
+						</center>
+					</f:facet>
+				</p:panel>
+				<hr/>
+				<p:dataTable id="lectDT"
+						value="#{lecturaBean.lstListaLecturas}"
+						var="lect" emptyMessage="#{msg.paramNoDatos}" scrollable="true" editable="true">
+							
+					<p:ajax event="rowEdit" listener="#{lecturaBean.onRowEdit}" update=":alta:mensajes" />
+       				<p:ajax event="rowEditCancel" listener="#{lecturaBean.onRowCancel}" update=":alta:mensajes" />
+					
+					<p:column headerText="#{msg.paramLecturaPeriodos}"
+						sortBy="#{lect.periodoLectura.mes} #{lect.periodoLectura.anio}">
+						<p:outputLabel
+							value="#{lect.periodoLectura.mes} - #{lect.periodoLectura.anio}" />
+					</p:column>
+					<p:column headerText="Conexion">
+						<p:outputLabel value="#{lect.conexion.id}" />
+					</p:column>
+					<p:column headerText="Socio">
+						<p:outputLabel value="#{lect.conexion.socio.numero} #{lect.conexion.socio.apellidoRazonSocial}" />
+					</p:column>
+					<p:column headerText="#{msg.paramLecturaLecturero}">
+						<p:outputLabel value="#{lect.lecturero}" />
+					</p:column>
+					<p:column headerText="#{msg.paramLecturaFechaGeneracion}">
+						<p:outputLabel
+							value="#{loginBean.formatearFechaMes(lect.fechaGeneracion, 'dd/MM/yyyy')}" />
+					</p:column>
+					<p:column headerText="#{msg.paramLecturaFechaRegLectura}">
+						<p:outputLabel
+							value="#{loginBean.formatearFechaMes(lect.fechaRegistroLectura, 'dd/MM/yyyy')}" />
+					</p:column>							
+					<p:column headerText="#{msg.paramLecturaAnterior}">
+						<p:outputLabel value="#{lect.lecturaAnterior}" />
+					</p:column>
+					<p:column headerText="#{msg.paramLecturaActual}">
+						<p:cellEditor>
+			               <f:facet name="output"><p:outputLabel value="#{lect.lecturaActual}" /></f:facet>
+			               <f:facet name="input"><p:inputText value="#{lect.lecturaActual}" style="width:96%" label="Lectura Actual"/></f:facet>
+			           </p:cellEditor>
+						
+					</p:column>
+					<p:column headerText="#{msg.paramLecturaObservaciones}">
+						<p:outputLabel value="#{lect.observaciones}" />
+					</p:column>
+					<p:column headerText="#{msg.paramLecturaUsuario}">
+						<p:outputLabel value="#{lect.usuario.usuario}" />
+					</p:column>	
+					<p:column style="width:32px">
+			           <p:rowEditor />
+			       </p:column>			
+				</p:dataTable>			
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

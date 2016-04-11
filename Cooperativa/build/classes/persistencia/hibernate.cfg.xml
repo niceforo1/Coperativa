@@ -5,7 +5,7 @@
 
 
 		<property name="connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
-		<property name="connection.url">jdbc:jtds:sqlserver://192.168.179.128:1433/CopNew</property>  
+		<property name="connection.url">jdbc:jtds:sqlserver://192.168.179.128:1433/Coperativa</property>  
 		<property name="connection.username">sa</property>
 		<property name="connection.password">123456</property>
 		<property name="dialect">org.hibernate.dialect.SQLServerDialect</property>

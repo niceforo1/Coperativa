@@ -49,8 +49,7 @@
 				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
 					closable="true" />
 				<p:tabView dynamic="true" cache="true">
-					<p:tab id="carga" title="#{msg.paramLecturaCarga}">
-						
+					<p:tab id="carga" title="#{msg.paramLecturaCarga}">						
 						<p:panel>
 						<f:facet name="header"><p:outputLabel value="Carga de Lecturas"/> </f:facet>					
 						<p:panelGrid columns="7">
@@ -76,9 +75,9 @@
 								</center>
 							</f:facet>
 							<p:outputLabel value="Número Conexión" for="numero" />
-							<p:inputText id="numero" value="#{lecturaBean.conexionID}">
-								<p:ajax event="blur" update="socio, socio1, socio2, lectAnt, button"
-									listener="#{lecturaBean.retornarConexion}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }"/>
+							<p:inputText id="numero" value="#{lecturaBean.conexionID}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }">
+								<p:ajax event="blur" update="socio, socio1, socio2, lectAnt, domicilio, numMedidor, zonaCon, estadoCon, categCon, button"
+									listener="#{lecturaBean.retornarConexion}" />
 							</p:inputText>
 							<p:outputLabel value="Socio:" />
 							<p:panelGrid columns="3">
@@ -91,17 +90,29 @@
 									id="socio1" />
 								<p:outputLabel value="#{lecturaBean.conexion.nroMedidor}"
 									id="socio2" />
-
+							</p:panelGrid>
+							<p:outputLabel value="Conexion:" />
+							<p:panelGrid columns="5">
+								<p:outputLabel
+									value="#{lecturaBean.conexion.domicilioServicio.calle} #{lecturaBean.conexion.domicilioServicio.numero}"
+									id="domicilio" />
+								<p:outputLabel
+									value="#{lecturaBean.conexion.nroMedidor}"
+									id="numMedidor" />									
+								<p:outputLabel value="#{lecturaBean.conexion.zonaConexion.descripcion}"
+									id="zonaCon" />									
+								<p:outputLabel value="#{lecturaBean.conexion.estadoConexion.descripcion}"
+									id="estadoCon" />								
+								<p:outputLabel value="#{lecturaBean.conexion.categoriaConexion.descripcion}"
+									id="categCon" />
 							</p:panelGrid>
 							<p:outputLabel value="Lectura Anterior: " />
 							<p:outputLabel id="lectAnt"
 								value="#{lecturaBean.lectura.lecturaAnterior}" />
 							<p:outputLabel value="Lectura Actual: " />
 							<p:inputText id="lectActual"
-								value="#{lecturaBean.lectura.lecturaActual}">
-								<f:validateLongRange
-									minimum="#{lecturaBean.lectura.lecturaAnterior}" />
-								<p:ajax event="blur" update="out, button"
+								value="#{lecturaBean.lectura.lecturaActual}">								
+								<p:ajax event="blur" update="out, button, conf"
 									listener="#{lecturaBean.mostrarAviso}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }"/>
 								<h:outputText styleClass="BAJA" id="out"
 									value="#{lecturaBean.mensajeBlur}" />
@@ -110,17 +121,22 @@
 							<p:inputTextarea value="#{lecturaBean.lectura.observaciones}"
 								rows="10" cols="40" />
 							<f:facet name="footer">
-								<center>
+								<center>									
 									<p:commandButton action="#{lecturaBean.insertarLectura}" id="button"
-										value="#{msg.paramCargar}" update=":alta" disabled="#{lecturaBean.permiteCarga}"/>
+										value="#{msg.paramCargar}" update=":alta" disabled="#{lecturaBean.permiteCarga}">
+										<p:confirm header="Confirmation" message="Desea Agregar la Lectura #{lecturaBean.mensajeBlur2}" icon="ui-icon-alert"/>
+									</p:commandButton>
+									<p:confirmDialog id="conf" global="true" showEffect="fade" hideEffect="fade">
+								        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								    </p:confirmDialog>
 								</center>
 							</f:facet>
 						</p:panelGrid>
 						</p:panel>
 					</p:tab>
 					
-					<p:tab id="consultaDos"	title="#{msg.paramLecturaConsultaConexiones}">
-						
+					<p:tab id="consultaDos"	title="#{msg.paramLecturaConsultaConexiones}">						
 						<p:panel>
 						<f:facet name="header">
 							<p:outputLabel value="Consulta Lecturas por Conexion"/>
@@ -166,8 +182,9 @@
 							</p:column>
 						</p:dataTable>
 						</p:panel>
-					</p:tab>
-				</p:tabView>				
+					</p:tab>							
+				</p:tabView>
+				 		
 			</h:form>
 		</center>
 	</ui:define>

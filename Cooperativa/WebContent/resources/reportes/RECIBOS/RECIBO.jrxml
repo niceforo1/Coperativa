@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a05b0a0f-03c6-42fa-b44e-6a5068e71401">
+	<property name="ireport.zoom" value="0.5644739300538258"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.background.image" value="C:\Users\NAm\Desktop\TRABAJOS\Recursos cooperativa\REPORTES 04-04-16\RECIBOS\image.jpg"/>
+	<property name="ireport.background.image.properties" value="true,true,0.25,-8,-8,0,0,611,834"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#000000">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#00FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\NAm\\Desktop\\RECIBOS\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_conexion" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select c.NRO_MEDIDOR,c.ID_CONEXION, s.APELLIDO_RAZON_SOCIAL, d.CALLE, d.NUMERO,ISNULL(d.BARRIO,'') as barrio, uc.CIRCUITO,uc.SECCIONAL,
+    uc.MANZANA, uc.LOTE, c.ID_NRO_ZONA, ts.DESCRIPCION as tip_sumi,
+    d.CODIGO_POST,d.LOCALIDAD,CONVERT ( varchar(10) ,103 )as pri_ven,
+	CONVERT( varchar(10), r.FECHA_EMISION_RECIBO,103 )as FECHAe,r.ID_RECIBO,s.ID_SOCIO
+
+from CONEXIONES c
+inner join SOCIOS s on s.ID_SOCIO = c.ID_SOCIO
+inner join SOCIOS_DOMICILIOS sd on sd.SOCIOS_ID_SOCIO = s.ID_SOCIO
+inner join DOMICILIOS d on d.ID_DOMICILIO = sd.domicilios_ID_DOMICILIO
+inner join CONEXIONES_UBICACIONES_CATASTRALES cuc on cuc.CONEXIONES_ID_CONEXION = c.ID_CONEXION
+inner join UBICACIONES_CATASTRALES uc on cuc.ubicacionesCatastrales_ID_UBICACION_CATASTRAL = uc.ID_UBICACION_CATASTRAL
+inner join TIPO_SUMINISTRO ts on ts.ID_TIPO_SUMINISTRO = c.ID_TIPO_SUMINISTRO
+inner join RECIBOS r on r.ID_CONEXION  = c.id_conexion
+inner join CONDICION_IVA ci on ci.ID_CONDICION_IVA = s.ID_CONDICION_IVA
+
+
+where
+c.ID_CONEXION = $P{id_conexion}
+and uc.ID_TIPO_UBICACION_CATASTRAL = 1]]>
+	</queryString>
+	<field name="NRO_MEDIDOR" class="java.math.BigDecimal"/>
+	<field name="ID_CONEXION" class="java.lang.Integer"/>
+	<field name="APELLIDO_RAZON_SOCIAL" class="java.lang.String"/>
+	<field name="CALLE" class="java.lang.String"/>
+	<field name="NUMERO" class="java.math.BigDecimal"/>
+	<field name="barrio" class="java.lang.String"/>
+	<field name="CIRCUITO" class="java.math.BigDecimal"/>
+	<field name="SECCIONAL" class="java.math.BigDecimal"/>
+	<field name="MANZANA" class="java.math.BigDecimal"/>
+	<field name="LOTE" class="java.lang.String"/>
+	<field name="ID_NRO_ZONA" class="java.math.BigDecimal"/>
+	<field name="tip_sumi" class="java.lang.String"/>
+	<field name="CODIGO_POST" class="java.lang.String"/>
+	<field name="LOCALIDAD" class="java.lang.String"/>
+	<field name="pri_ven" class="java.lang.String"/>
+	<field name="FECHAe" class="java.lang.String"/>
+	<field name="ID_RECIBO" class="java.lang.Integer"/>
+	<field name="ID_SOCIO" class="java.math.BigDecimal"/>
+	<variable name="suma" class="java.lang.Double" calculation="System"/>
+	<title>
+		<band height="94" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="385" y="21" width="121" height="22" uuid="b3f817f6-a258-4f33-b2d9-317f35c0f8e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA['Fecha:     '+ $F{FECHAe}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="658" splitType="Stretch">
+			<frame>
+				<reportElement mode="Transparent" x="0" y="16" width="358" height="56" backcolor="#33FF33" uuid="9c215a6b-6ae7-4a98-b7b1-ab31537ebbb4"/>
+				<textField>
+					<reportElement mode="Transparent" x="10" y="0" width="166" height="14" uuid="9407e7c6-66d5-4014-8463-25c136286c47"/>
+					<textFieldExpression><![CDATA[$F{APELLIDO_RAZON_SOCIAL}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="10" y="17" width="166" height="17" uuid="d26d56b9-50d7-4954-b946-04cab2ac0d08"/>
+					<textFieldExpression><![CDATA[$F{CALLE} +'  '+ $F{NUMERO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="216" y="34" width="140" height="17" uuid="b3906e36-305f-4e10-9bb1-0082c589e3e4"/>
+					<textFieldExpression><![CDATA[$F{LOCALIDAD}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="10" y="34" width="166" height="17" uuid="d32290bf-b4a9-4ddb-81c6-94fa13e6736c"/>
+					<textFieldExpression><![CDATA[$F{barrio}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="369" y="5" width="153" height="62" backcolor="#33FF33" uuid="477179fa-6a56-47f9-8397-92d751cb6d97"/>
+				<staticText>
+					<reportElement mode="Transparent" x="0" y="0" width="153" height="11" uuid="f7bed0f9-d7ce-4652-81f7-3da560874085"/>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Recibo de Caja]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="4" y="16" width="39" height="10" uuid="29903196-bd2f-4e6b-95b4-11cb7d7d35f0"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Código]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Transparent" x="61" y="16" width="84" height="10" uuid="63774901-349a-4f25-a8cd-50d36c2ac22d"/>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ID_RECIBO}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="3" y="91" width="57" height="36" backcolor="#33FF33" uuid="de8075c7-c7a5-406a-99e8-2ab28189202b"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="11" width="57" height="15" uuid="d62c4b81-3430-4306-bac8-6119e72069de"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{ID_NRO_ZONA}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="66" y="91" width="36" height="36" backcolor="#33FF33" uuid="ccd422d6-7e3c-4077-9a72-e87c8dcb91cd"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="11" width="36" height="15" uuid="f881d897-840a-4cb5-9fe6-787c09db7391"/>
+					<textElement textAlignment="Center" verticalAlignment="Top"/>
+					<textFieldExpression><![CDATA[$F{ID_CONEXION}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="110" y="91" width="36" height="36" backcolor="#33FF33" uuid="ea7c5691-ed4a-4b15-9269-ea9645e68e7d"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="11" width="36" height="15" uuid="f6acd49b-1073-4579-a8a6-6558c2bbb671"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{ID_SOCIO}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="156" y="91" width="52" height="36" backcolor="#33FF33" uuid="404ed513-d96a-41db-b820-524bc2732057"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="11" width="51" height="15" uuid="375776a9-77ad-46dd-b3ba-2b25334f947f"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{tip_sumi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="216" y="100" width="22" height="24" backcolor="#33FF33" uuid="ae968220-26db-4c2a-b0a0-c587b97cc2aa"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="6" width="22" height="12" uuid="f12fdf69-e220-4a06-a705-b09cd80723f9"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CIRCUITO}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="245" y="100" width="22" height="24" backcolor="#33FF33" uuid="9d686f51-0db8-4bb7-aff5-d3391b72c2dc"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="6" width="22" height="11" uuid="62550589-9c36-4058-a02b-b7edb9db72b9"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCIONAL}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="274" y="100" width="22" height="24" backcolor="#33FF33" uuid="c86914a0-3009-4d94-8780-cda0d53ece5b"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="6" width="22" height="13" uuid="3e059697-4ecc-479a-a9f3-610c1d0f555b"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MANZANA}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="303" y="100" width="22" height="24" backcolor="#33FF33" uuid="1a47fbc1-bb98-4a7e-afd8-8591df24aec0"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="6" width="22" height="13" uuid="f664dd68-1cc4-4936-997b-b33ace9bb504"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{LOTE}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="370" y="85" width="153" height="62" backcolor="#33FF33" uuid="d4e56fe3-4cbb-4083-b861-db939adf77f4"/>
+				<staticText>
+					<reportElement mode="Transparent" x="3" y="7" width="39" height="10" uuid="25a84bbe-8283-499a-bd27-589a4b42e8e2"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Medidor]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Transparent" x="60" y="7" width="84" height="10" uuid="698c8761-bce6-42db-8e8a-1be0ba0c1cd4"/>
+					<textElement textAlignment="Center">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NRO_MEDIDOR}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="47" y="587" width="22" height="18" backcolor="#33FF33" uuid="b87bc745-3c55-42ac-9375-c77791c960c2"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="0" width="22" height="18" uuid="0ead007b-759d-457e-a6f0-87c193702387"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ID_NRO_ZONA}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="78" y="587" width="32" height="18" backcolor="#33FF33" uuid="71e8e6eb-4afe-4598-b6bc-ec47a0d6d933"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="0" width="32" height="18" uuid="6e12a448-ba91-4898-bc8e-7bdb421b501b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ID_CONEXION}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="118" y="587" width="28" height="18" backcolor="#33FF33" uuid="805bd1ca-e716-4a1e-abf6-e7470aa610a1"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="0" width="28" height="18" uuid="3dbe0134-9251-4c25-889f-f0f108b69255"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ID_SOCIO}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="47" y="457" width="22" height="18" backcolor="#FFFF33" uuid="8dfa308f-5419-4b55-a84d-69b5c7d43606"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="0" width="22" height="18" uuid="63904421-ec1f-4c21-a23f-08858f8f42be"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ID_NRO_ZONA}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="118" y="457" width="28" height="18" backcolor="#FFFF33" uuid="9752a095-e4bf-48cd-9d0f-9d3e29854b08"/>
+				<textField>
+					<reportElement mode="Transparent" x="2" y="0" width="26" height="18" uuid="c1ef6ece-b595-49db-a0bf-f3ffc3848cd1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ID_SOCIO}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="154" y="457" width="39" height="18" backcolor="#FFFF33" uuid="48094e7a-a0b5-44d7-95f9-5e1213325483"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="0" width="39" height="18" uuid="f0d5c543-6f17-488c-960b-b306d364106b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tip_sumi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="326" y="463" width="50" height="14" backcolor="#FFFF33" uuid="aace34ea-a875-4bef-834a-8b2de0726934"/>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="0" width="50" height="14" uuid="c6ae409a-f467-471d-8bc0-432f3b2c4337"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{FECHAe}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="249" y="463" width="73" height="14" backcolor="#FFFF33" uuid="d61da0c1-ddbd-4816-9980-b866b3a8e95e"/>
+				<staticText>
+					<reportElement mode="Transparent" x="0" y="0" width="73" height="14" uuid="0d06bd43-c916-4aa2-b94a-a741eafcd42f"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha Emisión:]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="249" y="443" width="79" height="14" backcolor="#FFFF33" uuid="871221bd-23e2-427e-a736-ff3795af0d5b"/>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="249" y="423" width="184" height="13" backcolor="#FFFF33" uuid="fb27f017-cc09-47d3-a9c2-d1cae42ad50f"/>
+				<textField>
+					<reportElement mode="Transparent" x="1" y="0" width="183" height="13" uuid="640aa1ac-deb2-43f4-909b-9154622261a1"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA['Comprobante-Recibo Nº: '+$F{ID_RECIBO}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="78" y="457" width="32" height="18" backcolor="#FFFF33" uuid="d8fe5849-71ee-4653-8aca-33162b139492"/>
+				<textField>
+					<reportElement mode="Transparent" x="1" y="0" width="31" height="18" uuid="0ac35f45-3c96-4a85-a821-5a30a60bffa7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ID_CONEXION}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement mode="Transparent" x="404" y="489" width="50" height="14" uuid="f4a91024-4801-4deb-aee3-1c4a242f196d"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="249" y="443" width="78" height="14" uuid="9750aa29-cec5-4ea9-81a9-1220fe2c4be3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APELLIDO_RAZON_SOCIAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="156" y="587" width="39" height="18" uuid="36ccc5c0-22bb-43b0-bc46-4acd2f43712b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tip_sumi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="249" y="573" width="78" height="14" uuid="6f60a92d-ce48-4351-a6ed-f0793d35ac90"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APELLIDO_RAZON_SOCIAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="328" y="593" width="48" height="14" uuid="5a64e9c1-4918-41ac-8c37-07807c278635"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHAe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="249" y="593" width="73" height="14" uuid="d51c7e18-392b-4535-94fd-d37af988073e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Emisión:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="249" y="553" width="183" height="13" uuid="e2bacc43-4e42-46cc-9a74-b323f69f3bd7"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA['Comprobante-Recibo Nº: '+$F{ID_RECIBO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="406" y="619" width="50" height="14" uuid="d8bd9342-9f59-4015-b653-b2cf06f32166"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField evaluationTime="Band" pattern="$ #,##0.00">
+				<reportElement mode="Transparent" x="433" y="489" width="81" height="14" uuid="9c18bdd4-58a3-488a-b556-bf9512d14e08"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{suma}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Band" pattern="$ #,##0.00">
+				<reportElement mode="Transparent" x="433" y="619" width="81" height="14" uuid="6847d021-0d09-4af4-8932-3312cc4e3ab6"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$V{suma}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement mode="Transparent" x="10" y="137" width="346" height="138" uuid="64702ac0-7b3a-403a-8134-0448904e7b56"/>
+				<subreportParameter name="id_recibo">
+					<subreportParameterExpression><![CDATA[$F{ID_RECIBO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="SUMA" toVariable="suma" calculation="First"/>
+				<subreportExpression><![CDATA["C:\\Users\\NAm\\Desktop\\TRABAJOS\\Recursos cooperativa\\REPORTES 04-04-16\\RECIBOS\\RECIBO_SUBREPORT.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+</jasperReport>

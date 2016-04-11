@@ -1,0 +1,1 @@
+update SOCIOS set INSCRIPTO_GANANCIAS = 0;

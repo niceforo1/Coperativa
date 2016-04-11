@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+
+		<style>
+.ACTIVO {
+	color: green;
+	font-weight: bold;
+}
+
+.PENDIENTE {
+	color: orange;
+	font-weight: bold;
+}
+
+.BAJA {
+	color: red;
+	font-weight: bold;
+}
+
+.label {
+	font-weight: bold;
+}
+
+</style>
+		<center>
+			<h:form id="alta">
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />										
+				<p:ajaxStatus style="display:block; margin-bottom:0em;height:0px;">					
+				</p:ajaxStatus>		 
+				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+					<p:graphicImage library="images" name="ajax-loader.gif" />
+				</p:dialog>
+				<p:panel>
+				<f:facet name="header">
+					<p:outputLabel value="Consulta de Socios"/>
+					<p:selectOneRadio id="seleccion2"
+						value="#{socioBean.filtroBusSoc}" colspan="2">
+						<f:selectItem itemLabel="Numero Socio" itemValue="numeroS" />
+						<f:selectItem itemLabel="Nombre Socio" itemValue="nombreS" />
+						<p:ajax process="seleccion2" update=":alta" />
+					</p:selectOneRadio>
+				</f:facet>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Numero Socio" for="socio" rendered="#{socioBean.filtroBusSoc eq 'numeroS'}"/>
+					<p:inputText id="socio" value="#{socioBean.idSocio}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }"
+								rendered="#{socioBean.filtroBusSoc eq 'numeroS'}">
+						<p:ajax event="blur" update="socioDT"
+							listener="#{socioBean.retornarSocio}" />
+					</p:inputText>
+					<p:outputLabel value="Nombre Socio" for="socioNom" rendered="#{socioBean.filtroBusSoc eq 'nombreS'}"/>
+					<p:inputText id="socioNom" converter="upperConverter" value="#{socioBean.nombreSocBusq}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }"
+								rendered="#{socioBean.filtroBusSoc eq 'nombreS'}">
+						<p:ajax event="blur" update="socioDT"
+							listener="#{socioBean.retornarSocio}" />
+					</p:inputText>
+				</p:panelGrid>
+				<br/><br/>
+				<p:dataTable id="socioDT" var="soc" value="#{socioBean.lstSocioBusqueda}"
+					scrollable="true" scrollHeight="150" rowKey="#{soc.numero}"
+					emptyMessage="#{msg.paramNoDatos}" >
+					<f:facet name="header">
+						<center>
+							<h:outputText value="#{msg.paramSocioTable}" />
+						</center>
+					</f:facet>
+					<p:column id="numero" headerText="#{msg.paramSocioNumero}">
+						<h:outputText value="#{soc.numero}" />
+					</p:column>
+					<p:column id="dni" headerText="#{msg.paramSocioDni}">
+						<h:outputText value="#{soc.numeroDocumento}" />
+					</p:column>
+					<p:column headerText="#{msg.paramSocioNombre}">
+						<h:outputText
+							value="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" />
+					</p:column>
+					
+					<p:column style="width:32px;text-align: center"
+						exportable="false">
+						<p:commandButton icon="fa fa-fw fa-search"
+							actionListener="#{socioBean.mostrarSocio(soc)}"
+							update=":alta :socioDet" immediate="true"
+							oncomplete="PF('socDetDialog').show()" />
+					</p:column>
+					
+				</p:dataTable>
+				</p:panel>
+			</h:form>
+
+			<p:dialog header="Socio Detalle" widgetVar="socDetDialog"
+				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
+				resizable="false" dynamic="true" maximizable="false"
+				appendTo="@(body)" >
+				<h:form id="socioDet">
+					<p:outputPanel id="socDetail" style="text-align:center;">
+						<p:scrollPanel style="width:auto;height:auto"
+							rendered="#{not empty socioBean.socioSeleccionado}" mode="native">
+							<center>
+							<p:panelGrid columns="4"
+								rendered="#{not empty socioBean.socioSeleccionado}"
+								columnClasses="label,value,label,value">
+								<f:facet name="header">
+									<h:outputText value="" />
+								</f:facet>
+								<p:outputLabel value="Nombre:" styleClass="#{label}" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.apellidoRazonSocial} #{socioBean.socioSeleccionado.nombreDenominacion}" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.tipoDocumento.descripcion}:" />
+								<p:outputLabel value="#{socioBean.socioSeleccionado.numeroDocumento}" />
+								<p:outputLabel value="ESTADO:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.estadoSocio.descripcion}"
+									styleClass="#{socioBean.socioSeleccionado.estadoSocio.descripcion}" />
+								<p:outputLabel value="Fecha Alta:" />
+								<p:outputLabel
+									value="#{loginBean.formatearFechaMes(socioBean.socioSeleccionado.fechaAlta, 'dd/MM/yyyy')}" />
+								<p:outputLabel value="Tipo Socio:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.tipoSocio.descripcion}" />	
+								<p:outputLabel value="Estado Civil:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.estadoCivil.descripcion}" />
+								<p:outputLabel value="Nombre Conyuge:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.nombreConyuge}" />
+								<p:outputLabel value="Telefono:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.numCelular}" />
+								<p:outputLabel value="Email:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.email}" />
+								<p:outputLabel value="Nacionalidad:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.pais.descripcion}" />	
+								<p:outputLabel value="Profesion/Rubro:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.profesionRubro}" />	
+								<p:outputLabel value="Observaciones:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.observaciones}" />
+								<p:outputLabel value="Condicion IVA:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.condicionIva.descripcion}" />
+								<p:outputLabel value="Numero Iva:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.numeroIva}" />						
+								
+								<p:outputLabel value="ING Brutos:" />								
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.ingBrutos}" />	
+								<p:outputLabel value="Inscripto a Ganancias:" />
+								<p:outputLabel
+									value="#{socioBean.socioSeleccionado.inscriptoGanancias == true?'SI':'NO'}" />	
+								</p:panelGrid>
+								</center>
+							<p:panelGrid columns="2"
+								rendered="#{not empty socioBean.socioSeleccionado}"
+								columnClasses="label,value">
+								<p:outputLabel value="Domicilio:" />
+								<p:dataTable
+									value="#{socioBean.socioSeleccionado.domicilios}"
+									var="domici" emptyMessage="#{msg.paramNoDatos}">
+									<p:column headerText="Pais">
+										<p:outputLabel
+											value="#{domici.pais.descripcion}" />
+									</p:column>
+									<p:column headerText="Provincia">
+										<p:outputLabel
+											value="#{domici.provincia.descripcion}" />
+									</p:column>
+									<p:column headerText="Localidad">
+										<p:outputLabel
+											value="#{domici.localidad}" />
+									</p:column>
+									<p:column headerText="Barrio">
+										<p:outputLabel value="#{domici.barrio}" />
+									</p:column>
+									<p:column headerText="Direccion">
+										<p:outputLabel value="#{domici.calle}" />
+									</p:column>
+									<p:column headerText="Numero">
+										<p:outputLabel value="#{domici.numero}" />
+									</p:column>
+									<p:column headerText="Departamento">
+										<p:outputLabel value="#{domici.departamento}" />
+									</p:column>
+									<p:column headerText="Cod Postal">
+										<p:outputLabel
+											value="#{domici.codPostal}" />
+									</p:column>
+									<p:column headerText="Tel Fijo">
+										<p:outputLabel
+											value="#{domici.telFijo}" />
+									</p:column>
+									<p:column headerText="Tipo Domicilio">
+										<p:outputLabel value="#{domici.tipoDomicilio.descripcion}" />
+									</p:column>
+								</p:dataTable>								
+							</p:panelGrid>
+							
+							<p:panelGrid columns="2"
+								rendered="#{not empty socioBean.socioSeleccionado}"
+								columnClasses="label,value">
+								<p:outputLabel value="Conexiones:" />
+								<p:dataTable
+									value="#{socioBean.socioSeleccionado.conexiones}" var="conex" emptyMessage="#{msg.paramNoDatos}">
+									<p:column id="id" headerText="#{msg.paramConexionNumero}" style="width:50px;">
+										<h:outputText value="#{conex.id}" />
+									</p:column>									
+									<p:column headerText="#{msg.paramConexionCalle}">
+										<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
+									</p:column>
+									<p:column headerText="Estado" style="width:100px;">
+										<h:outputText value="#{conex.estadoConexion.descripcion}" />
+									</p:column>
+									<p:column headerText="Medidor" style="width:70px;">
+										<p:outputLabel value="#{conex.nroMedidor}" />
+									</p:column>
+									<p:column headerText="Zona" style="width:50px;">
+										<p:outputLabel value="#{conex.zonaConexion.descripcion}" />
+									</p:column>
+									<p:column headerText="Tipo Sumis." style="width:70px;">
+										<p:outputLabel value="#{conex.tipoSuministro.descripcion}" />										
+									</p:column>	
+									<p:column headerText="Cat. Conex." style="width:70px;">
+										<p:outputLabel value="#{conex.categoriaConexion.descripcion}" />
+									</p:column>
+									<p:column headerText="Cat. Conex." style="width:70px;">
+										<p:outputLabel value="#{conex.tipoConexion.descripcion}" />
+									</p:column>										
+								</p:dataTable>								
+							</p:panelGrid>							
+						</p:scrollPanel>
+					</p:outputPanel>
+				</h:form>
+			</p:dialog>			
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

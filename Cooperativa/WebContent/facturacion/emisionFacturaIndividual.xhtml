@@ -26,10 +26,10 @@
 				</p:dialog>
 				<p:panelGrid columns="6">
 					<p:outputLabel value="Número Conexión" for="numero" />
-					<p:inputText id="numero" value="#{consEstDeudaBean.conexionID}">
-						<p:ajax event="blur" update="conEst, socio, socio1, factDT"
-							listener="#{consEstDeudaBean.retornarConexion}" />
-					</p:inputText>
+					<p:inputText id="numero" value="#{consEstDeudaBean.conexionID}"/>				
+					<p:commandButton value="Consultar" actionListener="#{consEstDeudaBean.retornarConexion}" update=":alta"/>						
+				</p:panelGrid>
+				<p:panelGrid columns="2">
 					<p:outputLabel value="Estado: " for="conEst" />
 					<p:outputLabel value="#{consEstDeudaBean.conexion.estadoConexion.descripcion}" id="conEst" />
 					<p:outputLabel value="Titular:" />
@@ -41,7 +41,7 @@
 						<p:outputLabel
 							value="#{consEstDeudaBean.conexion.domicilioServicio.barrio} #{consEstDeudaBean.conexion.domicilioServicio.calle} #{consEstDeudaBean.conexion.domicilioServicio.numero}"
 							id="socio1" />								
-					</p:panelGrid>	
+					</p:panelGrid>
 				</p:panelGrid>
 			</p:panel>
 			<br/>
@@ -67,8 +67,7 @@
 				</p:column>
 				<p:column id="Fact">
 					<p:commandButton icon="fa fa-fw fa-print"
-									actionListener="#{reportBean.verFactura(fact.conexion, fact.periodoFacturacion)}"
-									 immediate="true"/>
+									actionListener="#{reportBean.verFactura(fact.conexion, fact.periodoFacturacion)}" ajax="false"/>
 				</p:column>				
 			</p:dataTable>
 		</h:form>

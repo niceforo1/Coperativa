@@ -44,9 +44,11 @@
 				<p:tabView dynamic="true" cache="true">
 					<p:tab id="consulta" title="Consulta Conexion">
 						<p:panel>
-							<f:facet name="header">
-								<p:outputLabel value="Consulta Conexión"/>
-							</f:facet>
+							<ui:remove>
+								<f:facet name="header">
+									<p:outputLabel value="Consulta Conexión"/>
+								</f:facet>
+							</ui:remove>							
 						<p:ajaxStatus style="display:block;margin-bottom:0em;height:0px;">					
 						</p:ajaxStatus>		 
 						<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
@@ -125,8 +127,6 @@
 							<p:outputLabel id="denom" value="#{conexionBean.socioSeleccionado.apellidoRazonSocial}"/>							
 						</p:panelGrid>
 						<br/><br/>
-
-
 						<p:panelGrid columns="1" style="width:750px;"
 							rendered="#{ !(conexionBean.socio.numero == 0) }">
 
@@ -443,6 +443,7 @@
 								<f:facet name="header">
 									<h:outputText value="" />
 								</f:facet>
+								
 								<p:outputLabel  value="Nro. Socio"/>
 								<p:outputLabel value="#{conexionBean.conexionSeleccionada.socio.numero}" />
 
@@ -600,6 +601,9 @@
 									</p:column>
 									<p:column headerText="#{msg.paramUbicacionCatPh}">
 										<p:outputLabel value="#{ubicCat.ph}" />
+									</p:column>
+									<p:column headerText="Tipo Ubicacion">
+										<p:outputLabel value="#{ubicCat.tipoUbicacionCatastral.descripcion}" />
 									</p:column>
 								</p:dataTable>
 							</p:panelGrid>

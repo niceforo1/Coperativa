@@ -14,24 +14,23 @@ import net.sf.jasperreports.engine.JRException;
 
 public class CJasperReports {
 
-	//private static JasperReport report;
+	// private static JasperReport report;
 	private static JasperPrint reportFilled;
-	
+
 	private static JasperViewer viewer;
-	
-	public static void createReport(Connection cnn,JasperReport report, HashMap<String,Object> hash){
-		try{
+
+	public static void createReport(Connection cnn, JasperReport report, HashMap<String, Object> hash) {
+		try {
 			reportFilled = new JasperPrint();
-			reportFilled = JasperFillManager.fillReport(report,hash,cnn);
-		}catch(JRException e){
+			reportFilled = JasperFillManager.fillReport(report, hash, cnn);
+		} catch (JRException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void showViewer(){
+
+	public static void showViewer() {
 		viewer = new JasperViewer(reportFilled);
-		//viewer.setVisible(true);
-		viewer.viewReport(reportFilled, false);		
+		// viewer.setVisible(true);
+		viewer.viewReport(reportFilled, false);
 	}
-		
-}	
+}

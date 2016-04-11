@@ -16,17 +16,32 @@
 	<ui:define name="content">
 		<center>
 			<h:form id="alta">
+				
 				<center>
+					<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />
 					<p:panel style="width: 300px;">
+					<p:ajaxStatus style="display:block;margin-bottom:0em;height:0px;">					
+					</p:ajaxStatus>		 
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+					<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+						<p:graphicImage library="images" name="ajax-loader.gif" />
+					</p:dialog>
 					<f:facet name="header">
 						<p:outputLabel value="PLANILLA LECTURAS" />
 					</f:facet>	
 					<p:panelGrid columns="1">
-																
+						<p:outputLabel value="Periodos Lectura" for="perLect" />
+						<p:selectOneMenu id="perLect" value="#{reportBean.periodoLectu}"
+							panelStyle="width:180px" effect="fold" required="true">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{periodoLecturaBean.lstPeriodoLectura}"
+								var="perLectura" itemLabel="#{perLectura.mes}/#{perLectura.anio}"
+								itemValue="#{perLectura.id},#{perLectura.mes},#{perLectura.anio}" />
+						</p:selectOneMenu>						
 					<f:facet name="footer">
 							<center>								
-								<p:commandButton actionListener="#{reportBean.verPlanillaLectura}"
-						 value="Planilla de Lecturas" />								
+								<p:commandButton action="#{reportBean.verPlanillaLectura}"
+						 value="Planilla de Lecturas" ajax="false"/>								
 							</center>
 						</f:facet>
 					</p:panelGrid>

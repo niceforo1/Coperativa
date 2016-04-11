@@ -57,7 +57,7 @@ import model.UbicacionCatastral;
 @ManagedBean(name = "conexionBean")
 @ViewScoped
 public class ConexionBean implements Serializable {
-	private static final Logger LOG = Logger.getLogger(ConexionBean.class); 
+	private static final Logger LOG = Logger.getLogger(ConexionBean.class);
 
 	private List<Socio> lstSociosActivos;
 	private Socio socio;
@@ -71,6 +71,8 @@ public class ConexionBean implements Serializable {
 
 	private long paisDomFactId;
 	private long provinciaDomFactId;
+
+	private String filtroBusSoc;
 
 	private UbicacionCatastral ubicOficial;
 	private UbicacionCatastral ubicCatastral;
@@ -112,17 +114,13 @@ public class ConexionBean implements Serializable {
 	public ConexionBean() {
 		inicializar();
 	}
-	
-	public void retornarSocio() {
-		socioSeleccionado= new Socio();
-		SocioDAO socioDAO = new SocioDAOImplement();
-		try {
-			socioSeleccionado =socioDAO.buscarSocioID(idSocio);
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al retornar Socio.", e.getMessage()));
-			LOG.error("Error al Retornar Socio: " +e.getMessage());
-		}
+
+	public String getFiltroBusSoc() {
+		return filtroBusSoc;
+	}
+
+	public void setFiltroBusSoc(String filtroBusSoc) {
+		this.filtroBusSoc = filtroBusSoc;
 	}
 
 	public Conexion getConexionBusqueda() {
@@ -156,7 +154,7 @@ public class ConexionBean implements Serializable {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
-			LOG.error("Error al Lista Socios Activos: " +e.getMessage());
+			LOG.error("Error al Lista Socios Activos: " + e.getMessage());
 		}
 		return lstSociosActivos;
 	}
@@ -687,6 +685,18 @@ public class ConexionBean implements Serializable {
 			LOG.error("Error al Editar Datos Tarjeta: " + e.getMessage());
 		}
 	}
+	
+	public void retornarSocio() {
+		socioSeleccionado = new Socio();
+		SocioDAO socioDAO = new SocioDAOImplement();
+		try {
+			socioSeleccionado = socioDAO.buscarSocioID(idSocio);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al retornar Socio.", e.getMessage()));
+			LOG.error("Error al Retornar Socio: " + e.getMessage());
+		}
+	}
 
 	public void onRowEdit(RowEditEvent event) {
 		try {
@@ -718,7 +728,7 @@ public class ConexionBean implements Serializable {
 		// conexionBusqueda = new Conexion();
 		idConexionBus = null;
 		socio = new Socio();
-		//socioSeleccionado = new Socio();
+		// socioSeleccionado = new Socio();
 		domServ = new Domicilio();
 		domFact = new Domicilio();
 		paisDomFactId = 0;

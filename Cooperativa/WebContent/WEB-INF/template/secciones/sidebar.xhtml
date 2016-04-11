@@ -29,6 +29,7 @@
             <p:menuitem value="Alta Conexión" url="/conexiones/conexion.xhtml" icon="ui-icon-document" />
             <p:menuitem value="Período Lecturas" url="/conexiones/periodoLectura.xhtml" icon="ui-icon-document" />
             <p:menuitem value="Lecturas" url="/conexiones/lecturas.xhtml" icon="ui-icon-document" />
+            <p:menuitem value="Editar Lecturas" url="/conexiones/edicionLecturas.xhtml" icon="ui-icon-document" />            
         </p:submenu>
 
         <p:submenu label="Facturación" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
@@ -36,12 +37,17 @@
         	<p:menuitem value="Configuración Factura" url="/facturacion/configuracionFactura.xhtml" icon="ui-icon-document" />
         	<p:menuitem value="Consulta Estado Deuda Socio" url="/facturacion/estadoDeudaSocio.xhtml" icon="ui-icon-document" />
         	<p:menuitem value="Emision Factura Individual" url="/facturacion/emisionFacturaIndividual.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Emision Factura Masiva" url="/facturacion/emisionFacturaMasiva.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Consulta Saldo Conexiones" url="/facturacion/consultaSaldoConexiones.xhtml" icon="ui-icon-document" />
         	
         </p:submenu>
         <p:submenu label="Reportes" > 
 			<p:menuitem value="Planilla de Lecturas" url="/reportes/planillaLectura.xhtml" icon="ui-icon-document" />
-			<p:menuitem value="Reporte de Socios" url="/reportes/reporteSocios.xhtml" icon="ui-icon-document" />
-			<p:menuitem value="Reporte Socios/Conexiones" url="/reportes/reporteSociosConexiones.xhtml" icon="ui-icon-document" />				
+			<p:menuitem value="Reporte de Socios por Estado" url="/reportes/reporteSociosEstado.xhtml" icon="ui-icon-document" />
+			<p:menuitem value="Reporte Conexiones en Mora" url="/reportes/reporteConexionesMora.xhtml" icon="ui-icon-document" />
+			<p:menuitem value="Reporte Socios/Conexiones" url="/reportes/reporteSociosConexiones.xhtml" icon="ui-icon-document" />
+			<p:menuitem value="Reporte Consumo Anual por Zona" url="/reportes/reporteConsumoZona.xhtml" icon="ui-icon-document" />
+			<p:menuitem value="Reporte Consumo por Conexión" url="/reportes/reporteConsumoConexion.xhtml" icon="ui-icon-document" />
 		</p:submenu>
 		<p:submenu label="Usuarios" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}"> 
 			<p:menuitem value="Alta Usuario" url="/usuarios/altaUsuarios.xhtml" icon="ui-icon-document" />

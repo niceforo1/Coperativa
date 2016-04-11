@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report5" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3aa4ca2-579b-46c9-ab58-e8bdd7fb0701">
+	<property name="ireport.zoom" value="1.0000000000000178"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#73B0E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dataset_consumos" uuid="90539652-be03-46cd-9a5d-2a3a1dd9a934">
+		<parameter name="desde" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="hasta" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="id_conexion" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[exec SP_SELECT_DATOS_CONSUMOS_IND $P{desde},$P{hasta},$P{id_conexion}]]>
+		</queryString>
+		<field name="ANIO" class="java.lang.Integer"/>
+		<field name="PER1" class="java.lang.Integer"/>
+		<field name="PER2" class="java.lang.Integer"/>
+		<field name="PER3" class="java.lang.Integer"/>
+		<field name="PER4" class="java.lang.Integer"/>
+		<field name="PER5" class="java.lang.Integer"/>
+		<field name="PER6" class="java.lang.Integer"/>
+		<field name="PER7" class="java.lang.Integer"/>
+		<field name="PER8" class="java.lang.Integer"/>
+		<field name="PER9" class="java.lang.Integer"/>
+		<field name="PER10" class="java.lang.Integer"/>
+		<field name="PER11" class="java.lang.Integer"/>
+		<field name="PER12" class="java.lang.Integer"/>
+		<variable name="variable1" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER1}]]></variableExpression>
+		</variable>
+		<variable name="variable2" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER2}]]></variableExpression>
+		</variable>
+		<variable name="variable3" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER3}]]></variableExpression>
+		</variable>
+		<variable name="variable4" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER4}]]></variableExpression>
+		</variable>
+		<variable name="variable5" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER5}]]></variableExpression>
+		</variable>
+		<variable name="variable6" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER6}]]></variableExpression>
+		</variable>
+		<variable name="variable7" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER7}]]></variableExpression>
+		</variable>
+		<variable name="variable8" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER8}]]></variableExpression>
+		</variable>
+		<variable name="variable9" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER9}]]></variableExpression>
+		</variable>
+		<variable name="variable10" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER10}]]></variableExpression>
+		</variable>
+		<variable name="variable11" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER11}]]></variableExpression>
+		</variable>
+		<variable name="variable12" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{PER12}]]></variableExpression>
+		</variable>
+		<variable name="total zona" class="java.lang.Integer">
+			<variableExpression><![CDATA[($F{PER1}+$F{PER2}+$F{PER3}+$F{PER4}+$F{PER5}+$F{PER6}+$F{PER7}+$F{PER8}+$F{PER9}+$F{PER10}+$F{PER11}).intValue()]]></variableExpression>
+		</variable>
+		<variable name="total_anio" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$V{total zona}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="desde" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="hasta" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_conexion" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT s.ID_SOCIO,s.APELLIDO_RAZON_SOCIAL +', '+ ISNULL(s.NOMBRE_DENOMINACION,'') as apenom,
+d.CALLE+', '+isnull(convert(varchar(10),d.NUMERO),'') as domicilio
+FROM
+CONEXIONES c
+INNER JOIN SOCIOS s
+	ON s.ID_SOCIO=C.ID_SOCIO
+INNER JOIN DOMICILIOS d
+	ON d.ID_DOMICILIO=c.ID_DOMICILIO_SERV
+WHERE c.ID_CONEXION=$P{id_conexion}]]>
+	</queryString>
+	<field name="ID_SOCIO" class="java.math.BigDecimal"/>
+	<field name="apenom" class="java.lang.String"/>
+	<field name="domicilio" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="221" y="0" width="360" height="22" uuid="07ed5b74-3399-4400-966a-2d07572fd9bc"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE CONSUMOS POR CONEXION]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="428">
+			<staticText>
+				<reportElement x="2" y="10" width="77" height="20" uuid="7086e95d-9c20-478a-a474-df50f05ae98a"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[AÑO DESDE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="79" y="10" width="100" height="20" uuid="27a4491a-d382-496e-a9af-9697f0e017bf"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="33" width="77" height="20" uuid="411df881-462d-4149-8407-89d7c9b18be0"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[AÑO HASTA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="79" y="33" width="100" height="20" uuid="53ee5fe6-38c2-44b8-9434-89bb6e9676bb"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="67" width="100" height="20" uuid="ab95049d-44cd-404b-8e0f-9b98e127a15a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{id_conexion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="67" width="77" height="20" uuid="9543a79b-4404-4f99-9f4b-aee606677727"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[CONEXION:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="439" y="67" width="100" height="20" uuid="cd33004b-3045-4f2b-87d0-f08dbaa91a2b"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID_SOCIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="246" y="67" width="100" height="20" uuid="7d6c5e65-9908-439d-b8ce-693fc3cf3db5"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apenom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="104" width="100" height="20" uuid="3b7981cb-cbf2-4f49-ad8e-7aeb3738061d"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{domicilio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="198" y="67" width="48" height="20" uuid="8cdfd91d-f8d9-47bb-976f-c98e7850eff7"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[SOCIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="67" width="48" height="20" uuid="bf1a3f04-9f28-4ac2-9c0e-afb041787f33"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[NRO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="104" width="77" height="20" uuid="17d19086-f96d-4d46-bb66-51ee4cf41f01"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[DOMICILIO:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" mode="Transparent" x="2" y="142" width="802" height="263" backcolor="#33FF99" uuid="a1bc22b2-ae10-45ae-ba9c-6ff2bf01bf01"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dataset_consumos" uuid="519b1cab-ba98-46f2-a568-3882a81ef8ff">
+						<datasetParameter name="desde">
+							<datasetParameterExpression><![CDATA[$P{desde}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="hasta">
+							<datasetParameterExpression><![CDATA[$P{hasta}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="id_conexion">
+							<datasetParameterExpression><![CDATA[$P{id_conexion}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="55" uuid="daa9390c-6571-4673-bba9-4cd7d9c362d5">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="fb5b3a0d-71c9-47d7-8580-9ebc3f7f93de"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AÑO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="6693f550-ebd2-4478-a72f-0c748996f42a"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA['AÑO '+$F{ANIO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="c1c9e283-bb10-46f3-bcf0-276f584a34b9">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="37be2a22-432d-441a-a94c-90d5eda6c6e7"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 1]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="77e1d5d5-6e4a-4976-be22-1f38a481a163"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER1} +' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="df875357-051a-4ede-82cb-03a94a6e12ef">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="5fa26eb8-07c9-475b-bc31-eca0b367ca7e"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 2]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="b5a2e827-fade-48f5-a8f8-b57c1959a564"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER2}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="da8fe7be-6fb2-4ffd-aec0-7ba931ab7f17">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="e05903e8-d707-416b-8e5e-dd5cf712a1eb"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 3]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="10c9b7eb-370f-4977-9d89-ae974ead49f4"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER3}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="b7ee58eb-ab38-4513-b1ae-df39dd6e37bf">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="24162a83-f37c-4350-8160-1809f0eccbef"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 4]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="d05ba406-9618-4ed6-9008-20757812b73e"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER4}+ ' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="692b49be-6446-45cb-8240-9b57fca086f0">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="be189a82-2870-4e0f-9416-72e954e2529d"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 5]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="6e355c88-1cca-4332-9bbb-9339abbe3b5b"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER5}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="32083d74-73bb-482e-9dfe-bebd2b45a34c">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="b6d3ddab-fff8-4ca7-ae08-5aecb796cfb8"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 6]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="6df2f74c-255d-4723-bcea-20d34181e414"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER6}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="3cb7586b-4847-4bcc-8057-5eee347f64f6">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="29c6bebf-21b9-4ada-a765-544545878050"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 7]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="a9bf0c2d-8b90-4d55-9b66-8da6d212f52d"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER7}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="e69be760-1db6-44a0-8f28-e9d85b200eb5">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="3d7ba744-58d4-474b-8738-e788173f5341"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 8]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="7b33ae83-c41d-488b-8660-d4b1c7947ab2"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER8}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="f43f690f-71a0-4cff-b695-da8925006b87">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="269096c6-6bba-480c-be11-39f42a2c1d57"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 9]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="6eaaa4cc-5624-4509-be6d-746f0c586a57"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER9}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="456c2fc3-d4b9-48c6-b4ea-312d944c7769">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="fd466ec9-7d24-44c2-ab68-eff48e56a65d"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 10]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="8fceeff8-cfb0-4ea9-8572-49bd5a9fc026"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER10}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="503d4424-b9ff-4b9c-85e0-f9bad9567277">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="a450a0c2-e439-4406-b8d4-b4997fba9acf"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 11]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="cf95054a-76fc-4c6f-ac6e-c9686f9cbf03"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER11}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="ef9faad5-00e0-4b8c-8304-e83430358c85">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="15" uuid="cca76021-ed1a-4f18-9a09-da9adf7325a5"/>
+								<textElement textAlignment="Center">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PER 12]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="57e25f0c-6a79-4932-a8d5-e20bb556fc1e"/>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PER12}+' m3']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="bfc35ab4-dde7-4fd5-bb51-e578bdb8b5b1">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="15" forecolor="#000000" backcolor="#99CCFF" uuid="c694fe34-c866-4eb6-b41f-5f43db0d868e"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+									<font fontName="SansSerif" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="21" uuid="3b8581bb-05a4-455d-9b68-093ecf718212"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$V{total zona}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</pageHeader>
+</jasperReport>

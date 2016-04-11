@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+	<center>
+		<h:form id="alta">
+			<p:panel>
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />
+			
+				<f:facet name="header">
+					<p:outputLabel value="Facturación Masiva"/>
+				</f:facet>
+				<p:ajaxStatus style="display:block;margin-bottom:0em;height:0px;">					
+				</p:ajaxStatus>		 
+				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+					<p:graphicImage library="images" name="ajax-loader.gif" />
+				</p:dialog>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Periodos Facturación" for="perFact" />							
+					<p:selectOneMenu id="perFact"
+						value="#{periodoFacturacionBean.peridoIdFactEleg}" panelStyle="width:180px"
+						effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{periodoFacturacionBean.lstPeriodoFacturacion}"
+							var="perFact" itemLabel="#{perFact.mes}/#{perFact.anio}"
+							itemValue="#{perFact.id}" />
+					</p:selectOneMenu>
+					<f:facet name="footer">
+						<center>
+							<p:commandButton actionListener="#{periodoFacturacionBean.consultarFacturas}" value="Consultar Facturas" update=":alta"/>
+						</center>
+					</f:facet>
+				</p:panelGrid>
+				<br/>
+				<p:panelGrid columns="2" rendered="#{periodoFacturacionBean.peridoIdFactEleg != 0}">
+					<p:outputLabel value="Total Facturas" rendered="#{periodoFacturacionBean.peridoIdFactEleg != 0}"/>
+					<p:outputLabel value="#{periodoFacturacionBean.totalFac}" rendered="#{periodoFacturacionBean.peridoIdFactEleg != 0}"/>
+					<p:outputLabel value="Desde:" rendered="#{periodoFacturacionBean.peridoIdFactEleg != 0}"/>
+					<p:inputText value="#{periodoFacturacionBean.factMin}" rendered="#{periodoFacturacionBean.peridoIdFactEleg != 0}"/>
+					<p:outputLabel value="Hasta:" rendered="#{periodoFacturacionBean.peridoIdFactEleg != 0}"/>					
+					<p:inputText value="#{periodoFacturacionBean.factMax}" rendered="#{periodoFacturacionBean.peridoIdFactEleg != 0}"/>
+					<f:facet name="footer">
+						<center>
+							<p:commandButton value="Imprimir" actionListener="#{periodoFacturacionBean.generarFactMasiva}" rendered="#{periodoFacturacionBean.peridoIdFactEleg != 0}"/>
+						</center>
+					</f:facet>					
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+	</center>
+	</ui:define>
+</ui:composition>
+</html>

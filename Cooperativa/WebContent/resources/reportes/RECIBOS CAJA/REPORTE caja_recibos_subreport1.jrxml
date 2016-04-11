@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPORTE caja_recibos_subreport1" language="groovy" pageWidth="435" pageHeight="752" columnWidth="435" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="63da0e87-b84f-41f0-a331-1d98b0a5142d">
+	<property name="ireport.zoom" value="1.6105100000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_recibo" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT CONVERT( varchar(10), r.FECHA_EMISION_RECIBO,103 ) as fecha,r.ID_RECIBO,r.ID_CONEXION, s.APELLIDO_RAZON_SOCIAL+','+ISNULL(s.NOMBRE_DENOMINACION,'') as ape_nom,SUM(ri.IMPORTE) as imp FROM RECIBOS r
+INNER JOIN RECIBOS_RECIBOS_ITEMS rri
+	ON rri.RECIBOS_ID_RECIBO=r.ID_RECIBO
+INNER JOIN RECIBOS_ITEMS ri
+	ON ri.ID_RECIBO_ITEM=rri.lstReciboItems_ID_RECIBO_ITEM
+INNER JOIN CONEXIONES c
+	ON c.ID_CONEXION=r.ID_CONEXION
+INNER JOIN SOCIOS s
+	ON s.ID_SOCIO=c.ID_SOCIO
+where r.ID_FORMA_PAGO=$P{id_recibo}
+group by r.ID_RECIBO,r.FECHA_EMISION_RECIBO,s.APELLIDO_RAZON_SOCIAL,s.NOMBRE_DENOMINACION,r.ID_CONEXION
+order by fecha desc]]>
+	</queryString>
+	<field name="fecha" class="java.lang.String"/>
+	<field name="ID_RECIBO" class="java.math.BigDecimal"/>
+	<field name="ID_CONEXION" class="java.math.BigDecimal"/>
+	<field name="ape_nom" class="java.lang.String"/>
+	<field name="imp" class="java.lang.Double"/>
+	<variable name="suma" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{imp}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="15">
+			<staticText>
+				<reportElement x="0" y="1" width="61" height="13" uuid="ffa3acb9-4f09-4f49-81e3-5ce9a06ccff7"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="1" width="86" height="13" uuid="4039f086-3490-4faf-891e-db6329642d02"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID RECIBO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="14" width="434" height="1" uuid="982639d4-42f0-4c2b-b53a-5510b975b84b"/>
+			</line>
+			<staticText>
+				<reportElement x="147" y="1" width="76" height="14" uuid="c2e54d78-b7cd-4f5f-a537-b9fe0db3ec98"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NRO CONEXION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="1" width="137" height="13" uuid="467b5ad2-d306-4a13-b269-2e0319c95744"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDO Y NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="1" width="75" height="13" uuid="736dce2a-b866-472e-a651-2f3492ab309d"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField pattern="$ #,##0.00">
+				<reportElement x="360" y="1" width="75" height="15" uuid="ea6cfa9c-5fdf-40b7-b6e1-d479bd4769fe"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{imp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="61" height="15" uuid="cf1ae778-8842-4d96-95cf-5cd6827d9abd"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="61" y="1" width="86" height="15" uuid="cc41c15b-fc89-4556-bd57-62c1492d7d87"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID_RECIBO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="147" y="1" width="76" height="15" uuid="f695a233-0022-4c24-8143-1fa95fcc91da"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID_CONEXION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="1" width="137" height="15" uuid="5b23e9bf-e825-400f-a8b1-56e7c04ead65"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ape_nom}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21">
+			<textField pattern="$ #,##0.00">
+				<reportElement x="47" y="1" width="100" height="20" uuid="b4594e07-ce7e-4e12-a425-0df59cfe9db0"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{suma}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="47" height="20" uuid="52cebf96-1bd6-4b2f-96a9-884b9e5d7bbb"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUB Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="147" height="1" uuid="c3f79668-2506-486e-b702-9788c8839cbc"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

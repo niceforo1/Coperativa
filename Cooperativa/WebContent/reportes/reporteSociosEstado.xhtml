@@ -42,13 +42,15 @@
 						</p:selectOneMenu>
 																
 						<f:facet name="footer">
+						<h:form>
 							<center>								
-								<p:commandButton action="#{reportBean.verSociosEstado}"
-						 						value="Socio Estado" />								
+								<p:commandButton action="#{reportBean.verSociosEstado()}"
+						 						value="Socio Estado" ajax="false" />								
 							</center>
+							</h:form>
 						</f:facet>
-					</p:panelGrid>
-				</p:panel>					
+					</p:panelGrid>				
+				</p:panel>				
 			</h:form>						
 		</center>
 	</ui:define>

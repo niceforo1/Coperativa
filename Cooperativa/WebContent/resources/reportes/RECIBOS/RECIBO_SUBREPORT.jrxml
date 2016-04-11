@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1_subreport1" language="groovy" pageWidth="300" pageHeight="752" columnWidth="300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e15b825f-a7e7-4cd0-8114-9062db095b29">
+	<property name="ireport.zoom" value="2.3579476910000046"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_recibo" class="java.lang.Integer" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT case  ri.COMPROBANTE_ORIGEN when 'FC'
+						then ('Recibo aplicado a la factura Nº'+' '+CONVERT(varchar(10),ri.NRO_COMPROBANTE)+' Periodo: '+
+							CONVERT(varchar(10),pf.MES)+'/'+CONVERT(varchar(10),pf.ANIO))
+						else 'Recibo aplicado a intereses de las facturas anteriores' END AS descr,ri.IMPORTE
+
+  FROM
+  RECIBOS r
+  INNER JOIN RECIBOS_RECIBOS_ITEMS rri
+	ON r.ID_RECIBO=rri.RECIBOS_ID_RECIBO
+  INNER JOIN RECIBOS_ITEMS ri
+	ON ri.ID_RECIBO_ITEM= rri.lstReciboItems_ID_RECIBO_ITEM
+  INNER JOIN FACTURA f
+	ON f.ID=ri.NRO_COMPROBANTE
+	INNER JOIN PERIODO_FACTURACION pf
+		ON f.PERIODO_FACT_ID=pf.PERIODO_FACT_ID
+  WHERE
+  r.ID_RECIBO=$P{id_recibo}]]>
+	</queryString>
+	<field name="descr" class="java.lang.String"/>
+	<field name="IMPORTE" class="java.lang.Double"/>
+	<variable name="SUMA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{IMPORTE}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="13" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="206" height="12" uuid="5419c3ee-764d-47d4-affb-b7cd84c481e6"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DETALLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="0" width="77" height="12" uuid="77db1c14-14d3-4a0b-95b2-9fc538bc8bee"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTE]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="12" width="283" height="1" uuid="9ab69440-8d1d-42ed-a8fe-b123a0d2e1af"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="206" height="10" uuid="3a482a85-f75d-4d81-b73b-f364ca1444c8"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descr}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="206" y="0" width="77" height="10" uuid="3996bea6-e3c1-491b-aea0-0aef2f9847ed"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IMPORTE}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="11" width="283" height="1" uuid="56eed9ae-d4d0-452e-9b1d-924588c9afdf"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="12" splitType="Stretch">
+			<staticText>
+				<reportElement x="175" y="0" width="31" height="12" uuid="bd719eb7-0280-47e0-9b4b-b1c3c9c9b591"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="206" y="0" width="77" height="12" uuid="e981fcd8-a4ec-4d69-9ed4-ac5b953e6ab0"/>
+				<textElement textAlignment="Right">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUMA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

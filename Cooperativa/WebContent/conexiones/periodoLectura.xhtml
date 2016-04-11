@@ -37,7 +37,7 @@
 							<f:selectItem itemLabel="NOVIEMBRE" itemValue="11" />
 							<f:selectItem itemLabel="DICIEMBRE" itemValue="12" />
 						</p:selectOneMenu>
-						<p:outputLabel for="mes" value="Año:" />
+						<p:outputLabel for="anio" value="Año:" />
 						<p:selectOneMenu id="anio"
 							value="#{periodoLecturaBean.periodoLectura.anio}"
 							panelStyle="width:180px" effect="fold" filter="true"
@@ -83,7 +83,7 @@
 			<h:form id="mostrar">
 				<p:dataTable id="periodosLectDT" var="perLect"
 					value="#{periodoLecturaBean.lstPeriodoLectura}" scrollable="true"
-					scrollHeight="150" rowKey="#{perLect.id}"
+					scrollHeight="150" rowKey="#{perLect.id}" 
 					emptyMessage="#{msg.paramNoDatos}">
 					<f:facet name="header">
 						<center>
@@ -94,11 +94,11 @@
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perLect.id}" />
 					</p:column>
-					<p:column style="width:110px" headerText="Año" filterBy="#{perLect.anio}"
+					<p:column headerText="Año" filterBy="#{perLect.anio}"
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perLect.anio}" />
 					</p:column>
-					<p:column style="width:110px" headerText="Mes" filterBy="#{perLect.mes}"
+					<p:column headerText="Mes" filterBy="#{perLect.mes}"
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perLect.mes}" />
 					</p:column>
@@ -111,19 +111,16 @@
 						filterBy="#{perLect.estadoPeriodo.descripcion}"
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perLect.estadoPeriodo.descripcion}" />
-					</p:column>
-					<p:column style="width:110px;text-align: center" exportable="false"
-						rendered="#{perLect.estadoPeriodo.descripcion == 'EN PROCESO'}">
+					</p:column>	
+					<p:column headerText="Accion">
 						<p:commandButton value="CERRAR PERIODO"
 							actionListener="#{periodoLecturaBean.cambiarEstadoPeriodo('CERRADO', perLect)}"
-							update=":alta :mostrar" immediate="true" />
-					</p:column>
-					<p:column style="width:110px;text-align: center" exportable="false"
-						rendered="#{perLect.estadoPeriodo.descripcion == 'CERRADO'}">
+							update=":alta :mostrar" immediate="true"  rendered="#{perLect.estadoPeriodo.descripcion == 'EN PROCESO'}" />
 						<p:commandButton value="FACTURADO"
 							actionListener="#{periodoLecturaBean.cambiarEstadoPeriodo('FACTURADO', perLect)}"
-							update=":alta :mostrar" immediate="true" />
-					</p:column>
+							update=":alta :mostrar" immediate="true"  rendered="#{perLect.estadoPeriodo.descripcion == 'CERRADO'}"/>
+						<p:outputLabel rendered="#{perLect.estadoPeriodo.descripcion == 'FACTURADO'}"/>
+					</p:column>					
 					<f:facet name="footer">
 						<p:outputLabel value=" " />
 					</f:facet>

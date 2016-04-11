@@ -77,6 +77,15 @@ public class SocioBean implements Serializable {
 	private boolean checkTipoIva;
 
 	private String personaOEmp;
+	private String mensaje;
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean login;
@@ -419,12 +428,13 @@ public class SocioBean implements Serializable {
 			SociosTransacciones transaccion = new SociosTransacciones();
 
 			if (estado.equals("BAJA")) {
-				for(Conexion con : socio.getConexiones()){
-					if(con.getEstadoConexion().getDescripcion().equals("ACTIVA")){
-						LOG.error("El socio " +socio.getNumero() + " No se puede dar de baja, tiene conexiones activas.");
+				for (Conexion con : socio.getConexiones()) {
+					if (con.getEstadoConexion().getDescripcion().equals("ACTIVA")) {
+						LOG.error("El socio " + socio.getNumero()
+								+ " No se puede dar de baja, tiene conexiones activas.");
 						throw new Exception("no se puede dar de baja un socio con Conexiones Activas");
 					}
-				}				
+				}
 				transaccion.setTipoTransaccion("BAJA");
 			}
 			if (estado.equals("ACTIVO")) {
@@ -486,7 +496,6 @@ public class SocioBean implements Serializable {
 			LOG.error("Error al Editar Socio: " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
-			
 
 		}
 	}
@@ -499,6 +508,10 @@ public class SocioBean implements Serializable {
 
 	public void mostrarSocio(Socio socio) {
 		this.socioSeleccionado = socio;
+	}
+
+	public void mostrarSociosConexiones() {
+		mensaje = "Hola Puto";
 	}
 
 	public void editarSocio(Socio socio) {

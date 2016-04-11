@@ -11,4 +11,5 @@ public interface PeriodoLecturaDAO {
 	public void eliminarPeriodoLectura(PeriodoLectura periodo) throws Exception;
 	public PeriodoLectura buscarPeriodoLecturaId(Long id) throws Exception;
 	public PeriodoLectura buscarPeriodoLecturaAbierto() throws Exception;
+	public PeriodoLectura buscarPeriodoLecturaCerrado() throws Exception;
 }

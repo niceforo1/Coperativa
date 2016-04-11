@@ -64,6 +64,32 @@ public class FacturaDAOImplement implements FacturaDAO {
 		}
 		return lista;
 	}
+	
+
+	@Override
+	public List<Factura> listaFacturaPeriodoFact(Long periodoFactID) throws Exception {
+		Session session = null;
+		List<Factura> lista = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from Factura as fc"
+											+ " where fc.periodoFacturacion.id = ?");
+			query.setLong(0, periodoFactID);
+			lista = (List<Factura>) query.list();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			System.out.println("error: " +e.getMessage());
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
+		return lista;
+	}
 
 	@Override
 	public void insertarFactura(Factura factura) throws Exception {
@@ -185,4 +211,6 @@ public class FacturaDAOImplement implements FacturaDAO {
 		}		
 		return factura;
 	}
+
+
 }

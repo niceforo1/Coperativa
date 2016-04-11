@@ -41,7 +41,6 @@
 				<p:tabView dynamic="true" cache="true">
 					<p:tab id="carga" title="#{msg.paramSocioCarga}">
 						<p:panelGrid columns="4" style="width:750px;">
-
 							<f:facet name="header">
 								<center>
 									<p:outputLabel value="#{msg.paramClienteSocioEmp}"
@@ -440,7 +439,7 @@
 									value="#{socioBean.socioSeleccionado.inscriptoGanancias == true?'SI':'NO'}" />	
 								</p:panelGrid>
 								</center>
-								<p:panelGrid columns="2"
+							<p:panelGrid columns="2"
 								rendered="#{not empty socioBean.socioSeleccionado}"
 								columnClasses="label,value">
 								<p:outputLabel value="Domicilio:" />
@@ -482,11 +481,58 @@
 									<p:column headerText="Tipo Domicilio">
 										<p:outputLabel value="#{domici.tipoDomicilio.descripcion}" />
 									</p:column>
-								</p:dataTable>
+								</p:dataTable>								
 							</p:panelGrid>
+							
+							<p:panelGrid columns="2"
+								rendered="#{not empty socioBean.socioSeleccionado}"
+								columnClasses="label,value">
+								<p:outputLabel value="Conexiones:" />
+								<p:dataTable
+									value="#{socioBean.socioSeleccionado.conexiones}" var="conex" emptyMessage="#{msg.paramNoDatos}">
+									<p:column id="id" headerText="#{msg.paramConexionNumero}" style="width:50px;">
+										<h:outputText value="#{conex.id}" />
+									</p:column>									
+									<p:column headerText="#{msg.paramConexionCalle}">
+										<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
+									</p:column>
+									<p:column headerText="Estado" style="width:100px;">
+										<h:outputText value="#{conex.estadoConexion.descripcion}" />
+									</p:column>
+									<p:column headerText="Medidor" style="width:70px;">
+										<p:outputLabel value="#{conex.nroMedidor}" />
+									</p:column>
+									<p:column headerText="Zona" style="width:50px;">
+										<p:outputLabel value="#{conex.zonaConexion.descripcion}" />
+									</p:column>
+									<p:column headerText="Tipo Sumis." style="width:70px;">
+										<p:outputLabel value="#{conex.tipoSuministro.descripcion}" />										
+									</p:column>	
+									<p:column headerText="Cat. Conex." style="width:70px;">
+										<p:outputLabel value="#{conex.categoriaConexion.descripcion}" />
+									</p:column>
+									<p:column headerText="Cat. Conex." style="width:70px;">
+										<p:outputLabel value="#{conex.tipoConexion.descripcion}" />
+									</p:column>
+									<p:column style="width:32px;text-align: center"
+										exportable="false">
+										<p:commandButton icon="fa fa-fw fa-search"
+											actionListener="#{socioBean.mostrarSociosConexiones}"
+											update=":alta :socioDet" immediate="true"
+											oncomplete="PF('conSaldoDialog').show()" />
+									</p:column>
+								</p:dataTable>								
+							</p:panelGrid>							
 						</p:scrollPanel>
 					</p:outputPanel>
 				</h:form>
+			</p:dialog>
+			<p:dialog header="Conexion Saldo" widgetVar="conSaldoDialog" 
+				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
+				resizable="false" dynamic="true" maximizable="false" 
+				appendTo="@(body)" rendered="#{not empty socioBean.socioEditar}" >
+				
+				<p:outputLabel value="#{socioBean.mensaje}"/>
 			</p:dialog>
 			<p:dialog header="Edición de Socio" widgetVar="socEditDialog" 
 				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
