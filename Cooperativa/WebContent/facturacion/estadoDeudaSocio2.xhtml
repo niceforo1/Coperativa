@@ -83,63 +83,15 @@
 						<p:outputLabel value="#{perSaldos.saldo}" />
 					</p:column>					
 					
-					<p:column  selectionMode="multiple" style="width:16px;text-align:center" />
+					<p:column  selectionMode="multiple" style="width:16px;text-align:center"/>
 					<f:facet name="footer">
 						<center>							
-							<p:commandButton value="Cobrar" action="#{consEstDeudaBean.cobrarPeriodos}" 
-							update=":alta :cobro" oncomplete="PF('detCobDialog').show()"/>
+							<p:commandButton value="Cobrar" action="#{consEstDeudaBean.cobrarPeriodos}"/>
 						</center>
 					</f:facet>
 				</p:dataTable>			
-			</h:form>
+			</h:form>	
 		</center>
-		
-		<p:dialog header="Detalle del Cobro" widgetVar="detCobDialog"
-				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
-				resizable="false" dynamic="true" maximizable="false"
-				appendTo="@(body)" >
-			<center>
-			<h:form id="cobro">
-				<p:messages id="mensajesCob" showDetail="true" autoUpdate="true" closable="true" />
-				<p:panel header="Cobrar">								
-					<p:panelGrid columns="2">
-						<p:outputLabel value="Sub Total" for="subTotal" />
-						<p:outputLabel value="#{consEstDeudaBean.subTotal}" id="subTotal"/>
-						<p:outputLabel value="Intereses" for="intereses"/>
-						<p:outputLabel value="#{consEstDeudaBean.interesGlobal}" id="intereses"/>
-						<p:outputLabel value="Total" for="total"/>
-						<p:outputLabel value="#{consEstDeudaBean.total}" id="total"/>
-						<p:outputLabel value="Tipo de Pago" for="tipoPagos" />
-						<p:selectOneMenu id="tipoPagos"
-							value="#{consEstDeudaBean.tipoPago}"
-							panelStyle="width:180px" effect="fold" filter="true" required="true"> 
-							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
-							<f:selectItem itemLabel="PAGO TOTAL" itemValue="PAGO TOTAL" />
-							<f:selectItem itemLabel="PAGO PARCIAL" itemValue="PAGO PARCIAL" />
-						</p:selectOneMenu>						
-						<p:outputLabel value="Forma de Pago" for="formaPago" />
-						<p:selectOneMenu id="formaPago"
-							value="#{consEstDeudaBean.formaPagoID}"
-							panelStyle="width:180px" effect="fold" filter="true"
-							required="true">
-							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
-							<f:selectItems value="#{formaPagoBean.listaFormaPago}"
-								var="forPago" itemLabel="#{forPago.descripcion}"
-								itemValue="#{forPago.id}" />
-						</p:selectOneMenu>
-						<p:outputLabel value="Importe" for="importe"/>
-						<p:inputText id="importe" required="true" value="#{consEstDeudaBean.importe}"/>
-						<f:facet name="footer">
-						<center>
-							<p:commandButton value="Cobrar" actionListener="#{consEstDeudaBean.cobrar}" 
-											 update=":alta :cobro" />
-						</center>
-					</f:facet>
-					</p:panelGrid>
-				</p:panel>
-			</h:form>
-			</center>
-		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

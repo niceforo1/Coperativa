@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.apache.log4j.Logger;
 
@@ -133,7 +134,7 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 		importe = 0D;
 	}
 
-	public void cobrar() {
+	public void cobrar(ActionEvent event) {
 		PeriodoCespDAO cespDAO = new PeriodoCespDAOImplement();
 		FormaPagoDAO formaPagoDAO = new FormaPagoDAOImplement();
 		ConexionesSaldosDAO conexionesSaldosDAO = new ConexionesSaldosDAOImplement();

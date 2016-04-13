@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +59,8 @@ public class ReportBean implements Serializable {
 	private String anioConsZona;
 	private Integer anioConsDesde;
 	private Integer anioConsHasta;
+	private Date fechaDesdeCaja;
+	private Date fechaHastaCaja;
 
 	public ReportBean() {
 		inicializar();
@@ -135,6 +138,22 @@ public class ReportBean implements Serializable {
 		this.anioConsHasta = anioConsHasta;
 	}
 
+	public Date getFechaDesdeCaja() {
+		return fechaDesdeCaja;
+	}
+
+	public void setFechaDesdeCaja(Date fechaDesdeCaja) {
+		this.fechaDesdeCaja = fechaDesdeCaja;
+	}
+
+	public Date getFechaHastaCaja() {
+		return fechaHastaCaja;
+	}
+
+	public void setFechaHastaCaja(Date fechaHastaCaja) {
+		this.fechaHastaCaja = fechaHastaCaja;
+	}
+
 	public void verPlanillaLectura() throws SQLException {
 		Map<String, Object> myMap = new HashMap<String, Object>();
 		String where = "";
@@ -154,8 +173,7 @@ public class ReportBean implements Serializable {
 			response.addHeader("Content-disposition",
 					"attachment;filename=planillaLectura_" + mes + "/" + anio + ".pdf");
 			response.setContentType("application/pdf");
-			// JasperPrint impresion = JasperFillManager.fillReport(pathh,
-			// myMap,connect());
+
 			JasperPrint impresion;
 			try {
 				impresion = JasperFillManager.fillReport(pathh, myMap, connect());
@@ -170,35 +188,7 @@ public class ReportBean implements Serializable {
 			}
 			faceContext.getApplication().getStateManager().saveView(faceContext);
 			faceContext.responseComplete();
-
 		}
-		/*
-		 * PeriodoLectura perLect = null; try { PeriodoLecturaDAO lecturaDAO =
-		 * new PeriodoLecturaDAOImplement(); perLect =
-		 * lecturaDAO.buscarPeriodoLecturaAbierto(); } catch (Exception e) {
-		 * FacesContext.getCurrentInstance().addMessage(null, new
-		 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-		 * "Obtener Periodo Lectura Abierto: " + e.getMessage()));
-		 * 
-		 * }
-		 * 
-		 * String path = "/resources/reportes/PlanillaLecturas.jasper"; String
-		 * pathh =
-		 * FacesContext.getCurrentInstance().getExternalContext().getRealPath(
-		 * path);
-		 * 
-		 * try { report = (JasperReport) JRLoader.loadObjectFromFile(pathh); }
-		 * catch (JRException e) { e.printStackTrace(); }
-		 * 
-		 * HashMap myMap = new HashMap<String, Object>(); myMap.put("idPer",
-		 * (perLect.getId() - 1)); myMap.put("periodoFecha", perLect.getMes() +
-		 * "/" + perLect.getAnio());
-		 * 
-		 * // myMap.put("idEstado", estado);
-		 * 
-		 * CJasperReports.createReport(connect(), report, myMap);
-		 * CJasperReports.showViewer();
-		 */
 	}
 
 	public void verSociosConexiones() throws SQLException {
@@ -222,8 +212,7 @@ public class ReportBean implements Serializable {
 		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
 		response.addHeader("Content-disposition", "attachment;filename=reporteSocioConexiones.pdf");
 		response.setContentType("application/pdf");
-		// JasperPrint impresion = JasperFillManager.fillReport(pathh,
-		// myMap,connect());
+
 		JasperPrint impresion;
 		try {
 			impresion = JasperFillManager.fillReport(pathh, myMap, connect());
@@ -239,27 +228,6 @@ public class ReportBean implements Serializable {
 		faceContext.getApplication().getStateManager().saveView(faceContext);
 		faceContext.responseComplete();
 
-		/*
-		 * String path = "/resources/reportes/Socios/Socios_Conexiones.jasper";
-		 * String pathh =
-		 * FacesContext.getCurrentInstance().getExternalContext().getRealPath(
-		 * path);
-		 * 
-		 * try { report = (JasperReport) JRLoader.loadObjectFromFile(pathh); }
-		 * catch (JRException e) { e.printStackTrace(); } HashMap myMap = new
-		 * HashMap<String, Object>(); String where = ""; if (estConexion != null
-		 * && !estConexion.equals("")) { where = " and c.ID_ESTADO_CONEXION=" +
-		 * Integer.parseInt(estConexion.split(",")[0]); } if (formaPago != null
-		 * && !formaPago.equals("")) { LOG.info("GABINO: PASO 8"); where = where
-		 * + " and c.ID_FORMA_PAGO=" +
-		 * Integer.parseInt(formaPago.split(",")[0]); } if (categoriaConex !=
-		 * null && !categoriaConex.equals("")) { LOG.info("GABINO: PASO 9");
-		 * where = where + " and c.ID_CATEGORIA_CONEXION=" +
-		 * Integer.parseInt(categoriaConex.split(",")[0]); }
-		 * myMap.put("whereClause", where);
-		 * CJasperReports.createReport(connect(), report, myMap);
-		 * CJasperReports.showViewer();
-		 */
 	}
 
 	public void verSociosEstado() throws SQLException {
@@ -281,8 +249,7 @@ public class ReportBean implements Serializable {
 		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
 		response.addHeader("Content-disposition", "attachment;filename=reporteSocioPorEstado.pdf");
 		response.setContentType("application/pdf");
-		// JasperPrint impresion = JasperFillManager.fillReport(pathh,
-		// myMap,connect());
+
 		JasperPrint impresion;
 		try {
 			impresion = JasperFillManager.fillReport(pathh, myMap, connect());
@@ -296,29 +263,7 @@ public class ReportBean implements Serializable {
 			e.printStackTrace();
 		}
 		faceContext.getApplication().getStateManager().saveView(faceContext);
-		faceContext.responseComplete();
-		/*
-		 * String path = "/resources/reportes/Socios/SociosEstadoZona.jasper";
-		 * String pathh =
-		 * FacesContext.getCurrentInstance().getExternalContext().getRealPath(
-		 * path);
-		 * 
-		 * try { report = (JasperReport) JRLoader.loadObjectFromFile(pathh); }
-		 * catch (JRException e) { e.printStackTrace(); }
-		 * 
-		 * HashMap myMap = new HashMap<String, Object>(); String where = ""; if
-		 * (estadoSocio != null && !estadoSocio.equals("")) {
-		 * myMap.put("estado", estadoSocio.split(",")[1]); where =
-		 * " and s.ID_ESTADO_SOCIO= " +
-		 * Integer.parseInt(estadoSocio.split(",")[0]); } if (zona != null &&
-		 * !zona.equals("")) { myMap.put("zona", zona.split(",")[1]); where =
-		 * where + " and c.ID_NRO_ZONA= " +
-		 * Integer.parseInt(zona.split(",")[0]); } myMap.put("whereClause",
-		 * where);
-		 * 
-		 * CJasperReports.createReport(connect(), report, myMap);
-		 * CJasperReports.showViewer();
-		 */
+
 	}
 
 	public void verConsumoZonaAnual() throws SQLException {
@@ -340,8 +285,7 @@ public class ReportBean implements Serializable {
 		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
 		response.addHeader("Content-disposition", "attachment;filename=ConsumosAnualZona_" + anioConsZona + ".pdf");
 		response.setContentType("application/pdf");
-		// JasperPrint impresion = JasperFillManager.fillReport(pathh,
-		// myMap,connect());
+
 		JasperPrint impresion;
 		try {
 			impresion = JasperFillManager.fillReport(pathh, myMap, connect());
@@ -357,24 +301,6 @@ public class ReportBean implements Serializable {
 		faceContext.getApplication().getStateManager().saveView(faceContext);
 		faceContext.responseComplete();
 
-		/*
-		 * String path = "/resources/reportes/Factura/factura.jasper"; String
-		 * pathh =
-		 * FacesContext.getCurrentInstance().getExternalContext().getRealPath(
-		 * path);
-		 * 
-		 * try { report = (JasperReport) JRLoader.loadObjectFromFile(pathh); }
-		 * catch (JRException e) { e.printStackTrace(); }
-		 * 
-		 * HashMap myMap = new HashMap<String, Object>();
-		 * 
-		 * if (conexion.getId() != null) { myMap.put("idConexion",
-		 * conexion.getId()); } if (periodo != null) {
-		 * myMap.put("idPeriodoFact", periodo.getId()); }
-		 * 
-		 * CJasperReports.createReport(connect(), report, myMap);
-		 * CJasperReports.showViewer();
-		 */
 	}
 
 	public void verFactura(Conexion conexion, PeriodoFacturacion periodo) throws SQLException {
@@ -395,8 +321,7 @@ public class ReportBean implements Serializable {
 		response.addHeader("Content-disposition", "attachment;filename=factura_" + conexion.getId() + "_"
 				+ periodo.getMes() + periodo.getAnio() + ".pdf");
 		response.setContentType("application/pdf");
-		// JasperPrint impresion = JasperFillManager.fillReport(pathh,
-		// myMap,connect());
+
 		JasperPrint impresion;
 		try {
 			impresion = JasperFillManager.fillReport(pathh, myMap, connect());
@@ -412,24 +337,6 @@ public class ReportBean implements Serializable {
 		faceContext.getApplication().getStateManager().saveView(faceContext);
 		faceContext.responseComplete();
 
-		/*
-		 * String path = "/resources/reportes/Factura/factura.jasper"; String
-		 * pathh =
-		 * FacesContext.getCurrentInstance().getExternalContext().getRealPath(
-		 * path);
-		 * 
-		 * try { report = (JasperReport) JRLoader.loadObjectFromFile(pathh); }
-		 * catch (JRException e) { e.printStackTrace(); }
-		 * 
-		 * HashMap myMap = new HashMap<String, Object>();
-		 * 
-		 * if (conexion.getId() != null) { myMap.put("idConexion",
-		 * conexion.getId()); } if (periodo != null) {
-		 * myMap.put("idPeriodoFact", periodo.getId()); }
-		 * 
-		 * CJasperReports.createReport(connect(), report, myMap);
-		 * CJasperReports.showViewer();
-		 */
 	}
 
 	public void verConexionesMora() throws SQLException {
@@ -442,8 +349,7 @@ public class ReportBean implements Serializable {
 		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
 		response.addHeader("Content-disposition", "attachment;filename=ConexionesEnMora.pdf");
 		response.setContentType("application/pdf");
-		// JasperPrint impresion = JasperFillManager.fillReport(pathh,
-		// myMap,connect());
+
 		JasperPrint impresion;
 		try {
 			impresion = JasperFillManager.fillReport(pathh, myMap, connect());
@@ -458,25 +364,6 @@ public class ReportBean implements Serializable {
 		}
 		faceContext.getApplication().getStateManager().saveView(faceContext);
 		faceContext.responseComplete();
-
-		/*
-		 * String path = "/resources/reportes/Factura/factura.jasper"; String
-		 * pathh =
-		 * FacesContext.getCurrentInstance().getExternalContext().getRealPath(
-		 * path);
-		 * 
-		 * try { report = (JasperReport) JRLoader.loadObjectFromFile(pathh); }
-		 * catch (JRException e) { e.printStackTrace(); }
-		 * 
-		 * HashMap myMap = new HashMap<String, Object>();
-		 * 
-		 * if (conexion.getId() != null) { myMap.put("idConexion",
-		 * conexion.getId()); } if (periodo != null) {
-		 * myMap.put("idPeriodoFact", periodo.getId()); }
-		 * 
-		 * CJasperReports.createReport(connect(), report, myMap);
-		 * CJasperReports.showViewer();
-		 */
 	}
 
 	public void verConsumoConexion(Conexion conexion) throws SQLException {
@@ -485,17 +372,14 @@ public class ReportBean implements Serializable {
 		myMap.put("id_conexion", conexion.getId().intValue());
 		myMap.put("desde", anioConsDesde);
 		myMap.put("hasta", anioConsHasta);
-		
-		
+
 		FacesContext faceContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) faceContext.getExternalContext().getContext();
 		String path = "/resources/reportes/CONSUMOS_POR_CONEXION/CONSUMOS_POR_CONEXION.jasper";
 		String pathh = servletContext.getRealPath(path);
 		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
-		response.addHeader("Content-disposition", "attachment;filename=ConsumoConexion"+conexion.getId()+".pdf");
+		response.addHeader("Content-disposition", "attachment;filename=ConsumoConexion" + conexion.getId() + ".pdf");
 		response.setContentType("application/pdf");
-		// JasperPrint impresion = JasperFillManager.fillReport(pathh,
-		// myMap,connect());
 
 		JasperPrint impresion;
 		try {
@@ -512,30 +396,41 @@ public class ReportBean implements Serializable {
 		faceContext.getApplication().getStateManager().saveView(faceContext);
 		faceContext.responseComplete();
 
-		/*
-		 * String path = "/resources/reportes/Factura/factura.jasper"; String
-		 * pathh =
-		 * FacesContext.getCurrentInstance().getExternalContext().getRealPath(
-		 * path);
-		 * 
-		 * try { report = (JasperReport) JRLoader.loadObjectFromFile(pathh); }
-		 * catch (JRException e) { e.printStackTrace(); }
-		 * 
-		 * HashMap myMap = new HashMap<String, Object>();
-		 * 
-		 * if (conexion.getId() != null) { myMap.put("idConexion",
-		 * conexion.getId()); } if (periodo != null) {
-		 * myMap.put("idPeriodoFact", periodo.getId()); }
-		 * 
-		 * CJasperReports.createReport(connect(), report, myMap);
-		 * CJasperReports.showViewer();
-		 */
+	}
+
+	public void verReporteCaja() throws SQLException {
+		Map<String, Object> myMap = new HashMap<String, Object>();
+
+		myMap.put("desde", fechaDesdeCaja);
+		myMap.put("hasta", fechaHastaCaja);
+		String pathDatosSocio = "/resources/reportes/RECIBOS_CAJA/REPORTE_caja_recibos_subreport1.jasper";
+		myMap.put("ruta", pathDatosSocio);
+
+		FacesContext faceContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) faceContext.getExternalContext().getContext();
+		String path = "/resources/reportes/RECIBOS_CAJA/REPORTE_caja_recibos.jasper";
+		String pathh = servletContext.getRealPath(path);
+		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=ReporteCajaDiario.pdf");
+		response.setContentType("application/pdf");
+
+		JasperPrint impresion;
+		try {
+			impresion = JasperFillManager.fillReport(pathh, myMap, connect());
+			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		faceContext.getApplication().getStateManager().saveView(faceContext);
+		faceContext.responseComplete();
 	}
 
 	public void genFactura(Conexion conexion, PeriodoFacturacion periodo) throws SQLException {
-
-		// String pathh =
-		// FacesContext.getCurrentInstance().getExternalContext().getRealPath(path);
 
 		Map<String, Object> myMap = new HashMap<String, Object>();
 		String where = "";
@@ -550,15 +445,6 @@ public class ReportBean implements Serializable {
 		ServletContext servletContext = (ServletContext) faceContext.getExternalContext().getContext();
 		String path = "/resources/reportes/Factura/factura.jasper";
 		String pathh = servletContext.getRealPath(path);
-		/*
-		 * HttpServletResponse response = (HttpServletResponse)
-		 * faceContext.getExternalContext().getResponse();
-		 * response.addHeader("Content-disposition",
-		 * "attachment;filename=reporteSocio.pdf");
-		 * response.setContentType("application/pdf");
-		 */
-		// JasperPrint impresion = JasperFillManager.fillReport(pathh,
-		// myMap,connect());
 
 		JasperReport jasperReport;
 		JasperPrint jasperPrint;

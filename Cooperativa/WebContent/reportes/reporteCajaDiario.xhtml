@@ -10,7 +10,7 @@
 <ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
 	<ui:define name="tituloPantalla">
 		<h:outputFormat value="#{msg.title}">
-			<f:param value="Reporte Conexiones en Mora" />
+			<f:param value="Reporte Caja Diario" />
 		</h:outputFormat>
 	</ui:define>
 	<ui:define name="content">
@@ -20,12 +20,22 @@
 							
 				<p:panel style="width: 300px;">
 					<f:facet name="header">
-						<p:outputLabel value="Conexiones en Mora" />
-					</f:facet>	
+						<p:outputLabel value="Reporte Caja Diario" />
+					</f:facet>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Fecha Desde" for="fechaDesde" />
+						<p:calendar id="fechaDesde"
+								value="#{reportBean.fechaDesdeCaja}" effect="explode"
+								required="true" locale="es" navigator="true" />
+						<p:outputLabel value="Fecha Hasta" for="fechaHasta" />
+						<p:calendar id="fechaHasta"
+								value="#{reportBean.fechaHastaCaja}" effect="explode"
+								required="true" locale="es" navigator="true" />
+					</p:panelGrid>	
 					<f:facet name="footer">
 						<h:form>
 							<center>								
-								<p:commandButton action="#{reportBean.verConexionesMora()}"
+								<p:commandButton action="#{reportBean.verReporteCaja()}"
 						 						value="Generar Reporte" ajax="false" />								
 							</center>
 							</h:form>

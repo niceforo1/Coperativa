@@ -19,8 +19,8 @@
 		</f:metadata>
 		<center>
 			<h:form id="alta">
-				<p:panel header="Cobrar">
-					<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />			
+				<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />
+				<p:panel header="Cobrar">								
 					<p:panelGrid columns="2">
 						<p:outputLabel value="Sub Total" for="subTotal" />
 						<p:outputLabel value="#{cobrarPeriodoSaldoBean.subTotal}" id="subTotal"/>
@@ -51,7 +51,7 @@
 						<f:facet name="footer">
 						<center>
 							<p:commandButton value="Cobrar" actionListener="#{cobrarPeriodoSaldoBean.cobrar}" 
-											 update=":alta"/>
+											 update="mensajes"/>
 						</center>
 					</f:facet>
 					</p:panelGrid>
