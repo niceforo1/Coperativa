@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -78,6 +79,9 @@ public class Factura implements Serializable {
 	@Column(name = "IMPORTE_TOTAL", nullable = false, precision = 18, scale = 2)
 	private Double importeTotal;
 
+	@Column(name = "FECHA_VENCIMIENTO")
+	private Date fechaVencimiento;
+
 	public Factura() {
 
 	}
@@ -115,11 +119,11 @@ public class Factura implements Serializable {
 	}
 
 	public Double getInteresesSegVenc() {
-		return (Math.rint(interesesSegVenc*100)/100);
+		return (Math.rint(interesesSegVenc * 100) / 100);
 	}
 
 	public void setInteresesSegVenc(Double interesesSegVenc) {
-		this.interesesSegVenc = (Math.rint(interesesSegVenc*100)/100);
+		this.interesesSegVenc = (Math.rint(interesesSegVenc * 100) / 100);
 	}
 
 	public Conexion getConexion() {
@@ -131,11 +135,11 @@ public class Factura implements Serializable {
 	}
 
 	public Double getCargoFijo() {
-		return (Math.rint(cargoFijo*100)/100);
+		return (Math.rint(cargoFijo * 100) / 100);
 	}
 
 	public void setCargoFijo(Double cargoFijo) {
-		this.cargoFijo = (Math.rint(cargoFijo*100)/100);
+		this.cargoFijo = (Math.rint(cargoFijo * 100) / 100);
 	}
 
 	public long getTramo1() {
@@ -187,51 +191,59 @@ public class Factura implements Serializable {
 	}
 
 	public Double getCapitalSocial() {
-		return (Math.rint(capitalSocial*100)/100);
+		return (Math.rint(capitalSocial * 100) / 100);
 	}
 
 	public void setCapitalSocial(Double capitalSocial) {
-		this.capitalSocial = (Math.rint(capitalSocial*100)/100);
+		this.capitalSocial = (Math.rint(capitalSocial * 100) / 100);
 	}
 
 	public Double getErsep() {
-		return (Math.rint(ersep*100)/100);
+		return (Math.rint(ersep * 100) / 100);
 	}
 
 	public void setErsep(Double ersep) {
-		this.ersep = (Math.rint(ersep*100)/100);
+		this.ersep = (Math.rint(ersep * 100) / 100);
 	}
 
 	public Double getRecuperoInversion() {
-		return (Math.rint(recuperoInversion*100)/100);
+		return (Math.rint(recuperoInversion * 100) / 100);
 	}
 
 	public void setRecuperoInversion(Double recuperoInversion) {
-		this.recuperoInversion = (Math.rint(recuperoInversion*100)/100);
+		this.recuperoInversion = (Math.rint(recuperoInversion * 100) / 100);
 	}
 
 	public Double getImpresionesOtros() {
-		return (Math.rint(impresionesOtros*100)/100);
+		return (Math.rint(impresionesOtros * 100) / 100);
 	}
 
 	public void setImpresionesOtros(Double impresionesOtros) {
-		this.impresionesOtros = (Math.rint(impresionesOtros*100)/100);
+		this.impresionesOtros = (Math.rint(impresionesOtros * 100) / 100);
 	}
 
 	public Double getIva() {
-		return (Math.rint(iva*100)/100);
+		return (Math.rint(iva * 100) / 100);
 	}
 
 	public void setIva(Double iva) {
-		this.iva = (Math.rint(iva*100)/100);
+		this.iva = (Math.rint(iva * 100) / 100);
 	}
 
 	public Double getImporteTotal() {
-		return (Math.rint(importeTotal*100)/100);
+		return (Math.rint(importeTotal * 100) / 100);
 	}
 
 	public void setImporteTotal(Double importeTotal) {
-		this.importeTotal = (Math.rint(importeTotal*100)/100);
+		this.importeTotal = (Math.rint(importeTotal * 100) / 100);
+	}
+
+	public Date getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public void setFechaVencimiento(Date fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
 	}
 
 	/*

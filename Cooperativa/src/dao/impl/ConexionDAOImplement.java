@@ -170,7 +170,7 @@ public class ConexionDAOImplement implements ConexionDAO{
 			Query query = session.createQuery("from Conexion c "
 										  + " where c.categoriaConexion.id = ? ");
 			
-			query.setInteger(0, 2);			
+			query.setInteger(0, 10);			
 			conexionesCanon = (List<Conexion>) query.list();
 		}catch(ConstraintViolationException e){
 			session.getTransaction().rollback();
@@ -187,4 +187,30 @@ public class ConexionDAOImplement implements ConexionDAO{
 		return conexionesCanon;
 	}
 
+	@Override
+	public List<Conexion> buscarConexionPorSocio(Socio socio) throws Exception {
+		Session session = null;
+		List<Conexion> conexiones= null;		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from Conexion c "
+										  + " where c.socio.numero = ? ");
+			
+			query.setLong(0, socio.getNumero());			
+			conexiones = (List<Conexion>) query.list();
+		}catch(ConstraintViolationException e){
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());
+		}catch(HibernateException e){
+			System.out.println("error: " + e.getMessage());
+			throw new Exception(e);
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}
+		return conexiones;
+	}
+	
 }

@@ -13,4 +13,5 @@ public interface ConexionDAO {
 	public Conexion buscarConexionID(Long id) throws Exception;
 	public List<Conexion> buscarConexionesCanon() throws Exception;
 	public List<Socio> buscarSocioPorConexion(Conexion conexion) throws Exception;
+	public List<Conexion> buscarConexionPorSocio(Socio socio) throws Exception;
 }

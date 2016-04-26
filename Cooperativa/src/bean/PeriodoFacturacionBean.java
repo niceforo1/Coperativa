@@ -378,7 +378,9 @@ public class PeriodoFacturacionBean implements Serializable {
 																												// de
 																												// la
 																												// configuracion
-					fact.setImpresionesOtros(configFactura.getImpresionesOtros());// FIJO
+					fact.setImpresionesOtros(configFactura.getImpresionesOtros()+
+											(configFactura.getImpresionesOtros()*
+												(lec.getConexion().getSocio().getCondicionIva().getPorcentaje())/100));// FIJO
 					fact.setInteresesSegVenc(3D);/// viene de configuracion
 													/// factura
 					fact.setIva((lec.getConexion().getSocio().getCondicionIva().getPorcentaje()

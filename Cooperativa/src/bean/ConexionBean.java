@@ -13,6 +13,8 @@ import javax.faces.context.FacesContext;
 import org.apache.log4j.Logger;
 import org.jfree.data.ComparableObjectItem;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 import dao.CategoriaConexionDAO;
 import dao.ConexionDAO;
@@ -83,6 +85,7 @@ public class ConexionBean implements Serializable {
 	private Conexion conexionBusqueda;
 	private Long idConexionBus;
 	private List<Conexion> lstConexiones;
+	private List<Conexion> lstConexionesSocio;
 	private long estadoConexionId;
 	private long zonaConexionId;
 	private long tipoTerrenoConexionId;
@@ -448,6 +451,14 @@ public class ConexionBean implements Serializable {
 		this.login = login;
 	}
 
+	public List<Conexion> getLstConexionesSocio() {
+		return lstConexionesSocio;
+	}
+
+	public void setLstConexionesSocio(List<Conexion> lstConexionesSocio) {
+		this.lstConexionesSocio = lstConexionesSocio;
+	}
+
 	public void insertarConexion() {
 		// datos Dom Servicio, se setea localidad,provincia y pais ya que son
 		// fijos y no depende de combos
@@ -685,7 +696,7 @@ public class ConexionBean implements Serializable {
 			LOG.error("Error al Editar Datos Tarjeta: " + e.getMessage());
 		}
 	}
-	
+
 	public void retornarSocio() {
 		socioSeleccionado = new Socio();
 		SocioDAO socioDAO = new SocioDAOImplement();
@@ -720,6 +731,33 @@ public class ConexionBean implements Serializable {
 		}
 	}
 
+	// SELECT DE LA PAGINA FACTURACION INDIVIDUAL OTROS CONCEPTOS
+	public void onRowSelect(SelectEvent event) {
+		try {
+			Socio socio = (Socio) event.getObject();
+			//ConexionDAO conexionDAO = new ConexionDAOImplement();
+			lstConexionesSocio = socio.getConexiones();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*
+		 * FacesMessage msg = new FacesMessage("Car Selected", ((Car)
+		 * event.getObject()).getId());
+		 * FacesContext.getCurrentInstance().addMessage(null, msg);
+		 */
+	}
+
+	public void onRowUnselect(UnselectEvent event) {
+		lstConexionesSocio = new ArrayList<Conexion>();
+		/*
+		 * FacesMessage msg = new FacesMessage("Car Unselected", ((Car)
+		 * event.getObject()).getId());
+		 * FacesContext.getCurrentInstance().addMessage(null, msg);
+		 */
+	}
+	// FIN SELECT DE LA PAGINA FACTURACION INDIVIDUAL OTROS CONCEPTOS
+
 	public void editarConexion(Conexion conexion) {
 		this.conexionEditar = conexion;
 	}
@@ -739,6 +777,7 @@ public class ConexionBean implements Serializable {
 		conexionSeleccionada = new Conexion();
 		conexionEditar = new Conexion();
 		lstConexiones = new ArrayList<Conexion>();
+		lstConexionesSocio= new ArrayList<Conexion>();
 		estadoConexionId = 0;
 		zonaConexionId = 0;
 		tipoTerrenoConexionId = 0;

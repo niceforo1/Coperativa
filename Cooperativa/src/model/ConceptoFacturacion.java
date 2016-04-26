@@ -24,6 +24,9 @@ public class ConceptoFacturacion implements Serializable {
 
 	@Column(name = "ALICUOTA_IVA", nullable = false, precision = 15, scale = 2)
 	private Double alicuotaIva;
+	
+	@Column(name = "MONTO_PRECIO", nullable = false, precision = 15, scale = 2)
+	private Double montoPrecio;
 
 	public ConceptoFacturacion() {
 
@@ -51,6 +54,14 @@ public class ConceptoFacturacion implements Serializable {
 
 	public void setAlicuotaIva(Double alicuotaIva) {
 		this.alicuotaIva = (Math.rint(alicuotaIva*100)/100);
+	}
+
+	public Double getMontoPrecio() {
+		return (Math.rint(montoPrecio*100)/100);
+	}
+
+	public void setMontoPrecio(Double montoPrecio) {
+		this.montoPrecio = (Math.rint(montoPrecio*100)/100);
 	}
 
 }

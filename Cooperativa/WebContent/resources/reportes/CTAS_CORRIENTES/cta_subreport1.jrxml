@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPORTE caja_recibos_subreport1" language="groovy" pageWidth="373" pageHeight="752" columnWidth="373" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="63da0e87-b84f-41f0-a331-1d98b0a5142d">
+	<property name="ireport.zoom" value="2.8531167061100113"/>
+	<property name="ireport.x" value="255"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_conexion" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[239]]></defaultValueExpression>
+	</parameter>
+	<parameter name="desde" class="java.util.Date">
+		<defaultValueExpression><![CDATA[01-01-2014]]></defaultValueExpression>
+	</parameter>
+	<parameter name="hasta" class="java.util.Date">
+		<defaultValueExpression><![CDATA[01-01-2017]]></defaultValueExpression>
+	</parameter>
+	<parameter name="periodo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT ID_CONEXION,periodo,fecha,detalle,vto,isnull(debito,0) as debito,isnull(credito,0) as credito
+FROM(
+
+--SELECT RECIBOS
+SELECT r.ID_CONEXION,MONTH(r.FECHA_EMISION_RECIBO) as periodo, r.FECHA_EMISION_RECIBO as fecha,
+ 'REC.'+ CONVERT(varchar(10),r.ID_RECIBO) as detalle,NULL as vto, NULL as debito,SUM(ri.IMPORTE)as credito
+FROM RECIBOS r
+LEFT JOIN RECIBOS_RECIBOS_ITEMS rri
+	ON rri.RECIBOS_ID_RECIBO=r.ID_RECIBO
+LEFT JOIN RECIBOS_ITEMS ri
+	ON ri.ID_RECIBO_ITEM=rri.lstReciboItems_ID_RECIBO_ITEM
+GROUP BY  r.ID_RECIBO,r.FECHA_EMISION_RECIBO,r.ID_CONEXION
+
+UNION
+--SELECT FACTURAS
+SELECT f.ID_CONEXION,pf.MES as periodo,pf.FECHA_EMISION_FACTURA as fecha,'FACT.'+ CONVERT(varchar(10),f.ID) as detalle, pf.VENCIMIENTO_FACT_1 as vto,
+f.IMPORTE_TOTAL as debito,NULL as credito
+FROM FACTURA f
+INNER JOIN PERIODO_FACTURACION pf
+	ON f.PERIODO_FACT_ID=pf.PERIODO_FACT_ID
+
+UNION
+--SELECT ND
+SELECT nd.ID_CONEXION,nd.ID_PERIODO_MES as periodo,nd.FECHA_EMISION as fecha,'ND.'+ CONVERT(varchar(10),nd.ID_NOTA_DE_DEBITO) as detalle,NULL as vto,
+nd.IMPORTE as debito, NULL as credito
+FROM NOTAS_DE_DEBITO nd
+
+UNION
+--SELECT NC
+SELECT nc.ID_CONEXION,nc.ID_PERIODO_MES as periodo,nc.FECHA_EMISION as fecha,'NC.'+ CONVERT(varchar(10),nc.ID_NOTA_DE_CREDITO) as detalle,NULL as vto,
+ NULL as debito, nc.IMPORTE as credito
+FROM NOTAS_DE_CREDITO nc)tb
+
+WHERE ID_CONEXION=$P{id_conexion} and fecha between $P{desde} and $P{hasta} and periodo=$P{periodo}
+order by periodo,fecha]]>
+	</queryString>
+	<field name="ID_CONEXION" class="java.lang.Integer"/>
+	<field name="periodo" class="java.math.BigDecimal"/>
+	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="detalle" class="java.lang.String"/>
+	<field name="vto" class="java.sql.Timestamp"/>
+	<field name="debito" class="java.lang.Double"/>
+	<field name="credito" class="java.lang.Double"/>
+	<variable name="sum1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{debito}]]></variableExpression>
+	</variable>
+	<variable name="sum2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{credito}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{sum2}-$V{sum1}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="15">
+			<line>
+				<reportElement x="0" y="14" width="373" height="1" uuid="982639d4-42f0-4c2b-b53a-5510b975b84b"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="2" width="72" height="13" uuid="4039f086-3490-4faf-891e-db6329642d02"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="1" width="76" height="14" uuid="c2e54d78-b7cd-4f5f-a537-b9fe0db3ec98"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DETALLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="148" y="1" width="75" height="13" uuid="467b5ad2-d306-4a13-b269-2e0319c95744"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="1" width="75" height="13" uuid="736dce2a-b866-472e-a651-2f3492ab309d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEBITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="1" width="75" height="13" uuid="bb999e5a-eec7-494f-8da0-11b0b8f2a766"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CREDITO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="1" width="72" height="15" uuid="cc41c15b-fc89-4556-bd57-62c1492d7d87"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="72" y="1" width="76" height="15" uuid="f695a233-0022-4c24-8143-1fa95fcc91da"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="148" y="1" width="75" height="15" uuid="5b23e9bf-e825-400f-a8b1-56e7c04ead65"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="298" y="1" width="75" height="15" uuid="6a588a4e-40b8-4e6d-9603-997529b35257"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{credito}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="223" y="1" width="75" height="15" uuid="ea6cfa9c-5fdf-40b7-b6e1-d479bd4769fe"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{debito}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21">
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00">
+				<reportElement x="254" y="1" width="119" height="20" uuid="b4594e07-ce7e-4e12-a425-0df59cfe9db0"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="182" y="1" width="72" height="20" uuid="52cebf96-1bd6-4b2f-96a9-884b9e5d7bbb"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERIODO SALDO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="182" y="1" width="191" height="1" uuid="c3f79668-2506-486e-b702-9788c8839cbc"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>
