@@ -15,13 +15,21 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 import dao.ConceptoFacturacionDAO;
+import dao.ConexionesSaldosDAO;
 import dao.FacturaDAO;
+import dao.PeriodoFacturacionDAO;
+import dao.PeriodosSaldosDAO;
 import dao.impl.ConceptoFacturacionDAOImplement;
+import dao.impl.ConexionesSaldosDAOImplement;
 import dao.impl.FacturaDAOImplement;
+import dao.impl.PeriodoFacturacionDAOImplement;
+import dao.impl.PeriodosSaldosDAOImplement;
 import model.ConceptoFacturacion;
 import model.Conexion;
+import model.ConexionesSaldos;
 import model.ConfiguracionFactura;
 import model.Factura;
+import model.PeriodosSaldos;
 import model.Socio;
 
 @ManagedBean(name = "conceptoFacturacionBean")
@@ -97,6 +105,9 @@ public class ConceptoFacturacionBean implements Serializable {
 		}
 		Factura fact = new Factura();
 		ConceptoFacturacionDAO conceptoFacturacionDAO = new ConceptoFacturacionDAOImplement();
+		PeriodoFacturacionDAO periodoFacturacionDAO = new PeriodoFacturacionDAOImplement();
+		ConexionesSaldosDAO conexionesSaldosDAO = new ConexionesSaldosDAOImplement();
+		PeriodosSaldosDAO periodosSaldosDAO = new PeriodosSaldosDAOImplement(); 
 		Double importeTotal; 
 		try {
 			fact.setConceptoFacturacion(conceptoFacturacionDAO.buscarConceptoFacturacionId(conceptoID));
@@ -113,12 +124,71 @@ public class ConceptoFacturacionBean implements Serializable {
 			
 			fact.setImporteTotal(importeTotal);
 			fact.setFechaVencimiento(new Date());
-			
+			fact.setPeriodoFacturacion(periodoFacturacionDAO.listaPeriodoFacturacion().get(0));
 			facturaDAO.insertarFactura(fact);
+			ConexionesSaldos conSaldo = null;
+			try {
+				conSaldo = conexionesSaldosDAO.buscarConexionesSaldosConexion(fact.getConexion().getId());
+			} catch (Exception ex) {
+				LOG.error("Error al obtener Saldo Conexion: " + ex.getMessage());
+				throw new Exception("Error al obtener Saldo Conexion: " + ex.getMessage());
+			}
+			try {
+				if (conSaldo != null) {
+					conSaldo.setSaldoTotal(conSaldo.getSaldoTotal() - fact.getImporteTotal());
+					conSaldo.setUltimoVencRegistrado(
+							fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
+					conexionesSaldosDAO.modificarConexionesSaldos(conSaldo);
+				} else {
+					conSaldo = new ConexionesSaldos();
+					conSaldo.setConexion(fact.getConexion());
+					conSaldo.setUltimoVencRegistrado(
+							fact.getFechaVencimiento());
+					conSaldo.setSaldoTotal(0F - fact.getImporteTotal());
+					conexionesSaldosDAO.insertarConexionesSaldos(conSaldo);
+				}
+			} catch (Exception ex) {
+				LOG.error("Error modificar/grabar Saldo Conexion: " + ex.getMessage());
+				throw new Exception("Error modificar/grabar Saldo Conexion: " + ex.getMessage());
+			}
+			try {
+				PeriodosSaldos perSaldo = null;
+				try {
+					perSaldo = periodosSaldosDAO.buscarPeriodosSaldosMesAnio(fact.getConexion().getId(), fact.getPeriodoFacturacion().getMes(), fact.getPeriodoFacturacion().getAnio());
+				} catch (Exception ex) {
+					
+				}
+				if(perSaldo !=null){
+					perSaldo.setConexion(fact.getConexion());
+					perSaldo.setMes(fact.getPeriodoFacturacion().getMes());
+					perSaldo.setAnio(fact.getPeriodoFacturacion().getAnio());
+					perSaldo.setFechaVencimiento(fact.getFechaVencimiento());
+					perSaldo.setConsumo(0);
+					perSaldo.setSaldo(perSaldo.getSaldo() - fact.getImporteTotal());
+					periodosSaldosDAO.modificarPeriodosSaldos(perSaldo);
+				}else{
+					perSaldo = new PeriodosSaldos();
+					perSaldo.setConexion(fact.getConexion());
+					perSaldo.setMes(fact.getPeriodoFacturacion().getMes());
+					perSaldo.setAnio(fact.getPeriodoFacturacion().getAnio());
+					perSaldo.setFechaVencimiento(fact.getFechaVencimiento());
+					perSaldo.setConsumo(0);
+					perSaldo.setSaldo(0F - fact.getImporteTotal());
+					periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);
+				}
+			} catch (Exception ex) {
+				LOG.error("Error modificar/grabar Saldo Periodo Conexion: " + ex.getMessage());
+				throw new Exception("Error modificar/grabar Saldo Periodo Conexion: " + ex.getMessage());
+			}
+			
+			
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Factura generada correctamente. "));
+			inicializar();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al facturar otros conceptos verifique todos los campos"));
-			LOG.error("Error al facturar otros conceptos. ");
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al facturar otros conceptos. "+e.getMessage()));
+			LOG.error("Error al facturar otros conceptos. "+e.getMessage());
 		}
 	}
 

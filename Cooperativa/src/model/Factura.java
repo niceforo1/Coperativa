@@ -40,7 +40,7 @@ public class Factura implements Serializable {
 	@JoinColumn(name = "ID_CONEXION")
 	private Conexion conexion;
 
-	@Column(name = "CARGO_FIJO", nullable = false, precision = 18, scale = 2)
+	@Column(name = "CARGO_FIJO", nullable = true, precision = 18, scale = 2)
 	private Double cargoFijo;
 
 	@Column(name = "TRAMO_1")
@@ -61,16 +61,16 @@ public class Factura implements Serializable {
 	@Column(name = "TRAMO_6")
 	private long tramo6;
 
-	@Column(name = "CAPITAL_SOCIAL", nullable = false, precision = 18, scale = 2)
+	@Column(name = "CAPITAL_SOCIAL", nullable = true, precision = 18, scale = 2)
 	private Double capitalSocial;
 
-	@Column(name = "ERSEP", nullable = false, precision = 18, scale = 2)
+	@Column(name = "ERSEP", nullable = true, precision = 18, scale = 2)
 	private Double ersep;
 
-	@Column(name = "RECUPERO_INVERSION", nullable = false, precision = 18, scale = 2)
+	@Column(name = "RECUPERO_INVERSION", nullable = true, precision = 18, scale = 2)
 	private Double recuperoInversion;
 
-	@Column(name = "IMPRESION_Y_OTROS", nullable = false, precision = 18, scale = 2)
+	@Column(name = "IMPRESION_Y_OTROS", nullable = true, precision = 18, scale = 2)
 	private Double impresionesOtros;
 
 	@Column(name = "IVA", precision = 18, scale = 2)

@@ -20,7 +20,7 @@ public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 		List<PeriodoFacturacion> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from PeriodoFacturacion");
+			Query query = session.createQuery("from PeriodoFacturacion pf order by pf.id desc");
 			lista = (List<PeriodoFacturacion>) query.list();
 		}catch(ConstraintViolationException e){			
 			session.getTransaction().rollback();
