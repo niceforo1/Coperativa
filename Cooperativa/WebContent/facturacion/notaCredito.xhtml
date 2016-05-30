@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="#{msg.titleSocio}" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+
+		<style>
+.ACTIVO {
+	color: green;
+	font-weight: bold;
+}
+
+.PENDIENTE {
+	color: orange;
+	font-weight: bold;
+}
+
+.BAJA {
+	color: red;
+	font-weight: bold;
+}
+
+.label {
+	font-weight: bold;
+}
+
+</style>
+		<center>
+		<h:form id="alta">
+			<p:messages id="mensajes" showDetail="true" autoUpdate="true"
+					closable="true" />
+			<p:panel>
+				<f:facet name="header">
+					<p:outputLabel value="Emitir Nota Credito"/>
+					<p:selectOneRadio id="seleccion2"
+						value="#{socioBean.filtroBusSoc}" colspan="2">
+						<f:selectItem itemLabel="Numero Socio" itemValue="numeroS" />
+						<f:selectItem itemLabel="Nombre Socio" itemValue="nombreS" />
+						<p:ajax process="seleccion2" update=":alta" />
+					</p:selectOneRadio>
+				</f:facet>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Numero Socio" for="socio" rendered="#{socioBean.filtroBusSoc eq 'numeroS'}"/>
+					<p:inputText id="socio" value="#{socioBean.idSocio}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }"
+								rendered="#{socioBean.filtroBusSoc eq 'numeroS'}">
+						<p:ajax event="blur" update="socioDT, pane" listener="#{socioBean.retornarSocio}" />
+					</p:inputText>
+					<p:outputLabel value="Nombre Socio" for="socioNom" rendered="#{socioBean.filtroBusSoc eq 'nombreS'}"/>
+					<p:inputText id="socioNom" converter="upperConverter" value="#{socioBean.nombreSocBusq}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }"
+								rendered="#{socioBean.filtroBusSoc eq 'nombreS'}">
+						<p:ajax event="blur" update="socioDT, pane"
+							listener="#{socioBean.retornarSocio}" />
+					</p:inputText>
+				</p:panelGrid>
+				<br/>
+				<p:panelGrid id="pane" columns="2">
+				<p:dataTable id="socioDT" var="soc" value="#{socioBean.lstSocioBusqueda}"
+						scrollable="true" scrollHeight="100" rowKey="#{soc.numero}" selectionMode="single"
+						emptyMessage="#{msg.paramNoDatos}" >
+					<f:facet name="header">
+						<center>
+							<h:outputText value="#{msg.paramSocioTable}" />
+						</center>
+					</f:facet>
+					<p:ajax event="rowSelect" listener="#{conexionBean.onRowSelect}" update=":alta" />
+        			<p:ajax event="rowUnselect" listener="#{conexionBean.onRowUnselect}" update=":alta" />
+					<p:column id="numero" headerText="#{msg.paramSocioNumero}">
+						<h:outputText value="#{soc.numero}" />
+					</p:column>
+					<p:column id="dni" headerText="#{msg.paramSocioDni}">
+						<h:outputText value="#{soc.numeroDocumento}" />
+					</p:column>
+					<p:column headerText="#{msg.paramSocioNombre}">
+						<h:outputText
+							value="#{soc.apellidoRazonSocial} #{soc.nombreDenominacion}" />
+					</p:column>
+				</p:dataTable>
+				<p:dataTable id="conexDT" var="conex" value="#{conexionBean.lstConexionesSocio}"
+							scrollable="true" scrollHeight="100" rowKey="#{conex.id}" selectionMode="single"
+							emptyMessage="#{msg.paramNoDatos}">
+					<f:facet name="header">
+						<center>
+							<h:outputText value="#{msg.paramConexionTable}" />
+						</center>
+					</f:facet>
+					<p:ajax event="rowSelect" listener="#{notaCreditoBean.onRowSelect}" update=":alta" />
+        			<p:ajax event="rowUnselect" listener="#{notaCreditoBean.onRowUnselect}" update=":alta" />
+        			
+					<p:column id="id" headerText="#{msg.paramConexionNumero}">
+						<h:outputText value="#{conex.id}" />
+					</p:column>
+					
+					<p:column headerText="#{msg.paramConexionCalle}">
+						<h:outputText value="#{conex.domicilioServicio.calle} #{conex.domicilioServicio.numero}" />
+					</p:column>
+					<p:column headerText="Estado">
+						<h:outputText value="#{conex.estadoConexion.descripcion}" />
+					</p:column>
+				</p:dataTable>
+				</p:panelGrid>
+				<br/>
+				<p:panelGrid columns="2">
+					<ui:remove>
+					<p:outputLabel value="Tipo Nota Credito:"/>
+					<p:selectOneMenu id="tpoNotaCredito"
+						value="#{notaCreditoBean.tipoNotaCredito}"
+						panelStyle="width:180px" effect="fold" filter="true"
+						required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItem itemLabel="NC A" itemValue="1" />
+						<f:selectItem itemLabel="NC B" itemValue="2" />
+						<f:selectItem itemLabel="NC X" itemValue="4" />						
+					</p:selectOneMenu>
+					</ui:remove>
+					<p:outputLabel value="Periodos Facturación" for="perFact" />							
+					<p:selectOneMenu id="perFact"
+						value="#{notaCreditoBean.peridoIdFactEleg}" panelStyle="width:180px"
+						effect="fold" required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{periodoFacturacionBean.lstPeriodoFacturacion}"
+							var="perFact" itemLabel="#{perFact.mes}/#{perFact.anio}"
+							itemValue="#{perFact.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Emite Nota Credito X?"
+									for="checkParametrizables" />
+					<p:selectBooleanCheckbox id="checkParametrizables" value="#{notaCreditoBean.notaCredX}">
+						<p:ajax update="alta" />						
+					</p:selectBooleanCheckbox>
+						
+					<p:outputLabel value="Concepto a Facturar:"/>
+					<p:selectOneMenu id="concFact"
+						value="#{notaCreditoBean.conceptoID}"
+						panelStyle="width:180px" effect="fold" filter="true"
+						required="true">
+						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+						<f:selectItems value="#{conceptoFacturacionBean.lstConceptos}"
+							var="conFactu" itemLabel="#{conFactu.descripcion}"
+							itemValue="#{conFactu.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Importe:" rendered="#{notaCreditoBean.notaCredX}"/>
+					<p:inputText id="importeX" value="#{notaCreditoBean.importeX}" rendered="#{notaCreditoBean.notaCredX}"/>
+					<p:outputLabel value="Observaciones:"/>
+					<p:inputTextarea id="obs"
+						value="#{notaCreditoBean.observaciones}" rows="10" cols="40"/>						
+				</p:panelGrid>
+				
+				<f:facet name="footer">
+					<center>
+						<p:commandButton id="factOtro" value="Gen. Nota Credito" actionListener="#{notaCreditoBean.generarNotaCredito}" 
+						rendered="#{notaCreditoBean.habilitado}"
+						update=":alta"/>
+					</center>
+				</f:facet>
+			</p:panel>
+		</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

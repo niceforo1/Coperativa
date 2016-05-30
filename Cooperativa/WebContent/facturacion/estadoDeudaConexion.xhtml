@@ -17,7 +17,7 @@
 			<h:form id="alta">
 				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
 					closable="true" />
-				<p:panel header="Consulta Estado Deuda Socio">
+				<p:panel header="Consulta Estado Deuda Conexión">
 					<p:panelGrid columns="6">
 						<p:outputLabel value="Número Conexión" for="numero" />
 						<p:inputText id="numero" value="#{consEstDeudaBean.conexionID}">
@@ -65,7 +65,7 @@
 					value="#{consEstDeudaBean.lstPeriodosSaldos}" scrollable="true"
 					selection="#{consEstDeudaBean.lstPeriodosSaldosCobrar}"
 					scrollHeight="150" rowKey="#{perSaldos.id}"
-					emptyMessage="#{msg.paramNoDatos}">
+					emptyMessage="#{msg.paramNoDatos}" disabledSelection="#{perSaldos.saldo ge 0}">
 					<p:column headerText="Mes" filterBy="#{perSaldos.mes}"
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perSaldos.mes}" />
@@ -81,9 +81,8 @@
 					<p:column headerText="Saldo" filterBy="#{perSaldos.saldo}"
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perSaldos.saldo}" />
-					</p:column>					
-					
-					<p:column  selectionMode="multiple" style="width:16px;text-align:center" />
+					</p:column>				
+					<p:column  selectionMode="multiple" style="width:16px;text-align:center"/>
 					<f:facet name="footer">
 						<center>							
 							<p:commandButton value="Cobrar" action="#{consEstDeudaBean.cobrarPeriodos}" 
@@ -132,7 +131,7 @@
 						<f:facet name="footer">
 						<center>
 							<p:commandButton value="Cobrar" actionListener="#{consEstDeudaBean.cobrar}" 
-											 update=":alta :cobro" />
+											 update=":mostrar :cobro" oncomplete="PF('detCobDialog').hide();" />
 						</center>
 					</f:facet>
 					</p:panelGrid>

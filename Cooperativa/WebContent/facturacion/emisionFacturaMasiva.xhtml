@@ -29,7 +29,7 @@
 				<p:panelGrid columns="2">
 					<p:outputLabel value="Periodos Facturación" for="perFact" />							
 					<p:selectOneMenu id="perFact"
-						value="#{periodoFacturacionBean.peridoIdFactEleg}" panelStyle="width:180px"
+						value="#{notaCreditoBean.peridoIdFactEleg}" panelStyle="width:180px"
 						effect="fold" required="true">
 						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 						<f:selectItems value="#{periodoFacturacionBean.lstPeriodoFacturacion}"

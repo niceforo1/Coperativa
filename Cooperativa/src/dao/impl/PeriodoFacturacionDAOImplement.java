@@ -77,7 +77,6 @@ public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 				session.close();
 			}
 		}		
-		
 	}
 
 	@Override
@@ -98,8 +97,7 @@ public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 			if(session != null){
 				session.close();
 			}
-		}
-		
+		}		
 	}
 
 	@Override

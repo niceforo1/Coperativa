@@ -161,17 +161,13 @@
 						filterMatchMode="contains">
 						<p:outputLabel value="#{perFact.estadoPeriodo.descripcion}" />
 					</p:column>
-					<p:column style="width:110px;text-align: center" exportable="false"
-						rendered="#{perFact.estadoPeriodo.descripcion == 'EN PROCESO'}">
+					<p:column style="width:110px;text-align: center" headerText="Accion">
 						<p:commandButton value="CERRAR PERIODO"
 							actionListener="#{periodoFacturacionBean.cambiarEstadoPeriodo('CERRADO', perFact)}"
-							update=":mostrar :alta" immediate="true" />
-					</p:column>
-					<p:column style="width:110px;text-align: center" exportable="false"
-						rendered="#{perFact.estadoPeriodo.descripcion == 'CERRADO'}">
+							update=":mostrar :alta" immediate="true" rendered="#{perFact.estadoPeriodo.descripcion == 'EN PROCESO'}" />
 						<p:commandButton value="FACTURADO"
 							actionListener="#{periodoFacturacionBean.cambiarEstadoPeriodo('FACTURADO', perFact)}"
-							update=":alta :mostrar" immediate="true" />
+							update=":alta :mostrar" immediate="true" rendered="#{perFact.estadoPeriodo.descripcion == 'CERRADO'}"/>
 					</p:column>
 					<f:facet name="footer">
 						<p:outputLabel value=" " />

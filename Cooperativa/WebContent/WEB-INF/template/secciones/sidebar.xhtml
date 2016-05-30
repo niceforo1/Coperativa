@@ -4,7 +4,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
-
 	<p:panelMenu >
         <p:submenu label="Socios" >
             <p:submenu label="Parametrizaciones" icon="ui-icon-extlink" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
@@ -35,11 +34,12 @@
         <p:submenu label="Facturación" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
         	<p:menuitem value="Período Facturación" url="/facturacion/periodoFacturacion.xhtml" icon="ui-icon-document" />
         	<p:menuitem value="Configuración Factura" url="/facturacion/configuracionFactura.xhtml" icon="ui-icon-document" />
-        	<p:menuitem value="Consulta Estado Deuda Socio" url="/facturacion/estadoDeudaSocio.xhtml" icon="ui-icon-document" />
-        	<p:menuitem value="Emision Factura Individual" url="/facturacion/emisionFacturaIndividual.xhtml" icon="ui-icon-document" />
-        	<p:menuitem value="Emision Factura Masiva" url="/facturacion/emisionFacturaMasiva.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Consulta Estado Deuda Conexión" url="/facturacion/estadoDeudaConexion.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Impresión Factura Individual" url="/facturacion/emisionFacturaIndividual.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Impresión Factura Masiva" url="/facturacion/emisionFacturaMasiva.xhtml" icon="ui-icon-document" />
         	<p:menuitem value="Consulta Saldo Conexiones" url="/facturacion/consultaSaldoConexiones.xhtml" icon="ui-icon-document" />
         	<p:menuitem value="Fact. Ind. Otros Conc." url="/facturacion/facturacionIndividual.xhtml" icon="ui-icon-document" />
+        	<p:menuitem value="Emitir Nota Crédito" url="/facturacion/notaCredito.xhtml" icon="ui-icon-document" />
         </p:submenu>
         <p:submenu label="Reportes" > 
 			<p:menuitem value="Planilla de Lecturas" url="/reportes/planillaLectura.xhtml" icon="ui-icon-document" />

@@ -116,9 +116,11 @@
 						<p:commandButton value="CERRAR PERIODO"
 							actionListener="#{periodoLecturaBean.cambiarEstadoPeriodo('CERRADO', perLect)}"
 							update=":alta :mostrar" immediate="true"  rendered="#{perLect.estadoPeriodo.descripcion == 'EN PROCESO'}" />
+						<ui:remove>
 						<p:commandButton value="FACTURADO"
 							actionListener="#{periodoLecturaBean.cambiarEstadoPeriodo('FACTURADO', perLect)}"
 							update=":alta :mostrar" immediate="true"  rendered="#{perLect.estadoPeriodo.descripcion == 'CERRADO'}"/>
+						</ui:remove>
 						<p:outputLabel rendered="#{perLect.estadoPeriodo.descripcion == 'FACTURADO'}"/>
 					</p:column>					
 					<f:facet name="footer">

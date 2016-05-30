@@ -27,6 +27,8 @@ import dao.ConfiguracionFacturaDAO;
 import dao.EstadoPeriodoDAO;
 import dao.EstadoSocioDAO;
 import dao.FacturaDAO;
+import dao.GeneradorFacturaADAO;
+import dao.GeneradorFacturaBDAO;
 import dao.LecturaDAO;
 import dao.PeriodoCanonDAO;
 import dao.PeriodoFacturacionDAO;
@@ -40,6 +42,8 @@ import dao.impl.ConfiguracionFacturaDAOImplement;
 import dao.impl.EstadoPeriodoDAOImplement;
 import dao.impl.EstadoSocioDAOImplement;
 import dao.impl.FacturaDAOImplement;
+import dao.impl.GeneradorFacturaADAOImplement;
+import dao.impl.GeneradorFacturaBDAOImplement;
 import dao.impl.LecturaDAOImplement;
 import dao.impl.PeriodoCanonDAOImplement;
 import dao.impl.PeriodoFacturacionDAOImplement;
@@ -57,6 +61,8 @@ import model.PeriodoLectura;
 import model.PeriodosSaldos;
 import model.Socio;
 import model.SociosTransacciones;
+import model.generadores.GenFacturaA;
+import model.generadores.GenFacturaB;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -268,16 +274,18 @@ public class PeriodoFacturacionBean implements Serializable {
 	public void cambiarEstadoPeriodo(String estado, PeriodoFacturacion periodo) {
 		EstadoPeriodoDAO estadoPeriodoDAO = new EstadoPeriodoDAOImplement();
 		PeriodoFacturacionDAO periodoFacturacionDAO = new PeriodoFacturacionDAOImplement();
+		String msgExito = "El período se modifico correctamente";
 		try {
 			periodo.setEstadoPeriodo(estadoPeriodoDAO.buscarEstadoPeriodo(estado));
 			if (estado.equals("FACTURADO")) {
 				facturar();
+				msgExito = "El período se Facturó correctamente sin errores.";
 			}
 
 			periodoFacturacionDAO.modificarPeriodoFacturacion(periodo);
 
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Correctamente", "El período se modifico correctamente."));
+					"Correctamente", msgExito));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
@@ -382,7 +390,11 @@ public class PeriodoFacturacionBean implements Serializable {
 
 					if (fact.getConexion().getSocio().getCondicionIva().getId().equals(4)) {
 						fact.setTipoFactura("A");
+						GeneradorFacturaADAO facturaADAO = new GeneradorFacturaADAOImplement();
+						fact.setNumeroFactura(facturaADAO.insertarFacturaA(new GenFacturaA()).toString());
 					} else {
+						GeneradorFacturaBDAO facturaBDAO = new GeneradorFacturaBDAOImplement();
+						fact.setNumeroFactura(facturaBDAO.insertarFacturaB(new GenFacturaB()).toString());
 						fact.setTipoFactura("B");
 					}
 					
@@ -438,7 +450,6 @@ public class PeriodoFacturacionBean implements Serializable {
 					LOG.error("Error modificar/grabar Saldo Periodo Conexion: " + ex.getMessage());
 					throw new Exception("Error modificar/grabar Saldo Periodo Conexion: " + ex.getMessage());
 				}
-
 			}
 			if (periodoCanonDAO
 					.buscarPeriodosCanonMes((int) periodoLecturaDAO.buscarPeriodoLecturaCerrado().getMes()) != null) {
@@ -539,6 +550,22 @@ public class PeriodoFacturacionBean implements Serializable {
 								"Error al modificar/grabar Periodos Saldo Conexion Canon: " + ex.getMessage());
 					}
 				}
+			}
+			EstadoPeriodoDAO estadoPeriodoDAO = new EstadoPeriodoDAOImplement();
+			//PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
+			try {
+				PeriodoLectura periodoLectura= periodoLecturaDAO.buscarPeriodoLecturaCerrado();
+				periodoLectura.setEstadoPeriodo(estadoPeriodoDAO.buscarEstadoPeriodo("FACTURADO"));
+				// se cambia ultima fecha mod
+				periodoLectura.setFechaUltimaMod(Calendar.getInstance().getTime());
+
+				periodoLecturaDAO.modificarPeriodoLectura(periodoLectura);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Correctamente", "El período se modifico correctamente."));
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
+				LOG.error("Error al Cambiar Estado Periodo: " + e.getMessage());
 			}
 		} catch (Exception e) {
 			LOG.error("Error General Facturacion " + e.getMessage());

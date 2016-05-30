@@ -25,6 +25,9 @@ public class Factura implements Serializable {
 	@Column(name = "TIPO_FACTURA", nullable = false)
 	private String tipoFactura;
 
+	@Column(name = "NRO_FACTURA", nullable = false)
+	private String numeroFactura;
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "PERIODO_FACT_ID")
 	private PeriodoFacturacion periodoFacturacion;
@@ -246,102 +249,14 @@ public class Factura implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	/*
-	 * public Long getId() { return id; }
-	 * 
-	 * public void setId(Long id) { this.id = id; }
-	 * 
-	 * public String getTipoFactura() { return tipoFactura; }
-	 * 
-	 * public void setTipoFactura(String tipoFactura) { this.tipoFactura =
-	 * tipoFactura; }
-	 * 
-	 * public PeriodoFacturacion getPeriodoFacturacion() { return
-	 * periodoFacturacion; }
-	 * 
-	 * public void setPeriodoFacturacion(PeriodoFacturacion periodoFacturacion)
-	 * { this.periodoFacturacion = periodoFacturacion; }
-	 * 
-	 * public ConceptoFacturacion getConceptoFacturacion() { return
-	 * conceptoFacturacion; }
-	 * 
-	 * public void setConceptoFacturacion(ConceptoFacturacion
-	 * conceptoFacturacion) { this.conceptoFacturacion = conceptoFacturacion; }
-	 * 
-	 * public Float getInteresesSegVenc() { return
-	 * (float)(Math.rint(interesesSegVenc*100)/100); }
-	 * 
-	 * public void setInteresesSegVenc(Float interesesSegVenc) {
-	 * this.interesesSegVenc = (float)(Math.rint(interesesSegVenc*100)/100); }
-	 * 
-	 * public Conexion getConexion() { return conexion; }
-	 * 
-	 * public void setConexion(Conexion conexion) { this.conexion = conexion; }
-	 * 
-	 * public Float getCargoFijo() { return
-	 * (float)(Math.rint(cargoFijo*100)/100); }
-	 * 
-	 * public void setCargoFijo(Float cargoFijo) { this.cargoFijo =
-	 * (float)(Math.rint(cargoFijo*100)/100); }
-	 * 
-	 * public long getTramo1() { return tramo1; }
-	 * 
-	 * public void setTramo1(long tramo1) { this.tramo1 = tramo1; }
-	 * 
-	 * public long getTramo2() { return tramo2; }
-	 * 
-	 * public void setTramo2(long tramo2) { this.tramo2 = tramo2; }
-	 * 
-	 * public long getTramo3() { return tramo3; }
-	 * 
-	 * public void setTramo3(long tramo3) { this.tramo3 = tramo3; }
-	 * 
-	 * public long getTramo4() { return tramo4; }
-	 * 
-	 * public void setTramo4(long tramo4) { this.tramo4 = tramo4; }
-	 * 
-	 * public long getTramo5() { return tramo5; }
-	 * 
-	 * public void setTramo5(long tramo5) { this.tramo5 = tramo5; }
-	 * 
-	 * public long getTramo6() { return tramo6; }
-	 * 
-	 * public void setTramo6(long tramo6) { this.tramo6 = tramo6; }
-	 * 
-	 * public Float getCapitalSocial() { return
-	 * (float)(Math.rint(capitalSocial*100)/100); }
-	 * 
-	 * public void setCapitalSocial(Float capitalSocial) { this.capitalSocial =
-	 * (float)(Math.rint(capitalSocial*100)/100); }
-	 * 
-	 * public Float getErsep() { return (float)(Math.rint(ersep*100)/100); }
-	 * 
-	 * public void setErsep(Float ersep) { this.ersep =
-	 * (float)(Math.rint(ersep*100)/100); }
-	 * 
-	 * public Float getRecuperoInversion() { return
-	 * (float)(Math.rint(recuperoInversion*100)/100); }
-	 * 
-	 * public void setRecuperoInversion(Float recuperoInversion) {
-	 * this.recuperoInversion = (float)(Math.rint(recuperoInversion*100)/100); }
-	 * 
-	 * public Float getImpresionesOtros() { return
-	 * (float)(Math.rint(impresionesOtros*100)/100); }
-	 * 
-	 * public void setImpresionesOtros(Float impresionesOtros) {
-	 * this.impresionesOtros = (float)(Math.rint(impresionesOtros*100)/100); }
-	 * 
-	 * public Float getIva() { return (float)(Math.rint(iva*100)/100); }
-	 * 
-	 * public void setIva(Float iva) { this.iva =
-	 * (float)(Math.rint(iva*100)/100); }
-	 * 
-	 * public Float getImporteTotal() { return
-	 * (float)(Math.rint(importeTotal*100)/100) ; }
-	 * 
-	 * public void setImporteTotal(Float importeTotal) { this.importeTotal =
-	 * (float)(Math.rint(importeTotal*100)/100); }
-	 */
+	public String getNumeroFactura() {
+		return numeroFactura;
+	}
+
+	public void setNumeroFactura(String numeroFactura) {
+		this.numeroFactura = numeroFactura;
+	}
+
 	@Override
 	public String toString() {
 		return "Factura [id=" + id + ", tipoFactura=" + tipoFactura + ", periodoFacturacion=" + periodoFacturacion

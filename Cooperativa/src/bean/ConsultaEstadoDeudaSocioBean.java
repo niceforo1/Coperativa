@@ -21,6 +21,8 @@ import dao.ConexionDAO;
 import dao.ConexionesSaldosDAO;
 import dao.FacturaDAO;
 import dao.FormaPagoDAO;
+import dao.GeneradorNotaDebADAO;
+import dao.GeneradorNotaDebBDAO;
 import dao.NotaDebitoDAO;
 import dao.PeriodoCespDAO;
 import dao.PeriodosSaldosDAO;
@@ -30,6 +32,8 @@ import dao.impl.ConexionDAOImplement;
 import dao.impl.ConexionesSaldosDAOImplement;
 import dao.impl.FacturaDAOImplement;
 import dao.impl.FormaPagoDAOImplement;
+import dao.impl.GeneradorNotaDebADAOImplement;
+import dao.impl.GeneradorNotaDebBDAOImplement;
 import dao.impl.NotaDebitoDAOImplement;
 import dao.impl.PeriodoCespDAOImplement;
 import dao.impl.PeriodosSaldosDAOImplement;
@@ -45,6 +49,8 @@ import model.PeriodosSaldos;
 import model.Recibo;
 import model.ReciboItem;
 import model.TipoComprobante;
+import model.generadores.GenNotaDebitoA;
+import model.generadores.GenNotaDebitoB;
 
 @ManagedBean(name = "consEstDeudaBean")
 @ViewScoped
@@ -229,7 +235,7 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 		ConexionesSaldosDAO conexionesSaldosDAO = new ConexionesSaldosDAOImplement();
 		FormaPago formaPago = null;
 		PeriodoCesp perCesp = null;
-		Double totalConexSaldo = 0D;
+		Double totalConexSaldo = 0D;		
 		try {
 			perCesp = cespDAO.buscarUltimoPeriodoCesp();
 			formaPago = formaPagoDAO.buscarFormaPagoId(formaPagoID);
@@ -250,13 +256,18 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 				Factura fact = new Factura();
 				List<ReciboItem> lstReciboItems = new ArrayList<ReciboItem>();
 				ReciboDAO reciboDAO = new ReciboDAOImplement();
+				String nroNotaDebito = "";
 				try {
 					fact = facturaDAO.buscarFacturaPerSaldo(periodo);
 					TipoComprobanteDAO tipoComprobanteDAO = new TipoComprobanteDAOImplement();
 					if (fact.getConexion().getSocio().getCondicionIva().getCodigo().equals("R INSC")) {
 						tipoComprobante = tipoComprobanteDAO.buscarTipoComprobanteId(1L);
+						GeneradorNotaDebADAO generadorNotaDebADAO= new GeneradorNotaDebADAOImplement();
+						nroNotaDebito = generadorNotaDebADAO.insertarNotaDebA(new GenNotaDebitoA()).toString();
 					} else {
+						GeneradorNotaDebBDAO generadorNotaDebBDAO= new GeneradorNotaDebBDAOImplement();
 						tipoComprobante = tipoComprobanteDAO.buscarTipoComprobanteId(2L);
+						nroNotaDebito = generadorNotaDebBDAO.insertarNotaDebB(new GenNotaDebitoB()).toString();
 					}
 				} catch (Exception e) {
 					LOG.error("Error al buscar factura per saldo: " + e.getMessage());
@@ -301,6 +312,7 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 					notaDebito.setFechaVtoCesp(perCesp.getFechaVtoCesp());
 					notaDebito.setMes(periodo.getMes());
 					notaDebito.setTipoComprobante(tipoComprobante);
+					notaDebito.setNumeroNota(nroNotaDebito);
 					notaDebito.setUsuario(login.getUsuario());
 					Date fechaActual = new Date();
 
@@ -371,6 +383,10 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 				}
 			}
 		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Correctamente", "El cobro se realizó correctamente."));
+		
+		subTotal= 0D; 		interesGlobal= 0D; 		total= 0D;		importe= 0D;		tipoPago= "";		formaPagoID= 0l;
 	}
 
 	public LoginBean getLogin() {

@@ -1,3 +1,8 @@
+delete from NOTAS_DE_CREDITO;
+delete from NOTAS_DE_DEBITO;
+delete from RECIBOS_RECIBOS_ITEMS;
+delete from RECIBOS_ITEMS;
+delete from RECIBOS;
 delete from PERIODOS_SALDOS;
 delete from CONEXIONES_SALDOS;
 delete from FACTURA;
