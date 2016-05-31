@@ -10,3 +10,4 @@ delete from CONEXIONES_LECTURAS;
 delete from LECTURAS;
 delete from PERIODO_LECTURAS;
 delete from PERIODO_FACTURACION;
+delete from PERIODO_CESP;
