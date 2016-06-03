@@ -58,6 +58,7 @@ public class ConfiguracionFactura implements Serializable {
 
 	}
 	
+	/*
 	public Long getId() {
 		return id;
 	}
@@ -152,6 +153,110 @@ public class ConfiguracionFactura implements Serializable {
 
 	public void setImpresionesOtros(Double impresionesOtros) {
 		this.impresionesOtros = (Math.rint(impresionesOtros*100)/100);
+	}
+
+	public String getLeyendaComprobante() {
+		return leyendaComprobante;
+	}
+
+	public void setLeyendaComprobante(String leyendaComprobante) {
+		this.leyendaComprobante = leyendaComprobante;
+	}*/
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Double getCargoFijo() {
+		return cargoFijo;
+	}
+
+	public void setCargoFijo(Double cargoFijo) {
+		this.cargoFijo = cargoFijo;
+	}
+
+	public Double getTramo1() {
+		return tramo1;
+	}
+
+	public void setTramo1(Double tramo1) {
+		this.tramo1 = tramo1;
+	}
+
+	public Double getTramo2() {
+		return tramo2;
+	}
+
+	public void setTramo2(Double tramo2) {
+		this.tramo2 = tramo2;
+	}
+
+	public Double getTramo3() {
+		return tramo3;
+	}
+
+	public void setTramo3(Double tramo3) {
+		this.tramo3 = tramo3;
+	}
+
+	public Double getTramo4() {
+		return tramo4;
+	}
+
+	public void setTramo4(Double tramo4) {
+		this.tramo4 = tramo4;
+	}
+
+	public Double getTramo5() {
+		return tramo5;
+	}
+
+	public void setTramo5(Double tramo5) {
+		this.tramo5 = tramo5;
+	}
+
+	public Double getTramo6() {
+		return tramo6;
+	}
+
+	public void setTramo6(Double tramo6) {
+		this.tramo6 = tramo6;
+	}
+
+	public Double getCapitalSocial() {
+		return capitalSocial;
+	}
+
+	public void setCapitalSocial(Double capitalSocial) {
+		this.capitalSocial = capitalSocial;
+	}
+
+	public Double getErsep() {
+		return ersep;
+	}
+
+	public void setErsep(Double ersep) {
+		this.ersep = ersep;
+	}
+
+	public Double getRecuperoInversion() {
+		return recuperoInversion;
+	}
+
+	public void setRecuperoInversion(Double recuperoInversion) {
+		this.recuperoInversion = recuperoInversion;
+	}
+
+	public Double getImpresionesOtros() {
+		return impresionesOtros;
+	}
+
+	public void setImpresionesOtros(Double impresionesOtros) {
+		this.impresionesOtros = impresionesOtros;
 	}
 
 	public String getLeyendaComprobante() {

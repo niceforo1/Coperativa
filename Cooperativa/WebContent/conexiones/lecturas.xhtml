@@ -121,12 +121,13 @@
 							<p:inputTextarea value="#{lecturaBean.lectura.observaciones}"
 								rows="10" cols="40" />
 							<f:facet name="footer">
-								<center>									
+								<center>																	
 									<p:commandButton action="#{lecturaBean.insertarLectura}" id="button"
 										value="#{msg.paramCargar}" update=":alta" disabled="#{lecturaBean.permiteCarga}">
-										<p:confirm header="Confirmation" message="Desea Agregar la Lectura #{lecturaBean.mensajeBlur2}" icon="ui-icon-alert"/>
+										<p:confirm header="Confirmation" icon="ui-icon-alert"/>
 									</p:commandButton>
-									<p:confirmDialog id="conf" global="true" showEffect="fade" hideEffect="fade">
+									
+									<p:confirmDialog id="conf" global="true" showEffect="fade" hideEffect="fade" message="Desea Agregar la Lectura #{lecturaBean.mensajeBlur2}">
 								        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 								        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 								    </p:confirmDialog>

@@ -25,8 +25,7 @@ public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 		}catch(ConstraintViolationException e){			
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());		
-		}catch(HibernateException e){
-			System.out.println("error puto: " +e.getMessage());			
+		}catch(HibernateException e){		
 			throw new Exception(e);		
 		}finally{
 			if(session != null){

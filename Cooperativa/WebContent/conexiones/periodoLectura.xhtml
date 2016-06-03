@@ -18,6 +18,7 @@
 					closable="true" />
 				<p:panel header="#{msg.paramPeriodoLecturaHeader}">
 					<p:panelGrid columns="2">
+						<ui:remove>
 						<p:outputLabel for="mes" value="Mes:" />
 						<p:selectOneMenu id="mes"
 							value="#{periodoLecturaBean.periodoLectura.mes}"
@@ -65,8 +66,12 @@
 							<f:selectItem itemLabel="2029" itemValue="2029" />
 							<f:selectItem itemLabel="2030" itemValue="2030" />
 						</p:selectOneMenu>
+						</ui:remove>
+						<p:outputLabel for="mes" value="Mes:" />
+						<p:inputText id="mes" value="#{periodoLecturaBean.periodoLectura.mes}" disabled="true"/>
 						
-						
+						<p:outputLabel for="anio" value="Año:" />
+						<p:inputText id="anio" value="#{periodoLecturaBean.periodoLectura.anio}" disabled="true"/>
 						<f:facet name="footer">
 							<center>
 								<p:commandButton disabled="#{periodoLecturaBean.periodoAbiertoCons()}"

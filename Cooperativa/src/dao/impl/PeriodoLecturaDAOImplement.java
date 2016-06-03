@@ -21,7 +21,8 @@ public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 		List<PeriodoLectura> lista = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			Query query = session.createQuery("from PeriodoLectura");
+			Query query = session.createQuery("from PeriodoLectura pl"
+											+ " order by pl.anio desc, pl.mes desc");
 			lista = (List<PeriodoLectura>) query.list();
 		}catch(ConstraintViolationException e){			
 			session.getTransaction().rollback();
@@ -56,8 +57,7 @@ public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 			if(session != null){
 				session.close();
 			}
-		}
-		
+		}		
 	}
 
 	@Override

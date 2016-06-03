@@ -79,8 +79,9 @@ public class PeriodoLecturaBean implements Serializable {
 			PeriodoLecturaDAO daoPeriodoLectura = new PeriodoLecturaDAOImplement();
 			periodoLecturaEnProceso = daoPeriodoLectura.buscarPeriodoLecturaAbierto();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			/*FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));*/
+			periodoLecturaEnProceso = null;
 			LOG.error("Error al obtener Periodo Lectura En Proceso: " + e.getMessage());
 		}
 		return periodoLecturaEnProceso;
@@ -153,5 +154,18 @@ public class PeriodoLecturaBean implements Serializable {
 	private void inicializar() {
 		getPeriodoLecturaEnProceso();
 		periodoLectura = new PeriodoLectura();
+		PeriodoLectura periodoLecturaAux = new PeriodoLectura();
+		PeriodoLecturaDAO daoPeriodoLectura = new PeriodoLecturaDAOImplement();
+		try {
+			periodoLecturaAux= daoPeriodoLectura.listaPeriodoLectura().get(0);
+			if(periodoLecturaAux.getMes()==12){
+				periodoLectura.setAnio(periodoLecturaAux.getAnio()+1);
+				periodoLectura.setMes(1);
+			}else{
+				periodoLectura.setAnio(periodoLecturaAux.getAnio());
+				periodoLectura.setMes(periodoLecturaAux.getMes()+1);
+			}			
+		} catch (Exception e) {
+		}
 	}
 }

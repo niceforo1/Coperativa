@@ -274,6 +274,8 @@ public class LecturaBean implements Serializable {
 			int consumo = (int) ((Integer.parseInt("9999")-lectura.getLecturaAnterior()) + lectura.getLecturaActual());
 			mensajeBlur2 = ", se va a considerar reseteo Medidor, y el consumo será de: "+consumo;
 		}else{
+			resetMed= false;
+			mensajeBlur2 ="";
 			mensajeBlur += "";
 		}
 	}
@@ -341,8 +343,7 @@ public class LecturaBean implements Serializable {
 		PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
 		LecturaDAO lecturaDAO = new LecturaDAOImplement();
 		try {
-			lstListaLecturas = lecturaDAO
-					.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaId(periodoLectID));
+			lstListaLecturas = lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaId(periodoLectID));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"Error al Consultar Lecturas: " + e.getMessage()));

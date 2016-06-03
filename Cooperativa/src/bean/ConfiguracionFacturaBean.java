@@ -15,33 +15,32 @@ import dao.ConfiguracionFacturaDAO;
 import dao.impl.ConfiguracionFacturaDAOImplement;
 import model.ConfiguracionFactura;
 
-@ManagedBean(name="configuracionFacturaBean")
+@ManagedBean(name = "configuracionFacturaBean")
 @ViewScoped
-public class ConfiguracionFacturaBean implements Serializable{
-	private static final Logger LOG = Logger.getLogger(ConfiguracionFacturaBean.class); 
-	
+public class ConfiguracionFacturaBean implements Serializable {
+	private static final Logger LOG = Logger.getLogger(ConfiguracionFacturaBean.class);
 
 	private List<ConfiguracionFactura> listaConfiguracionFactura;
 	private ConfiguracionFactura configuracionFactura;
 	private ConfiguracionFactura configuracionFacturaEditar;
-	
+
 	public ConfiguracionFacturaBean() {
 		inicializar();
 	}
 
 	public List<ConfiguracionFactura> getListaConfiguracionFactura() {
-		ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();
+		ConfiguracionFacturaDAO daoConfiguracionFactura = new ConfiguracionFacturaDAOImplement();
 		try {
 			listaConfiguracionFactura = daoConfiguracionFactura.obtenerConfiguracionFactura();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
 			LOG.error("Error al obtener Lista Configuracion Factura: " + e.getMessage());
 		}
 		return listaConfiguracionFactura;
 	}
 
-	public void setListaConfiguracionFactura(
-			List<ConfiguracionFactura> listaConfiguracionFactura) {
+	public void setListaConfiguracionFactura(List<ConfiguracionFactura> listaConfiguracionFactura) {
 		this.listaConfiguracionFactura = listaConfiguracionFactura;
 	}
 
@@ -52,79 +51,70 @@ public class ConfiguracionFacturaBean implements Serializable{
 	public void setConfiguracionFactura(ConfiguracionFactura configuracionFactura) {
 		this.configuracionFactura = configuracionFactura;
 	}
-	
+
 	public ConfiguracionFactura getConfiguracionFacturaEditar() {
 		return configuracionFacturaEditar;
 	}
 
-	public void setConfiguracionFacturaEditar(
-			ConfiguracionFactura configuracionFacturaEditar) {
+	public void setConfiguracionFacturaEditar(ConfiguracionFactura configuracionFacturaEditar) {
 		this.configuracionFacturaEditar = configuracionFacturaEditar;
 	}
 
-	public void insertarConfiguracionLectura(){
-		ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();
+	public void insertarConfiguracionLectura() {
+		ConfiguracionFacturaDAO daoConfiguracionFactura = new ConfiguracionFacturaDAOImplement();
 		try {
 			daoConfiguracionFactura.insertarConfiguracionFactura(configuracionFactura);
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "Se agrego correctamente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se agrego correctamente"));
 			inicializar();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Error al procesar: " + e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
 			LOG.error("Error al Insertar Configuracion Lectura: " + e.getMessage());
 
 		}
 	}
-	
+
 	public void onRowEdit(RowEditEvent event) {
 		try {
-			ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();			
-			daoConfiguracionFactura.modificarConfiguracionFactura(configuracionFacturaEditar);	        
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correctamente", "Se editó correctamente."));
-			//inicializar();
+			ConfiguracionFacturaDAO daoConfiguracionFactura = new ConfiguracionFacturaDAOImplement();
+			daoConfiguracionFactura.modificarConfiguracionFactura(configuracionFacturaEditar);
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se editó correctamente."));
+			// inicializar();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Error al procesar: " + e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
 			LOG.error("Error en On Row Edit: " + e.getMessage());
 
 		}
-    }
-	
-	public void editarConfiguracion(ConfiguracionFactura conf){
+	}
+
+	public void editarConfiguracion(ConfiguracionFactura conf) {
 		this.configuracionFacturaEditar = conf;
 	}
-	
-	public boolean existeConfiguracion(){		
-		boolean existe;		
-		ConfiguracionFacturaDAO daoConfiguracionFactura= new ConfiguracionFacturaDAOImplement();
+
+	public boolean existeConfiguracion() {
+		boolean existe;
+		ConfiguracionFacturaDAO daoConfiguracionFactura = new ConfiguracionFacturaDAOImplement();
 		try {
 			listaConfiguracionFactura = daoConfiguracionFactura.obtenerConfiguracionFactura();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
 			LOG.error("Error al obtener Configuracion Factura: " + e.getMessage());
 		}
-		
-		if(listaConfiguracionFactura.isEmpty()){
+
+		if (listaConfiguracionFactura.isEmpty()) {
 			existe = false;
-		}
-		else{
+		} else {
 			existe = true;
 		}
-		
+
 		return existe;
 	}
-	
-	private void inicializar(){
+
+	private void inicializar() {
 		configuracionFactura = new ConfiguracionFactura();
 		configuracionFacturaEditar = new ConfiguracionFactura();
 	}

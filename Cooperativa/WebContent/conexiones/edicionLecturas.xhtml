@@ -73,8 +73,7 @@
 				<hr/>
 				<p:dataTable id="lectDT"
 						value="#{lecturaBean.lstListaLecturas}"
-						var="lect" emptyMessage="#{msg.paramNoDatos}" scrollable="true" editable="true">
-							
+						var="lect" emptyMessage="#{msg.paramNoDatos}" scrollable="true" editable="#{lect.periodoLectura.estadoPeriodo.descripcion ne 'FACTURADO'}">							
 					<p:ajax event="rowEdit" listener="#{lecturaBean.onRowEdit}" update=":alta:mensajes" />
        				<p:ajax event="rowEditCancel" listener="#{lecturaBean.onRowCancel}" update=":alta:mensajes" />
 					

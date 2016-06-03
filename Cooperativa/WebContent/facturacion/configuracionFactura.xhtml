@@ -22,6 +22,7 @@
 						<p:outputLabel value="#{msg.paramConfiguracionFacturaTramo1}" for="tramo1" />
 						<p:inputText id="tramo1" value="#{configuracionFacturaBean.configuracionFactura.tramo1}" 
 									 required="true"/>
+						
 						<p:outputLabel value="#{msg.paramConfiguracionFacturaTramo2}" for="tramo2" />
 						<p:inputText id="tramo2" value="#{configuracionFacturaBean.configuracionFactura.tramo2}" 
 									 required="true"/>
@@ -51,7 +52,7 @@
 									 required="true"/>	
 						<p:outputLabel value="#{msg.paramConfiguracionFacturaLeyendaComprobante}" for="leyendaComprobante" />
 						<p:inputText id="leyendaComprobante" value="#{configuracionFacturaBean.configuracionFactura.leyendaComprobante}"
-									 converter="upperConverter"/>			 			 		 				 					 
+									 converter="upperConverter"/>	
 						<f:facet name="footer">
 							<center>								
 								<p:commandButton action="#{configuracionFacturaBean.insertarConfiguracionLectura}" 
@@ -65,7 +66,7 @@
 		</center>
 		
 		<br />
-
+		
 		<h:form id="mostrar">
 			<p:dataTable editable="true" 
 				value="#{configuracionFacturaBean.listaConfiguracionFactura}"
@@ -115,7 +116,6 @@
 				</p:column>
 			</p:dataTable>
 		</h:form>
-
 		<p:dialog header="Edición Conf Factura" widgetVar="confFactEditDialog"
 				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
 				resizable="false" dynamic="true" maximizable="false"
