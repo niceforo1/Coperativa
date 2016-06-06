@@ -162,7 +162,7 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 				List<ReciboItem> lstReciboItems = new ArrayList<ReciboItem>();
 				ReciboDAO reciboDAO = new ReciboDAOImplement();
 				try {
-					fact = facturaDAO.buscarFacturaPerSaldo(periodo);
+					fact = facturaDAO.buscarFacturaPerSaldo(periodo).get(0);
 					TipoComprobanteDAO tipoComprobanteDAO = new TipoComprobanteDAOImplement();
 					if (fact.getConexion().getSocio().getCondicionIva().getCodigo().equals("R INSC")) {
 						tipoComprobante = tipoComprobanteDAO.buscarTipoComprobanteId(1L);
@@ -291,7 +291,7 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 			this.subTotal += Math.abs(periodo.getSaldo());
 			try {
 				Date fechaActual = new Date();
-				fact = facturaDAO.buscarFacturaPerSaldo(periodo);
+				fact = facturaDAO.buscarFacturaPerSaldo(periodo).get(0);
 				if (fechaActual.after(fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura())) {
 					// CALCULAR DE OTRA MANERA
 					long dif = (fechaActual.getTime()

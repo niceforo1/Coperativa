@@ -194,31 +194,38 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 	}
 
 	public String cobrarPeriodos() {
+		total = 0D;
+		subTotal = 0D;
+		interesGlobal= 0D;
 		if (lstPeriodosSaldosCobrar.size() > 0) {
 			FacturaDAO facturaDAO = new FacturaDAOImplement();
-			for (PeriodosSaldos periodo : lstPeriodosSaldos) {
-				Factura fact = new Factura();
+			for (PeriodosSaldos periodo : lstPeriodosSaldosCobrar) {
+				//Factura fact = new Factura();
 				this.subTotal += Math.abs(periodo.getSaldo());
 				try {
 					Date fechaActual = new Date();
-					fact = facturaDAO.buscarFacturaPerSaldo(periodo);
-					if (fechaActual.after(fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura())) {
-						// CALCULAR DE OTRA MANERA
-						long dif = (fechaActual.getTime()
-								- fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura().getTime())
-								/ MILLSECS_PER_DAY;
-						fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura();
-						interesGlobal += (((fact.getInteresesSegVenc() / 30) * (7 + dif)) * fact.getImporteTotal()
-								/ 100);
-					}
-					if (fechaActual.after(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura())) {
-						interesGlobal += (((fact.getInteresesSegVenc() / 30) * 7) * fact.getImporteTotal() / 100);
-					}
+					for(Factura fact : facturaDAO.buscarFacturaPerSaldo(periodo)){
+						boolean pas = false;
+						if (fechaActual.after(fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura())) {							
+							// CALCULAR DE OTRA MANERA
+							long dif = (fechaActual.getTime()
+									- fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura().getTime())
+									/ MILLSECS_PER_DAY;
+							fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura();
+							interesGlobal += (((fact.getInteresesSegVenc() / 30) * (7 + dif)) * fact.getImporteTotal()
+									/ 100);
+							pas = true;
+						}
+						if (fechaActual.after(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura()) && pas != true) {
+							interesGlobal += (((fact.getInteresesSegVenc() / 30) * 7) * fact.getImporteTotal() / 100);
+						}
+					}					
+					System.out.println();					
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-				total = (subTotal + interesGlobal);
+				}				
 			}
+			total = (subTotal + interesGlobal);
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"No existen periodos seleccionados para cobrar"));
@@ -250,7 +257,7 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 					"No se puede realizar el cobro, no existe CESP válido."));
 		} else {
-			for (PeriodosSaldos periodo : lstPeriodosSaldos) {
+			for (PeriodosSaldos periodo : lstPeriodosSaldosCobrar) {
 				TipoComprobante tipoComprobante = null;
 				FacturaDAO facturaDAO = new FacturaDAOImplement();
 				Factura fact = new Factura();
@@ -258,7 +265,7 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 				ReciboDAO reciboDAO = new ReciboDAOImplement();
 				String nroNotaDebito = "";
 				try {
-					fact = facturaDAO.buscarFacturaPerSaldo(periodo);
+					fact = facturaDAO.buscarFacturaPerSaldo(periodo).get(0);
 					TipoComprobanteDAO tipoComprobanteDAO = new TipoComprobanteDAOImplement();
 					if (fact.getConexion().getSocio().getCondicionIva().getCodigo().equals("R INSC")) {
 						tipoComprobante = tipoComprobanteDAO.buscarTipoComprobanteId(1L);
@@ -297,7 +304,7 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 				reciboItem.setTipoPago(tipoPago);
 				lstReciboItems.add(reciboItem);
 				if (interesGlobal != null && interesGlobal > 0F) {
-					Double interes = 0D;
+					//Double interes = 0D;
 					Double iva = 0D;
 					NotaDebitoDAO nDebitoDAO = new NotaDebitoDAOImplement();
 
@@ -314,8 +321,8 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 					notaDebito.setTipoComprobante(tipoComprobante);
 					notaDebito.setNumeroNota(nroNotaDebito);
 					notaDebito.setUsuario(login.getUsuario());
-					Date fechaActual = new Date();
-
+					//Date fechaActual = new Date();
+					/*
 					if (fechaActual.after(fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura())) {
 						long dif = (fechaActual.getTime()
 								- fact.getPeriodoFacturacion().getFechaSegundoVencimientoFactura().getTime())
@@ -328,8 +335,10 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 					} else {
 						interes += (((fact.getInteresesSegVenc() / 30) * 7) * fact.getImporteTotal() / 100);
 					}
-					iva = ((fact.getConexion().getSocio().getCondicionIva().getPorcentaje() * interes) / 100);
-					notaDebito.setImporte(interes + iva);
+					*/
+					iva = ((fact.getConexion().getSocio().getCondicionIva().getPorcentaje() * interesGlobal) / 100);
+					//notaDebito.setImporte(interes + iva);
+					notaDebito.setImporte(interesGlobal + iva);					
 					notaDebito.setIva(iva);
 
 					try {
@@ -348,7 +357,7 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 
 					lstReciboItems.add(reciboItem2);
 
-					total = (subTotal + interes);
+					total = (subTotal + interesGlobal);
 					totalConexSaldo = reciboItem2.getImporte();
 				}
 				totalConexSaldo = reciboItem.getImporte();

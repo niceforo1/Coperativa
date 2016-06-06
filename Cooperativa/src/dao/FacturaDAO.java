@@ -14,6 +14,6 @@ public interface FacturaDAO {
 	public void modificarFactura(Factura factura) throws Exception;
 	public void eliminarFactura(Factura factura) throws Exception;
 	public Factura buscarFactura(Long id) throws Exception;
-	public Factura buscarFacturaPerSaldo(PeriodosSaldos periodosSaldos) throws Exception;
+	public List<Factura> buscarFacturaPerSaldo(PeriodosSaldos periodosSaldos) throws Exception;
 	
 }

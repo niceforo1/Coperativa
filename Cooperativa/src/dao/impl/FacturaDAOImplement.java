@@ -182,9 +182,9 @@ public class FacturaDAOImplement implements FacturaDAO {
 	}
 
 	@Override
-	public Factura buscarFacturaPerSaldo(PeriodosSaldos periodosSaldos) throws Exception {
+	public List<Factura> buscarFacturaPerSaldo(PeriodosSaldos periodosSaldos) throws Exception {
 		Session session = null;
-		Factura factura = null;
+		List<Factura> lstFacturas = null;
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
@@ -192,10 +192,10 @@ public class FacturaDAOImplement implements FacturaDAO {
 										  + " where f.periodoFacturacion.mes = ?"
 										  + " and f.periodoFacturacion.anio = ?"
 										  + " and f.conexion.id = ?");
-			query.setLong(0,periodosSaldos.getMes());
-			query.setLong(1,periodosSaldos.getAnio());
-			query.setLong(2,periodosSaldos.getConexion().getId());
-			factura = (Factura)query.list().get(0);
+			query.setLong(0, periodosSaldos.getMes());
+			query.setLong(1, periodosSaldos.getAnio());
+			query.setLong(2, periodosSaldos.getConexion().getId());
+			lstFacturas = (List<Factura>)query.list();
 			session.getTransaction().commit();						
 		}catch(ConstraintViolationException e){
 			//System.out.println("ConstraintViolationException: "+ "\n " + e.getSQLException() + e.getMessage());
@@ -209,7 +209,7 @@ public class FacturaDAOImplement implements FacturaDAO {
 				session.close();
 			}
 		}		
-		return factura;
+		return lstFacturas;
 	}
 
 
