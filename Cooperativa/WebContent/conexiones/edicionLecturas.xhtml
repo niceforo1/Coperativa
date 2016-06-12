@@ -72,8 +72,8 @@
 				</p:panel>
 				<hr/>
 				<p:dataTable id="lectDT"
-						value="#{lecturaBean.lstListaLecturas}"
-						var="lect" emptyMessage="#{msg.paramNoDatos}" scrollable="true" editable="#{lect.periodoLectura.estadoPeriodo.descripcion ne 'FACTURADO'}">							
+						value="#{lecturaBean.lstListaLecturas}" editable="true"
+						var="lect" emptyMessage="#{msg.paramNoDatos}" scrollable="true" >							
 					<p:ajax event="rowEdit" listener="#{lecturaBean.onRowEdit}" update=":alta:mensajes" />
        				<p:ajax event="rowEditCancel" listener="#{lecturaBean.onRowCancel}" update=":alta:mensajes" />
 					
@@ -116,7 +116,7 @@
 						<p:outputLabel value="#{lect.usuario.usuario}" />
 					</p:column>	
 					<p:column style="width:32px">
-			           <p:rowEditor />
+			           <p:rowEditor  rendered="#{lect.periodoLectura.estadoPeriodo.descripcion != 'FACTURADO'}" />
 			       </p:column>			
 				</p:dataTable>			
 			</h:form>

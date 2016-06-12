@@ -17,11 +17,15 @@ import org.primefaces.event.UnselectEvent;
 import dao.ConceptoFacturacionDAO;
 import dao.ConexionesSaldosDAO;
 import dao.FacturaDAO;
+import dao.GeneradorFacturaADAO;
+import dao.GeneradorFacturaBDAO;
 import dao.PeriodoFacturacionDAO;
 import dao.PeriodosSaldosDAO;
 import dao.impl.ConceptoFacturacionDAOImplement;
 import dao.impl.ConexionesSaldosDAOImplement;
 import dao.impl.FacturaDAOImplement;
+import dao.impl.GeneradorFacturaADAOImplement;
+import dao.impl.GeneradorFacturaBDAOImplement;
 import dao.impl.PeriodoFacturacionDAOImplement;
 import dao.impl.PeriodosSaldosDAOImplement;
 import model.ConceptoFacturacion;
@@ -31,6 +35,8 @@ import model.ConfiguracionFactura;
 import model.Factura;
 import model.PeriodosSaldos;
 import model.Socio;
+import model.generadores.GenFacturaA;
+import model.generadores.GenFacturaB;
 
 @ManagedBean(name = "conceptoFacturacionBean")
 @ViewScoped
@@ -116,7 +122,11 @@ public class ConceptoFacturacionBean implements Serializable {
 
 			if (fact.getConexion().getSocio().getCondicionIva().getId().equals(4)) {
 				fact.setTipoFactura("A");
+				GeneradorFacturaADAO facturaADAO = new GeneradorFacturaADAOImplement();
+				fact.setNumeroFactura(facturaADAO.insertarFacturaA(new GenFacturaA()).toString());
 			} else {
+				GeneradorFacturaBDAO facturaBDAO = new GeneradorFacturaBDAOImplement();
+				fact.setNumeroFactura(facturaBDAO.insertarFacturaB(new GenFacturaB()).toString());
 				fact.setTipoFactura("B");
 			}
 			fact.setIva((fact.getConceptoFacturacion().getMontoPrecio()*fact.getConexion().getSocio().getCondicionIva().getIvaOtrosConceptos())/100);

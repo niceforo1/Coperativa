@@ -1,5 +1,17 @@
+USE [CopNew]
+GO
+
+/****** Object:  View [dbo].[cuenta_corriente]    Script Date: 06/11/2016 12:33:14 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER view [dbo].[cuenta_corriente]
+as 
 select * 
-from (select ID_CONEXION, IMPORTE_TOTAL, pf.MES,pf.ANIO, 'FACTURA' TIPO
+from (select ID_CONEXION, (IMPORTE_TOTAL*-1) IMPORTE_TOTAL, pf.MES,pf.ANIO, 'FACTURA' TIPO
   from FACTURA f, PERIODO_FACTURACION pf
  where 1 = 1
    and f.PERIODO_FACT_ID = pf.PERIODO_FACT_ID
@@ -10,11 +22,15 @@ select r.ID_CONEXION, ri.IMPORTE,ri.PERIODO_MES, ri.PERIODO_ANIO, 'RECIBO' TIPO
    and r.ID_RECIBO = rri.RECIBOS_ID_RECIBO
    and rri.lstReciboItems_ID_RECIBO_ITEM = ri.ID_RECIBO_ITEM
 union
-select nd.ID_CONEXION, nd.IMPORTE, nd.ID_PERIODO_MES, nd.ID_PERIODO_ANIO, 'NOTA DEBITO' TIPO
+select nd.ID_CONEXION, (nd.IMPORTE*-1), nd.ID_PERIODO_MES, nd.ID_PERIODO_ANIO, 'NOTA DEBITO' TIPO
    from NOTAS_DE_DEBITO nd
 union 
 select nc.ID_CONEXION, nc.IMPORTE, nc.ID_PERIODO_MES, nc.ID_PERIODO_ANIO, 'NOTA CREDITO' TIPO
 from NOTAS_DE_CREDITO nc) cc
-where cc.ID_CONEXION = 647
-order by ANIO desc, MES desc
+
+  
+GO
+
+
+
   
