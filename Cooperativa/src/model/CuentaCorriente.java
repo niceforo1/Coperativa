@@ -10,21 +10,24 @@ import javax.persistence.Table;
 @Entity
 
 public class CuentaCorriente implements Serializable {
-	
+
 	@Column(name = "ID_CONEXION")
 	private Long idConexion;
-	
+
 	@Column(name = "IMPORTE_TOTAL")
 	private Double importeTotal;
-	
+
 	@Column(name = "MES")
 	private Long mes;
-	
+
 	@Column(name = "ANIO")
 	private Long anio;
-	
+
 	@Column(name = "TIPO")
 	private String tipo;
+
+	@Column(name = "NRO_COMPROBANTE")
+	private Long numero;
 
 	public CuentaCorriente() {
 
@@ -68,6 +71,14 @@ public class CuentaCorriente implements Serializable {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public Long getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Long numero) {
+		this.numero = numero;
 	}
 
 }

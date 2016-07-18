@@ -31,15 +31,16 @@
 	    			<p:password id="usuPassRep" value="#{usuarioBean.passRep}" 
 	    			             required="true" validator="#{loginBean.validateSeisDigitos}">	    				
 	    			</p:password>
-	    			
-	    			<p:outputLabel value="#{msg.paramUsuarioUsuTpo}" for="usuTipos"/>
-	    			<p:selectOneMenu id="usuTipos" value="#{usuarioBean.tipoUsuId}"
-						required="true" panelStyle="width:180px" effect="fold">
-						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
-						<f:selectItems value="#{usuarioBean.lstTipoUsu}"
-							var="usuTip" itemLabel="#{usuTip.descripcion}"
-							itemValue="#{usuTip.id}" />
-					</p:selectOneMenu>
+	    			<ui:remove>
+		    			<p:outputLabel value="#{msg.paramUsuarioUsuTpo}" for="usuTipos"/>
+		    			<p:selectOneMenu id="usuTipos" value="#{usuarioBean.tipoUsuId}"
+							required="true" panelStyle="width:180px" effect="fold">
+							<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+							<f:selectItems value="#{usuarioBean.lstTipoUsu}"
+								var="usuTip" itemLabel="#{usuTip.descripcion}"
+								itemValue="#{usuTip.id}" />
+						</p:selectOneMenu>
+					</ui:remove>
 					<f:facet name="footer">
 						<center>
 							<p:commandButton action="#{usuarioBean.insertarUsuario}" 

@@ -3,11 +3,14 @@ package bean;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.naming.Context;
 
 import org.apache.log4j.Logger;
 
@@ -18,7 +21,7 @@ import model.CuentaCorriente;
 @ManagedBean(name = "cuentaCorrienteBean")
 @ViewScoped
 public class CuentaCorrienteBean {
-	private static final Logger LOG = Logger.getLogger(ConfiguracionFacturaBean.class);
+	private static final Logger LOG = Logger.getLogger(CuentaCorrienteBean.class);
 
 	private List<CuentaCorriente> listaCuentaCorriente;
 	private Date fechaDesde;
@@ -93,12 +96,24 @@ public class CuentaCorrienteBean {
 				temp = (BigDecimal) pp[3];
 				cc.setAnio(temp.longValue());
 				cc.setTipo((String) pp[4]);
+				temp = (BigDecimal) pp[5];
+				cc.setNumero(temp.longValue());
 				i++;
 				listaCuentaCorriente.add(cc);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
+	}
+	public void retornarConexion(){
+		lectura.retornarConexion();
+		LOG.info("PASO");
+		Iterator iterator = FacesContext.getCurrentInstance().getMessages();
+		while (iterator.hasNext()) {
+		    // do your checks
+			iterator.next();
+		    iterator.remove();
+		}
 	}
 
 }

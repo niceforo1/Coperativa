@@ -29,7 +29,6 @@ import org.hibernate.cfg.Configuration;
 import dao.PeriodoLecturaDAO;
 import dao.impl.PeriodoLecturaDAOImplement;
 import model.Conexion;
-import model.CuentaCorriente;
 import model.Factura;
 import model.PeriodoFacturacion;
 import model.PeriodoLectura;
@@ -64,8 +63,6 @@ public class ReportBean implements Serializable {
 	private Integer anioConsHasta;
 	private Date fechaDesdeCaja;
 	private Date fechaHastaCaja;
-	private Date fechaDesdeCC;
-	private Date fechaHastaCC;
 
 	public ReportBean() {
 		inicializar();
@@ -159,22 +156,6 @@ public class ReportBean implements Serializable {
 		this.fechaHastaCaja = fechaHastaCaja;
 	}
 
-	public Date getFechaDesdeCC() {
-		return fechaDesdeCC;
-	}
-
-	public void setFechaDesdeCC(Date fechaDesdeCC) {
-		this.fechaDesdeCC = fechaDesdeCC;
-	}
-
-	public Date getFechaHastaCC() {
-		return fechaHastaCC;
-	}
-
-	public void setFechaHastaCC(Date fechaHastaCC) {
-		this.fechaHastaCC = fechaHastaCC;
-	}
-
 	public void verPlanillaLectura() throws SQLException {
 		Map<String, Object> myMap = new HashMap<String, Object>();
 		String where = "";
@@ -182,9 +163,7 @@ public class ReportBean implements Serializable {
 			String id = periodoLectu.split(",")[0];
 			String mes = periodoLectu.split(",")[1];
 			String anio = periodoLectu.split(",")[2];
-			Integer idAnt = Integer.parseInt(id);
-			idAnt--;
-			myMap.put("idPerAnt", idAnt.toString());
+
 			myMap.put("idPer", id);
 			myMap.put("periodoFecha", mes + "/" + anio);
 
@@ -329,27 +308,29 @@ public class ReportBean implements Serializable {
 	public void verFactura(Conexion conexion, PeriodoFacturacion periodo, Factura fact) throws SQLException {
 		Map<String, Object> myMap = new HashMap<String, Object>();
 
-		/*
-		 * if (conexion.getId() != null) { myMap.put("idConexion",
-		 * conexion.getId()); } if (periodo != null) {
-		 * myMap.put("idPeriodoFact", periodo.getId()); }
-		 */
+		/*if (conexion.getId() != null) {
+			myMap.put("idConexion", conexion.getId());
+		}
+		if (periodo != null) {
+			myMap.put("idPeriodoFact", periodo.getId());
+		}*/
 
 		FacesContext faceContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) faceContext.getExternalContext().getContext();
 		String path;
-		if (fact.getConceptoFacturacion().getId() != 1) {
+		if(fact.getConceptoFacturacion().getId() !=1){
 			path = "/resources/reportes/FACTURA_IND/FACTURAIDIVIDUAL.jasper";
-			myMap.put("id_conexion", conexion.getId().intValue());
-			myMap.put("id_periodo", periodo.getId().intValue());
-			myMap.put("id_concepto_fact", fact.getConceptoFacturacion().getId().intValue());
-			myMap.put("id_tip_ub_catastral", 2);
-		} else {
+			myMap.put("", periodo.getId());
+			myMap.put("id_conexion", conexion.getId());
+			myMap.put("id_periodo", periodo.getId());
+			myMap.put("id_concepto_fact", fact.getConceptoFacturacion().getId());
+			myMap.put("id_tip_ub_catastral", 2);			
+		}else{
 			myMap.put("id_conexion", conexion.getId().intValue());
 			myMap.put("id_per_fact", periodo.getId().intValue());
-			myMap.put("tip_ub_catast", 2);
+			myMap.put("tip_ub_catast", 2);			
 			path = "/resources/reportes/Factura/report1.jasper";
-		}
+		}		
 		String pathh = servletContext.getRealPath(path);
 		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
 		response.addHeader("Content-disposition", "attachment;filename=factura_" + conexion.getId() + "_"
@@ -431,9 +412,9 @@ public class ReportBean implements Serializable {
 		faceContext.responseComplete();
 		Iterator iterator = FacesContext.getCurrentInstance().getMessages();
 		while (iterator.hasNext()) {
-			// do your checks
+		    // do your checks
 			iterator.next();
-			iterator.remove();
+		    iterator.remove();
 		}
 	}
 
@@ -469,11 +450,11 @@ public class ReportBean implements Serializable {
 		faceContext.getApplication().getStateManager().saveView(faceContext);
 		faceContext.responseComplete();
 	}
-
-	public void verRecibo(CuentaCorriente cuentaCorriente) throws SQLException {
+	
+	public void verRecibo(Long numero) throws SQLException {
 		Map<String, Object> myMap = new HashMap<String, Object>();
 
-		myMap.put("id_recibo", cuentaCorriente.getNumero().intValue());
+		myMap.put("id_recibo", numero.intValue());
 		String pathDatosSocio = "/resources/reportes/RECIBOS/report1_subreport1.jasper";
 		String pathhDatosSocio = FacesContext.getCurrentInstance().getExternalContext().getRealPath(pathDatosSocio);
 		myMap.put("RUTA", pathhDatosSocio);
@@ -483,8 +464,7 @@ public class ReportBean implements Serializable {
 		String path = "/resources/reportes/RECIBOS/report1.jasper";
 		String pathh = servletContext.getRealPath(path);
 		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
-		response.addHeader("Content-disposition",
-				"attachment;filename=Recibo_" + cuentaCorriente.getNumero().intValue() + ".pdf");
+		response.addHeader("Content-disposition", "attachment;filename=Recibo_"+numero+".pdf");
 		response.setContentType("application/pdf");
 
 		JasperPrint impresion;
@@ -502,27 +482,31 @@ public class ReportBean implements Serializable {
 		faceContext.getApplication().getStateManager().saveView(faceContext);
 		faceContext.responseComplete();
 	}
+	
 
 	public void genFactura(Conexion conexion, PeriodoFacturacion periodo) throws SQLException {
 
 		Map<String, Object> myMap = new HashMap<String, Object>();
-		/*
-		 * String where = ""; if (conexion.getId() != null) {
-		 * myMap.put("id_conexion", conexion.getId().intValue()); } if (periodo
-		 * != null) { myMap.put("id_per_fact", periodo.getId().intValue()); }
-		 */
+		/*String where = "";
+		if (conexion.getId() != null) {
+			myMap.put("id_conexion", conexion.getId().intValue());
+		}
+		if (periodo != null) {
+			myMap.put("id_per_fact", periodo.getId().intValue());
+		}
+		*/
 		myMap.put("id_tip_ub_catastral", 2);
 		myMap.put("id_conexion", conexion.getId().intValue());
 		myMap.put("id_per_fact", periodo.getId().intValue());
-		myMap.put("tip_ub_catast", 2);
-
+		myMap.put("tip_ub_catast", 2);	
+		
 		System.out.println("///////////////////////////////////////////////////////");
 		System.out.println(conexion.getId() + " -- " + periodo.getId());
 		System.out.println("///////////////////////////////////////////////////////");
 		FacesContext faceContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) faceContext.getExternalContext().getContext();
 		String path = "/resources/reportes/Factura/report1.jasper";
-		// String path = "/resources/reportes/Factura/report1.jasper";
+		//String path = "/resources/reportes/Factura/report1.jasper";
 		String pathh = servletContext.getRealPath(path);
 
 		JasperReport jasperReport;
@@ -540,40 +524,6 @@ public class ReportBean implements Serializable {
 			System.err.println("Error iReport: " + ex.getMessage());
 		}
 	}
-	
-	public void verCuentaCorriente(Conexion conexion) throws SQLException {
-		Map<String, Object> myMap = new HashMap<String, Object>();
-
-		myMap.put("id_conexion", conexion.getId().intValue());
-		String pathDatosSocio = "/resources/reportes/CTAS_CORRIENTES/cta_subreport1.jasper";
-		String pathhDatosSocio = FacesContext.getCurrentInstance().getExternalContext().getRealPath(pathDatosSocio);
-		myMap.put("ruta", pathhDatosSocio);
-		myMap.put("desde", fechaDesdeCC);
-		myMap.put("hasta", fechaHastaCC);
-		FacesContext faceContext = FacesContext.getCurrentInstance();
-		ServletContext servletContext = (ServletContext) faceContext.getExternalContext().getContext();
-		String path = "/resources/reportes/CTAS_CORRIENTES/cta.jasper";
-		String pathh = servletContext.getRealPath(path);
-		HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
-		response.addHeader("Content-disposition",
-				"attachment;filename=ReporteCuentaCorriente_" +conexion.getId()+ ".pdf");
-		response.setContentType("application/pdf");
-
-		JasperPrint impresion;
-		try {
-			impresion = JasperFillManager.fillReport(pathh, myMap, connect());
-			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
-
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		faceContext.getApplication().getStateManager().saveView(faceContext);
-		faceContext.responseComplete();
-	}
 
 	private Connection connect() throws SQLException {
 		Configuration configuration = new Configuration();
@@ -584,7 +534,7 @@ public class ReportBean implements Serializable {
 		String pass = configuration.getProperty("connection.password");
 		String driver = configuration.getProperty("connection.driver_class");
 		Connection cnn = null;
-		// cnn = DriverManager.getConnection(servidor, user, pass);
+		//cnn = DriverManager.getConnection(servidor, user, pass);
 		try {
 			Class.forName(driver);
 			cnn = DriverManager.getConnection(servidor, user, pass);
@@ -604,10 +554,6 @@ public class ReportBean implements Serializable {
 		anioConsZona = null;
 		anioConsDesde = 0;
 		anioConsHasta = 0;
-		fechaDesdeCaja = null;
-		fechaHastaCaja= null;
-		fechaDesdeCC= null;
-		fechaHastaCC= null;
 	}
 
 }

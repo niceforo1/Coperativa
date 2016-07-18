@@ -80,6 +80,7 @@ public class PeriodoFacturacionBean implements Serializable {
 	final static String CANON = "CANON";
 	private PeriodoFacturacion periodoFacturacion;
 	private List<PeriodoFacturacion> lstPeriodoFacturacion;
+	private List<PeriodoFacturacion> lstPerFactNoHist;
 	private PeriodoFacturacion periodoFacturacionEnProceso;
 	private Long peridoIdFactEleg;
 	private List<Factura> facturasPeriodo;
@@ -154,13 +155,28 @@ public class PeriodoFacturacionBean implements Serializable {
 	public int getFactMin() {
 		return factMin;
 	}
-	
+
 	public int getTotalFac() {
 		return facturasPeriodo.size();
 	}
 
 	public void setFactMin(int factMin) {
 		this.factMin = factMin;
+	}
+
+	public List<PeriodoFacturacion> getLstPerFactNoHist() {
+		PeriodoFacturacionDAO periodoFacturacionDAO = new PeriodoFacturacionDAOImplement();
+		try {
+			lstPerFactNoHist = periodoFacturacionDAO.lstPeriodosFacturacionNoHist();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lstPerFactNoHist;
+	}
+
+	public void setLstPerFactNoHist(List<PeriodoFacturacion> lstPerFactNoHist) {
+		this.lstPerFactNoHist = lstPerFactNoHist;
 	}
 
 	public void consultarFacturas() {
@@ -179,16 +195,16 @@ public class PeriodoFacturacionBean implements Serializable {
 			if ((factMin == 0 || factMax == 0) || (factMax > facturasPeriodo.size()) || (factMin <= 0)) {
 				throw new Exception("Por favor seleccione verifique el rango a imprimir");
 			}
-			if((factMax - (factMin-1)) == facturasPeriodo.size() ){
+			if ((factMax - (factMin - 1)) == facturasPeriodo.size()) {
 				for (Factura fact : facturasPeriodo) {
 					reportes.genFactura(fact.getConexion(), fact.getPeriodoFacturacion());
 				}
-			}else{
+			} else {
 				for (Factura fact : facturasPeriodo.subList((factMin - 1), (factMax - 1))) {
 					reportes.genFactura(fact.getConexion(), fact.getPeriodoFacturacion());
 				}
 			}
-			
+
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
@@ -284,8 +300,8 @@ public class PeriodoFacturacionBean implements Serializable {
 
 			periodoFacturacionDAO.modificarPeriodoFacturacion(periodo);
 
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Correctamente", msgExito));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", msgExito));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al procesar: " + e.getMessage()));
@@ -309,11 +325,11 @@ public class PeriodoFacturacionBean implements Serializable {
 			for (Lectura lec : lecturaDAO.buscarLecturasPorPeriodo(periodoLecturaDAO.buscarPeriodoLecturaCerrado())) {
 				Factura fact = new Factura();
 				long totalConsumido;
-				if(lec.getLecturaActual()< lec.getLecturaAnterior()){
-					totalConsumido = ((Integer.parseInt("9999")-lec.getLecturaAnterior()) + lec.getLecturaActual());
-				}else{
-					totalConsumido= lec.getLecturaActual() - lec.getLecturaAnterior();
-				}				 
+				if (lec.getLecturaActual() < lec.getLecturaAnterior()) {
+					totalConsumido = ((Integer.parseInt("9999") - lec.getLecturaAnterior()) + lec.getLecturaActual());
+				} else {
+					totalConsumido = lec.getLecturaActual() - lec.getLecturaAnterior();
+				}
 				Double importeTramos = 0D;
 				if (lec.getConexion().getCategoriaConexion().getDescripcion().equals(NORMAL)) {
 					if (totalConsumido > 50) {
@@ -358,35 +374,45 @@ public class PeriodoFacturacionBean implements Serializable {
 						importeTramos = (configFactura.getTramo1() * fact.getTramo1());
 					}
 					fact.setCargoFijo(lec.getConexion().getTipoSuministro().getImporte());
-					// se deja el calculo de 10%, solo se obtiene el monto fijo desde la configuracion
-					if(lec.getConexion().getZonaConexion().getId()!=8){
-						if(lec.getConexion().getId() != 1262 &&
-						   lec.getConexion().getId() != 2063 &&
-						   lec.getConexion().getId() != 1261){
+					// se deja el calculo de 10%, solo se obtiene el monto fijo
+					// desde la configuracion
+					if (lec.getConexion().getZonaConexion().getId() != 8) {
+						if (lec.getConexion().getId() != 1262 && lec.getConexion().getId() != 2063
+								&& lec.getConexion().getId() != 1261) {
 							fact.setCapitalSocial(
 									(0.1F * (fact.getCargoFijo() + importeTramos)) + configFactura.getCapitalSocial());
-						}							
-					}					 
+						}else{
+							fact.setCapitalSocial(0D);
+						}
+					}else{
+						fact.setCapitalSocial(0D);
+					}
 					fact.setConceptoFacturacion(conceptoFacturacionDAO.buscarConceptoFacturacionId(1L));
 					fact.setConexion(lec.getConexion());
-					//se divide	en 100 el porcentaje obtenido de la	configuracion
-					fact.setErsep((configFactura.getErsep() / 100) * (fact.getCargoFijo() + importeTramos)); 
+					// se divide en 100 el porcentaje obtenido de la
+					// configuracion
+					fact.setErsep((configFactura.getErsep() / 100) * (fact.getCargoFijo() + importeTramos));
 					// FIJO
 					fact.setImpresionesOtros(configFactura.getImpresionesOtros());
 					/*
-					fact.setImpresionesOtros(configFactura.getImpresionesOtros()+
-											(configFactura.getImpresionesOtros()*
-												(lec.getConexion().getSocio().getCondicionIva().getPorcentaje())/100));
-					*/
-					//viene de configuracion factura
+					 * fact.setImpresionesOtros(configFactura.
+					 * getImpresionesOtros()+
+					 * (configFactura.getImpresionesOtros()*
+					 * (lec.getConexion().getSocio().getCondicionIva().
+					 * getPorcentaje())/100));
+					 */
+					// viene de configuracion factura
 					fact.setInteresesSegVenc(3D);
-					
+
 					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 					// FIJO
 					fact.setRecuperoInversion(configFactura.getRecuperoInversion());
-					/*fact.setRecuperoInversion(configFactura.getRecuperoInversion()+
-								(configFactura.getRecuperoInversion()*lec.getConexion().getSocio().getCondicionIva().getPorcentaje())/100);
-					*/
+					/*
+					 * fact.setRecuperoInversion(configFactura.
+					 * getRecuperoInversion()+
+					 * (configFactura.getRecuperoInversion()*lec.getConexion().
+					 * getSocio().getCondicionIva().getPorcentaje())/100);
+					 */
 
 					if (fact.getConexion().getSocio().getCondicionIva().getId().equals(4)) {
 						fact.setTipoFactura("A");
@@ -397,11 +423,12 @@ public class PeriodoFacturacionBean implements Serializable {
 						fact.setNumeroFactura(facturaBDAO.insertarFacturaB(new GenFacturaB()).toString());
 						fact.setTipoFactura("B");
 					}
-					
+
 					fact.setFechaVencimiento(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
 					fact.setIva((lec.getConexion().getSocio().getCondicionIva().getPorcentaje()
-							* (fact.getCargoFijo() + importeTramos) / 100) + 
-							(lec.getConexion().getSocio().getCondicionIva().getIvaOtrosConceptos() *(fact.getImpresionesOtros()+fact.getRecuperoInversion())/100));
+							* (fact.getCargoFijo() + importeTramos) / 100)
+							+ (lec.getConexion().getSocio().getCondicionIva().getIvaOtrosConceptos()
+									* (fact.getImpresionesOtros() + fact.getRecuperoInversion()) / 100));
 					fact.setImporteTotal(fact.getCargoFijo() + importeTramos + fact.getCapitalSocial() + fact.getErsep()
 							+ fact.getRecuperoInversion() + fact.getImpresionesOtros() + fact.getIva());
 
@@ -463,21 +490,20 @@ public class PeriodoFacturacionBean implements Serializable {
 					fact.setTramo2(0L);
 					fact.setTramo1(0L);
 					fact.setCargoFijo(conexion.getTipoSuministro().getImporte());
-					fact.setCapitalSocial((0.1F * (fact.getCargoFijo())) + configFactura.getCapitalSocial()); // se
-																												// deja
-																												// el
-																												// calculo
-																												// de
-																												// 10%,
-																												// solo
-																												// se
-																												// obtiene
-																												// el
-																												// monto
-																												// fijo
-																												// desde
-																												// la
-																												// configuracion
+					// se deja el calculo de 10%, solo se obtiene el monto fijo
+					// desde la configuracion
+					if (conexion.getZonaConexion().getId() != 8) {
+						if (conexion.getId() != 1262 && conexion.getId() != 2063
+								&& conexion.getId() != 1261) {
+							fact.setCapitalSocial(
+									(0.1F * (fact.getCargoFijo())) + configFactura.getCapitalSocial());
+						}else{
+							fact.setCapitalSocial(0D);
+						}
+					}else{
+						fact.setCapitalSocial(0D);
+					}
+					
 					fact.setConceptoFacturacion(conceptoFacturacionDAO.buscarConceptoFacturacionId(1L));
 					fact.setConexion(conexion);
 					fact.setErsep((configFactura.getErsep() / 100) * (fact.getCargoFijo())); // se
@@ -491,15 +517,23 @@ public class PeriodoFacturacionBean implements Serializable {
 																								// la
 																								// configuracion
 					fact.setImpresionesOtros(configFactura.getImpresionesOtros());// FIJO
-					fact.setInteresesSegVenc(3D);
-					fact.setIva(conexion.getSocio().getCondicionIva().getPorcentaje() * (fact.getCargoFijo()));
-					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 					fact.setRecuperoInversion(configFactura.getRecuperoInversion());// FIJO
-					if (conexion.getSocio().getCondicionIva().getId().equals(4)) {
+					fact.setInteresesSegVenc(3D);
+					fact.setIva((conexion.getSocio().getCondicionIva().getPorcentaje()
+							* (fact.getCargoFijo() ) / 100)+ (conexion.getSocio().getCondicionIva().getIvaOtrosConceptos()
+									* (fact.getImpresionesOtros() + fact.getRecuperoInversion()) / 100));
+					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
+					
+					if (fact.getConexion().getSocio().getCondicionIva().getId().equals(4)) {
 						fact.setTipoFactura("A");
+						GeneradorFacturaADAO facturaADAO = new GeneradorFacturaADAOImplement();
+						fact.setNumeroFactura(facturaADAO.insertarFacturaA(new GenFacturaA()).toString());
 					} else {
+						GeneradorFacturaBDAO facturaBDAO = new GeneradorFacturaBDAOImplement();
+						fact.setNumeroFactura(facturaBDAO.insertarFacturaB(new GenFacturaB()).toString());
 						fact.setTipoFactura("B");
 					}
+
 					fact.setImporteTotal(fact.getCargoFijo() + fact.getCapitalSocial() + fact.getErsep()
 							+ fact.getRecuperoInversion() + fact.getImpresionesOtros() + fact.getIva());
 					System.out.println(fact.toString());
@@ -552,9 +586,10 @@ public class PeriodoFacturacionBean implements Serializable {
 				}
 			}
 			EstadoPeriodoDAO estadoPeriodoDAO = new EstadoPeriodoDAOImplement();
-			//PeriodoLecturaDAO periodoLecturaDAO = new PeriodoLecturaDAOImplement();
+			// PeriodoLecturaDAO periodoLecturaDAO = new
+			// PeriodoLecturaDAOImplement();
 			try {
-				PeriodoLectura periodoLectura= periodoLecturaDAO.buscarPeriodoLecturaCerrado();
+				PeriodoLectura periodoLectura = periodoLecturaDAO.buscarPeriodoLecturaCerrado();
 				periodoLectura.setEstadoPeriodo(estadoPeriodoDAO.buscarEstadoPeriodo("FACTURADO"));
 				// se cambia ultima fecha mod
 				periodoLectura.setFechaUltimaMod(Calendar.getInstance().getTime());

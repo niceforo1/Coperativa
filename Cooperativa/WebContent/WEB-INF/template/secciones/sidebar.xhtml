@@ -13,7 +13,7 @@
                    <p:menuitem value="Carga/Consulta" url="/socios/socio.xhtml" icon="ui-icon-document" />
             </p:submenu>
         </p:submenu>
-        <p:submenu label="Conexiones" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+        <p:submenu label="Conexiones">
         	<p:submenu label="Parametrizaciones" icon="ui-icon-extlink" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
                    <p:menuitem value="Estado Conexión" url="/conexiones/parametrizacion/estadoConexion.xhtml" icon="ui-icon-document" />
                    <p:menuitem value="Zona Conexión" url="/conexiones/parametrizacion/zonaConexion.xhtml" icon="ui-icon-document" />
@@ -31,7 +31,7 @@
             <p:menuitem value="Editar Lecturas" url="/conexiones/edicionLecturas.xhtml" icon="ui-icon-document" />            
         </p:submenu>
 
-        <p:submenu label="Facturación" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}">
+        <p:submenu label="Facturación">
         	<p:menuitem value="Período Facturación" url="/facturacion/periodoFacturacion.xhtml" icon="ui-icon-document" />
         	<p:menuitem value="Configuración Factura" url="/facturacion/configuracionFactura.xhtml" icon="ui-icon-document" />
         	<p:menuitem value="Consulta Estado Deuda Conexión" url="/facturacion/estadoDeudaConexion.xhtml" icon="ui-icon-document" />
@@ -49,6 +49,7 @@
 			<p:menuitem value="Reporte Consumo Anual por Zona" url="/reportes/reporteConsumoZona.xhtml" icon="ui-icon-document" />
 			<p:menuitem value="Reporte Consumo por Conexión" url="/reportes/reporteConsumoConexion.xhtml" icon="ui-icon-document" />
 			<p:menuitem value="Reporte Caja Diario" url="/reportes/reporteCajaDiario.xhtml" icon="ui-icon-document" />
+			<p:menuitem value="Reporte Cuenta Corriente" url="/reportes/reporteCuentaCorriente.xhtml" icon="ui-icon-document" />
 		</p:submenu>
 		<p:submenu label="Usuarios" rendered="#{loginBean.usuario.usuarioTipo.codigo == 'SUPER'}"> 
 			<p:menuitem value="Alta Usuario" url="/usuarios/altaUsuarios.xhtml" icon="ui-icon-document" />

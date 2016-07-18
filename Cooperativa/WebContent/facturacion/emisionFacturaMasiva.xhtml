@@ -32,7 +32,7 @@
 						value="#{periodoFacturacionBean.peridoIdFactEleg}" panelStyle="width:180px"
 						effect="fold" required="true">
 						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
-						<f:selectItems value="#{periodoFacturacionBean.lstPeriodoFacturacion}"
+						<f:selectItems value="#{periodoFacturacionBean.lstPerFactNoHist}"
 							var="perFact" itemLabel="#{perFact.mes}/#{perFact.anio}"
 							itemValue="#{perFact.id}" />
 					</p:selectOneMenu>

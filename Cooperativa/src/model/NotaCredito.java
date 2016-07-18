@@ -58,6 +58,9 @@ public class NotaCredito implements Serializable {
 	@Column(name = "IMPORTE", precision = 15, scale = 2)
 	private Double importe;
 
+	@Column(name = "IMPORTE_TOTAL", precision = 15, scale = 2)
+	private Double importeTotal;
+
 	@Column(name = "OBSERVACIONES", length = 5000)
 	private String observaciones;
 
@@ -154,6 +157,14 @@ public class NotaCredito implements Serializable {
 
 	public void setImporte(Double importe) {
 		this.importe = (Math.rint(importe * 100) / 100);
+	}
+
+	public Double getImporteTotal() {
+		return (Math.rint(importeTotal * 100) / 100);
+	}
+
+	public void setImporteTotal(Double importeTotal) {
+		this.importeTotal = (Math.rint(importeTotal * 100) / 100);;
 	}
 
 	public String getObservaciones() {

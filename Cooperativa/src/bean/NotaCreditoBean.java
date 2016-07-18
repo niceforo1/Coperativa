@@ -154,7 +154,6 @@ public class NotaCreditoBean implements Serializable {
 			PeriodoFacturacion perFact = periodoFacturacionDAO.buscarPeriodoFacturacionId(peridoIdFactEleg);
 			notaCredito.setAnio(perFact.getAnio());
 			notaCredito.setCesp(perFact.getPeriodoCesp().getCesp());
-			notaCredito.setConceptoFacturacion(conceptoFacturacionDAO.buscarConceptoFacturacionId(conceptoID));
 			notaCredito.setConexion(conexion);
 			notaCredito.setFechaEmision(new Date());
 			notaCredito.setFechaVtoCesp(perFact.getPeriodoCesp().getFechaVtoCesp());
@@ -165,6 +164,7 @@ public class NotaCreditoBean implements Serializable {
 				notaCredito.setIva(0D);
 				notaCredito.setImporte(importeX);
 			} else {
+				notaCredito.setConceptoFacturacion(conceptoFacturacionDAO.buscarConceptoFacturacionId(conceptoID));
 				if (conexion.getSocio().getCondicionIva().getId().equals(4)) {
 					notaCredito.setTipoComprobante(tipoComprobanteDAO.buscarTipoComprobanteId(1L));
 					GeneradorNotaCredADAO generadorNotaCredADAO = new GeneradorNotaCredADAOImplement();
@@ -174,14 +174,19 @@ public class NotaCreditoBean implements Serializable {
 					GeneradorNotaCredBDAO generadorNotaCredBDAO = new GeneradorNotaCredBDAOImplement();
 					notaCredito.setNumeroNota(generadorNotaCredBDAO.insertarNotaCredB(new GenNotaCreditoB()).toString());
 				}
+				notaCredito.setImporte(importeX/notaCredito.getConceptoFacturacion().getAlicuotaIva());
+				notaCredito.setIva(importeX-notaCredito.getImporte());
+				/*notaCredito.setIva((notaCredito.getConceptoFacturacion().getAlicuotaIva()
+									* importeX) / 100);
 				if (notaCredito.getConceptoFacturacion().getId().equals(1)) {
 					notaCredito.setIva((notaCredito.getConceptoFacturacion().getMontoPrecio()
 							* notaCredito.getConexion().getSocio().getCondicionIva().getPorcentaje()) / 100);
 				} else {
 					notaCredito.setIva((notaCredito.getConceptoFacturacion().getMontoPrecio()
 							* notaCredito.getConexion().getSocio().getCondicionIva().getIvaOtrosConceptos()) / 100);
-				}
-				notaCredito.setImporte(notaCredito.getIva() + notaCredito.getConceptoFacturacion().getMontoPrecio());
+				}*/
+				notaCredito.setImporteTotal(importeX);
+				notaCredito.setImporte(importeX - notaCredito.getIva());
 			}			
 			notaCredito.setUsuario(login.getUsuario());
 			notaCreditoDAO.insertarNotaCredito(notaCredito);
@@ -195,14 +200,14 @@ public class NotaCreditoBean implements Serializable {
 			}
 			try {
 				if (conSaldo != null) {
-					conSaldo.setSaldoTotal(conSaldo.getSaldoTotal() + notaCredito.getImporte());
+					conSaldo.setSaldoTotal(conSaldo.getSaldoTotal() + notaCredito.getImporteTotal());
 					conSaldo.setUltimoVencRegistrado(notaCredito.getFechaEmision());
 					conexionesSaldosDAO.modificarConexionesSaldos(conSaldo);
 				} else {
 					conSaldo = new ConexionesSaldos();
 					conSaldo.setConexion(notaCredito.getConexion());
 					conSaldo.setUltimoVencRegistrado(notaCredito.getFechaEmision());
-					conSaldo.setSaldoTotal(0F + notaCredito.getImporte());
+					conSaldo.setSaldoTotal(0F + notaCredito.getImporteTotal());
 					conexionesSaldosDAO.insertarConexionesSaldos(conSaldo);
 				}
 			} catch (Exception ex) {
@@ -223,7 +228,7 @@ public class NotaCreditoBean implements Serializable {
 					perSaldo.setAnio(notaCredito.getAnio());
 					perSaldo.setFechaVencimiento(notaCredito.getFechaEmision());
 					perSaldo.setConsumo(0);
-					perSaldo.setSaldo(perSaldo.getSaldo() + notaCredito.getImporte());
+					perSaldo.setSaldo(perSaldo.getSaldo() + notaCredito.getImporteTotal());
 					periodosSaldosDAO.modificarPeriodosSaldos(perSaldo);
 				} else {
 					perSaldo = new PeriodosSaldos();
@@ -232,7 +237,7 @@ public class NotaCreditoBean implements Serializable {
 					perSaldo.setAnio(notaCredito.getAnio());
 					perSaldo.setFechaVencimiento(notaCredito.getFechaEmision());
 					perSaldo.setConsumo(0);
-					perSaldo.setSaldo(0F + notaCredito.getImporte());
+					perSaldo.setSaldo(0F + notaCredito.getImporteTotal());
 					periodosSaldosDAO.insertarPeriodosSaldos(perSaldo);
 				}
 			} catch (Exception ex) {

@@ -65,9 +65,9 @@
 				<p:column id="importeTotal" headerText="Imp. Total">
 					<h:outputText value="#{fact.importeTotal}" />
 				</p:column>
-				<p:column id="Fact">
+				<p:column id="Fact" rendered="#{fact.tipoFactura ne 'X'}">
 					<p:commandButton icon="fa fa-fw fa-print"
-									actionListener="#{reportBean.verFactura(fact.conexion, fact.periodoFacturacion)}" ajax="false"/>
+									actionListener="#{reportBean.verFactura(fact.conexion, fact.periodoFacturacion, fact)}" ajax="false"/>
 				</p:column>				
 			</p:dataTable>
 		</h:form>

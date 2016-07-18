@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1_subreport1" language="groovy" pageWidth="300" pageHeight="752" columnWidth="300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e15b825f-a7e7-4cd0-8114-9062db095b29">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1_subreport1" pageWidth="300" pageHeight="752" columnWidth="300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e15b825f-a7e7-4cd0-8114-9062db095b29">
 	<property name="ireport.zoom" value="2.3579476910000046"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="id_recibo" class="java.lang.Integer" isForPrompting="false"/>
+	<parameter name="id_recibo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[9]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT case  ri.COMPROBANTE_ORIGEN when 'FC'
 						then ('Recibo aplicado a la factura Nº'+' '+CONVERT(varchar(10),ri.NRO_COMPROBANTE)+' Periodo: '+

@@ -16,6 +16,20 @@
 			<h:form id="alta">
 				<p:messages id="mensajes" showDetail="true" autoUpdate="true"
 					closable="true" />
+				<p:ajaxStatus >
+				    <f:facet name="default">
+				    </f:facet>
+				 
+				    <f:facet name="start">
+				    </f:facet>
+				 
+				    <f:facet name="complete">
+				    </f:facet>
+				</p:ajaxStatus>		 
+				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+					<p:graphicImage library="images" name="ajax-loader.gif" />
+				</p:dialog>				
 				<p:panel header="#{msg.paramPeriodoFacturacionHeader}">
 					<p:panelGrid columns="2">
 						<p:outputLabel for="mes" value="Mes:" />
@@ -130,13 +144,6 @@
 						filterBy="#{perFact.periodoCesp.cesp}" filterMatchMode="contains">
 						<p:outputLabel value="#{perFact.periodoCesp.cesp}" />
 					</p:column>
-					<ui:remove>
-					<p:column style="width:100px" headerText="#{msg.paramPeriodoFacturacionVtoCESP}"
-						filterBy="#{perFact.periodoCesp.fechaVtoCesp}" filterMatchMode="contains">
-						<p:outputLabel
-							value="#{loginBean.formatearFechaMes(perFact.periodoCesp.fechaVtoCesp, 'dd/MM/yyyy')}" />
-					</p:column>
-					</ui:remove>
 					<p:column
 						headerText="#{msg.paramPeriodoFacturacionFechaEmisionFactura}"
 						filterBy="#{perFact.fechaEmisionFactura}"
@@ -165,9 +172,11 @@
 						<p:commandButton value="CERRAR PERIODO"
 							actionListener="#{periodoFacturacionBean.cambiarEstadoPeriodo('CERRADO', perFact)}"
 							update=":mostrar :alta" immediate="true" rendered="#{perFact.estadoPeriodo.descripcion == 'EN PROCESO'}" />
+						
 						<p:commandButton value="FACTURADO"
 							actionListener="#{periodoFacturacionBean.cambiarEstadoPeriodo('FACTURADO', perFact)}"
 							update=":alta :mostrar" immediate="true" rendered="#{perFact.estadoPeriodo.descripcion == 'CERRADO'}"/>
+						
 					</p:column>
 					<f:facet name="footer">
 						<p:outputLabel value=" " />
@@ -175,6 +184,7 @@
 				</p:dataTable>
 			</h:form>
 		</center>
+		
 	</ui:define>
 </ui:composition>
 </html>

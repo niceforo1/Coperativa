@@ -150,4 +150,25 @@ public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 		}
 		return periodo;		
 	}
+	@Override
+	public List<PeriodoFacturacion> lstPeriodosFacturacionNoHist() throws Exception {
+		Session session = null;
+		List<PeriodoFacturacion> lista = null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery("from PeriodoFacturacion pf where pf.periodoCesp.id != 1 order by pf.id desc");
+			lista = (List<PeriodoFacturacion>) query.list();
+		}catch(ConstraintViolationException e){			
+			session.getTransaction().rollback();
+			throw new Exception(e.getSQLException());		
+		}catch(HibernateException e){		
+			throw new Exception(e);		
+		}finally{
+			if(session != null){
+				System.out.println("CIERRA LA SESION");
+				session.close();
+			}
+		}		
+		return lista;
+	}
 }

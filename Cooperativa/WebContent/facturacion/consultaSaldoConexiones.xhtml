@@ -12,6 +12,31 @@
 		</h:outputFormat>
 	</ui:define>
 	<ui:define name="content">	
+	<style>
+		.ACTIVA {
+			color: green;
+			font-weight: bold;
+		}
+		
+		.BAJA {
+			color: red;
+			font-weight: bold;
+		}
+		
+		.LIMITADA {
+			color: orange;
+			font-weight: bold;
+		}
+		
+		.EN REPARACION {
+			color: yellow;
+			font-weight: bold;
+		}
+		
+		.label {
+			font-weight: bold;
+		}
+	</style>
 		<h:form id="alta">
 			<p:ajaxStatus style="display:block; margin-bottom:0em;height:0px;"></p:ajaxStatus>		 
 			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
@@ -44,7 +69,7 @@
 				<p:outputLabel value="Número Conexión" for="numero" />
 				<p:inputText id="numero" value="#{lecturaBean.conexionID}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }">
 					<p:ajax event="blur" update="socio, socio1, socio2, domicilio, numMedidor, zonaCon, estadoCon, categCon, button"
-						listener="#{lecturaBean.retornarConexion}" />
+						listener="#{cuentaCorrienteBean.retornarConexion}" />
 				</p:inputText>
 				<p:outputLabel value="Socio:" />
 				<p:panelGrid columns="3">
@@ -100,8 +125,21 @@
 				<p:column headerText="Tipo">
 					<p:outputLabel value="#{cc.tipo}" />
 				</p:column>
+				<p:column headerText="Numero">
+					<p:outputLabel value="#{cc.numero}" />
+				</p:column>
+				<p:column headerText="Acción">
+					<ui:remove>
+					<p:commandButton icon="fa fa-fw fa-print"
+									actionListener="#{}" ajax="false" rendered="#{cc.tipo eq 'RECIBO'}"/>
+					</ui:remove>
+					<p:commandButton icon="fa fa-fw fa-print" actionListener="#{reportBean.verRecibo(cc)}"
+									ajax="false" rendered="#{cc.tipo eq 'RECIBO'}"/>
+				</p:column>
 				<f:facet name="footer">
-		        	<p:outputLabel value="#{cuentaCorrienteBean.total}" />
+		        	<p:outputLabel>Total:</p:outputLabel> 
+		        	<p:outputLabel styleClass="BAJA" value="#{cuentaCorrienteBean.total}" />
+		        	<p:outputLabel> Sin Intereses</p:outputLabel>
 		        </f:facet>
 			</p:dataTable>
 		</h:form>

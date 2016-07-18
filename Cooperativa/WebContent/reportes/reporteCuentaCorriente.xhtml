@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/abms/ABMTemplate.xhtml">
+	<ui:define name="tituloPantalla">
+		<h:outputFormat value="#{msg.title}">
+			<f:param value="Reporte Caja Diario" />
+		</h:outputFormat>
+	</ui:define>
+	<ui:define name="content">
+		<center>
+			<h:form id="repSocEst">			
+				<p:panel >
+					<f:facet name="header">
+						<p:outputLabel value="Reportes Reporte Cta.Cte" />
+					</f:facet>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Fecha Desde" for="fechaDesde" />
+						<p:calendar id="fechaDesde"
+								value="#{reportBean.fechaDesdeCC}" effect="explode"
+								required="true" locale="es" navigator="true" />
+						<p:outputLabel value="Fecha Hasta" for="fechaHasta" />
+						<p:calendar id="fechaHasta"
+								value="#{reportBean.fechaHastaCC}" effect="explode"
+								required="true" locale="es" navigator="true" />
+					</p:panelGrid>
+					<p:panelGrid columns="1">						
+						<p:panelGrid columns="2" >
+						<p:outputLabel value="Número Conexión" for="numero" />
+						<p:inputText id="numero" value="#{lecturaBean.conexionID}" onkeypress="if (event.keyCode == 13) {onblur(); return false; }">
+							<f:validateLongRange minimum = "1"/>
+							<p:ajax event="blur" update="socio, socio1, socio2, domicilio, numMedidor, zonaCon, estadoCon, categCon"
+								listener="#{lecturaBean.retornarConexion}" />
+						</p:inputText>
+						<p:outputLabel value="Socio:" />
+						<p:panelGrid columns="3">
+							<p:outputLabel
+								value="#{lecturaBean.conexion.socio.apellidoRazonSocial} #{lecturaBean.conexion.socio.nombreDenominacion}"
+								id="socio" />
+	
+							<p:outputLabel
+								value="#{lecturaBean.conexion.domicilioServicio.barrio} #{lecturaBean.conexion.domicilioServicio.calle} #{lecturaBean.conexion.domicilioServicio.numero}"
+								id="socio1" />
+							<p:outputLabel value="#{lecturaBean.conexion.nroMedidor}"
+								id="socio2" />
+						</p:panelGrid>
+						<p:outputLabel value="Conexion:" />
+						<p:panelGrid columns="5">
+							<p:outputLabel
+								value="#{lecturaBean.conexion.domicilioServicio.calle} #{lecturaBean.conexion.domicilioServicio.numero}"
+								id="domicilio" />
+							<p:outputLabel
+								value="#{lecturaBean.conexion.nroMedidor}"
+								id="numMedidor" />									
+							<p:outputLabel value="#{lecturaBean.conexion.zonaConexion.descripcion}"
+								id="zonaCon" />									
+							<p:outputLabel value="#{lecturaBean.conexion.estadoConexion.descripcion}"
+								id="estadoCon" />								
+							<p:outputLabel value="#{lecturaBean.conexion.categoriaConexion.descripcion}"
+								id="categCon" />
+						</p:panelGrid>
+						</p:panelGrid>				
+					</p:panelGrid>
+					<f:facet name="footer">
+						<h:form>
+							<center>								
+								<p:commandButton action="#{reportBean.verCuentaCorriente(lecturaBean.conexion)}"
+						 						value="Generar Reporte" ajax="false" />								
+							</center>
+						</h:form>
+					</f:facet>				
+				</p:panel>				
+			</h:form>						
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

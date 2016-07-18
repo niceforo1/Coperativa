@@ -86,7 +86,7 @@ public class UsuarioBean implements Serializable {
 		try {			
 			UsuarioDAO usuarioDAO = new UsuarioDAOImplement();
 			UsuarioTiposDAO usuarioTiposDAO = new UsuarioTiposDAOImplement();
-			usuario.setUsuarioTipo(usuarioTiposDAO.buscarUsuarioTipoId(tipoUsuId));
+			usuario.setUsuarioTipo(usuarioTiposDAO.buscarUsuarioTipoId(2L));
 			usuarioDAO.insertarUsuario(usuario);
 			FacesContext.getCurrentInstance().addMessage(
 					null,

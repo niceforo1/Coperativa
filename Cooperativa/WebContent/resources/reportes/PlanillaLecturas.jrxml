@@ -9,27 +9,29 @@
 	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<parameter name="idPer" class="java.lang.String"/>
 	<parameter name="periodoFecha" class="java.lang.String"/>
+	<parameter name="idPerAnt" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select c.ID_CONEXION,s.APELLIDO_RAZON_SOCIAL as TITULAR, d.CALLE, ISNULL(convert(varchar(40),d.NUMERO),'') as NUMERO,
-	   convert(varchar(40),c.NRO_MEDIDOR) as NRO_MEDIDOR, CASE WHEN (select  l.LECTURA_ANTERIOR
+	   convert(varchar(40),c.NRO_MEDIDOR) as NRO_MEDIDOR, CASE WHEN (select  l.LECTURA_ACTUAL
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
-						and l.PERIODO_ID = 1) IS NULL THEN 0 ELSE (select  l.LECTURA_ANTERIOR
+						and l.PERIODO_ID = $P{idPerAnt}) IS NULL THEN 0 ELSE (select  l.LECTURA_ACTUAL
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
-						and l.PERIODO_ID = 1) END LEC_ANTERIOR,
+						and l.PERIODO_ID = $P{idPerAnt}) END LEC_ANTERIOR,
 	  CASE WHEN (select  convert(varchar(40),l.LECTURA_ACTUAL)
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
-						and l.PERIODO_ID = 1) IS NULL THEN '' ELSE (select  convert(varchar(40),l.LECTURA_ACTUAL)
+						and l.PERIODO_ID = $P{idPer}) IS NULL THEN '' ELSE (select  convert(varchar(40),l.LECTURA_ACTUAL)
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
-						and l.PERIODO_ID = 1) END LEC_ACTUAL,
+						and l.PERIODO_ID = $P{idPer}) END LEC_ACTUAL,
      c.ID_NRO_ZONA as zona
 from CONEXIONES c
 inner join DOMICILIOS d on c.ID_DOMICILIO_SERV = d.ID_DOMICILIO
 inner join SOCIOS s on c.ID_SOCIO = s.ID_SOCIO
 inner join UBICACIONES_CATASTRALES u on c.ID_DOMICILIO_SERV = u.ID_UBICACION_CATASTRAL
+where c.ID_CATEGORIA_CONEXION != 10
 order by c.ID_NRO_ZONA]]>
 	</queryString>
 	<field name="ID_CONEXION" class="java.math.BigDecimal"/>

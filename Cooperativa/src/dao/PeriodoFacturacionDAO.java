@@ -11,4 +11,5 @@ public interface PeriodoFacturacionDAO {
 	public void eliminarPeriodoFacturacion(PeriodoFacturacion periodoFacturacion) throws Exception;
 	public PeriodoFacturacion buscarPeriodoFacturacionId(Long id) throws Exception;
 	public PeriodoFacturacion buscarPeriodoFacturacionAbierto() throws Exception;
+	public List<PeriodoFacturacion> lstPeriodosFacturacionNoHist() throws Exception;
 }

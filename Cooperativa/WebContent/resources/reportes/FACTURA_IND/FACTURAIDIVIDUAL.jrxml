@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a05b0a0f-03c6-42fa-b44e-6a5068e71401">
-	<property name="ireport.zoom" value="2.3579476910001778"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a05b0a0f-03c6-42fa-b44e-6a5068e71401">
+	<property name="ireport.zoom" value="1.2100000000000923"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="586"/>
+	<property name="ireport.y" value="137"/>
 	<property name="ireport.background.image" value="C:\Users\NAm\Desktop\Recursos cooperativa\Cooperativa\FACTURA\image.jpg"/>
 	<property name="ireport.background.image.properties" value="true,true,1.0,-8,-8,0,0,611,834"/>
 	<style name="table">
@@ -65,15 +65,24 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<parameter name="idConexion" class="java.lang.String"/>
-	<parameter name="idPeriodoFact" class="java.lang.String"/>
+	<parameter name="id_conexion" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_periodo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_concepto_fact" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_tip_ub_catastral" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select c.NRO_MEDIDOR,c.ID_CONEXION, s.ID_SOCIO, s.APELLIDO_RAZON_SOCIAL, d.CALLE, d.NUMERO, uc.CIRCUITO,uc.SECCIONAL,
-    uc.MANZANA, uc.LOTE, uc.PH, c.ID_NRO_ZONA, ts.DESCRIPCION as tip_sumi, f.CARGO_FIJO, f.TRAMO_1, f.TRAMO_2,f.TRAMO_3,
-    f.TRAMO_4,f.TRAMO_5, f.TRAMO_6, f.CAPITAL_SOCIAL, f.ERSEP, f.RECUPERO_INVERSION, f.IMPRESION_Y_OTROS, f.IVA,
+		<![CDATA[select f.NRO_FACTURA,c.NRO_MEDIDOR,c.ID_CONEXION, s.ID_SOCIO, s.APELLIDO_RAZON_SOCIAL, d.CALLE, d.NUMERO, uc.CIRCUITO,uc.SECCIONAL,
+    uc.MANZANA, uc.LOTE, uc.PH, c.ID_NRO_ZONA, ts.DESCRIPCION as tip_sumi,f.IVA,
     ci.DESCRIPCION as c_iva,d.CODIGO_POST,d.LOCALIDAD,CONVERT ( varchar(10), pf.VENCIMIENTO_FACT_1 ,103 )as pri_ven,
     CONVERT ( varchar(10), pf.VENCIMIENTO_FACT_2 ,103 )as seg_ven,SUBSTRING ( CONVERT(varchar(4),pf.ANIO),3 , 2 )as anio,pf.MES,
-    pc.CESP, CONVERT ( varchar(10), pc.VTO_CESP,103 )as VTO_CESP,l.LECTURA_ACTUAL,l.LECTURA_ANTERIOR, CONVERT ( varchar(10),pf.FECHA_EMISION_FACTURA,103 ) as emision_fac,f.ID,f.TIPO_FACTURA,
+    pc.CESP, CONVERT ( varchar(10), pc.VTO_CESP,103 )as VTO_CESP, CONVERT ( varchar(10),pf.FECHA_EMISION_FACTURA,103 ) as emision_fac,f.ID,f.TIPO_FACTURA,
   case pf.MES
   when 1 then '01'
   when 2 then '02'
@@ -98,11 +107,7 @@
   WHEN 10 THEN 'Octubre'
   WHEN 11 THEN 'Noviembre'
   ELSE 'Diciembre'
-END as mes_nombre,pf.ANIO as anio_comp,CONVERT( varchar(10), l.FECHA_REGISTRO_LECTURA,103 )as FECHA_REGISTRO_LECTURA,
-(select cf.TRAMO_1 from CONFIGURACION_FACTURAS cf) t1,(select cf.TRAMO_2 from CONFIGURACION_FACTURAS cf)t2,
-(select cf.TRAMO_3 from CONFIGURACION_FACTURAS cf)t3,(select cf.TRAMO_4 from CONFIGURACION_FACTURAS cf)t4,
-(select cf.TRAMO_5 from CONFIGURACION_FACTURAS cf)t5,(select cf.TRAMO_6 from CONFIGURACION_FACTURAS cf)t6,
-(select ts.IMPORTE from CONFIGURACION_FACTURAS cf) carg_fijo,f.INTERESES_2DO_VTO,s.NRO_IVA
+END as mes_nombre,pf.ANIO as anio_comp,f.INTERESES_2DO_VTO,cf.MONTO_PRECIO,f.IMPORTE_TOTAL
 
 from CONEXIONES c
 inner join SOCIOS s on s.ID_SOCIO = c.ID_SOCIO
@@ -115,15 +120,14 @@ inner join FACTURA f on f.ID_CONEXION  = c.id_conexion
 inner join CONDICION_IVA ci on ci.ID_CONDICION_IVA = s.ID_CONDICION_IVA
 inner join PERIODO_FACTURACION pf on pf.PERIODO_FACT_ID=f.PERIODO_FACT_ID
 inner join PERIODO_CESP pc on pc.PERIODO_CESP_ID=pf.PERIODO_CESP_ID
-inner join LECTURAS l on l.ID_CONEXION=c.ID_CONEXION
-inner join PERIODO_LECTURAS pl on pl.PERIODO_ID=l.PERIODO_ID
+inner join CONCEPTO_FACTURACION cf on cf.ID=f.ID_CONCEPTO_FACTURACION
 
-where c.ID_CONEXION = $P{idConexion}
-and f.PERIODO_FACT_ID =  $P{idPeriodoFact}
-and uc.ID_TIPO_UBICACION_CATASTRAL = 1
-and pl.ANIO=pf.ANIO
-and pl.MES=pf.MES]]>
+where c.ID_CONEXION = $P{id_conexion}
+and f.PERIODO_FACT_ID = $P{id_periodo}
+and f.ID_CONCEPTO_FACTURACION=$P{id_concepto_fact}
+and uc.ID_TIPO_UBICACION_CATASTRAL = $P{id_tip_ub_catastral}]]>
 	</queryString>
+	<field name="NRO_FACTURA" class="java.lang.String"/>
 	<field name="NRO_MEDIDOR" class="java.math.BigDecimal"/>
 	<field name="ID_CONEXION" class="java.math.BigDecimal"/>
 	<field name="ID_SOCIO" class="java.math.BigDecimal"/>
@@ -137,17 +141,6 @@ and pl.MES=pf.MES]]>
 	<field name="PH" class="java.lang.String"/>
 	<field name="ID_NRO_ZONA" class="java.math.BigDecimal"/>
 	<field name="tip_sumi" class="java.lang.String"/>
-	<field name="CARGO_FIJO" class="java.lang.Double"/>
-	<field name="TRAMO_1" class="java.math.BigDecimal"/>
-	<field name="TRAMO_2" class="java.math.BigDecimal"/>
-	<field name="TRAMO_3" class="java.math.BigDecimal"/>
-	<field name="TRAMO_4" class="java.math.BigDecimal"/>
-	<field name="TRAMO_5" class="java.math.BigDecimal"/>
-	<field name="TRAMO_6" class="java.math.BigDecimal"/>
-	<field name="CAPITAL_SOCIAL" class="java.lang.Double"/>
-	<field name="ERSEP" class="java.lang.Double"/>
-	<field name="RECUPERO_INVERSION" class="java.lang.Double"/>
-	<field name="IMPRESION_Y_OTROS" class="java.lang.Double"/>
 	<field name="IVA" class="java.lang.Double"/>
 	<field name="c_iva" class="java.lang.String"/>
 	<field name="CODIGO_POST" class="java.lang.String"/>
@@ -158,43 +151,34 @@ and pl.MES=pf.MES]]>
 	<field name="MES" class="java.math.BigDecimal"/>
 	<field name="CESP" class="java.math.BigDecimal"/>
 	<field name="VTO_CESP" class="java.lang.String"/>
-	<field name="LECTURA_ACTUAL" class="java.math.BigDecimal"/>
-	<field name="LECTURA_ANTERIOR" class="java.math.BigDecimal"/>
 	<field name="emision_fac" class="java.lang.String"/>
 	<field name="ID" class="java.math.BigDecimal"/>
 	<field name="TIPO_FACTURA" class="java.lang.String"/>
 	<field name="mes_nombre" class="java.lang.String"/>
 	<field name="anio_comp" class="java.math.BigDecimal"/>
-	<field name="FECHA_REGISTRO_LECTURA" class="java.lang.String"/>
-	<field name="t1" class="java.lang.Double"/>
-	<field name="t2" class="java.lang.Double"/>
-	<field name="t3" class="java.lang.Double"/>
-	<field name="t4" class="java.lang.Double"/>
-	<field name="t5" class="java.lang.Double"/>
-	<field name="t6" class="java.lang.Double"/>
-	<field name="carg_fijo" class="java.lang.Double"/>
 	<field name="INTERESES_2DO_VTO" class="java.lang.Double"/>
-	<field name="NRO_IVA" class="java.math.BigDecimal"/>
+	<field name="MONTO_PRECIO" class="java.lang.Double"/>
+	<field name="IMPORTE_TOTAL" class="java.lang.Double"/>
 	<title>
 		<band height="94" splitType="Stretch">
 			<frame>
 				<reportElement mode="Transparent" x="385" y="28" width="121" height="22" backcolor="#33FF33" uuid="bb950dd0-459d-463e-85e3-de0260da3c6b"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="0" width="121" height="22" uuid="b3f817f6-a258-4f33-b2d9-317f35c0f8e5"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{TIPO_FACTURA}+'  '+$F{ID}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{TIPO_FACTURA}+'002'+$F{NRO_FACTURA}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="385" y="66" width="121" height="28" backcolor="#FFFF00" uuid="36f52ac5-ad96-43d5-af59-b447ed9c6026"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="11" width="56" height="17" uuid="52a4be27-3fbf-4f61-84e7-1bfb7c760b09"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{VTO_CESP}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="65" y="11" width="56" height="17" uuid="ec160702-c413-42e0-9e20-68079d15612b"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
@@ -222,15 +206,15 @@ and pl.MES=pf.MES]]>
 		<band height="708" splitType="Stretch">
 			<frame>
 				<reportElement mode="Transparent" x="0" y="16" width="358" height="56" backcolor="#33FF33" uuid="9c215a6b-6ae7-4a98-b7b1-ab31537ebbb4"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="10" y="0" width="166" height="14" uuid="9407e7c6-66d5-4014-8463-25c136286c47"/>
 					<textFieldExpression><![CDATA[$F{APELLIDO_RAZON_SOCIAL}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="10" y="17" width="166" height="17" uuid="d26d56b9-50d7-4954-b946-04cab2ac0d08"/>
 					<textFieldExpression><![CDATA[$F{CALLE} +'  '+ $F{NUMERO}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="156" y="34" width="200" height="17" uuid="b3906e36-305f-4e10-9bb1-0082c589e3e4"/>
 					<textFieldExpression><![CDATA[$F{CODIGO_POST}+'  '+$F{LOCALIDAD}]]></textFieldExpression>
 				</textField>
@@ -272,28 +256,28 @@ and pl.MES=pf.MES]]>
 					</textElement>
 					<text><![CDATA[Vencimiento]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="61" y="16" width="84" height="10" uuid="63774901-349a-4f25-a8cd-50d36c2ac22d"/>
 					<textElement textAlignment="Center" verticalAlignment="Top">
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{TIPO_FACTURA}+'  '+$F{ID}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{TIPO_FACTURA}+'002'+$F{NRO_FACTURA}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="61" y="26" width="84" height="10" uuid="d8e1d8de-318e-49e6-9e47-9d06ba5a001a"/>
 					<textElement textAlignment="Center">
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{emision_fac}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="61" y="46" width="84" height="10" uuid="35738260-3baa-4a06-bb6c-7aaf79d62692"/>
 					<textElement textAlignment="Center">
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{pri_ven}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="61" y="36" width="84" height="10" uuid="b41725b5-dd0e-4042-99b5-c41c68e5b101"/>
 					<textElement textAlignment="Center">
 						<font size="7"/>
@@ -303,7 +287,7 @@ and pl.MES=pf.MES]]>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="3" y="91" width="57" height="36" backcolor="#33FF33" uuid="de8075c7-c7a5-406a-99e8-2ab28189202b"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="11" width="57" height="15" uuid="d62c4b81-3430-4306-bac8-6119e72069de"/>
 					<textElement textAlignment="Center"/>
 					<textFieldExpression><![CDATA[$F{ID_NRO_ZONA}]]></textFieldExpression>
@@ -311,7 +295,7 @@ and pl.MES=pf.MES]]>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="66" y="91" width="36" height="36" backcolor="#33FF33" uuid="ccd422d6-7e3c-4077-9a72-e87c8dcb91cd"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="11" width="36" height="15" uuid="f881d897-840a-4cb5-9fe6-787c09db7391"/>
 					<textElement textAlignment="Center" verticalAlignment="Top"/>
 					<textFieldExpression><![CDATA[$F{ID_CONEXION}]]></textFieldExpression>
@@ -319,7 +303,7 @@ and pl.MES=pf.MES]]>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="110" y="91" width="36" height="36" backcolor="#33FF33" uuid="ea7c5691-ed4a-4b15-9269-ea9645e68e7d"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="11" width="36" height="15" uuid="f6acd49b-1073-4579-a8a6-6558c2bbb671"/>
 					<textElement textAlignment="Center"/>
 					<textFieldExpression><![CDATA[$F{ID_SOCIO}]]></textFieldExpression>
@@ -327,15 +311,17 @@ and pl.MES=pf.MES]]>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="156" y="91" width="52" height="36" backcolor="#33FF33" uuid="404ed513-d96a-41db-b820-524bc2732057"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="11" width="51" height="15" uuid="375776a9-77ad-46dd-b3ba-2b25334f947f"/>
-					<textElement textAlignment="Center"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{tip_sumi}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="216" y="100" width="22" height="24" backcolor="#33FF33" uuid="ae968220-26db-4c2a-b0a0-c587b97cc2aa"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="6" width="22" height="12" uuid="f12fdf69-e220-4a06-a705-b09cd80723f9"/>
 					<textElement textAlignment="Center">
 						<font size="8"/>
@@ -345,7 +331,7 @@ and pl.MES=pf.MES]]>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="245" y="100" width="22" height="24" backcolor="#33FF33" uuid="9d686f51-0db8-4bb7-aff5-d3391b72c2dc"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="6" width="22" height="11" uuid="62550589-9c36-4058-a02b-b7edb9db72b9"/>
 					<textElement textAlignment="Center">
 						<font size="8"/>
@@ -355,7 +341,7 @@ and pl.MES=pf.MES]]>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="274" y="100" width="22" height="24" backcolor="#33FF33" uuid="c86914a0-3009-4d94-8780-cda0d53ece5b"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="6" width="22" height="13" uuid="3e059697-4ecc-479a-a9f3-610c1d0f555b"/>
 					<textElement textAlignment="Center">
 						<font size="8"/>
@@ -365,7 +351,7 @@ and pl.MES=pf.MES]]>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="303" y="100" width="22" height="24" backcolor="#33FF33" uuid="1a47fbc1-bb98-4a7e-afd8-8591df24aec0"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="6" width="22" height="13" uuid="f664dd68-1cc4-4936-997b-b33ace9bb504"/>
 					<textElement textAlignment="Center">
 						<font size="8"/>
@@ -375,7 +361,7 @@ and pl.MES=pf.MES]]>
 			</frame>
 			<frame>
 				<reportElement mode="Transparent" x="334" y="100" width="22" height="24" backcolor="#33FF33" uuid="f77cf87c-393f-450e-9d1c-6f67ad6fd397"/>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="0" y="6" width="22" height="13" uuid="02893281-e70c-4d6d-8b7f-9fa6184d7874"/>
 					<textElement textAlignment="Center">
 						<font size="8"/>
@@ -386,74 +372,18 @@ and pl.MES=pf.MES]]>
 			<frame>
 				<reportElement mode="Transparent" x="370" y="85" width="153" height="62" backcolor="#33FF33" uuid="d4e56fe3-4cbb-4083-b861-db939adf77f4"/>
 				<staticText>
-					<reportElement mode="Transparent" x="3" y="37" width="43" height="10" uuid="a8b06141-6d87-49c1-adf2-05ef536e2bec"/>
-					<textElement>
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[E. Actual]]></text>
-				</staticText>
-				<staticText>
-					<reportElement mode="Transparent" x="3" y="17" width="43" height="10" uuid="f204f8b5-ca33-4f47-9629-b1c9e264db49"/>
-					<textElement>
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Fec. Lectura]]></text>
-				</staticText>
-				<staticText>
 					<reportElement mode="Transparent" x="3" y="7" width="39" height="10" uuid="25a84bbe-8283-499a-bd27-589a4b42e8e2"/>
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Medidor]]></text>
 				</staticText>
-				<staticText>
-					<reportElement mode="Transparent" x="3" y="27" width="39" height="10" uuid="8c678321-7e2a-4e27-a716-b799a9a15389"/>
-					<textElement>
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[E. Anterior]]></text>
-				</staticText>
-				<staticText>
-					<reportElement mode="Transparent" x="3" y="47" width="43" height="10" uuid="86146203-6a86-41f6-9a42-b4d44df17836"/>
-					<textElement>
-						<font size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Consumo]]></text>
-				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="60" y="7" width="84" height="10" uuid="698c8761-bce6-42db-8e8a-1be0ba0c1cd4"/>
 					<textElement textAlignment="Center">
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{NRO_MEDIDOR}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement mode="Transparent" x="60" y="17" width="84" height="10" uuid="438e5f1d-31af-4a3e-8ee8-c8d52ddb4955"/>
-					<textElement textAlignment="Center">
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{FECHA_REGISTRO_LECTURA}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement mode="Transparent" x="60" y="27" width="84" height="10" uuid="6727f425-16a4-4487-9825-b10b70f153ec"/>
-					<textElement textAlignment="Center">
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{LECTURA_ANTERIOR}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement mode="Transparent" x="60" y="37" width="84" height="10" uuid="7b47f164-c1f3-440f-9909-4dfa6c593b1b"/>
-					<textElement textAlignment="Center">
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{LECTURA_ACTUAL}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement mode="Transparent" x="60" y="47" width="84" height="10" uuid="93897b6a-7766-476b-a342-c6946c59c412"/>
-					<textElement textAlignment="Center">
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{LECTURA_ACTUAL}-$F{LECTURA_ANTERIOR}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
@@ -486,12 +416,12 @@ and pl.MES=pf.MES]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{seg_ven}]]></textFieldExpression>
 				</textField>
-				<textField pattern="$ #,##0.00">
+				<textField pattern="$ #,##0.00" isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="58" y="77" width="45" height="14" uuid="92a89c24-28d2-45e9-944e-78836aecd726"/>
 					<textElement verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[((($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA})*0.03)+($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{IMPORTE_TOTAL}*0.03)+$F{IMPORTE_TOTAL}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
@@ -552,33 +482,19 @@ and pl.MES=pf.MES]]>
 					</textElement>
 					<text><![CDATA[Número de CUIT:]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="73" y="0" width="22" height="11" uuid="f93ef9d5-78fa-488f-ac99-dde478d7dbef"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{MANZANA}]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement mode="Transparent" x="73" y="11" width="84" height="11" uuid="fcc6926e-0220-487f-8aea-ae24be184e0e"/>
-					<textElement verticalAlignment="Top">
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{c_iva}]]></textFieldExpression>
-				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="177" y="0" width="40" height="11" uuid="76380fb8-b62a-4f2a-94c1-828150b29486"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{LOTE}]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement mode="Transparent" x="217" y="11" width="60" height="11" uuid="3a6ffac8-5183-47da-890c-3fa5a434fe76"/>
-					<textElement>
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{NRO_IVA}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
@@ -689,7 +605,7 @@ and pl.MES=pf.MES]]>
 					<textElement textAlignment="Center" verticalAlignment="Top">
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{TIPO_FACTURA}+'  '+$F{ID}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{TIPO_FACTURA}+'002'+$F{NRO_FACTURA}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
@@ -762,7 +678,7 @@ and pl.MES=pf.MES]]>
 					<textElement verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[((($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA})*0.03)+($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{IMPORTE_TOTAL}*0.03)+$F{IMPORTE_TOTAL}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
@@ -924,7 +840,7 @@ and pl.MES=pf.MES]]>
 					<textElement textAlignment="Center" verticalAlignment="Top">
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{TIPO_FACTURA}+'  '+$F{ID}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{TIPO_FACTURA}+'002'+$F{NRO_FACTURA}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
@@ -959,28 +875,28 @@ and pl.MES=pf.MES]]>
 				<reportElement mode="Transparent" x="5" y="267" width="352" height="12" backcolor="#999999" uuid="17070af6-8a0b-45d0-9ef5-dca62182aaac"/>
 			</frame>
 			<staticText>
-				<reportElement mode="Transparent" x="5" y="134" width="202" height="12" uuid="dc697a20-c3e3-4808-9411-8786a897298a"/>
+				<reportElement mode="Transparent" x="5" y="134" width="151" height="12" uuid="dc697a20-c3e3-4808-9411-8786a897298a"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Concepto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="207" y="134" width="50" height="12" uuid="511d743e-4eff-4d92-bab7-663688de93f4"/>
+				<reportElement mode="Transparent" x="158" y="134" width="50" height="12" uuid="511d743e-4eff-4d92-bab7-663688de93f4"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cant.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="325" y="134" width="31" height="12" uuid="b2424c01-efbc-417e-91a5-0ce9097206c7"/>
+				<reportElement mode="Transparent" x="284" y="134" width="72" height="12" uuid="b2424c01-efbc-417e-91a5-0ce9097206c7"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="257" y="134" width="68" height="12" uuid="1df4108f-219d-41bb-ab1e-b41c088bbcb7"/>
+				<reportElement mode="Transparent" x="208" y="134" width="76" height="12" uuid="1df4108f-219d-41bb-ab1e-b41c088bbcb7"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -993,15 +909,15 @@ and pl.MES=pf.MES]]>
 				</textElement>
 				<text><![CDATA[Importe Total]]></text>
 			</staticText>
-			<textField>
-				<reportElement mode="Transparent" x="257" y="152" width="68" height="8" backcolor="#990099" uuid="dd80676b-558a-4346-be6a-ec3f038d1225"/>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="208" y="152" width="76" height="8" backcolor="#990099" uuid="dd80676b-558a-4346-be6a-ec3f038d1225"/>
 				<textElement textAlignment="Center">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{CARGO_FIJO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{MONTO_PRECIO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="5" y="152" width="202" height="8" uuid="318124d4-9cf0-4ea5-8898-69731c23f3c0"/>
+				<reportElement mode="Transparent" x="5" y="152" width="151" height="8" uuid="318124d4-9cf0-4ea5-8898-69731c23f3c0"/>
 				<box>
 					<pen lineStyle="Double"/>
 					<topPen lineStyle="Double"/>
@@ -1015,133 +931,7 @@ and pl.MES=pf.MES]]>
 				<text><![CDATA[Cargo fijo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="5" y="161" width="202" height="8" uuid="01248eb1-444b-4005-a976-3d843b84ab0b"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Tramo 1 de 1 a 10 m3]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="170" width="202" height="8" uuid="884a8948-c816-40ed-ad05-345f679db142"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Tramo 2 de 11 a 20 m3]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="179" width="202" height="8" uuid="2c74ed70-6f70-43f2-9ebd-ef7ab5abdfb1"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Tramo 3 de 21 a 30 m3]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="206" width="202" height="8" uuid="19256f52-c00e-4f57-8cf9-3bb5ce111088"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Tramo 6 mas de 51 m3]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="197" width="202" height="8" uuid="53a9aadd-5990-481d-826f-9a6baf19a30a"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Tramo  5 de 41 a 50 m3]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="188" width="202" height="8" uuid="6f365527-3855-48d1-82ee-a913baedb86f"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Tramo  4 de 31 a 40 m3]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="215" width="202" height="8" uuid="dceb9264-f10e-4bc5-a749-6f1861238257"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Capital social]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="233" width="202" height="8" uuid="c574337e-d022-428a-9f14-65c15526959e"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Recupero de inversion]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="224" width="202" height="8" uuid="bf837cbd-4ea5-4727-b977-8ce71f597fb6"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[E.r.s.e.p Dec nº 2298/00 5/2001]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="251" width="202" height="8" uuid="4dfd0f73-29cb-4560-ae38-4828cd93822e"/>
+				<reportElement mode="Transparent" x="5" y="160" width="151" height="8" uuid="4dfd0f73-29cb-4560-ae38-4828cd93822e"/>
 				<box>
 					<pen lineStyle="Double"/>
 					<topPen lineStyle="Double"/>
@@ -1154,138 +944,19 @@ and pl.MES=pf.MES]]>
 				</textElement>
 				<text><![CDATA[IVA general (21%)]]></text>
 			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="5" y="242" width="202" height="8" uuid="d6237b88-482f-4b9c-99e1-05e09ee8ead1"/>
-				<box>
-					<pen lineStyle="Double"/>
-					<topPen lineStyle="Double"/>
-					<leftPen lineStyle="Double"/>
-					<bottomPen lineStyle="Double"/>
-					<rightPen lineStyle="Double"/>
-				</box>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Impresion y otros]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Transparent" x="207" y="161" width="50" height="8" backcolor="#00CCFF" uuid="04c503b6-4dca-470b-961e-e051524f07b6"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="207" y="170" width="50" height="8" backcolor="#00CCFF" uuid="ca969f17-1cd6-43d3-82d5-e84a8a18e91e"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_2}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="207" y="179" width="50" height="8" backcolor="#00CCFF" uuid="102e7569-3ad6-4b19-972b-f033e4e32578"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_3}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="207" y="188" width="50" height="8" backcolor="#00CCFF" uuid="9db7eb77-0d87-4943-81c0-d7eb38a2ebe2"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_4}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="207" y="197" width="50" height="8" backcolor="#00CCFF" uuid="816ddeda-1385-49c8-bbe9-64426f30c87f"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_5}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="207" y="206" width="50" height="8" backcolor="#00CCFF" uuid="10e3182f-9596-4e00-9774-822f0f1fe05a"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_6}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="215" width="31" height="8" backcolor="#FFCC66" uuid="4f672343-d544-4388-9ab2-8d248f1e12e6"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{CAPITAL_SOCIAL}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="224" width="31" height="8" backcolor="#FFCC66" uuid="ec94f3d9-3722-47c9-8e34-014cf8a727ca"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ERSEP}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="233" width="31" height="8" backcolor="#FFCC66" uuid="35d8f72c-3907-4ee0-be26-6fe734d4623c"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{RECUPERO_INVERSION}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="242" width="31" height="8" backcolor="#FFCC66" uuid="e1e56d84-543a-4a9d-9b2f-62d622d69749"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{IMPRESION_Y_OTROS}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="251" width="31" height="8" backcolor="#FFCC66" uuid="83b23159-c615-48b2-9ce0-07bb24879eee"/>
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="284" y="160" width="72" height="8" backcolor="#FFCC66" uuid="83b23159-c615-48b2-9ce0-07bb24879eee"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{IVA}]]></textFieldExpression>
 			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="188" width="31" height="8" backcolor="#FFCC66" uuid="cd3c02e3-6df2-459e-86e4-accf8d6ffe6b"/>
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="284" y="152" width="72" height="8" backcolor="#FFCC66" uuid="7071614e-e97e-48be-ae0f-58df8556661a"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_4}*$F{t4}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="197" width="31" height="8" backcolor="#FFCC66" uuid="f4aea343-f8a5-4573-bedd-ac2e3a544969"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_5}*$F{t5}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="152" width="31" height="8" backcolor="#FFCC66" uuid="7071614e-e97e-48be-ae0f-58df8556661a"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[1*$F{CARGO_FIJO}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="170" width="31" height="8" backcolor="#FFCC66" uuid="05226bfa-9a31-4581-af02-4c6ee45fe20f"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_2}*$F{t2}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="206" width="31" height="8" backcolor="#FFCC66" uuid="ad8de9e4-d3b6-4b42-8d5d-10e95e89deeb"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_6}*$F{t6}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="161" width="31" height="8" backcolor="#FFCC66" uuid="17d44088-a270-45d3-b3bf-fe4793535186"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_1}*$F{t1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{MONTO_PRECIO}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="8" y="358" width="384" height="14" uuid="ef1ada1a-1b98-4a54-93ca-7d9dbb45d218"/>
@@ -1295,88 +966,39 @@ and pl.MES=pf.MES]]>
 				<text><![CDATA[ZONA DE EMERGENCIA HIDRICA, DECRETO MUNICIPAL Nº 165/04, PROHIBIDO ]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Transparent" x="207" y="152" width="50" height="8" backcolor="#00CCFF" uuid="4894cc9e-df78-425b-b72c-f7dd56bca24b"/>
+				<reportElement mode="Transparent" x="158" y="152" width="50" height="8" backcolor="#00CCFF" uuid="4894cc9e-df78-425b-b72c-f7dd56bca24b"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[1]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="257" y="161" width="68" height="8" backcolor="#990099" uuid="5983ddcf-6a48-4c95-9777-74fc83545cd4"/>
-				<textElement textAlignment="Center">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{t1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="257" y="170" width="68" height="8" backcolor="#990099" uuid="879b7a6b-add0-4223-852d-bed4d6beff45"/>
-				<textElement textAlignment="Center">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{t2}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="257" y="179" width="68" height="8" backcolor="#990099" uuid="2cef7bba-8a30-45d7-9e00-92f8d1626214"/>
-				<textElement textAlignment="Center">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{t3}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="257" y="188" width="68" height="8" backcolor="#990099" uuid="73adc1f1-00ec-4694-ad0f-a88f167bc02f"/>
-				<textElement textAlignment="Center">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{t4}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="257" y="197" width="68" height="8" backcolor="#990099" uuid="78971ac6-edb7-4e1a-a0cb-8ebdb48249e5"/>
-				<textElement textAlignment="Center">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{t5}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Transparent" x="257" y="206" width="68" height="8" backcolor="#990099" uuid="2939f23c-c469-4570-8dc1-415dc9e3f545"/>
-				<textElement textAlignment="Center">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{t6}]]></textFieldExpression>
-			</textField>
 			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="304" y="268" width="52" height="11" uuid="1241f3cc-8f67-4374-b6df-2a2b38337612"/>
+				<reportElement mode="Transparent" x="284" y="267" width="72" height="11" uuid="1241f3cc-8f67-4374-b6df-2a2b38337612"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*1)+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$ #,##0.00">
-				<reportElement mode="Transparent" x="325" y="179" width="31" height="8" backcolor="#FFCC66" uuid="ba80abcc-9f9b-479e-b4de-1f88b946fa44"/>
-				<textElement textAlignment="Right">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAMO_3}*$F{t3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{IMPORTE_TOTAL}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$ #,##0.00">
 				<reportElement mode="Transparent" x="193" y="487" width="45" height="14" uuid="ade69c63-6518-4ce0-b0ae-535f5779f436"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{IMPORTE_TOTAL}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$ #,##0.00">
 				<reportElement mode="Transparent" x="193" y="617" width="45" height="14" uuid="2c680227-f90c-4419-a279-2427dfad1210"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{IMPORTE_TOTAL}]]></textFieldExpression>
 			</textField>
-			<textField pattern="$ #,##0.00">
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="426" y="197" width="45" height="14" uuid="089d841c-d056-49e9-abca-3d33b4a9c0fc"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{IMPORTE_TOTAL}]]></textFieldExpression>
 			</textField>
 			<frame>
 				<reportElement mode="Transparent" x="393" y="487" width="45" height="14" backcolor="#FFFF33" uuid="790f8022-03b7-4831-a3cd-5d36cc07af4e"/>
@@ -1385,7 +1007,7 @@ and pl.MES=pf.MES]]>
 					<textElement verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[((($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA})*0.03)+($F{t1}*$F{TRAMO_1})+($F{t2}*$F{TRAMO_2})+($F{t3}*$F{TRAMO_3})+($F{t4}*$F{TRAMO_4})+($F{t5}*$F{TRAMO_5})+($F{t6}*$F{TRAMO_6})+($F{CARGO_FIJO}*$F{carg_fijo})+$F{CAPITAL_SOCIAL}+$F{ERSEP}+$F{RECUPERO_INVERSION}+$F{IMPRESION_Y_OTROS}+$F{IVA}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{IMPORTE_TOTAL}*0.03)+$F{IMPORTE_TOTAL}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

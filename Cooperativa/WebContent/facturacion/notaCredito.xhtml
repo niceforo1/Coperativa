@@ -136,18 +136,18 @@
 						<p:ajax update="alta" />						
 					</p:selectBooleanCheckbox>
 						
-					<p:outputLabel value="Concepto a Facturar:"/>
+					<p:outputLabel value="Concepto a Facturar:" rendered="#{!notaCreditoBean.notaCredX}"/>
 					<p:selectOneMenu id="concFact"
 						value="#{notaCreditoBean.conceptoID}"
 						panelStyle="width:180px" effect="fold" filter="true"
-						required="true">
+						required="true" rendered="#{!notaCreditoBean.notaCredX}" >
 						<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
 						<f:selectItems value="#{conceptoFacturacionBean.lstConceptos}"
 							var="conFactu" itemLabel="#{conFactu.descripcion}"
 							itemValue="#{conFactu.id}" />
 					</p:selectOneMenu>
-					<p:outputLabel value="Importe:" rendered="#{notaCreditoBean.notaCredX}"/>
-					<p:inputText id="importeX" value="#{notaCreditoBean.importeX}" rendered="#{notaCreditoBean.notaCredX}"/>
+					<p:outputLabel value="Importe:"/>
+					<p:inputText id="importeX" value="#{notaCreditoBean.importeX}" />
 					<p:outputLabel value="Observaciones:"/>
 					<p:inputTextarea id="obs"
 						value="#{notaCreditoBean.observaciones}" rows="10" cols="40"/>						

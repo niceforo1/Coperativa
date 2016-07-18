@@ -23,7 +23,7 @@ public class CuentaCorrienteDAOImplement implements CuentaCorrienteDAO{
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMdd");
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			result =session.createSQLQuery("select ID_CONEXION, IMPORTE_TOTAL, MES, ANIO, TIPO"
+			result =session.createSQLQuery("select ID_CONEXION, IMPORTE_TOTAL, MES, ANIO, TIPO, NRO_COMPROBANTE"
 					+ " from cuenta_corriente"
 					+ " where ID_CONEXION = ?"
 					+ " AND CONVERT(SMALLDATETIME, '01/'+convert(varchar(10),mes)+'/'+convert(varchar(10),anio)) between ? and ?"
