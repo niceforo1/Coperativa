@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PlanillaLecturas" pageWidth="800" pageHeight="842" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4d400763-c5c1-4f91-b4c2-bf1efc07ce6c">
-	<property name="ireport.zoom" value="3.0"/>
-	<property name="ireport.x" value="598"/>
+	<property name="ireport.zoom" value="1.3995221406292015"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
@@ -26,13 +26,16 @@
 						from LECTURAS l
 						where l.ID_CONEXION = c.ID_CONEXION
 						and l.PERIODO_ID = $P{idPer}) END LEC_ACTUAL,
-     c.ID_NRO_ZONA as zona
+     c.ID_NRO_ZONA as zona,
+     u.MANZANA as manzana
 from CONEXIONES c
 inner join DOMICILIOS d on c.ID_DOMICILIO_SERV = d.ID_DOMICILIO
 inner join SOCIOS s on c.ID_SOCIO = s.ID_SOCIO
-inner join UBICACIONES_CATASTRALES u on c.ID_DOMICILIO_SERV = u.ID_UBICACION_CATASTRAL
+inner join CONEXIONES_UBICACIONES_CATASTRALES cuc on cuc.CONEXIONES_ID_CONEXION = c.ID_CONEXION
+inner join UBICACIONES_CATASTRALES u on cuc.ubicacionesCatastrales_ID_UBICACION_CATASTRAL= u.ID_UBICACION_CATASTRAL
 where c.ID_CATEGORIA_CONEXION != 10
-order by c.ID_NRO_ZONA]]>
+and u.ID_TIPO_UBICACION_CATASTRAL = 1
+order by c.ID_NRO_ZONA, u.MANZANA,u.LOTE]]>
 	</queryString>
 	<field name="ID_CONEXION" class="java.math.BigDecimal"/>
 	<field name="TITULAR" class="java.lang.String"/>
@@ -42,11 +45,81 @@ order by c.ID_NRO_ZONA]]>
 	<field name="LEC_ANTERIOR" class="java.math.BigDecimal"/>
 	<field name="LEC_ACTUAL" class="java.lang.String"/>
 	<field name="zona" class="java.math.BigDecimal"/>
+	<field name="manzana" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="89" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="2" y="85" width="760" height="2" uuid="00519fb2-5550-4da1-90b7-f8365ebf6d97"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="70" y="71" width="43" height="15" uuid="709fefb3-6cf8-49fa-851b-3cb835aa8976"/>
+				<text><![CDATA[CONEX]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="114" y="71" width="117" height="15" uuid="864ffaec-1b22-4053-a030-9a53de065697"/>
+				<text><![CDATA[TITULAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="231" y="71" width="171" height="15" uuid="7ce1fc1f-a9d5-46a7-bc35-606b2791e2eb"/>
+				<text><![CDATA[DIRECCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="403" y="71" width="52" height="15" uuid="52eede87-d452-4a29-90cc-b7b5ea3e49df"/>
+				<text><![CDATA[N MED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="456" y="71" width="61" height="15" uuid="536128b5-f1e0-4c86-94c7-126702aaa99d"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[LEC_ANT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="520" y="71" width="111" height="15" uuid="e126444a-bc9a-4522-b536-f4a6912bcfe5"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[LECTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="649" y="71" width="111" height="15" uuid="7ae41fcb-7fa3-4ba9-bbad-2d9c24ca2719"/>
+				<text><![CDATA[OBSERVACIONES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="2" y="71" width="36" height="15" uuid="228abfce-6521-4be6-ba09-f23afba55f4b"/>
+				<text><![CDATA[ZONA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="370" y="35" width="100" height="20" uuid="f40f6b1a-8fcd-4ab0-9f8d-fd51fc6cdf98"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{periodoFecha}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="616" y="45" width="144" height="1" uuid="11ac6b5f-0d3b-4c3d-b028-8785d7526e85"/>
+			</line>
+			<staticText>
+				<reportElement x="561" y="0" width="47" height="20" uuid="f750eb90-5e9b-4bb0-9871-6fd5465abf35"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="538" y="35" width="70" height="20" uuid="7b704417-8e6e-4431-ab7b-2ffa84b0a795"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Fecha Pasado:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="615" y="12" width="144" height="1" uuid="a76bb678-537e-4f10-87dc-d926c80f1515"/>
+			</line>
 			<staticText>
 				<reportElement style="Title" x="0" y="0" width="269" height="35" forecolor="#000000" uuid="0a91e8eb-15c3-41bb-bc33-422a8b380b88"/>
 				<textElement verticalAlignment="Middle">
@@ -67,75 +140,9 @@ order by c.ID_NRO_ZONA]]>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Periodo:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="370" y="35" width="100" height="20" uuid="f40f6b1a-8fcd-4ab0-9f8d-fd51fc6cdf98"/>
-				<textElement>
-					<font isBold="true" isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{periodoFecha}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="561" y="0" width="47" height="20" uuid="f750eb90-5e9b-4bb0-9871-6fd5465abf35"/>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Fecha:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="615" y="12" width="144" height="1" uuid="a76bb678-537e-4f10-87dc-d926c80f1515"/>
-			</line>
-			<line>
-				<reportElement x="616" y="45" width="144" height="1" uuid="11ac6b5f-0d3b-4c3d-b028-8785d7526e85"/>
-			</line>
-			<staticText>
-				<reportElement x="538" y="35" width="70" height="20" uuid="7b704417-8e6e-4431-ab7b-2ffa84b0a795"/>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Fecha Pasado:]]></text>
-			</staticText>
-		</band>
-	</title>
-	<pageHeader>
-		<band splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="36" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="33" width="760" height="2" uuid="00519fb2-5550-4da1-90b7-f8365ebf6d97"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement style="Column header" x="36" y="19" width="43" height="15" uuid="709fefb3-6cf8-49fa-851b-3cb835aa8976"/>
-				<text><![CDATA[CONEX]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="80" y="19" width="117" height="15" uuid="864ffaec-1b22-4053-a030-9a53de065697"/>
-				<text><![CDATA[TITULAR]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="198" y="19" width="171" height="15" uuid="7ce1fc1f-a9d5-46a7-bc35-606b2791e2eb"/>
-				<text><![CDATA[DIRECCION]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="369" y="19" width="52" height="15" uuid="52eede87-d452-4a29-90cc-b7b5ea3e49df"/>
-				<text><![CDATA[N MED]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="422" y="19" width="61" height="15" uuid="536128b5-f1e0-4c86-94c7-126702aaa99d"/>
-				<textElement verticalAlignment="Top"/>
-				<text><![CDATA[LEC_ANT]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="485" y="19" width="111" height="15" uuid="e126444a-bc9a-4522-b536-f4a6912bcfe5"/>
-				<textElement verticalAlignment="Top"/>
-				<text><![CDATA[LECTURA]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="600" y="19" width="111" height="15" uuid="7ae41fcb-7fa3-4ba9-bbad-2d9c24ca2719"/>
-				<text><![CDATA[OBSERVACIONES]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="0" y="19" width="36" height="15" uuid="228abfce-6521-4be6-ba09-f23afba55f4b"/>
-				<text><![CDATA[ZONA]]></text>
+				<reportElement style="Column header" x="39" y="71" width="26" height="15" uuid="e6c58bf3-6050-40d5-b4d9-e5679cceb561"/>
+				<text><![CDATA[MZA]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -148,48 +155,48 @@ order by c.ID_NRO_ZONA]]>
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement style="Detail" x="36" y="9" width="43" height="15" uuid="fb6ca573-212c-49a0-93e8-572b7a5c5add"/>
+				<reportElement style="Detail" x="68" y="9" width="43" height="15" uuid="fb6ca573-212c-49a0-93e8-572b7a5c5add"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ID_CONEXION}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="80" y="9" width="117" height="15" uuid="92ab6c90-5a4e-4f62-84a9-a1257aaa4fa3"/>
+				<reportElement style="Detail" x="112" y="9" width="117" height="15" uuid="92ab6c90-5a4e-4f62-84a9-a1257aaa4fa3"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TITULAR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="198" y="9" width="171" height="15" uuid="7ebf6f06-bc20-4c67-8ccf-1d8975f75180"/>
+				<reportElement style="Detail" x="229" y="9" width="171" height="15" uuid="7ebf6f06-bc20-4c67-8ccf-1d8975f75180"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{CALLE}+' '+ $F{NUMERO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="371" y="9" width="50" height="15" uuid="7bd44d5b-b35d-4de8-963f-980d8f2ae6c6"/>
+				<reportElement style="Detail" x="403" y="9" width="50" height="15" uuid="7bd44d5b-b35d-4de8-963f-980d8f2ae6c6"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NRO_MEDIDOR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="422" y="9" width="61" height="15" uuid="e7ea1a67-041f-4455-8bd0-f3819cb6366c"/>
+				<reportElement style="Detail" x="454" y="9" width="61" height="15" uuid="e7ea1a67-041f-4455-8bd0-f3819cb6366c"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LEC_ANTERIOR}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="485" y="23" width="272" height="1" uuid="d5ef449c-7a5c-4d40-9620-80e50d414a88"/>
+				<reportElement x="518" y="23" width="239" height="1" uuid="d5ef449c-7a5c-4d40-9620-80e50d414a88"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement style="Detail" x="485" y="9" width="100" height="15" uuid="8207de25-59bb-438b-9ad5-38eac0900138"/>
+				<reportElement style="Detail" x="518" y="9" width="100" height="15" uuid="8207de25-59bb-438b-9ad5-38eac0900138"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
@@ -201,6 +208,13 @@ order by c.ID_NRO_ZONA]]>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zona}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="36" y="9" width="28" height="15" uuid="8953f66c-6074-4018-8924-a5aac3f0fee1"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{manzana}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
