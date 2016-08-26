@@ -17,6 +17,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 import dao.CategoriaConexionDAO;
+import dao.CondicionIvaDAO;
 import dao.ConexionDAO;
 import dao.DomicilioDAO;
 import dao.EstadoConexionDAO;
@@ -34,6 +35,7 @@ import dao.TipoTerrenoDAO;
 import dao.TipoUbicacionCatastralDAO;
 import dao.ZonaConexionDAO;
 import dao.impl.CategoriaConexionDAOImplement;
+import dao.impl.CondicionIvaDAOImplement;
 import dao.impl.ConexionDAOImplement;
 import dao.impl.DomicilioDAOImplement;
 import dao.impl.EstadoConexionDAOImplement;
@@ -94,6 +96,7 @@ public class ConexionBean implements Serializable {
 	private long categoriaConexionId;
 	private long tipoConexionId;
 	private long fPagoConexionId;
+	private Long condicionIvaId;
 
 	private boolean checkDatosParametrizables;
 	private boolean checkEstConex;
@@ -458,6 +461,14 @@ public class ConexionBean implements Serializable {
 	public void setLstConexionesSocio(List<Conexion> lstConexionesSocio) {
 		this.lstConexionesSocio = lstConexionesSocio;
 	}
+	
+	public Long getCondicionIvaId() {
+		return condicionIvaId;
+	}
+
+	public void setCondicionIvaId(Long condicionIvaId) {
+		this.condicionIvaId = condicionIvaId;
+	}
 
 	public void insertarConexion() {
 		// datos Dom Servicio, se setea localidad,provincia y pais ya que son
@@ -530,7 +541,9 @@ public class ConexionBean implements Serializable {
 			CategoriaConexionDAO daoCategoriaConexion = new CategoriaConexionDAOImplement();
 			TipoConexionDAO daoTipoConexion = new TipoConexionDAOImplement();
 			FormaPagoDAO daoFormaPago = new FormaPagoDAOImplement();
-
+			CondicionIvaDAO condicionIvaDAO = new CondicionIvaDAOImplement();
+			
+			conexion.setCondicionIva(condicionIvaDAO.buscarCondicionIvaId(condicionIvaId));
 			conexion.setEstadoConexion(daoEstadoConexion.buscarEstadoConexionId(estadoConexionId));
 			conexion.setZonaConexion(daoZonaConexion.buscarZonaConexionId(zonaConexionId));
 			conexion.setTipoTerreno(daoTipoTerreno.buscarTipoTerrenoId(tipoTerrenoConexionId));
@@ -730,6 +743,8 @@ public class ConexionBean implements Serializable {
 
 		}
 	}
+	
+	
 
 	// SELECT DE LA PAGINA FACTURACION INDIVIDUAL OTROS CONCEPTOS
 	public void onRowSelect(SelectEvent event) {
@@ -786,7 +801,7 @@ public class ConexionBean implements Serializable {
 		categoriaConexionId = 0;
 		tipoConexionId = 0;
 		fPagoConexionId = 0;
-
+		condicionIvaId = 0L;
 		checkDatosParametrizables = false;
 		checkEstConex = false;
 		checkZonaConex = false;

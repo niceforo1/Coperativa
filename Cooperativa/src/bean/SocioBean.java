@@ -61,7 +61,6 @@ public class SocioBean implements Serializable {
 	private Long tipoSocioId;
 	private Long estCivilId;
 	private Long paisId;
-	private Long condicionIvaId;
 
 	private Domicilio domicilio;
 
@@ -230,14 +229,6 @@ public class SocioBean implements Serializable {
 		this.paisId = paisId;
 	}
 
-	public Long getCondicionIvaId() {
-		return condicionIvaId;
-	}
-
-	public void setCondicionIvaId(Long condicionIvaId) {
-		this.condicionIvaId = condicionIvaId;
-	}
-
 	public Domicilio getDomicilio() {
 		return domicilio;
 	}
@@ -369,9 +360,6 @@ public class SocioBean implements Serializable {
 			PaisDAO paisDAO = new PaisDAOImplement();
 			socio.setPais(paisDAO.buscarPaisId(paisId));
 
-			CondicionIvaDAO condicionIvaDAO = new CondicionIvaDAOImplement();
-			socio.setCondicionIva(condicionIvaDAO.buscarCondicionIvaId(condicionIvaId));
-
 			socio.setUsuario(login.getUsuario());
 
 			// se setean datos del domicilio //
@@ -483,11 +471,6 @@ public class SocioBean implements Serializable {
 				socioEditar.setPais(paisDAO.buscarPaisId(paisId));
 			}
 
-			if (checkTipoIva == true) {
-				CondicionIvaDAO condicionIvaDAO = new CondicionIvaDAOImplement();
-				socioEditar.setCondicionIva(condicionIvaDAO.buscarCondicionIvaId(condicionIvaId));
-			}
-
 			daoSocio.modificarSocio(socioEditar);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Correctamente", "Se editó correctamente."));
@@ -511,7 +494,7 @@ public class SocioBean implements Serializable {
 	}
 
 	public void mostrarSociosConexiones() {
-		mensaje = "Hola Puto";
+		mensaje = "";
 	}
 
 	public void editarSocio(Socio socio) {
@@ -527,7 +510,6 @@ public class SocioBean implements Serializable {
 		tipoSocioId = null;
 		estCivilId = null;
 		paisId = null;
-		condicionIvaId = null;
 		domicilio = new Domicilio();
 		paisDomId = null;
 		provinciaDomId = null;

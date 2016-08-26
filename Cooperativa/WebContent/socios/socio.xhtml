@@ -125,7 +125,7 @@
 							
 							<p:inputText id="documento"
 								value="#{socioBean.socio.numeroDocumento}" required="true"
-								converter="upperConverter"  maxlength="8" rendered="#{socioBean.personaOEmp eq 'persona'}" />
+								maxlength="8" rendered="#{socioBean.personaOEmp eq 'persona'}" />
 							
 							<p:outputLabel value="#{msg.paramEmpresaCuit}" for="cuit"
 								rendered="#{socioBean.personaOEmp eq 'emp'}" />
@@ -186,7 +186,7 @@
 								rendered="#{socioBean.personaOEmp ne null}" />
 							<p:inputText id="ingBrutos" value="#{socioBean.socio.ingBrutos}"
 								rendered="#{socioBean.personaOEmp ne null}" />
-
+							<ui:remove>
 							<p:outputLabel value="#{msg.paramSocioCondIva}" for="condIva"
 								rendered="#{socioBean.personaOEmp ne null}" />
 							<p:selectOneMenu id="condIva" value="#{socioBean.condicionIvaId}"
@@ -197,7 +197,7 @@
 									var="condIva" itemLabel="#{condIva.descripcion}"
 									itemValue="#{condIva.id}" />
 							</p:selectOneMenu>
-														
+							</ui:remove>						
 							<p:outputLabel value="Numero Iva" for="nroIva" rendered="#{socioBean.personaOEmp ne null}"/>
 							<p:inputText id="nroIva" value="#{socioBean.socio.numeroIva}" rendered="#{socioBean.personaOEmp ne null}"/>
 
@@ -389,7 +389,7 @@
 								</f:facet>
 								<p:outputLabel value="Nombre:" styleClass="#{label}" />
 								<p:outputLabel
-									value="#{socioBean.socioSeleccionado.apellidoRazonSocial} #{socioBean.socioSeleccionado.nombreDenominacion}" />
+									value="#{socioBean.socioSeleccionado.apellidoRazonSocial}" />
 								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.tipoDocumento.descripcion}:" />
 								<p:outputLabel value="#{socioBean.socioSeleccionado.numeroDocumento}" />
@@ -424,9 +424,11 @@
 								<p:outputLabel value="Observaciones:" />
 								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.observaciones}" />
-								<p:outputLabel value="Condicion IVA:" />
-								<p:outputLabel
-									value="#{socioBean.socioSeleccionado.condicionIva.descripcion}" />
+								<ui:remove>
+									<p:outputLabel value="Condicion IVA:" />
+									<p:outputLabel
+										value="#{socioBean.socioSeleccionado.condicionIva.descripcion}" />
+								</ui:remove>
 								<p:outputLabel value="Numero Iva:" />
 								<p:outputLabel
 									value="#{socioBean.socioSeleccionado.numeroIva}" />						
@@ -514,26 +516,12 @@
 									<p:column headerText="Cat. Conex." style="width:70px;">
 										<p:outputLabel value="#{conex.tipoConexion.descripcion}" />
 									</p:column>
-									<p:column style="width:32px;text-align: center"
-										exportable="false">
-										<p:commandButton icon="fa fa-fw fa-search"
-											actionListener="#{socioBean.mostrarSociosConexiones}"
-											update=":alta :socioDet" immediate="true"
-											oncomplete="PF('conSaldoDialog').show()" />
-									</p:column>
 								</p:dataTable>								
 							</p:panelGrid>							
 						</p:scrollPanel>
 					</p:outputPanel>
 				</h:form>
-			</p:dialog>
-			<p:dialog header="Conexion Saldo" widgetVar="conSaldoDialog" 
-				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
-				resizable="false" dynamic="true" maximizable="false" 
-				appendTo="@(body)" rendered="#{not empty socioBean.socioEditar}" >
-				
-				<p:outputLabel value="#{socioBean.mensaje}"/>
-			</p:dialog>
+			</p:dialog>			
 			<p:dialog header="Edición de Socio" widgetVar="socEditDialog" 
 				modal="true" minWidth="100" showEffect="fade" hideEffect="fade"
 				resizable="false" dynamic="true" maximizable="false" 
@@ -576,13 +564,13 @@
 									value="#{socioBean.checkNacionalidad}" rendered="#{socioBean.checkParametrizables}">
 									<p:ajax update="socEdit" />
 								</p:selectBooleanCheckbox>
-								
+								<ui:remove>
 								<p:outputLabel value="#{msg.paramSocioEditTipoIva}" for="checkTipoIva"  rendered="#{socioBean.checkParametrizables}"/>
 								<p:selectBooleanCheckbox id="checkTipoIva"
 									value="#{socioBean.checkTipoIva}" rendered="#{socioBean.checkParametrizables}">
 									<p:ajax update="socEdit" />
 								</p:selectBooleanCheckbox>
-								
+								</ui:remove>
 								<p:panelGrid columns="2"
 								columnClasses="label,value" rendered="#{socioBean.checkDatosP}">
 
@@ -676,19 +664,19 @@
 										<f:selectItems value="#{paisBean.lstPaises}" var="pais"
 											itemLabel="#{pais.descripcion}" itemValue="#{pais.id}" />
 									</p:selectOneMenu>
-
-									<p:outputLabel value="#{msg.paramSocioCondIva}" for="condIva"
-										rendered="#{socioBean.checkTipoIva}" />
-									<p:selectOneMenu id="condIva"
-										value="#{socioBean.condicionIvaId}" required="true"
-										panelStyle="width:180px" effect="fold"
-										rendered="#{socioBean.checkTipoIva}">
-										<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
-										<f:selectItems value="#{condicionIvaBean.lstCondicionIva}"
-											var="condIva" itemLabel="#{condIva.descripcion}"
-											itemValue="#{condIva.id}" />
-									</p:selectOneMenu>
-
+									<ui:remove>
+										<p:outputLabel value="#{msg.paramSocioCondIva}" for="condIva"
+											rendered="#{socioBean.checkTipoIva}" />
+										<p:selectOneMenu id="condIva"
+											value="#{socioBean.condicionIvaId}" required="true"
+											panelStyle="width:180px" effect="fold"
+											rendered="#{socioBean.checkTipoIva}">
+											<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+											<f:selectItems value="#{condicionIvaBean.lstCondicionIva}"
+												var="condIva" itemLabel="#{condIva.descripcion}"
+												itemValue="#{condIva.id}" />
+										</p:selectOneMenu>
+									</ui:remove>
 								</p:panelGrid>
 								<f:facet name="footer">
 									<center>

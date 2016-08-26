@@ -165,7 +165,7 @@ public class NotaCreditoBean implements Serializable {
 				notaCredito.setImporte(importeX);
 			} else {
 				notaCredito.setConceptoFacturacion(conceptoFacturacionDAO.buscarConceptoFacturacionId(conceptoID));
-				if (conexion.getSocio().getCondicionIva().getId().equals(4)) {
+				if (conexion.getCondicionIva().getId().equals(4L)) {
 					notaCredito.setTipoComprobante(tipoComprobanteDAO.buscarTipoComprobanteId(1L));
 					GeneradorNotaCredADAO generadorNotaCredADAO = new GeneradorNotaCredADAOImplement();
 					notaCredito.setNumeroNota(generadorNotaCredADAO.insertarNotaCredA(new GenNotaCreditoA()).toString());

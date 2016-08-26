@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CONEXIONES_EN_MORA" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3aa4ca2-579b-46c9-ab58-e8bdd7fb0701">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report5" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3aa4ca2-579b-46c9-ab58-e8bdd7fb0701">
 	<property name="ireport.zoom" value="3.4522712143931638"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="1772"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
@@ -229,9 +229,9 @@ ORDER BY cs.SALDO_TOTAL]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{periodosimp}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField pattern=" $#,##0.00">
 					<reportElement x="746" y="2" width="55" height="15" uuid="10d62f6c-4b35-4db4-99c0-8a740e8ed2a6"/>
-					<textElement textAlignment="Right">
+					<textElement>
 						<font fontName="Arial" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>

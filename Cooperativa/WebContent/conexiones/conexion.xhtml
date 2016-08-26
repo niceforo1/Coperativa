@@ -43,12 +43,7 @@
 				<p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true" />
 				<p:tabView dynamic="true" cache="true">
 					<p:tab id="consulta" title="Consulta Conexion">
-						<p:panel>
-							<ui:remove>
-								<f:facet name="header">
-									<p:outputLabel value="Consulta Conexión"/>
-								</f:facet>
-							</ui:remove>							
+						<p:panel>				
 						<p:ajaxStatus style="display:block;margin-bottom:0em;height:0px;">					
 						</p:ajaxStatus>		 
 						<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
@@ -307,6 +302,15 @@
 									<p:outputLabel value="#{msg.paramDetalleConexion}" colspan="2" />
 								</center>
 							</f:facet>
+							
+							<p:outputLabel value="#{msg.paramSocioCondIva}" for="condIva"/>
+							<p:selectOneMenu id="condIva" value="#{conexionBean.condicionIvaId}"
+								required="true" panelStyle="width:180px" effect="fold">
+								<f:selectItem itemLabel="#{msg.paramCombos}" itemValue="" />
+								<f:selectItems value="#{condicionIvaBean.lstCondicionIva}"
+									var="condIva" itemLabel="#{condIva.descripcion}"
+									itemValue="#{condIva.id}" />
+							</p:selectOneMenu>	
 
 							<p:outputLabel value="#{msg.paramEstadoConexion}" for="estConex" />
 							<p:selectOneMenu id="estConex"
@@ -493,7 +497,10 @@
 								<p:outputLabel value="#{msg.paramEmiteFacturaConexion}" />
 								<p:outputLabel
 									value="#{conexionBean.conexionSeleccionada.emiteFactura == true?'SI':'NO'}" />
-								</p:panelGrid>	
+								<p:outputLabel value="Tipo Condición Iva" />
+								<p:outputLabel
+									value="#{conexionBean.conexionSeleccionada.condicionIva.descripcion}" />
+								</p:panelGrid>
 								</center>	
 								<p:panelGrid columns="2"
 								rendered="#{not empty conexionBean.conexionSeleccionada}"
@@ -968,8 +975,7 @@
 						</p:scrollPanel>
 					</p:outputPanel>
 				</h:form>
-			</p:dialog>
-			
+			</p:dialog>			
 		</center>
 	</ui:define>
 </ui:composition>

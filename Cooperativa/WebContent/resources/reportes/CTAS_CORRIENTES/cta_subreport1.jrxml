@@ -3,16 +3,16 @@
 	<property name="ireport.zoom" value="2.8531167061100113"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="id_conexion" class="java.lang.Integer" isForPrompting="false">
+	<parameter name="id_conexion" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="desde" class="java.util.Date" isForPrompting="false">
+	<parameter name="desde" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="hasta" class="java.util.Date" isForPrompting="false">
+	<parameter name="hasta" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="periodo" class="java.lang.Integer" isForPrompting="false">
+	<parameter name="periodo" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -32,7 +32,7 @@ GROUP BY  r.ID_RECIBO,r.FECHA_EMISION_RECIBO,r.ID_CONEXION,ri.PERIODO_MES
 
 UNION
 --SELECT FACTURAS
-SELECT f.ID_CONEXION,pf.MES as periodo,pf.FECHA_EMISION_FACTURA as fecha,'FACT.'+ CONVERT(varchar(10),f.ID) as detalle, pf.VENCIMIENTO_FACT_1 as vto,
+SELECT f.ID_CONEXION,pf.MES as periodo,CONVERT(smalldatetime,'01/'+convert(varchar(10),pf.mes)+'/'+convert(varchar(10),pf.anio))as fecha,'FACT.'+ CONVERT(varchar(10),f.NRO_FACTURA) as detalle, pf.VENCIMIENTO_FACT_1 as vto,
 f.IMPORTE_TOTAL as debito,NULL as credito
 FROM FACTURA f
 INNER JOIN PERIODO_FACTURACION pf

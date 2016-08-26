@@ -414,7 +414,8 @@ public class PeriodoFacturacionBean implements Serializable {
 					 * getSocio().getCondicionIva().getPorcentaje())/100);
 					 */
 
-					if (fact.getConexion().getSocio().getCondicionIva().getId().equals(4)) {
+					//if (fact.getConexion().getSocio().getCondicionIva().getId().equals(4)) {
+					if (fact.getConexion().getCondicionIva().getId().equals(4L)) {
 						fact.setTipoFactura("A");
 						GeneradorFacturaADAO facturaADAO = new GeneradorFacturaADAOImplement();
 						fact.setNumeroFactura(facturaADAO.insertarFacturaA(new GenFacturaA()).toString());
@@ -425,9 +426,13 @@ public class PeriodoFacturacionBean implements Serializable {
 					}
 
 					fact.setFechaVencimiento(fact.getPeriodoFacturacion().getFechaPrimerVencimientoFactura());
-					fact.setIva((lec.getConexion().getSocio().getCondicionIva().getPorcentaje()
+					/*fact.setIva((lec.getConexion().getSocio().getCondicionIva().getPorcentaje()
 							* (fact.getCargoFijo() + importeTramos) / 100)
 							+ (lec.getConexion().getSocio().getCondicionIva().getIvaOtrosConceptos()
+									* (fact.getImpresionesOtros() + fact.getRecuperoInversion()) / 100));*/
+					fact.setIva((lec.getConexion().getCondicionIva().getPorcentaje()
+							* (fact.getCargoFijo() + importeTramos) / 100)
+							+ (lec.getConexion().getCondicionIva().getIvaOtrosConceptos()
 									* (fact.getImpresionesOtros() + fact.getRecuperoInversion()) / 100));
 					fact.setImporteTotal(fact.getCargoFijo() + importeTramos + fact.getCapitalSocial() + fact.getErsep()
 							+ fact.getRecuperoInversion() + fact.getImpresionesOtros() + fact.getIva());
@@ -519,12 +524,15 @@ public class PeriodoFacturacionBean implements Serializable {
 					fact.setImpresionesOtros(configFactura.getImpresionesOtros());// FIJO
 					fact.setRecuperoInversion(configFactura.getRecuperoInversion());// FIJO
 					fact.setInteresesSegVenc(3D);
-					fact.setIva((conexion.getSocio().getCondicionIva().getPorcentaje()
+					/*fact.setIva((conexion.getSocio().getCondicionIva().getPorcentaje()
 							* (fact.getCargoFijo() ) / 100)+ (conexion.getSocio().getCondicionIva().getIvaOtrosConceptos()
+									* (fact.getImpresionesOtros() + fact.getRecuperoInversion()) / 100));*/
+					fact.setIva((conexion.getCondicionIva().getPorcentaje()
+							* (fact.getCargoFijo() ) / 100)+ (conexion.getCondicionIva().getIvaOtrosConceptos()
 									* (fact.getImpresionesOtros() + fact.getRecuperoInversion()) / 100));
 					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 					
-					if (fact.getConexion().getSocio().getCondicionIva().getId().equals(4)) {
+					if (fact.getConexion().getCondicionIva().getId().equals(4L)) {
 						fact.setTipoFactura("A");
 						GeneradorFacturaADAO facturaADAO = new GeneradorFacturaADAOImplement();
 						fact.setNumeroFactura(facturaADAO.insertarFacturaA(new GenFacturaA()).toString());

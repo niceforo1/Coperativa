@@ -28,83 +28,87 @@ public class Conexion implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ESTADO_CONEXION")
 	private EstadoConexion estadoConexion;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_SOCIO")
 	private Socio socio;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_NRO_ZONA")
 	private ZonaConexion zonaConexion;
 
 	@Column(name = "FECHA_ALTA")
 	private Date fechaAlta;
 
-	@Column(name = "TERRENO", precision=15, scale=2)
+	@Column(name = "TERRENO", precision = 15, scale = 2)
 	private Double terreno;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_TERRENO")
 	private TipoTerreno tipoTerreno;
 
 	@Column(name = "PILETA")
 	private Long pileta;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_REGIMEN_PROPIEDAD")
 	private RegimenPropiedad regimenPropiedad;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_FORMA_PAGO")
 	private FormaPago formaPago;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_SUMINISTRO")
 	private TipoSuministro tipoSuministro;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CATEGORIA_CONEXION")
 	private CategoriaConexion categoriaConexion;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_CONEXION")
 	private TipoConexion tipoConexion;
 
 	@Column(name = "NRO_MEDIDOR")
 	private long nroMedidor;
 
-	@Column(name = "EMITE_FACTURA",nullable=true)
+	@Column(name = "EMITE_FACTURA", nullable = true)
 	private Boolean emiteFactura;
 
 	@Column(name = "DOM_SERV_FACT_IGUALES")
 	private Boolean domServFactIguales;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_DOMICILIO_SERV", nullable = false)
 	private Domicilio domicilioServicio;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_DOMICILIO_FACT")
 	private Domicilio domicilioFacturacion;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<UbicacionCatastral> ubicacionesCatastrales;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "USR_ID")
 	private Usuario usuario;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Lectura> lecturas;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_T_NARANJA")
 	private TarjetaNaranja datosTarjetaNaranja;
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_CONDICION_IVA", nullable = true)
+	private CondicionIva condicionIva;
 
 	public Conexion() {
 
@@ -150,21 +154,12 @@ public class Conexion implements Serializable {
 		this.fechaAlta = fechaAlta;
 	}
 
-	
-	/*public Double getTerreno() {
-		return (Math.rint(terreno*100)/100);
-	}
-
-	public void setTerreno(Double terreno) {
-		this.terreno = (Math.rint(terreno*100)/100);
-	}*/
-
 	public Double getTerreno() {
 		return terreno;
 	}
 
 	public void setTerreno(Double terreno) {
-		this.terreno = (Math.rint(terreno*100)/100);
+		this.terreno = (Math.rint(terreno * 100) / 100);
 	}
 
 	public TipoTerreno getTipoTerreno() {
@@ -297,6 +292,14 @@ public class Conexion implements Serializable {
 
 	public void setNroMedidor(long nroMedidor) {
 		this.nroMedidor = nroMedidor;
+	}
+
+	public CondicionIva getCondicionIva() {
+		return condicionIva;
+	}
+
+	public void setCondicionIva(CondicionIva condicionIva) {
+		this.condicionIva = condicionIva;
 	}
 
 	@Override

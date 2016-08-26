@@ -84,9 +84,9 @@ public class Socio implements Serializable {
 	@Column(name = "NRO_IVA", nullable = true)
 	private Long numeroIva;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "ID_CONDICION_IVA", nullable = false)
-	private CondicionIva condicionIva;
+	/*@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "ID_CONDICION_IVA", nullable = true)
+	private CondicionIva condicionIva;*/
 
 	@Column(name = "INSCRIPTO_GANANCIAS", nullable = true)
 	private boolean inscriptoGanancias;
@@ -246,7 +246,7 @@ public class Socio implements Serializable {
 	public void setNumeroIva(Long numeroIva) {
 		this.numeroIva = numeroIva;
 	}
-
+/*
 	public CondicionIva getCondicionIva() {
 		return condicionIva;
 	}
@@ -254,7 +254,7 @@ public class Socio implements Serializable {
 	public void setCondicionIva(CondicionIva condicionIva) {
 		this.condicionIva = condicionIva;
 	}
-
+*/
 	public boolean isInscriptoGanancias() {
 		return inscriptoGanancias;
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report5" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3aa4ca2-579b-46c9-ab58-e8bdd7fb0701">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report5" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3aa4ca2-579b-46c9-ab58-e8bdd7fb0701">
 	<property name="ireport.zoom" value="1.9487171000000203"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -61,14 +61,11 @@ ORDER BY c.ID_CONEXION]]>
 	<field name="t_suministro" class="java.lang.String"/>
 	<field name="zona" class="java.lang.String"/>
 	<field name="ID_SOCIO" class="java.math.BigDecimal"/>
-	<variable name="conexion_1" class="java.lang.Integer" calculation="DistinctCount">
-		<variableExpression><![CDATA[$F{conexion}]]></variableExpression>
-	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="53" splitType="Stretch">
+		<band height="33" splitType="Stretch">
 			<staticText>
 				<reportElement style="SubTitle" x="287" y="0" width="229" height="22" uuid="07ed5b74-3399-4400-966a-2d07572fd9bc"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
@@ -76,20 +73,6 @@ ORDER BY c.ID_CONEXION]]>
 				</textElement>
 				<text><![CDATA[LISTADO DE CONEXIONES]]></text>
 			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="2" y="22" width="127" height="15" forecolor="#736343" uuid="40393427-2458-4b81-bed4-46d1d8b6035e"/>
-				<textElement textAlignment="Center">
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[TOTAL DE CONEXIONES:]]></text>
-			</staticText>
-			<textField evaluationTime="Report">
-				<reportElement x="140" y="22" width="103" height="15" uuid="1836d5fc-5bf2-45b6-b187-f689e4bb7dda"/>
-				<textElement>
-					<font fontName="Arial" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{conexion_1}]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<pageHeader>

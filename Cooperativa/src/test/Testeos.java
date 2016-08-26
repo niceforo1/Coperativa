@@ -94,7 +94,7 @@ public class Testeos {
 					fact.setErsep((configFactura.getErsep()/100)*(fact.getCargoFijo()+importeTramos));	// se divide en 100 el porcentaje obtenido de la configuracion							
 					fact.setImpresionesOtros(configFactura.getImpresionesOtros());//FIJO
 					fact.setInteresesSegVenc(3D);///viene de configuracion factura
-					fact.setIva((lec.getConexion().getSocio().getCondicionIva().getPorcentaje()*(fact.getCargoFijo()+importeTramos)/100));
+					fact.setIva((lec.getConexion().getCondicionIva().getPorcentaje()*(fact.getCargoFijo()+importeTramos)/100));
 					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 					fact.setRecuperoInversion(configFactura.getRecuperoInversion());//FIJO
 					
@@ -148,7 +148,7 @@ public class Testeos {
 					fact.setErsep((configFactura.getErsep()/100)*(fact.getCargoFijo()));	// se divide en 100 el porcentaje obtenido de la configuracion							
 					fact.setImpresionesOtros(configFactura.getImpresionesOtros());//FIJO
 					fact.setInteresesSegVenc(3D);
-					fact.setIva(conexion.getSocio().getCondicionIva().getPorcentaje()*(fact.getCargoFijo()));
+					fact.setIva(conexion.getCondicionIva().getPorcentaje()*(fact.getCargoFijo()));
 					fact.setPeriodoFacturacion(periodoFacturacionDAO.buscarPeriodoFacturacionAbierto());
 					fact.setRecuperoInversion(configFactura.getRecuperoInversion());//FIJO
 					fact.setTipoFactura("C");

@@ -267,7 +267,7 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 				try {
 					fact = facturaDAO.buscarFacturaPerSaldo(periodo).get(0);
 					TipoComprobanteDAO tipoComprobanteDAO = new TipoComprobanteDAOImplement();
-					if (fact.getConexion().getSocio().getCondicionIva().getCodigo().equals("R INSC")) {
+					if (fact.getConexion().getCondicionIva().getCodigo().equals("R INSC")) {
 						tipoComprobante = tipoComprobanteDAO.buscarTipoComprobanteId(1L);
 						GeneradorNotaDebADAO generadorNotaDebADAO= new GeneradorNotaDebADAOImplement();
 						nroNotaDebito = generadorNotaDebADAO.insertarNotaDebA(new GenNotaDebitoA()).toString();
@@ -336,7 +336,7 @@ public class ConsultaEstadoDeudaSocioBean implements Serializable {
 						interes += (((fact.getInteresesSegVenc() / 30) * 7) * fact.getImporteTotal() / 100);
 					}
 					*/
-					iva = ((fact.getConexion().getSocio().getCondicionIva().getPorcentaje() * interesGlobal) / 100);
+					iva = ((fact.getConexion().getCondicionIva().getPorcentaje() * interesGlobal) / 100);
 					//notaDebito.setImporte(interes + iva);
 					notaDebito.setImporte(interesGlobal + iva);					
 					notaDebito.setIva(iva);

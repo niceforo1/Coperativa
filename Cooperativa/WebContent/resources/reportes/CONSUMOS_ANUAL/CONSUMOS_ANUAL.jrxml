@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report5" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3aa4ca2-579b-46c9-ab58-e8bdd7fb0701">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report5" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3aa4ca2-579b-46c9-ab58-e8bdd7fb0701">
 	<property name="ireport.zoom" value="1.0000000000000178"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -54,9 +54,12 @@
 		</box>
 	</style>
 	<subDataset name="dataset_consumos" uuid="90539652-be03-46cd-9a5d-2a3a1dd9a934">
-		<parameter name="id_anios" class="java.lang.Integer"/>
+		<parameter name="id_anio" class="java.lang.Integer">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
 		<queryString>
-			<![CDATA[exec sp_select_datos $P{id_anios}]]>
+			<![CDATA[exec sp_select_datos $P{id_anio}]]>
 		</queryString>
 		<field name="ZONA" class="java.lang.Integer"/>
 		<field name="PER1" class="java.lang.Integer"/>
@@ -108,7 +111,7 @@
 			<variableExpression><![CDATA[$F{PER12}]]></variableExpression>
 		</variable>
 		<variable name="total zona" class="java.lang.Integer">
-			<variableExpression><![CDATA[($F{PER1}+$F{PER2}+$F{PER3}+$F{PER4}+$F{PER5}+$F{PER6}+$F{PER7}+$F{PER8}+$F{PER9}+$F{PER10}+$F{PER11}).intValue()]]></variableExpression>
+			<variableExpression><![CDATA[($F{PER1}+$F{PER2}+$F{PER3}+$F{PER4}+$F{PER5}+$F{PER6}+$F{PER7}+$F{PER8}+$F{PER9}+$F{PER10}+$F{PER11})]]></variableExpression>
 		</variable>
 		<variable name="total_anio" class="java.lang.Integer" calculation="Sum">
 			<variableExpression><![CDATA[$V{total zona}]]></variableExpression>
@@ -173,10 +176,10 @@
 				<textFieldExpression><![CDATA[$P{id_anio}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement key="table 1" style="table 1" mode="Transparent" x="0" y="47" width="802" height="263" backcolor="#33FF99" uuid="a1bc22b2-ae10-45ae-ba9c-6ff2bf01bf01"/>
+				<reportElement key="table 1" style="table 1" mode="Transparent" x="0" y="45" width="802" height="263" backcolor="#33FF99" uuid="a1bc22b2-ae10-45ae-ba9c-6ff2bf01bf01"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="dataset_consumos" uuid="eb7c9716-586d-4931-8895-4b2b54a1bbdd">
-						<datasetParameter name="id_anios">
+					<datasetRun subDataset="dataset_consumos" uuid="710c154a-ade7-4093-9774-d2e9e9911634">
+						<datasetParameter name="id_anio">
 							<datasetParameterExpression><![CDATA[$P{id_anio}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
@@ -206,7 +209,7 @@
 								<textElement textAlignment="Center">
 									<font size="9" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA['ZONA '+$F{ZONA}]]></textFieldExpression>
+								<textFieldExpression><![CDATA["ZONA "+$F{ZONA}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -235,7 +238,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER1} +' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER1} +" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -264,7 +267,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER2}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER2}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -293,7 +296,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER3}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER3}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -322,7 +325,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER4}+ ' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER4}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -351,7 +354,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER5}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER5}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -380,7 +383,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER6}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER6}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -409,7 +412,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER7}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER7}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -438,7 +441,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER8}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER8}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -467,7 +470,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER9}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER9}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -496,7 +499,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER10}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER10}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -525,7 +528,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER11}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER11}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -554,7 +557,7 @@
 								<textElement textAlignment="Right">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PER12}+' m3']]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PER12}+" m3"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

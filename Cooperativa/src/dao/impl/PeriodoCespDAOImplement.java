@@ -32,7 +32,7 @@ public class PeriodoCespDAOImplement implements PeriodoCespDAO {
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());
 		} catch (HibernateException e) {
-			System.out.println("error puto: " + e.getMessage());
+			System.out.println("error: " + e.getMessage());
 			throw new Exception(e);
 		} finally {
 			if (session != null) {
@@ -83,7 +83,7 @@ public class PeriodoCespDAOImplement implements PeriodoCespDAO {
 			session.getTransaction().rollback();
 			throw new Exception(e.getSQLException());
 		} catch (HibernateException e) {
-			System.out.println("error puto: " + e.getMessage());
+			System.out.println("error: " + e.getMessage());
 			throw new Exception(e);
 		} finally {
 			if (session != null) {

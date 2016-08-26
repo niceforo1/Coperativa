@@ -120,7 +120,7 @@ public class ConceptoFacturacionBean implements Serializable {
 
 			fact.setConexion(conexion);
 
-			if (fact.getConexion().getSocio().getCondicionIva().getId().equals(4)) {
+			if (fact.getConexion().getCondicionIva().getId().equals(4L)) {
 				fact.setTipoFactura("A");
 				GeneradorFacturaADAO facturaADAO = new GeneradorFacturaADAOImplement();
 				fact.setNumeroFactura(facturaADAO.insertarFacturaA(new GenFacturaA()).toString());
@@ -129,7 +129,7 @@ public class ConceptoFacturacionBean implements Serializable {
 				fact.setNumeroFactura(facturaBDAO.insertarFacturaB(new GenFacturaB()).toString());
 				fact.setTipoFactura("B");
 			}
-			fact.setIva((fact.getConceptoFacturacion().getMontoPrecio()*fact.getConexion().getSocio().getCondicionIva().getIvaOtrosConceptos())/100);
+			fact.setIva((fact.getConceptoFacturacion().getMontoPrecio()*fact.getConexion().getCondicionIva().getIvaOtrosConceptos())/100);
 			importeTotal = fact.getConceptoFacturacion().getMontoPrecio()+ fact.getIva();
 			
 			fact.setImporteTotal(importeTotal);

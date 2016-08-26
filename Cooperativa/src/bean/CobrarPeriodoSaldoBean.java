@@ -164,7 +164,7 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 				try {
 					fact = facturaDAO.buscarFacturaPerSaldo(periodo).get(0);
 					TipoComprobanteDAO tipoComprobanteDAO = new TipoComprobanteDAOImplement();
-					if (fact.getConexion().getSocio().getCondicionIva().getCodigo().equals("R INSC")) {
+					if (fact.getConexion().getCondicionIva().getCodigo().equals("R INSC")) {
 						tipoComprobante = tipoComprobanteDAO.buscarTipoComprobanteId(1L);
 					} else {
 						tipoComprobante = tipoComprobanteDAO.buscarTipoComprobanteId(2L);
@@ -227,7 +227,7 @@ public class CobrarPeriodoSaldoBean implements Serializable {
 					} else {
 						interes += (((fact.getInteresesSegVenc() / 30) * 7) * fact.getImporteTotal() / 100);
 					}
-					iva = ((fact.getConexion().getSocio().getCondicionIva().getPorcentaje() * interes) / 100);
+					iva = ((fact.getConexion().getCondicionIva().getPorcentaje() * interes) / 100);
 					notaDebito.setImporte(interes + iva);
 					notaDebito.setIva(iva);
 
