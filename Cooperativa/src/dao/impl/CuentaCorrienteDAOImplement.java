@@ -15,6 +15,7 @@ import model.ConfiguracionLectura;
 import model.CuentaCorriente;
 import persistencia.HibernateUtil;
 
+
 public class CuentaCorrienteDAOImplement implements CuentaCorrienteDAO{
 	@Override
 	public List obtenerCuentaCorriente(Long conexionId,Date fechaDesde,Date fechaHasta) throws Exception {

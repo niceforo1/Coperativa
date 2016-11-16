@@ -12,6 +12,7 @@ import model.ConceptoFacturacion;
 import model.CondicionIva;
 import persistencia.HibernateUtil;
 
+
 public class ConceptoFacturacionDAOImplement implements ConceptoFacturacionDAO{
 	
 	@Override

@@ -7,9 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.NotaDebito;
 import model.ReciboItem;
+import persistencia.HibernateUtil;
 import dao.NotaDebitoDAO;
 
 public class NotaDebitoDAOImplement implements NotaDebitoDAO{

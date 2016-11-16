@@ -7,9 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.CategoriaConexion;
 import model.TipoConexion;
+import persistencia.HibernateUtil;
 import dao.TipoConexionDAO;
 
 public class TipoConexionDAOImplement implements TipoConexionDAO{

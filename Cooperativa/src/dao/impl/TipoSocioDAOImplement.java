@@ -8,8 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import dao.TipoSocioDAO;
-import persistencia.HibernateUtil;
+
 import model.TipoSocio;
+import persistencia.HibernateUtil;
 
 public class TipoSocioDAOImplement implements TipoSocioDAO {
 

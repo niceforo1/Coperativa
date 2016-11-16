@@ -4,8 +4,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.SociosTransacciones;
+import persistencia.HibernateUtil;
 import dao.Socios_TransaccionesDAO;
 
 public class Socios_TransaccionesDAOImplement implements Socios_TransaccionesDAO {

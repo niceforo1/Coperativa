@@ -7,8 +7,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.Socio;
+import persistencia.HibernateUtil;
 import dao.SocioDAO;
 
 public class SocioDAOImplement implements SocioDAO {

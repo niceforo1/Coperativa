@@ -16,6 +16,7 @@ import model.ConfiguracionFactura;
 import model.PeriodoCesp;
 import persistencia.HibernateUtil;
 
+
 public class PeriodoCespDAOImplement implements PeriodoCespDAO {
 
 	@Override

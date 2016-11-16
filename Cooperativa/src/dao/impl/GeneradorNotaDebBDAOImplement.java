@@ -4,8 +4,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.generadores.GenNotaDebitoB;
+import persistencia.HibernateUtil;
 import dao.GeneradorNotaDebBDAO;
 
 public class GeneradorNotaDebBDAOImplement implements GeneradorNotaDebBDAO{

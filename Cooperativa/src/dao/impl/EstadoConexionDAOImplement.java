@@ -7,10 +7,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.EstadoConexion;
 import model.EstadoSocio;
 import model.Pais;
+import persistencia.HibernateUtil;
 import dao.EstadoConexionDAO;
 
 public class EstadoConexionDAOImplement implements EstadoConexionDAO {

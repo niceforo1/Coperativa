@@ -7,8 +7,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.ZonaConexion;
+import persistencia.HibernateUtil;
 import dao.ZonaConexionDAO;
 
 public class ZonaConexionDAOImplement implements ZonaConexionDAO{

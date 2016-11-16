@@ -6,9 +6,10 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
-import persistencia.HibernateUtil;
+
 
 import model.EstadoSocio;
+import persistencia.HibernateUtil;
 import dao.EstadoSocioDAO;
 
 public class EstadoSocioDAOImplement implements EstadoSocioDAO {

@@ -13,6 +13,7 @@ import model.EstadoConexion;
 import model.EstadoPeriodo;
 import persistencia.HibernateUtil;
 
+
 public class EstadoPeriodoDAOImplement implements EstadoPeriodoDAO {
 
 	@Override

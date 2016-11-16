@@ -10,10 +10,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.Conexion;
 import model.ConexionesSaldos;
 import model.PeriodosSaldos;
+import persistencia.HibernateUtil;
 import dao.PeriodosSaldosDAO;
 
 public class PeriodosSaldosDAOImplement implements PeriodosSaldosDAO{

@@ -13,6 +13,7 @@ import model.ConfiguracionFactura;
 import model.ConfiguracionLectura;
 import persistencia.HibernateUtil;
 
+
 public class ConfiguracionFacturaDAOImplement implements ConfiguracionFacturaDAO {
 
 	@Override

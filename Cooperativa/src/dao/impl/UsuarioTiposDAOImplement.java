@@ -7,9 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.Usuario;
 import model.UsuarioTipo;
+import persistencia.HibernateUtil;
 import dao.UsuarioDAO;
 import dao.UsuarioTiposDAO;
 

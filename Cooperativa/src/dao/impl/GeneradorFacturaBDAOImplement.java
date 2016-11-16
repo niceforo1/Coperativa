@@ -4,8 +4,9 @@ import org.hibernate.HibernateException;
 
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
-import persistencia.HibernateUtil;
+
 import model.generadores.GenFacturaB;
+import persistencia.HibernateUtil;
 import dao.GeneradorFacturaBDAO;
 
 public class GeneradorFacturaBDAOImplement implements GeneradorFacturaBDAO {

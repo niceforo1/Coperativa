@@ -7,8 +7,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.Recibo;
+import persistencia.HibernateUtil;
 import dao.ReciboDAO;
 
 public class ReciboDAOImplement implements ReciboDAO{

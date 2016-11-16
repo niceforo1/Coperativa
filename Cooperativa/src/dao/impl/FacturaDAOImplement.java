@@ -14,6 +14,7 @@ import model.Factura;
 import model.PeriodosSaldos;
 import persistencia.HibernateUtil;
 
+
 public class FacturaDAOImplement implements FacturaDAO {
 
 	@Override

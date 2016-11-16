@@ -7,9 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.ConfiguracionLectura;
 import model.EstadoCivil;
+import persistencia.HibernateUtil;
 import dao.ConfiguracionLecturaDAO;
 
 public class ConfiguracionLecturaDAOImplement implements ConfiguracionLecturaDAO{

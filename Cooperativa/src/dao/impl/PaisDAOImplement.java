@@ -7,9 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.Pais;
 import model.TipoDomicilio;
+import persistencia.HibernateUtil;
 import dao.PaisDAO;
 
 public class PaisDAOImplement implements PaisDAO{

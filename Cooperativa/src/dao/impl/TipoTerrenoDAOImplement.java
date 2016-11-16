@@ -7,8 +7,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.TipoTerreno;
+import persistencia.HibernateUtil;
 import dao.TipoTerrenoDAO;
 
 public class TipoTerrenoDAOImplement implements TipoTerrenoDAO {

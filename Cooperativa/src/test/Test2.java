@@ -2,6 +2,7 @@ package test;
 
 import java.util.List;
 
+import bean.TipoSocioBean;
 import dao.CuentaCorrienteDAO;
 import dao.impl.CuentaCorrienteDAOImplement;
 import model.CuentaCorriente;
@@ -9,6 +10,8 @@ import model.CuentaCorriente;
 public class Test2 {
 
 	public static void main(String[] args) {
+		TipoSocioBean tps = new TipoSocioBean();
+		System.out.println(tps.getListaTipoSocios().size()); 
 		/*Pais pais = new Pais();
 		PaisDAO dao = new PaisDAOImplement();
 		pais.setDescripcion("PARAGUAY");

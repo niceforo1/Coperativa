@@ -7,10 +7,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.Provincia;
 import model.TipoConexion;
 import model.TipoUbicacionCatastral;
+import persistencia.HibernateUtil;
 import dao.TipoUbicacionCatastralDAO;
 
 public class TipoUbicacionCatastralDAOImplement implements TipoUbicacionCatastralDAO {

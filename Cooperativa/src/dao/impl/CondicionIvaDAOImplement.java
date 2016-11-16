@@ -8,8 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import dao.CondicionIvaDAO;
-import persistencia.HibernateUtil;
+
 import model.CondicionIva;
+import persistencia.HibernateUtil;
 
 public class CondicionIvaDAOImplement implements CondicionIvaDAO {
 

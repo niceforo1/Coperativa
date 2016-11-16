@@ -7,10 +7,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
-import persistencia.HibernateUtil;
+
 import model.NotaCredito;
 import model.NotaDebito;
 import model.generadores.GenFacturaA;
+import persistencia.HibernateUtil;
 import dao.GeneradorFacturaADAO;
 import dao.NotaCreditoDAO;
 

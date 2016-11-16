@@ -12,6 +12,7 @@ import model.PeriodoFacturacion;
 import model.PeriodoLectura;
 import persistencia.HibernateUtil;
 
+
 public class PeriodoFacturacionDAOImplement implements PeriodoFacturacionDAO{
 
 	@Override

@@ -12,6 +12,7 @@ import model.Pais;
 import model.PeriodoCanon;
 import persistencia.HibernateUtil;
 
+
 public class PeriodoCanonDAOImplement implements PeriodoCanonDAO {
 
 	@Override

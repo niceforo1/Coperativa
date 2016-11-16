@@ -13,6 +13,7 @@ import model.PeriodoLectura;
 import model.Socio;
 import persistencia.HibernateUtil;
 
+
 public class PeriodoLecturaDAOImplement implements PeriodoLecturaDAO{
 
 	@Override
